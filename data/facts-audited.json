@@ -1,0 +1,372 @@
+{
+  "eagle": {
+    "facts": [
+      {
+        "text": "My bottom half was the launch pad Neil Armstrong and Buzz Aldrin lifted off from. It still sits at 0.67416 N, 23.47314 E, a spot found in Lunar Reconnaissance Orbiter images.",
+        "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+      },
+      {
+        "text": "Next to me the crew left a panel of 100 small mirrors. Scientists still bounce lasers off Apollo mirrors, and that is how we know the Earth and Moon drift apart about 3.8 cm a year, about as fast as your fingernails grow.",
+        "source": "https://www.nasa.gov/missions/laser-beams-reflected-between-earth-and-moon-boost-science"
+      },
+      {
+        "text": "Buzz Aldrin reported the flag was blown over by my engine blast when the crew took off. Years later, NASA's Lunar Reconnaissance Orbiter camera found flags still standing at every Apollo site except mine.",
+        "source": "https://www.lroc.asu.edu/images/537"
+      },
+      {
+        "text": "My top half, the part that flew the crew back up, was set loose in lunar orbit. NASA does not know what happened to it. The guess at the time was that it crashed into the Moon within one to four months.",
+        "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [],
+    "changes": [
+      "SOURCE SWAPPED: 'My bottom half was the launch pad Neil Armstrong and Buzz Aldrin lifte...' -> 'My bottom half was the launch pad Neil Armstrong and Buzz Aldrin lifted off from. It still...' (https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C)",
+      "SOURCE SWAPPED: 'Next to me the crew left a tray of mirrors. Scientists still bounce la...' -> 'Next to me the crew left a panel of 100 small mirrors. Scientists still bounce lasers off ...' (https://www.nasa.gov/missions/laser-beams-reflected-between-earth-and-moon-boost-science)",
+      "REWORDED: 'Buzz Aldrin reported the flag was blown over by the rocket blast when ...' -> 'Buzz Aldrin reported the flag was blown over by my engine blast when the crew took off. Ye...' (https://www.lroc.asu.edu/images/537)",
+      "REWORDED: 'My top half, the part that flew the crew back up, was abandoned in lun...' -> 'My top half, the part that flew the crew back up, was set loose in lunar orbit. NASA does ...' (https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C)",
+      "Dropped the 2021 arXiv 'may still be orbiting' claim: no NASA page states it (NASA only says fate unknown, assumed crash in 1-4 months). Dropped 'later crews planted flags farther away': not found on a NASA page."
+    ]
+  },
+  "surveyor3": {
+    "facts": [
+      {
+        "text": "When I landed, shiny rocks confused my radar, my engine did not shut off, and I bounced off the Moon twice, once as high as 10 meters.",
+        "source": "https://science.nasa.gov/mission/surveyor-3/"
+      },
+      {
+        "text": "I dug four trenches by remote control and showed the lunar soil was like wet sand, solid enough to hold an Apollo lunar module.",
+        "source": "https://science.nasa.gov/mission/surveyor-3/"
+      },
+      {
+        "text": "About two and a half years after I landed, Apollo 12 set down about 180 meters away. Pete Conrad and Alan Bean walked over to me and took parts home, including my soil scoop and camera.",
+        "source": "https://science.nasa.gov/mission/surveyor-3/"
+      },
+      {
+        "text": "I launched from Cape Canaveral, Florida, Launch Complex 36B.",
+        "source": "https://science.nasa.gov/mission/surveyor-3/"
+      },
+      {
+        "text": "About 10 kg of my 296 kg went back to Earth. The rest of me is still in the Ocean of Storms.",
+        "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [
+      "'Two astronauts walked over 31 months later': NASA says Apollo 12 came 'more than three years later' in one line and 'nearly two-and-a-half years' of exposure in another; the math is about 31 months from landing, 30.5 from last contact. Safer: 'about two and a half years later'.",
+      "'Feels like the one robot people came back to visit': no NASA page states it is the only one; keep as feeling, never as a claim."
+    ],
+    "changes": [
+      "BACKED: 'When I landed, shiny rocks confused my radar, my engine did not shut o...' -> 'When I landed, shiny rocks confused my radar, my engine did not shut off, and I bounced of...' (https://science.nasa.gov/mission/surveyor-3/)",
+      "KEPT: 'I dug four trenches by remote control and showed the lunar s...'",
+      "REWORDED: '31 months after I went quiet, Apollo 12 landed about 180 meters away. ...' -> 'About two and a half years after I landed, Apollo 12 set down about 180 meters away. Pete ...' (https://science.nasa.gov/mission/surveyor-3/)",
+      "KEPT: 'I launched from Cape Canaveral, Florida, Launch Complex 36B....'",
+      "SOURCE SWAPPED: 'About 10 kg of my 302 kg went back to Earth. The rest of me is still i...' -> 'About 10 kg of my 296 kg went back to Earth. The rest of me is still in the Ocean of Storm...' (https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A)",
+      "Fixed mass 302 kg -> 296 kg (NSSDC landed mass)."
+    ]
+  },
+  "alsep": {
+    "facts": [
+      {
+        "text": "Five Apollo crews, on Apollo 12, 14, 15, 16 and 17, set up stations like us. We carried seismometers to feel moonquakes, and each station ran on a small nuclear generator fueled with plutonium.",
+        "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html"
+      },
+      {
+        "text": "Most of us were still working well when the money for our support ran out. NASA shut our experiments down on September 30, 1977.",
+        "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities"
+      },
+      {
+        "text": "Our experiments were switched off, but our radios kept sending a plain signal. JPL and others used it to study the Moon's position and to help navigate spacecraft.",
+        "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities"
+      },
+      {
+        "text": "We were built to last one year. We worked for up to 8 years, and scientists sent us more than 153,000 commands.",
+        "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [
+      "'Kept sending with nobody listening': contradicted by NASA. The carrier signals were used by JPL and others. Change to 'kept sending a signal that JPL still used'."
+    ],
+    "changes": [
+      "REWORDED: 'Five Apollo crews set up stations like me, with seismometers, heat pro...' -> 'Five Apollo crews, on Apollo 12, 14, 15, 16 and 17, set up stations like us. We carried se...' (https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html)",
+      "REWORDED: 'We ran until support was ended on September 30, 1977, mainly because o...' -> 'Most of us were still working well when the money for our support ran out. NASA shut our e...' (https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities)",
+      "REWORDED: 'Our transmitters were not switched off. We kept sending with nobody li...' -> 'Our experiments were switched off, but our radios kept sending a plain signal. JPL and oth...' (https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities)",
+      "CUT: 'The public earthquake archive shows four of our stations' records endi...' -> 'We were built to last one year. We worked for up to 8 years, and scientists sent us more t...' (https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html)",
+      "Cut the IRIS 18:50 fact: source is IRIS (not NASA) and no NASA page gives the minute. Replaced with NASA ALSJ design-life + commands fact.",
+      "'Mirrors' removed from fact 1: the laser mirrors were separate from the ALSEP stations on most missions."
+    ]
+  },
+  "rover16": {
+    "facts": [
+      {
+        "text": "I am one of three electric moon buggies driven on the Moon, on Apollo 15, 16 and 17. John Young parked me 300 feet east of the lander so my TV camera could watch the crew lift off.",
+        "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+      },
+      {
+        "text": "On our second drive, John Young's suit caught on my right rear fender and tore it off, so the dust got worse on every drive after.",
+        "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+      },
+      {
+        "text": "Before we left, astronaut Charlie Duke laid a photo of his family on the Moon. It is still there.",
+        "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+      },
+      {
+        "text": "Going down a 15-degree slope I hit 10.6 miles per hour, a new speed record on the Moon.",
+        "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+      }
+    ],
+    "fields": {
+      "last_contact": "April 24, 1972 (crew lifted off)"
+    },
+    "personality_flags": [
+      "'Only mention Charlie Duke's photo exactly as the fact card says it': fine, but the card no longer quotes the inscription (no NASA page carries the text on the back)."
+    ],
+    "changes": [
+      "REWORDED: 'I am one of three electric moon buggies, from Apollo 15, 16 and 17, dr...' -> 'I am one of three electric moon buggies driven on the Moon, on Apollo 15, 16 and 17. John ...' (https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html)",
+      "REWORDED: 'On my trip, a fender extension broke off....' -> 'On our second drive, John Young's suit caught on my right rear fender and tore it off, so ...' (https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes)",
+      "REWORDED: 'Near our lunar module, astronaut Charlie Duke left a photo of his fami...' -> 'Before we left, astronaut Charlie Duke laid a photo of his family on the Moon. It is still...' (https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes)",
+      "ADDED: 'Going down a 15-degree slope I hit 10.6 miles per hour, a new speed record on the Moon.' (https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes).",
+      "Source swap: spaceappschallenge.org and Wikipedia replaced with NSSDC and nasa.gov history.",
+      "Dropped the photo inscription quote: only on Wikipedia/press, not on a NASA page.",
+      "Added speed-record fact so the robot keeps 4 facts.",
+      "Field last_contact: NSSDC gives LM liftoff 24 April 1972 01:25:48 UT (April 23 evening US time). Keep April 23 only if the app labels it US time.",
+      "FIELD last_contact: -> 'April 24, 1972 (crew lifted off)'"
+    ]
+  },
+  "opportunity": {
+    "facts": [
+      {
+        "text": "I was built for 90 Martian days and kept going 60 times longer. I drove 45.16 km, a record on another world until Perseverance passed me in 2026.",
+        "source": "https://science.nasa.gov/mission/mer-opportunity/"
+      },
+      {
+        "text": "My twin and I confirmed that water stood on the surface of Mars for a long time in ancient times.",
+        "source": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+      },
+      {
+        "text": "A dust storm that covered the whole planet blocked the sunlight my solar panels needed. My last signal reached Earth on June 10, 2018.",
+        "source": "https://science.nasa.gov/mission/mer-opportunity/"
+      },
+      {
+        "text": "NASA sent me more than a thousand commands to wake me up before ending my mission on February 13, 2019.",
+        "source": "https://www.nasa.gov/image-article/taking-look-back-opportunitys-record-setting-mission"
+      },
+      {
+        "text": "I was the first to drive a full marathon on another world, 42.195 km.",
+        "source": "https://science.nasa.gov/mission/mer-opportunity/"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [
+      "'Kindly corrects the battery is low myth: those were a reporter's words': no NASA page says this (source was Snopes). Either drop it from the personality or keep it only as 'I send data, not words', which is also not on a NASA page. The `myth` field has the same problem."
+    ],
+    "changes": [
+      "REWORDED: 'I worked for 57 times my designed lifespan and drove 45.16 km....' -> 'I was built for 90 Martian days and kept going 60 times longer. I drove 45.16 km, a record...' (https://science.nasa.gov/mission/mer-opportunity/)",
+      "BACKED: 'I confirmed that water stood on the surface of Mars for a long time in...' -> 'My twin and I confirmed that water stood on the surface of Mars for a long time in ancient...' (https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/)",
+      "SOURCE SWAPPED: 'A dust storm that covered the whole planet blocked my solar panels. My...' -> 'A dust storm that covered the whole planet blocked the sunlight my solar panels needed. My...' (https://science.nasa.gov/mission/mer-opportunity/)",
+      "SOURCE SWAPPED: 'NASA sent me over 1,000 signals before ending my mission on February 1...' -> 'NASA sent me more than a thousand commands to wake me up before ending my mission on Febru...' (https://www.nasa.gov/image-article/taking-look-back-opportunitys-record-setting-mission)",
+      "CUT: 'The famous line 'My battery is low and it's getting dark' was a report...' -> 'I was the first to drive a full marathon on another world, 42.195 km....' (https://science.nasa.gov/mission/mer-opportunity/)",
+      "57x -> 60x: NASA's own number.",
+      "Cut the 'battery is low' fact: only Snopes backs it. Replaced with NASA's marathon first."
+    ]
+  },
+  "spirit": {
+    "facts": [
+      {
+        "text": "I landed in Gusev Crater, a possible former lake, and drove 7.7 km.",
+        "source": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+      },
+      {
+        "text": "On May 1, 2009 I got stuck in soft soil at a spot called Troy. Engineers used test rovers on Earth to plan my escape, but by late January 2010 NASA made me a parked science station instead.",
+        "source": "https://science.nasa.gov/mission/mer-spirit/"
+      },
+      {
+        "text": "I was planned for 90 Martian days. I worked for six years, two months and 19 days, more than 25 times longer.",
+        "source": "https://science.nasa.gov/mission/mer-spirit/"
+      },
+      {
+        "text": "Stuck in place, I could not tilt my solar panels toward the winter Sun. My last call home was March 22, 2010.",
+        "source": "https://science.nasa.gov/mission/mer-spirit/"
+      },
+      {
+        "text": "My name came from 9-year-old Sofi Collis, who once lived in an orphanage. Her essay beat nearly 10,000 others: 'Thank you for the Spirit and the Opportunity.'",
+        "source": "https://www.jpl.nasa.gov/news/girl-with-dreams-names-mars-rovers-spirit-and-opportunity"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [
+      "'Engineers tested ways out for eight months': NASA pages say 'months' (May 2009 to late January 2010 is about nine). Say 'for months'."
+    ],
+    "changes": [
+      "SOURCE SWAPPED: 'I landed in Gusev Crater, a possible former lake, and drove 7.7 km....' -> 'I landed in Gusev Crater, a possible former lake, and drove 7.7 km....' (https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/)",
+      "REWORDED: 'On May 1, 2009 I got stuck in soft sand. Engineers spent eight months ...' -> 'On May 1, 2009 I got stuck in soft soil at a spot called Troy. Engineers used test rovers ...' (https://science.nasa.gov/mission/mer-spirit/)",
+      "REWORDED: 'By then I had already worked 21 times my planned mission....' -> 'I was planned for 90 Martian days. I worked for six years, two months and 19 days, more th...' (https://science.nasa.gov/mission/mer-spirit/)",
+      "SOURCE SWAPPED: 'Stuck at a bad angle, my solar panels could not get enough sun through...' -> 'Stuck in place, I could not tilt my solar panels toward the winter Sun. My last call home ...' (https://science.nasa.gov/mission/mer-spirit/)",
+      "SOURCE SWAPPED: 'My name came from a NASA-sponsored student essay contest....' -> 'My name came from 9-year-old Sofi Collis, who once lived in an orphanage. Her essay beat n...' (https://www.jpl.nasa.gov/news/girl-with-dreams-names-mars-rovers-spirit-and-opportunity)",
+      "21x -> 'more than 25 times': NASA's own number for the whole mission."
+    ]
+  },
+  "sojourner": {
+    "facts": [
+      {
+        "text": "I weigh 10.6 kg, about 23 pounds, and I am about 30 centimeters tall when I stand up.",
+        "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+      },
+      {
+        "text": "My lander bounced like a giant beach ball about 15 times, as high as 50 feet.",
+        "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+      },
+      {
+        "text": "I was planned for one week and lasted 83 days, 12 times longer.",
+        "source": "https://www.nasa.gov/history/25-years-ago-mars-pathfinder-launches-to-mars-to-deploy-sojourner-the-first-planetary-rover"
+      },
+      {
+        "text": "I am named after civil-rights hero Sojourner Truth. A 12-year-old student, Valerie Ambroise, picked my name. My lander was named the Carl Sagan Memorial Station.",
+        "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+      },
+      {
+        "text": "I live in Ares Vallis, an ancient flood plain. Our final data reached Earth on September 27, 1997.",
+        "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [
+      "'Light enough for a kid to lift': a comparison no NASA page makes. Use 'about 23 pounds' or 'microwave-oven size' (JPL's own phrase)."
+    ],
+    "changes": [
+      "REWORDED: 'I weigh 10.6 kg, about 23 pounds. A kid could lift me....' -> 'I weigh 10.6 kg, about 23 pounds, and I am about 30 centimeters tall when I stand up....' (https://science.nasa.gov/mission/mars-pathfinder/)",
+      "KEPT: 'My lander bounced like a giant beach ball about 15 times, as...'",
+      "SOURCE SWAPPED: 'I was planned for 7 days and lasted 83....' -> 'I was planned for one week and lasted 83 days, 12 times longer....' (https://www.nasa.gov/history/25-years-ago-mars-pathfinder-launches-to-mars-to-deploy-sojourner-the-first-planetary-rover)",
+      "SOURCE SWAPPED: 'I am named after civil-rights hero Sojourner Truth. My lander was rena...' -> 'I am named after civil-rights hero Sojourner Truth. A 12-year-old student, Valerie Ambrois...' (https://science.nasa.gov/mission/mars-pathfinder/)",
+      "SOURCE SWAPPED: 'I live in Ares Vallis, an ancient flood plain. My final data came Sept...' -> 'I live in Ares Vallis, an ancient flood plain. Our final data reached Earth on September 2...' (https://science.nasa.gov/mission/mars-pathfinder/)",
+      "'A kid could lift me' removed from the fact card (not a NASA statement)."
+    ]
+  },
+  "viking1": {
+    "facts": [
+      {
+        "text": "I made the first truly successful landing on Mars, on July 20, 1976.",
+        "source": "https://science.nasa.gov/mission/viking-1/"
+      },
+      {
+        "text": "On July 28, 1976, my robot arm scooped up the first soil samples and fed them to my biology lab to look for signs of life. I also sent weather reports, daily and later weekly.",
+        "source": "https://science.nasa.gov/mission/viking-1/"
+      },
+      {
+        "text": "In November 1982, a command from Earth about my battery charging accidentally overwrote the numbers my antenna used to point at Earth. Contact was lost and never came back. It was not Mars that ended my mission; it was a faulty command.",
+        "source": "https://ntrs.nasa.gov/api/citations/19830017477/downloads/19830017477.pdf"
+      },
+      {
+        "text": "I was renamed the Thomas Mutch Memorial Station, after the leader of my camera team.",
+        "source": "https://science.nasa.gov/mission/viking-1/"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [],
+    "changes": [
+      "KEPT: 'I made the first truly successful landing on Mars, on July 2...'",
+      "REWORDED: 'I ran the first experiments looking for life on Mars, and sent weather...' -> 'On July 28, 1976, my robot arm scooped up the first soil samples and fed them to my biolog...' (https://science.nasa.gov/mission/viking-1/)",
+      "SOURCE SWAPPED: 'On November 11, 1982, a command meant to update my battery-charging so...' -> 'In November 1982, a command from Earth about my battery charging accidentally overwrote th...' (https://ntrs.nasa.gov/api/citations/19830017477/downloads/19830017477.pdf)",
+      "KEPT: 'I was renamed the Thomas Mutch Memorial Station, after the l...'",
+      "'First experiments looking for life' reworded to what NASA's Viking 1 page says (first soil samples into the biology lab).",
+      "Date note: science.nasa.gov says Nov. 11, 1982; NSSDC says 13 Nov 1982. Kept Nov. 11 (field unchanged)."
+    ]
+  },
+  "phoenix": {
+    "facts": [
+      {
+        "text": "An orbiter photographed me hanging from my parachute. It was the first time one spacecraft photographed another landing on a planet.",
+        "source": "https://science.nasa.gov/mission/phoenix/"
+      },
+      {
+        "text": "I dug a trench and found bright clumps that vanished four days later. That is what ice does on Mars.",
+        "source": "https://science.nasa.gov/mission/phoenix/"
+      },
+      {
+        "text": "On July 31, 2008, NASA officially announced there is water on Mars, based on a sample I collected and heated in my tiny ovens.",
+        "source": "https://science.nasa.gov/mission/phoenix/"
+      },
+      {
+        "text": "I found perchlorate salts, which made scientists look again at the old Viking data.",
+        "source": "https://science.nasa.gov/mission/phoenix/"
+      },
+      {
+        "text": "As the arctic summer ended, I had less and less sunlight for power. My last signal reached Earth on November 2, 2008.",
+        "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [],
+    "changes": [
+      "KEPT: 'An orbiter photographed me hanging from my parachute. It was...'",
+      "BACKED: 'I scraped down to white material that vaporized four days later....' -> 'I dug a trench and found bright clumps that vanished four days later. That is what ice doe...' (https://science.nasa.gov/mission/phoenix/)",
+      "BACKED: 'On July 31, 2008, NASA officially announced there is water on Mars, fr...' -> 'On July 31, 2008, NASA officially announced there is water on Mars, based on a sample I co...' (https://science.nasa.gov/mission/phoenix/)",
+      "KEPT: 'I found perchlorate salts, which made scientists look again ...'",
+      "REWORDED: 'My mission ended November 2, 2008, as the polar winter closed in....' -> 'As the arctic summer ended, I had less and less sunlight for power. My last signal reached...' (https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A)"
+    ]
+  },
+  "insight": {
+    "facts": [
+      {
+        "text": "My arm set a seismometer on the ground. I was the first to detect marsquakes, 1,319 of them, and they showed scientists the crust, mantle and core of Mars.",
+        "source": "https://www.nasa.gov/missions/insight/nasa-mars-orbiter-spots-retired-insight-lander-to-study-dust-movement"
+      },
+      {
+        "text": "On December 1, 2018, my sensors caught a low rumble from the vibrations of the Martian wind, blowing about 10 to 15 miles per hour.",
+        "source": "https://science.nasa.gov/mission/insight/"
+      },
+      {
+        "text": "Dust slowly covered my solar panels until my batteries ran out. My last call home was December 15, 2022.",
+        "source": "https://www.jpl.nasa.gov/news/nasa-retires-insight-mars-lander-mission-after-years-of-science"
+      },
+      {
+        "text": "Scientists are still making discoveries from my marsquake data.",
+        "source": "https://science.nasa.gov/mission/insight/"
+      },
+      {
+        "text": "I live in Elysium Planitia, named for the paradise of the afterlife in Greek myth.",
+        "source": "https://science.nasa.gov/mission/insight/"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [],
+    "changes": [
+      "REWORDED: 'I put a seismometer on the ground and recorded marsquakes, the first l...' -> 'My arm set a seismometer on the ground. I was the first to detect marsquakes, 1,319 of the...' (https://www.nasa.gov/missions/insight/nasa-mars-orbiter-spots-retired-insight-lander-to-study-dust-movement)",
+      "BACKED: 'My sensors caught a low rumble from the Martian wind on December 1, 20...' -> 'On December 1, 2018, my sensors caught a low rumble from the vibrations of the Martian win...' (https://science.nasa.gov/mission/insight/)",
+      "SOURCE SWAPPED: 'Dust slowly covered my solar panels. My mission ended December 15, 202...' -> 'Dust slowly covered my solar panels until my batteries ran out. My last call home was Dece...' (https://www.jpl.nasa.gov/news/nasa-retires-insight-mars-lander-mission-after-years-of-science)",
+      "KEPT: 'Scientists are still making discoveries from my marsquake da...'",
+      "KEPT: 'I live in Elysium Planitia, named for the paradise of the af...'",
+      "Removed 'You can hear the wind on Mars because of me': the page backs the recorded rumble, not the 'because of me' framing."
+    ]
+  },
+  "ingenuity": {
+    "facts": [
+      {
+        "text": "I was designed for no more than five test flights in 30 days. I flew 72 times across nearly three years.",
+        "source": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/"
+      },
+      {
+        "text": "On January 18, 2024, my rotor blades broke when I landed on flight 72. I can't fly anymore.",
+        "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world"
+      },
+      {
+        "text": "My first flight, on April 19, 2021, was the first powered, controlled flight on another planet. It has been called a 'Wright Brothers moment', and I carry a swatch of cloth from the real Wright Flyer.",
+        "source": "https://www.nasa.gov/news-release/after-three-years-on-mars-nasas-ingenuity-helicopter-mission-ends"
+      },
+      {
+        "text": "On my last flight, my navigation camera could not find enough features to track over the smooth sand ripples, so I came down too fast and sideways.",
+        "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world"
+      }
+    ],
+    "fields": {},
+    "personality_flags": [],
+    "changes": [
+      "KEPT: 'I was designed for no more than five test flights in 30 days...'",
+      "SOURCE SWAPPED: 'On January 18, 2024, my rotor blades broke when I landed on flight 72....' -> 'On January 18, 2024, my rotor blades broke when I landed on flight 72. I can't fly anymore...' (https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world)",
+      "REWORDED: 'NASA called my first flight its 'Wright Brothers moment'....' -> 'My first flight, on April 19, 2021, was the first powered, controlled flight on another pl...' (https://www.nasa.gov/news-release/after-three-years-on-mars-nasas-ingenuity-helicopter-mission-ends)",
+      "SOURCE SWAPPED: 'My navigation camera could not track the plain, featureless sand I was...' -> 'On my last flight, my navigation camera could not find enough features to track over the s...' (https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world)",
+      "'NASA called' -> 'has been called': NASA's page uses the passive wording."
+    ]
+  }
+}

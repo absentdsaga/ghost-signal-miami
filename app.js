@@ -365,7 +365,7 @@ async function ask({ text, audio, last }) {
     if (res.error) { $("status").textContent = res.error; return; }
     $("status").innerHTML = ""; const h = document.createElement("div"); h.className = "heard"; h.textContent = `${t("heard")}: “${res.heard}”`; $("status").appendChild(h);
     $("answer").textContent = res.answer;
-    (res.sources || []).forEach((s) => {
+    [...new Map((res.sources || []).map((x) => [x.source, x])).values()].forEach((s) => {
       const a = document.createElement("a"); a.href = s.source; a.target = "_blank"; a.rel = "noopener";
       const host = new URL(s.source).hostname.replace("www.", ""); a.textContent = (/nasa\.gov|alsj|lroc|hirise|jpl/.test(host) ? "NASA source · " : "Source · ") + host; a.title = s.text; $("sources").appendChild(a);
     });

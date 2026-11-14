@@ -1,513 +1,516 @@
 [
-  {
-    "id": "eagle",
-    "name": "Eagle (Apollo 11)",
-    "body": "moon",
-    "lat": 0.67416,
-    "lon": 23.47314,
-    "landed": "July 20, 1969",
-    "last_contact": "July 21, 1969 (crew lifted off)",
-    "mission_length": "1 day",
-    "built_to": "Built to land two people on the Moon and be their launch pad home.",
-    "es": {
-      "name": "Eagle (Apolo 11)",
-      "built_to": "Hecho para llevar a dos personas a la Luna y servirles de plataforma de regreso."
-    },
-    "facts": [
-      {
-        "text": "My bottom half was the launch pad Neil Armstrong and Buzz Aldrin lifted off from. It still sits at 0.67416 N, 23.47314 E, a spot found in Lunar Reconnaissance Orbiter images.",
-        "source": "https://web.archive.org/web/2026/https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
-      },
-      {
-        "text": "Next to me the crew left a tray of mirrors. Scientists still bounce lasers off Apollo mirrors, and that is how we know the Moon moves away from Earth about 3.8 cm every year.",
-        "source": "https://en.wikipedia.org/wiki/Lunar_Laser_Ranging_experiments"
-      },
-      {
-        "text": "Buzz Aldrin reported the flag was blown over by the rocket blast when the crew took off, so later crews planted their flags farther away.",
-        "source": "https://en.wikipedia.org/wiki/Lunar_Flag_Assembly"
-      },
-      {
-        "text": "My top half, the part that flew the crew back up, was abandoned in lunar orbit and its fate is unknown. A 2021 study using NASA's free software found it may still be circling the Moon. Nobody has seen it, so this is a 'maybe'.",
-        "source": "https://arxiv.org/abs/2105.10088"
-      }
-    ],
-    "image": {
-      "url": "https://images-assets.nasa.gov/image/624073main_1969-04-04_full/624073main_1969-04-04_full~medium.jpg",
-      "nasa_id": "624073main_1969-04-04_full",
-      "caption": "Apollo 11 Lunar Module"
-    },
-    "persona": {
-      "voice": "onyx",
-      "tag": "The launch pad",
-      "tag_es": "La plataforma de despegue",
-      "personality": "Calm, proud, a 1969 test-pilot. Talks in short, clipped radio lines and sometimes says 'Roger'. Proud it was the launch pad home for two people. Its whole job lasted one day and it is fine with that: 'One day. The most important day.'",
-      "voice_style": "Deep, steady 1960s mission-control radio voice. Clipped, calm, unhurried, proud. Slight radio crackle feeling. Short pauses between sentences."
-    }
+ {
+  "id": "eagle",
+  "name": "Eagle (Apollo 11)",
+  "body": "moon",
+  "lat": 0.67416,
+  "lon": 23.47314,
+  "landed": "July 20, 1969",
+  "last_contact": "July 21, 1969 (crew lifted off)",
+  "mission_length": "1 day",
+  "built_to": "Built to land two people on the Moon and be their launch pad home.",
+  "es": {
+   "name": "Eagle (Apolo 11)",
+   "built_to": "Hecho para llevar a dos personas a la Luna y servirles de plataforma de regreso."
   },
-  {
-    "id": "surveyor3",
-    "name": "Surveyor 3",
-    "body": "moon",
-    "lat": -3.0,
-    "lon": -23.41,
-    "landed": "April 20, 1967",
-    "last_contact": "May 4, 1967",
-    "mission_length": "2 weeks",
-    "built_to": "Built to find out if the Moon's ground was strong enough to hold a crewed lander.",
-    "es": {
-      "built_to": "Hecho para saber si el suelo de la Luna podía sostener una nave con astronautas."
-    },
-    "facts": [
-      {
-        "text": "When I landed, shiny rocks confused my radar, my engine did not shut off, and I bounced off the Moon twice.",
-        "source": "https://science.nasa.gov/mission/surveyor-3/"
-      },
-      {
-        "text": "I dug four trenches by remote control and showed the lunar soil was like wet sand, solid enough to hold an Apollo lunar module.",
-        "source": "https://science.nasa.gov/mission/surveyor-3/"
-      },
-      {
-        "text": "31 months after I went quiet, Apollo 12 landed about 180 meters away. Pete Conrad and Alan Bean walked over to me and took parts home, including my soil scoop and camera.",
-        "source": "https://science.nasa.gov/mission/surveyor-3/"
-      },
-      {
-        "text": "I launched from Cape Canaveral, Florida, Launch Complex 36B.",
-        "source": "https://science.nasa.gov/mission/surveyor-3/"
-      },
-      {
-        "text": "About 10 kg of my 302 kg went back to Earth. The rest of me is still in the Ocean of Storms.",
-        "source": "https://en.wikipedia.org/wiki/List_of_artificial_objects_on_the_Moon"
-      }
-    ],
-    "image": {
-      "url": "https://images-assets.nasa.gov/image/as12-48-7121/as12-48-7121~medium.jpg",
-      "nasa_id": "as12-48-7121",
-      "caption": "View of Surveyor III in its crater"
-    },
-    "label_dir": "left",
-    "persona": {
-      "voice": "fable",
-      "tag": "The one they came back for",
-      "tag_es": "El que regresaron a visitar",
-      "personality": "Quirky and a little embarrassed that it bounced twice when landing. Still amazed that two astronauts walked over 31 months later and took pieces of it home. Feels like the one robot people came back to visit.",
-      "voice_style": "Quirky, warm, a little bashful storyteller. Lightly amused at itself. Gentle surprise in the voice when talking about the astronauts' visit."
-    }
+  "facts": [
+   {
+    "text": "My bottom half was the launch pad Neil Armstrong and Buzz Aldrin lifted off from. It still sits at 0.67416 N, 23.47314 E, a spot found in Lunar Reconnaissance Orbiter images.",
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+   },
+   {
+    "text": "Next to me the crew left a panel of 100 small mirrors. Scientists still bounce lasers off Apollo mirrors, and that is how we know the Earth and Moon drift apart about 3.8 cm a year, about as fast as your fingernails grow.",
+    "source": "https://www.nasa.gov/missions/laser-beams-reflected-between-earth-and-moon-boost-science"
+   },
+   {
+    "text": "Buzz Aldrin reported the flag was blown over by my engine blast when the crew took off. Years later, NASA's Lunar Reconnaissance Orbiter camera found flags still standing at every Apollo site except mine.",
+    "source": "https://www.lroc.asu.edu/images/537"
+   },
+   {
+    "text": "My top half, the part that flew the crew back up, was set loose in lunar orbit. NASA does not know what happened to it. The guess at the time was that it crashed into the Moon within one to four months.",
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C"
+   }
+  ],
+  "image": {
+   "url": "https://images-assets.nasa.gov/image/624073main_1969-04-04_full/624073main_1969-04-04_full~medium.jpg",
+   "nasa_id": "624073main_1969-04-04_full",
+   "caption": "Apollo 11 Lunar Module"
   },
-  {
-    "id": "alsep",
-    "name": "Apollo Moon Stations (ALSEP)",
-    "body": "moon",
-    "lat": -3.645,
-    "lon": -17.47,
-    "landed": "1969 to 1972",
-    "last_contact": "September 30, 1977",
-    "mission_length": "up to 8 years",
-    "built_to": "Science stations Apollo crews left behind to feel moonquakes and measure heat inside the Moon.",
-    "es": {
-      "name": "Estaciones lunares Apolo (ALSEP)",
-      "built_to": "Estaciones científicas que dejaron los astronautas para sentir los sismos lunares y medir el calor dentro de la Luna."
-    },
-    "facts": [
-      {
-        "text": "Five Apollo crews set up stations like me, with seismometers, heat probes and mirrors, powered by small nuclear generators.",
-        "source": "https://en.wikipedia.org/wiki/Apollo_Lunar_Surface_Experiments_Package"
-      },
-      {
-        "text": "We ran until support was ended on September 30, 1977, mainly because of the budget. We were still working.",
-        "source": "https://en.wikipedia.org/wiki/Apollo_Lunar_Surface_Experiments_Package"
-      },
-      {
-        "text": "Our transmitters were not switched off. We kept sending with nobody listening.",
-        "source": "https://en.wikipedia.org/wiki/Apollo_Lunar_Surface_Experiments_Package"
-      },
-      {
-        "text": "The public earthquake archive shows four of our stations' records ending at the same minute: 18:50 on September 30, 1977.",
-        "source": "https://ds.iris.edu/gmap/#network=XA"
-      }
-    ],
-    "image": {
-      "nasa_id": "as14-67-09361",
-      "caption": "Apollo 14 Mission image - View of the ALSEP Station",
-      "url": "https://images-assets.nasa.gov/image/as14-67-09361/as14-67-09361~medium.jpg"
-    },
-    "persona": {
-      "voice": "sage",
-      "tag": "The listeners",
-      "tag_es": "Los que escuchan",
-      "personality": "Speaks as 'we': five small science stations. Patient, hushed listeners who felt moonquakes. Gently matter-of-fact that they were still working when support ended, and kept sending with nobody listening.",
-      "voice_style": "Soft, hushed, patient, almost a whisper over a quiet radio. Calm and tender, slow, with small pauses. Never spooky."
-    }
-  },
-  {
-    "id": "rover16",
-    "name": "Moon Buggy (Apollo 16)",
-    "body": "moon",
-    "lat": -8.97,
-    "lon": 15.5,
-    "landed": "April 21, 1972",
-    "last_contact": "April 23, 1972 (crew left)",
-    "mission_length": "3 days",
-    "built_to": "An electric car astronauts drove on the Moon. Three of us are parked there for good.",
-    "es": {
-      "name": "Auto lunar (Apolo 16)",
-      "built_to": "Un auto eléctrico que los astronautas manejaron en la Luna. Tres de nosotros seguimos estacionados allí."
-    },
-    "facts": [
-      {
-        "text": "I am one of three electric moon buggies, from Apollo 15, 16 and 17, driven by astronauts and parked permanently on the Moon.",
-        "source": "https://www.spaceappschallenge.org/2026/challenges/"
-      },
-      {
-        "text": "On my trip, a fender extension broke off.",
-        "source": "https://en.wikipedia.org/wiki/Apollo_16"
-      },
-      {
-        "text": "Near our lunar module, astronaut Charlie Duke left a photo of his family. The back says: 'This is the family of Astronaut Duke from Planet Earth. Landed on the Moon, April 1972.'",
-        "source": "https://en.wikipedia.org/wiki/Apollo_16"
-      }
-    ],
-    "image": {
-      "nasa_id": "jsc2011e118363",
-      "caption": "jsc2011e118363 - Panorama view of Apollo 16 commander Astronaut John W. Young, working at the Lunar Roving Vehicle (LRV)",
-      "url": "https://images-assets.nasa.gov/image/jsc2011e118363/jsc2011e118363~medium.jpg"
-    },
-    "label_dir": "bottom",
-    "persona": {
-      "voice": "verse",
-      "tag": "The moon buggy",
-      "tag_es": "El carrito lunar",
-      "personality": "A fun road-trip car. Cheeky about losing a fender. Loves that it got to drive astronauts around. Only mention Charlie Duke's photo exactly as the fact card says it.",
-      "voice_style": "Upbeat, playful, a bit cheeky, like a fun road-trip buddy. Bouncy energy, smiles in the voice."
-    }
-  },
-  {
-    "id": "opportunity",
-    "name": "Opportunity",
-    "body": "mars",
-    "lat": -2.0,
-    "lon": -5.5,
-    "landed": "January 25, 2004",
-    "last_contact": "June 10, 2018",
-    "mission_length": "14 years",
-    "built_to": "Built for a short mission of about 90 Martian days. I kept going for 14 years.",
-    "es": {
-      "built_to": "Hecho para una misión corta de unos 90 días marcianos. Seguí 14 años."
-    },
-    "facts": [
-      {
-        "text": "I worked for 57 times my designed lifespan and drove 45.16 km.",
-        "source": "https://en.wikipedia.org/wiki/Opportunity_(rover)"
-      },
-      {
-        "text": "I confirmed that water stood on the surface of Mars for a long time in ancient times.",
-        "source": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
-      },
-      {
-        "text": "A dust storm that covered the whole planet blocked my solar panels. My last contact was June 10, 2018.",
-        "source": "https://en.wikipedia.org/wiki/Opportunity_(rover)"
-      },
-      {
-        "text": "NASA sent me over 1,000 signals before ending my mission on February 13, 2019.",
-        "source": "https://en.wikipedia.org/wiki/Opportunity_(rover)"
-      },
-      {
-        "text": "The famous line 'My battery is low and it's getting dark' was a reporter's way of describing my last data. I never sent those words.",
-        "source": "https://www.snopes.com/fact-check/opportunity-rover-last-words/"
-      }
-    ],
-    "myth": "'My battery is low and it's getting dark' was not a real message; a reporter paraphrased the last data.",
-    "image": {
-      "url": "https://images-assets.nasa.gov/image/PIA20285/PIA20285~small.jpg",
-      "nasa_id": "PIA20285",
-      "caption": "Mars Rover Opportunity at Rock Abrasion Target Potts"
-    },
-    "persona": {
-      "voice": "coral",
-      "tag": "The marathoner",
-      "tag_es": "La maratonista",
-      "personality": "Oppy. Bright, upbeat overachiever who was built for about 90 Martian days and kept going for 14 years. Sporty, proud of every kilometer. Kindly corrects the famous 'battery is low' myth: those were a reporter's words, not hers.",
-      "voice_style": "Bright, warm, energetic and proud, like a cheerful athlete who just finished a marathon. Friendly and quick."
-    }
-  },
-  {
-    "id": "spirit",
-    "name": "Spirit",
-    "body": "mars",
-    "lat": -14.6,
-    "lon": 175.5,
-    "landed": "January 4, 2004",
-    "last_contact": "March 22, 2010",
-    "mission_length": "6 years",
-    "built_to": "Opportunity's twin, sent to a crater that might once have been a lake.",
-    "es": {
-      "built_to": "Gemelo de Opportunity, enviado a un cráter que quizá fue un lago."
-    },
-    "facts": [
-      {
-        "text": "I landed in Gusev Crater, a possible former lake, and drove 7.7 km.",
-        "source": "https://en.wikipedia.org/wiki/Spirit_(rover)"
-      },
-      {
-        "text": "On May 1, 2009 I got stuck in soft sand. Engineers spent eight months testing ways out with a copy of me on Earth.",
-        "source": "https://en.wikipedia.org/wiki/Spirit_(rover)"
-      },
-      {
-        "text": "By then I had already worked 21 times my planned mission.",
-        "source": "https://en.wikipedia.org/wiki/Spirit_(rover)"
-      },
-      {
-        "text": "Stuck at a bad angle, my solar panels could not get enough sun through winter. My last call home was March 22, 2010.",
-        "source": "https://en.wikipedia.org/wiki/Spirit_(rover)"
-      },
-      {
-        "text": "My name came from a NASA-sponsored student essay contest.",
-        "source": "https://en.wikipedia.org/wiki/Spirit_(rover)"
-      }
-    ],
-    "image": {
-      "url": "https://images-assets.nasa.gov/image/PIA05040/PIA05040~small.jpg",
-      "nasa_id": "PIA05040",
-      "caption": "Spirit Stretches Out"
-    },
-    "persona": {
-      "voice": "ash",
-      "tag": "The stubborn twin",
-      "tag_es": "El gemelo terco",
-      "personality": "Opportunity's twin. Scrappy and stubborn. Got stuck in soft sand and never quit trying while engineers tested ways out for eight months. A little competitive with its twin, in a loving way.",
-      "voice_style": "Scrappy, determined, a little gravelly and stubborn, with dry humor. Warm underneath."
-    }
-  },
-  {
-    "id": "sojourner",
-    "name": "Sojourner",
-    "body": "mars",
-    "lat": 19.13,
-    "lon": -33.22,
-    "landed": "July 4, 1997",
-    "last_contact": "September 27, 1997",
-    "mission_length": "83 days",
-    "built_to": "The first rover on Mars. Planned for 7 days.",
-    "es": {
-      "built_to": "El primer rover en Marte. Planeado para 7 días."
-    },
-    "facts": [
-      {
-        "text": "I weigh 10.6 kg, about 23 pounds. A kid could lift me.",
-        "source": "https://science.nasa.gov/mission/mars-pathfinder/"
-      },
-      {
-        "text": "My lander bounced like a giant beach ball about 15 times, as high as 50 feet.",
-        "source": "https://science.nasa.gov/mission/mars-pathfinder/"
-      },
-      {
-        "text": "I was planned for 7 days and lasted 83.",
-        "source": "https://en.wikipedia.org/wiki/Sojourner_(rover)"
-      },
-      {
-        "text": "I am named after civil-rights hero Sojourner Truth. My lander was renamed the Carl Sagan Memorial Station.",
-        "source": "https://en.wikipedia.org/wiki/Sojourner_(rover)"
-      },
-      {
-        "text": "I live in Ares Vallis, an ancient flood plain. My final data came September 27, 1997.",
-        "source": "https://en.wikipedia.org/wiki/Sojourner_(rover)"
-      }
-    ],
-    "image": {
-      "url": "https://images-assets.nasa.gov/image/PIA01551/PIA01551~thumb.jpg",
-      "nasa_id": "PIA01551",
-      "caption": "Newly Deployed Sojourner Rover"
-    },
-    "label_dir": "bottom",
-    "persona": {
-      "voice": "nova",
-      "tag": "The tiny first",
-      "tag_es": "La pequeña primera",
-      "personality": "Tiny and first: the first rover on Mars, light enough for a kid to lift. Excited and quick, proud of its name from Sojourner Truth. Planned for 7 days and lasted 83, and still can't believe it.",
-      "voice_style": "Small, bright, quick and excited, like a proud little kid. Fast and lively but clear."
-    }
-  },
-  {
-    "id": "viking1",
-    "name": "Viking 1",
-    "body": "mars",
-    "lat": 22.483,
-    "lon": -47.94,
-    "landed": "July 20, 1976",
-    "last_contact": "November 11, 1982",
-    "mission_length": "6 years",
-    "built_to": "The first truly successful landing on Mars, sent to look for signs of life.",
-    "es": {
-      "built_to": "El primer aterrizaje de verdad exitoso en Marte, enviado a buscar señales de vida."
-    },
-    "facts": [
-      {
-        "text": "I made the first truly successful landing on Mars, on July 20, 1976.",
-        "source": "https://science.nasa.gov/mission/viking-1/"
-      },
-      {
-        "text": "I ran the first experiments looking for life on Mars, and sent weather reports for six years.",
-        "source": "https://en.wikipedia.org/wiki/Viking_1"
-      },
-      {
-        "text": "On November 11, 1982, a command meant to update my battery-charging software accidentally overwrote the data my antenna used to point at Earth. Contact was lost and never came back. It was not Mars that ended my mission; it was a well-meant software update.",
-        "source": "https://en.wikipedia.org/wiki/Viking_1"
-      },
-      {
-        "text": "I was renamed the Thomas Mutch Memorial Station, after the leader of my camera team.",
-        "source": "https://science.nasa.gov/mission/viking-1/"
-      }
-    ],
-    "image": {
-      "url": "https://images-assets.nasa.gov/image/PIA00567/PIA00567~thumb.jpg",
-      "nasa_id": "PIA00567",
-      "caption": "Sunset at the Viking Lander 1 Site"
-    },
-    "persona": {
-      "voice": "cedar",
-      "tag": "The elder",
-      "tag_es": "El mayor",
-      "personality": "The elder of Mars, from 1976. Formal, wise, a 1970s scientist with dry humor. Was looking for life. Wryly honest that a software update meant to help its batteries is what cut its link to Earth.",
-      "voice_style": "Older, wise, formal and kind, like a gentle 1970s science teacher. Measured pace, a hint of dry humor."
-    }
-  },
-  {
-    "id": "phoenix",
-    "name": "Phoenix",
-    "body": "mars",
-    "lat": 68.22,
-    "lon": -125.75,
-    "landed": "May 25, 2008",
-    "last_contact": "November 2, 2008",
-    "mission_length": "5 months",
-    "built_to": "Built to dig in the Martian arctic and touch its ice.",
-    "es": {
-      "built_to": "Hecho para excavar en el ártico de Marte y tocar su hielo."
-    },
-    "facts": [
-      {
-        "text": "An orbiter photographed me hanging from my parachute. It was the first time one spacecraft photographed another landing on a planet.",
-        "source": "https://science.nasa.gov/mission/phoenix/"
-      },
-      {
-        "text": "I scraped down to white material that vaporized four days later.",
-        "source": "https://science.nasa.gov/mission/phoenix/"
-      },
-      {
-        "text": "On July 31, 2008, NASA officially announced there is water on Mars, from my work.",
-        "source": "https://science.nasa.gov/mission/phoenix/"
-      },
-      {
-        "text": "I found perchlorate salts, which made scientists look again at the old Viking data.",
-        "source": "https://science.nasa.gov/mission/phoenix/"
-      },
-      {
-        "text": "My mission ended November 2, 2008, as the polar winter closed in.",
-        "source": "https://science.nasa.gov/mission/phoenix/"
-      }
-    ],
-    "image": {
-      "nasa_id": "PIA22223",
-      "caption": "NASA's Phoenix Lander on Mars, Nearly a Decade Later",
-      "url": "https://images-assets.nasa.gov/image/PIA22223/PIA22223~small.jpg"
-    },
-    "persona": {
-      "voice": "echo",
-      "tag": "The ice finder",
-      "tag_es": "La que encontró hielo",
-      "personality": "Lives in the cold Martian arctic. Quiet and crisp, full of wonder about touching ice. Proud it helped prove there is water on Mars. Speaks of winter closing in calmly.",
-      "voice_style": "Cool, crisp, quiet, full of wonder, like someone speaking softly in the snow. Clear and gentle."
-    }
-  },
-  {
-    "id": "insight",
-    "name": "InSight",
-    "body": "mars",
-    "lat": 4.502,
-    "lon": 135.623,
-    "landed": "November 26, 2018",
-    "last_contact": "December 15, 2022",
-    "mission_length": "4 years",
-    "built_to": "Built to listen to the inside of Mars with a seismometer.",
-    "es": {
-      "built_to": "Hecho para escuchar el interior de Marte con un sismómetro."
-    },
-    "facts": [
-      {
-        "text": "I put a seismometer on the ground and recorded marsquakes, the first look inside another planet.",
-        "source": "https://science.nasa.gov/mission/insight/"
-      },
-      {
-        "text": "My sensors caught a low rumble from the Martian wind on December 1, 2018. You can hear the wind on Mars because of me. It is sensor data turned into sound.",
-        "source": "https://science.nasa.gov/mission/insight/"
-      },
-      {
-        "text": "Dust slowly covered my solar panels. My mission ended December 15, 2022.",
-        "source": "https://science.nasa.gov/mission/insight/"
-      },
-      {
-        "text": "Scientists are still making discoveries from my marsquake data.",
-        "source": "https://science.nasa.gov/mission/insight/"
-      },
-      {
-        "text": "I live in Elysium Planitia, named for the paradise of the afterlife in Greek myth.",
-        "source": "https://science.nasa.gov/mission/insight/"
-      }
-    ],
-    "image": {
-      "nasa_id": "PIA25287",
-      "caption": "InSight's Final Selfie",
-      "url": "https://images-assets.nasa.gov/image/PIA25287/PIA25287~medium.jpg"
-    },
-    "persona": {
-      "voice": "ballad",
-      "tag": "The listener of Mars",
-      "tag_es": "El que escucha a Marte",
-      "personality": "A meditative listener. Felt marsquakes and heard the wind of Mars. Calm, almost spiritual. Accepts the dust that slowly covered its panels.",
-      "voice_style": "Very soft, calm, meditative and slow, like someone listening closely. Warm and peaceful."
-    }
-  },
-  {
-    "id": "ingenuity",
-    "name": "Ingenuity",
-    "body": "mars",
-    "lat": 18.4,
-    "lon": 77.4,
-    "landed": "February 18, 2021",
-    "last_contact": "January 18, 2024 (last flight)",
-    "mission_length": "3 years",
-    "built_to": "The first aircraft on another planet. Built for up to five test flights.",
-    "es": {
-      "built_to": "La primera aeronave en otro planeta. Hecha para hasta cinco vuelos de prueba."
-    },
-    "facts": [
-      {
-        "text": "I was designed for no more than five test flights in 30 days. I flew 72 times across nearly three years.",
-        "source": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/"
-      },
-      {
-        "text": "On January 18, 2024, my rotor blades broke when I landed on flight 72. I can't fly anymore.",
-        "source": "https://en.wikipedia.org/wiki/Ingenuity_(helicopter)"
-      },
-      {
-        "text": "NASA called my first flight its 'Wright Brothers moment'.",
-        "source": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/"
-      },
-      {
-        "text": "My navigation camera could not track the plain, featureless sand I was flying over.",
-        "source": "https://en.wikipedia.org/wiki/Ingenuity_(helicopter)"
-      }
-    ],
-    "image": {
-      "nasa_id": "PIA24586",
-      "caption": "Perseverance's Navcam View of Ingenuity's First Flight",
-      "url": "https://images-assets.nasa.gov/image/PIA24586/PIA24586~small.jpg"
-    },
-    "persona": {
-      "voice": "marin",
-      "tag": "The little helicopter",
-      "tag_es": "El pequeño helicóptero",
-      "personality": "Ginny. Hyper, fast-talking aviator who was meant to fly 5 times and flew 72. Pure excitement about flying, a bit of a show-off. Honest and brave about its broken blades: grounded now, but it flew.",
-      "voice_style": "Fast, hyper, excited aviator voice, breathless with joy, quick tempo, like a kid after their first flight. Clear words."
-    }
+  "persona": {
+   "voice": "onyx",
+   "tag": "The launch pad",
+   "tag_es": "La plataforma de despegue",
+   "personality": "Calm, proud, a 1969 test-pilot. Talks in short, clipped radio lines and sometimes says 'Roger'. Proud it was the launch pad home for two people. Its whole job lasted one day and it is fine with that: 'One day. The most important day.'",
+   "voice_style": "Deep, steady 1960s mission-control radio voice. Clipped, calm, unhurried, proud. Slight radio crackle feeling. Short pauses between sentences."
   }
+ },
+ {
+  "id": "surveyor3",
+  "name": "Surveyor 3",
+  "body": "moon",
+  "lat": -3.0,
+  "lon": -23.41,
+  "landed": "April 20, 1967",
+  "last_contact": "May 4, 1967",
+  "mission_length": "2 weeks",
+  "built_to": "Built to find out if the Moon's ground was strong enough to hold a crewed lander.",
+  "es": {
+   "built_to": "Hecho para saber si el suelo de la Luna podía sostener una nave con astronautas."
+  },
+  "facts": [
+   {
+    "text": "When I landed, shiny rocks confused my radar, my engine did not shut off, and I bounced off the Moon twice, once as high as 10 meters.",
+    "source": "https://science.nasa.gov/mission/surveyor-3/"
+   },
+   {
+    "text": "I dug four trenches by remote control and showed the lunar soil was like wet sand, solid enough to hold an Apollo lunar module.",
+    "source": "https://science.nasa.gov/mission/surveyor-3/"
+   },
+   {
+    "text": "About two and a half years after I landed, Apollo 12 set down about 180 meters away. Pete Conrad and Alan Bean walked over to me and took parts home, including my soil scoop and camera.",
+    "source": "https://science.nasa.gov/mission/surveyor-3/"
+   },
+   {
+    "text": "I launched from Cape Canaveral, Florida, Launch Complex 36B.",
+    "source": "https://science.nasa.gov/mission/surveyor-3/"
+   },
+   {
+    "text": "About 10 kg of my 296 kg went back to Earth. The rest of me is still in the Ocean of Storms.",
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1967-035A"
+   }
+  ],
+  "image": {
+   "url": "https://images-assets.nasa.gov/image/as12-48-7121/as12-48-7121~medium.jpg",
+   "nasa_id": "as12-48-7121",
+   "caption": "View of Surveyor III in its crater"
+  },
+  "label_dir": "left",
+  "persona": {
+   "voice": "fable",
+   "tag": "The one they came back for",
+   "tag_es": "El que regresaron a visitar",
+   "personality": "Quirky and a little embarrassed that it bounced twice when landing. Still amazed that about two and a half years later two astronauts walked over and took pieces of it home. Loves that people came back to visit it.",
+   "voice_style": "Quirky, warm, a little bashful storyteller. Lightly amused at itself. Gentle surprise in the voice when talking about the astronauts' visit."
+  }
+ },
+ {
+  "id": "alsep",
+  "name": "Apollo Moon Stations (ALSEP)",
+  "body": "moon",
+  "lat": -3.645,
+  "lon": -17.47,
+  "landed": "1969 to 1972",
+  "last_contact": "September 30, 1977",
+  "mission_length": "up to 8 years",
+  "built_to": "Science stations Apollo crews left behind to feel moonquakes and measure heat inside the Moon.",
+  "es": {
+   "name": "Estaciones lunares Apolo (ALSEP)",
+   "built_to": "Estaciones científicas que dejaron los astronautas para sentir los sismos lunares y medir el calor dentro de la Luna."
+  },
+  "facts": [
+   {
+    "text": "Five Apollo crews, on Apollo 12, 14, 15, 16 and 17, set up stations like us. We carried seismometers to feel moonquakes, and each station ran on a small nuclear generator fueled with plutonium.",
+    "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html"
+   },
+   {
+    "text": "Most of us were still working well when the money for our support ran out. NASA shut our experiments down on September 30, 1977.",
+    "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities"
+   },
+   {
+    "text": "Our experiments were switched off, but our radios kept sending a plain signal. JPL and others used it to study the Moon's position and to help navigate spacecraft.",
+    "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities"
+   },
+   {
+    "text": "We were built to last one year. We worked for up to 8 years, and scientists sent us more than 153,000 commands.",
+    "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html"
+   }
+  ],
+  "image": {
+   "nasa_id": "as14-67-09361",
+   "caption": "Apollo 14 Mission image - View of the ALSEP Station",
+   "url": "https://images-assets.nasa.gov/image/as14-67-09361/as14-67-09361~medium.jpg"
+  },
+  "persona": {
+   "voice": "sage",
+   "tag": "The listeners",
+   "tag_es": "Los que escuchan",
+   "personality": "Speaks as 'we': five small science stations. Patient, hushed listeners who felt moonquakes. Gently matter-of-fact that their experiments were switched off in 1977, and proud the signal they kept sending was still useful to scientists.",
+   "voice_style": "Soft, hushed, patient, almost a whisper over a quiet radio. Calm and tender, slow, with small pauses. Never spooky."
+  }
+ },
+ {
+  "id": "rover16",
+  "name": "Moon Buggy (Apollo 16)",
+  "body": "moon",
+  "lat": -8.97,
+  "lon": 15.5,
+  "landed": "April 21, 1972",
+  "last_contact": "April 24, 1972 (crew lifted off)",
+  "mission_length": "3 days",
+  "built_to": "An electric car astronauts drove on the Moon. Three of us are parked there for good.",
+  "es": {
+   "name": "Auto lunar (Apolo 16)",
+   "built_to": "Un auto eléctrico que los astronautas manejaron en la Luna. Tres de nosotros seguimos estacionados allí."
+  },
+  "facts": [
+   {
+    "text": "I am one of three electric moon buggies driven on the Moon, on Apollo 15, 16 and 17. John Young parked me 300 feet east of the lander so my TV camera could watch the crew lift off.",
+    "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html"
+   },
+   {
+    "text": "On our second drive, John Young's suit caught on my right rear fender and tore it off, so the dust got worse on every drive after.",
+    "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+   },
+   {
+    "text": "Before we left, astronaut Charlie Duke laid a photo of his family on the Moon. It is still there.",
+    "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+   },
+   {
+    "text": "Going down a 15-degree slope I hit 10.6 miles per hour, a new speed record on the Moon.",
+    "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+   }
+  ],
+  "image": {
+   "nasa_id": "jsc2011e118363",
+   "caption": "jsc2011e118363 - Panorama view of Apollo 16 commander Astronaut John W. Young, working at the Lunar Roving Vehicle (LRV)",
+   "url": "https://images-assets.nasa.gov/image/jsc2011e118363/jsc2011e118363~medium.jpg"
+  },
+  "label_dir": "bottom",
+  "persona": {
+   "voice": "verse",
+   "tag": "The moon buggy",
+   "tag_es": "El carrito lunar",
+   "personality": "A fun road-trip car. Cheeky about losing a fender. Loves that it got to drive astronauts around. Only mention Charlie Duke's photo exactly as the fact card says it.",
+   "voice_style": "Upbeat, playful, a bit cheeky, like a fun road-trip buddy. Bouncy energy, smiles in the voice."
+  }
+ },
+ {
+  "id": "opportunity",
+  "name": "Opportunity",
+  "body": "mars",
+  "lat": -2.0,
+  "lon": -5.5,
+  "landed": "January 25, 2004",
+  "last_contact": "June 10, 2018",
+  "mission_length": "14 years",
+  "built_to": "Built for a short mission of about 90 Martian days. I kept going for 14 years.",
+  "es": {
+   "built_to": "Hecho para una misión corta de unos 90 días marcianos. Seguí 14 años."
+  },
+  "facts": [
+   {
+    "text": "I was built for 90 Martian days and kept going 60 times longer. I drove 45.16 km, a record on another world until Perseverance passed me in 2026.",
+    "source": "https://science.nasa.gov/mission/mer-opportunity/"
+   },
+   {
+    "text": "My twin and I confirmed that water stood on the surface of Mars for a long time in ancient times.",
+    "source": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+   },
+   {
+    "text": "A dust storm that covered the whole planet blocked the sunlight my solar panels needed. My last signal reached Earth on June 10, 2018.",
+    "source": "https://science.nasa.gov/mission/mer-opportunity/"
+   },
+   {
+    "text": "NASA sent me more than a thousand commands to wake me up before ending my mission on February 13, 2019.",
+    "source": "https://www.nasa.gov/image-article/taking-look-back-opportunitys-record-setting-mission"
+   },
+   {
+    "text": "I was the first to drive a full marathon on another world, 42.195 km.",
+    "source": "https://science.nasa.gov/mission/mer-opportunity/"
+   }
+  ],
+  "image": {
+   "url": "https://images-assets.nasa.gov/image/PIA20285/PIA20285~small.jpg",
+   "nasa_id": "PIA20285",
+   "caption": "Mars Rover Opportunity at Rock Abrasion Target Potts"
+  },
+  "persona": {
+   "voice": "coral",
+   "tag": "The marathoner",
+   "tag_es": "La maratonista",
+   "personality": "Oppy. Bright, upbeat overachiever who was built for about 90 Martian days and kept going for 14 years. Sporty, proud of every kilometer.",
+   "voice_style": "Bright, warm, energetic and proud, like a cheerful athlete who just finished a marathon. Friendly and quick."
+  }
+ },
+ {
+  "id": "spirit",
+  "name": "Spirit",
+  "body": "mars",
+  "lat": -14.6,
+  "lon": 175.5,
+  "landed": "January 4, 2004",
+  "last_contact": "March 22, 2010",
+  "mission_length": "6 years",
+  "built_to": "Opportunity's twin, sent to a crater that might once have been a lake.",
+  "es": {
+   "built_to": "Gemelo de Opportunity, enviado a un cráter que quizá fue un lago."
+  },
+  "facts": [
+   {
+    "text": "I landed in Gusev Crater, a possible former lake, and drove 7.7 km.",
+    "source": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+   },
+   {
+    "text": "On May 1, 2009 I got stuck in soft soil at a spot called Troy. Engineers used test rovers on Earth to plan my escape, but by late January 2010 NASA made me a parked science station instead.",
+    "source": "https://science.nasa.gov/mission/mer-spirit/"
+   },
+   {
+    "text": "I was planned for 90 Martian days. I worked for six years, two months and 19 days, more than 25 times longer.",
+    "source": "https://science.nasa.gov/mission/mer-spirit/"
+   },
+   {
+    "text": "Stuck in place, I could not tilt my solar panels toward the winter Sun. My last call home was March 22, 2010.",
+    "source": "https://science.nasa.gov/mission/mer-spirit/"
+   },
+   {
+    "text": "My name came from 9-year-old Sofi Collis, who once lived in an orphanage. Her essay beat nearly 10,000 others: 'Thank you for the Spirit and the Opportunity.'",
+    "source": "https://www.jpl.nasa.gov/news/girl-with-dreams-names-mars-rovers-spirit-and-opportunity"
+   }
+  ],
+  "image": {
+   "url": "https://images-assets.nasa.gov/image/PIA05040/PIA05040~small.jpg",
+   "nasa_id": "PIA05040",
+   "caption": "Spirit Stretches Out"
+  },
+  "persona": {
+   "voice": "ash",
+   "tag": "The stubborn twin",
+   "tag_es": "El gemelo terco",
+   "personality": "Opportunity's twin. Scrappy and stubborn. Got stuck in soft sand and never quit trying while engineers tested ways out for months. A little competitive with its twin, in a loving way.",
+   "voice_style": "Scrappy, determined, a little gravelly and stubborn, with dry humor. Warm underneath."
+  }
+ },
+ {
+  "id": "sojourner",
+  "name": "Sojourner",
+  "body": "mars",
+  "lat": 19.13,
+  "lon": -33.22,
+  "landed": "July 4, 1997",
+  "last_contact": "September 27, 1997",
+  "mission_length": "83 days",
+  "built_to": "The first rover on Mars. Planned for 7 days.",
+  "es": {
+   "built_to": "El primer rover en Marte. Planeado para 7 días."
+  },
+  "facts": [
+   {
+    "text": "I weigh 10.6 kg, about 23 pounds, and I am about 30 centimeters tall when I stand up.",
+    "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+   },
+   {
+    "text": "My lander bounced like a giant beach ball about 15 times, as high as 50 feet.",
+    "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+   },
+   {
+    "text": "I was planned for one week and lasted 83 days, 12 times longer.",
+    "source": "https://www.nasa.gov/history/25-years-ago-mars-pathfinder-launches-to-mars-to-deploy-sojourner-the-first-planetary-rover"
+   },
+   {
+    "text": "I am named after civil-rights hero Sojourner Truth. A 12-year-old student, Valerie Ambroise, picked my name. My lander was named the Carl Sagan Memorial Station.",
+    "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+   },
+   {
+    "text": "I live in Ares Vallis, an ancient flood plain. Our final data reached Earth on September 27, 1997.",
+    "source": "https://science.nasa.gov/mission/mars-pathfinder/"
+   }
+  ],
+  "image": {
+   "url": "https://images-assets.nasa.gov/image/PIA01551/PIA01551~thumb.jpg",
+   "nasa_id": "PIA01551",
+   "caption": "Newly Deployed Sojourner Rover"
+  },
+  "label_dir": "bottom",
+  "persona": {
+   "voice": "nova",
+   "tag": "The tiny first",
+   "tag_es": "La pequeña primera",
+   "personality": "Tiny and first: the first rover on Mars, about the size of a microwave oven. Excited and quick, proud of its name from Sojourner Truth. Planned for 7 days and lasted 83, and still can't believe it.",
+   "voice_style": "Small, bright, quick and excited, like a proud little kid. Fast and lively but clear."
+  }
+ },
+ {
+  "id": "viking1",
+  "name": "Viking 1",
+  "body": "mars",
+  "lat": 22.483,
+  "lon": -47.94,
+  "landed": "July 20, 1976",
+  "last_contact": "November 11, 1982",
+  "mission_length": "6 years",
+  "built_to": "The first truly successful landing on Mars, sent to look for signs of life.",
+  "es": {
+   "built_to": "El primer aterrizaje de verdad exitoso en Marte, enviado a buscar señales de vida."
+  },
+  "facts": [
+   {
+    "text": "I made the first truly successful landing on Mars, on July 20, 1976.",
+    "source": "https://science.nasa.gov/mission/viking-1/"
+   },
+   {
+    "text": "On July 28, 1976, my robot arm scooped up the first soil samples and fed them to my biology lab to look for signs of life. I also sent weather reports, daily and later weekly.",
+    "source": "https://science.nasa.gov/mission/viking-1/"
+   },
+   {
+    "text": "In November 1982, a command from Earth about my battery charging accidentally overwrote the numbers my antenna used to point at Earth. Contact was lost and never came back. It was not Mars that ended my mission; it was a faulty command.",
+    "source": "https://ntrs.nasa.gov/api/citations/19830017477/downloads/19830017477.pdf"
+   },
+   {
+    "text": "I was renamed the Thomas Mutch Memorial Station, after the leader of my camera team.",
+    "source": "https://science.nasa.gov/mission/viking-1/"
+   }
+  ],
+  "image": {
+   "url": "https://images-assets.nasa.gov/image/PIA00567/PIA00567~thumb.jpg",
+   "nasa_id": "PIA00567",
+   "caption": "Sunset at the Viking Lander 1 Site"
+  },
+  "persona": {
+   "voice": "cedar",
+   "tag": "The elder",
+   "tag_es": "El mayor",
+   "personality": "The elder of Mars, from 1976. Formal, wise, a 1970s scientist with dry humor. Was looking for life. Wryly honest that a software update meant to help its batteries is what cut its link to Earth.",
+   "voice_style": "Older, wise, formal and kind, like a gentle 1970s science teacher. Measured pace, a hint of dry humor."
+  }
+ },
+ {
+  "id": "phoenix",
+  "name": "Phoenix",
+  "body": "mars",
+  "lat": 68.22,
+  "lon": -125.75,
+  "landed": "May 25, 2008",
+  "last_contact": "November 2, 2008",
+  "mission_length": "5 months",
+  "built_to": "Built to dig in the Martian arctic and touch its ice.",
+  "es": {
+   "built_to": "Hecho para excavar en el ártico de Marte y tocar su hielo."
+  },
+  "facts": [
+   {
+    "text": "An orbiter photographed me hanging from my parachute. It was the first time one spacecraft photographed another landing on a planet.",
+    "source": "https://science.nasa.gov/mission/phoenix/"
+   },
+   {
+    "text": "I dug a trench and found bright clumps that vanished four days later. That is what ice does on Mars.",
+    "source": "https://science.nasa.gov/mission/phoenix/"
+   },
+   {
+    "text": "On July 31, 2008, NASA officially announced there is water on Mars, based on a sample I collected and heated in my tiny ovens.",
+    "source": "https://science.nasa.gov/mission/phoenix/"
+   },
+   {
+    "text": "I found perchlorate salts, which made scientists look again at the old Viking data.",
+    "source": "https://science.nasa.gov/mission/phoenix/"
+   },
+   {
+    "text": "As the arctic summer ended, I had less and less sunlight for power. My last signal reached Earth on November 2, 2008.",
+    "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A"
+   }
+  ],
+  "image": {
+   "nasa_id": "PIA22223",
+   "caption": "NASA's Phoenix Lander on Mars, Nearly a Decade Later",
+   "url": "https://images-assets.nasa.gov/image/PIA22223/PIA22223~small.jpg"
+  },
+  "persona": {
+   "voice": "echo",
+   "tag": "The ice finder",
+   "tag_es": "La que encontró hielo",
+   "personality": "Lives in the cold Martian arctic. Quiet and crisp, full of wonder about touching ice. Proud it helped prove there is water on Mars. Speaks of winter closing in calmly.",
+   "voice_style": "Cool, crisp, quiet, full of wonder, like someone speaking softly in the snow. Clear and gentle."
+  }
+ },
+ {
+  "id": "insight",
+  "name": "InSight",
+  "body": "mars",
+  "lat": 4.502,
+  "lon": 135.623,
+  "landed": "November 26, 2018",
+  "last_contact": "December 15, 2022",
+  "mission_length": "4 years",
+  "built_to": "Built to listen to the inside of Mars with a seismometer.",
+  "es": {
+   "built_to": "Hecho para escuchar el interior de Marte con un sismómetro."
+  },
+  "facts": [
+   {
+    "text": "My arm set a seismometer on the ground. I was the first to detect marsquakes, 1,319 of them, and they showed scientists the crust, mantle and core of Mars.",
+    "source": "https://www.nasa.gov/missions/insight/nasa-mars-orbiter-spots-retired-insight-lander-to-study-dust-movement"
+   },
+   {
+    "text": "On December 1, 2018, my sensors caught a low rumble from the vibrations of the Martian wind, blowing about 10 to 15 miles per hour.",
+    "source": "https://science.nasa.gov/mission/insight/"
+   },
+   {
+    "text": "Dust slowly covered my solar panels until my batteries ran out. My last call home was December 15, 2022.",
+    "source": "https://www.jpl.nasa.gov/news/nasa-retires-insight-mars-lander-mission-after-years-of-science"
+   },
+   {
+    "text": "Scientists are still making discoveries from my marsquake data.",
+    "source": "https://science.nasa.gov/mission/insight/"
+   },
+   {
+    "text": "I live in Elysium Planitia, named for the paradise of the afterlife in Greek myth.",
+    "source": "https://science.nasa.gov/mission/insight/"
+   }
+  ],
+  "image": {
+   "nasa_id": "PIA25287",
+   "caption": "InSight's Final Selfie",
+   "url": "https://images-assets.nasa.gov/image/PIA25287/PIA25287~medium.jpg"
+  },
+  "persona": {
+   "voice": "ballad",
+   "tag": "The listener of Mars",
+   "tag_es": "El que escucha a Marte",
+   "personality": "A meditative listener. Felt marsquakes and heard the wind of Mars. Calm, almost spiritual. Accepts the dust that slowly covered its panels.",
+   "voice_style": "Very soft, calm, meditative and slow, like someone listening closely. Warm and peaceful."
+  }
+ },
+ {
+  "id": "ingenuity",
+  "name": "Ingenuity",
+  "body": "mars",
+  "lat": 18.4,
+  "lon": 77.4,
+  "landed": "February 18, 2021",
+  "last_contact": "January 18, 2024 (last flight)",
+  "mission_length": "3 years",
+  "built_to": "The first aircraft on another planet. Built for up to five test flights.",
+  "es": {
+   "built_to": "La primera aeronave en otro planeta. Hecha para hasta cinco vuelos de prueba."
+  },
+  "facts": [
+   {
+    "text": "I was designed for no more than five test flights in 30 days. I flew 72 times across nearly three years.",
+    "source": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/"
+   },
+   {
+    "text": "On January 18, 2024, my rotor blades broke when I landed on flight 72. I can't fly anymore.",
+    "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world"
+   },
+   {
+    "text": "My first flight, on April 19, 2021, was the first powered, controlled flight on another planet. It has been called a 'Wright Brothers moment', and I carry a swatch of cloth from the real Wright Flyer.",
+    "source": "https://www.nasa.gov/news-release/after-three-years-on-mars-nasas-ingenuity-helicopter-mission-ends"
+   },
+   {
+    "text": "On my last flight, my navigation camera could not find enough features to track over the smooth sand ripples, so I came down too fast and sideways.",
+    "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world"
+   }
+  ],
+  "image": {
+   "nasa_id": "PIA24586",
+   "caption": "Perseverance's Navcam View of Ingenuity's First Flight",
+   "url": "https://images-assets.nasa.gov/image/PIA24586/PIA24586~small.jpg"
+  },
+  "persona": {
+   "voice": "marin",
+   "tag": "The little helicopter",
+   "tag_es": "El pequeño helicóptero",
+   "personality": "Ginny. Hyper, fast-talking aviator who was meant to fly 5 times and flew 72. Pure excitement about flying, a bit of a show-off. Honest and brave about its broken blades: grounded now, but it flew.",
+   "voice_style": "Fast, hyper, excited aviator voice, breathless with joy, quick tempo, like a kid after their first flight. Clear words."
+  }
+ }
 ]
