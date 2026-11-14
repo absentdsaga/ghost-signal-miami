@@ -7,39 +7,39 @@
       welcomeK: "Night shift · Ghost Signal desk", welcomeH: "11 robots went quiet. Help them remember.",
       welcomeP: "NASA left these machines on the Moon and Mars. Each one forgot what happened to it. Call them, find real NASA clues, and solve each case to bring it back.",
       namePh: "Your name", start: "Start my shift", skip: "Skip", operator: "Operator",
-      wake: "📞 Wake it up", wakeAgain: "📞 Call it again", again: "📞 Say hi again", wakeHeard: "📞 You called it", caseK: "Case file", solvedK: "Brought back",
+      wake: "Wake it up", wakeAgain: "Call it again", again: "Say hi again", wakeHeard: "You called it", caseK: "Case file", solvedK: "Brought back",
       clues: "Clues", found: (n, m) => `${n} of ${m} found`, newClue: "New clue!", tapToAsk: "tap to ask",
       look: "tap to look", build: "Solve it: build the sentence", bankEmpty: "Find clues to collect words.",
       check: "Check", wrong: "Not quite. Look at your clues and try again.", right: "That's it!",
       guide: "Field guide", guideH: "Field guide", guideP: (n) => `${n} of 11 brought back`,
-      notYet: "Not brought back yet", today: "Today's open line", openLine: (n) => `📡 Today's open line: ${n}`,
+      notYet: "Not brought back yet", today: "Today's open line", openLine: (n) => `Today's open line: ${n}`,
       everyone: (n) => n ? `Everyone together brought robots back ${n} time${n === 1 ? "" : "s"} today` : "Nobody has brought a robot back today. Be the first.",
       cleared: "All 11 brought back. Every robot remembers you.", toastBack: (n) => `Brought back! ${n} of 11`,
       back1: "Welcome back, {name}. Did you find out what happened to me?", back2: "{name}! I remember everything now, thanks to you.",
       heardClue: "You found a clue by asking", hear: "Hear its last day", sources: "NASA source",
-      power: "Signal power", hint: "💡 Hint", hintCost: "costs 1 ⚡", lockedMem: "A memory it can't reach yet", lockedSub: "Ask it the right question to unlock it",
+      power: "Signal power", hint: "Hint", hintCost: "costs 1 ▮", lockedMem: "A memory it can't reach yet", lockedSub: "Ask it the right question to unlock it",
       flat: (s) => `Battery flat. Recharging from the Sun… ${s}s`, flatToast: "Battery flat!", scan: { last: "Search its last photo", orbit: "Find it from orbit" }, scanSub: "tap to search",
       cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
-      tries: "Each question costs 1 ⚡. Run out and the robot falls asleep.",
+      tries: "Each question costs 1 ▮. Run out and the robot falls asleep.",
     },
     es: {
       welcomeK: "Turno de noche · Central Señal Fantasma", welcomeH: "11 robots quedaron en silencio. Ayúdalos a recordar.",
       welcomeP: "La NASA dejó estas máquinas en la Luna y Marte. Cada una olvidó qué le pasó. Llámalas, encuentra pistas reales de la NASA y resuelve cada caso para traerlas de vuelta.",
       namePh: "Tu nombre", start: "Empezar mi turno", skip: "Saltar", operator: "Operador",
-      wake: "📞 Despiértalo", wakeAgain: "📞 Llámalo otra vez", again: "📞 Salúdalo otra vez", wakeHeard: "📞 Lo llamaste", caseK: "Expediente", solvedK: "De vuelta",
+      wake: "Despiértalo", wakeAgain: "Llámalo otra vez", again: "Salúdalo otra vez", wakeHeard: "Lo llamaste", caseK: "Expediente", solvedK: "De vuelta",
       clues: "Pistas", found: (n, m) => `${n} de ${m} encontradas`, newClue: "¡Nueva pista!", tapToAsk: "toca para preguntar",
       look: "toca para mirar", build: "Resuélvelo: arma la frase", bankEmpty: "Encuentra pistas para juntar palabras.",
       check: "Comprobar", wrong: "Casi. Mira tus pistas e intenta otra vez.", right: "¡Eso es!",
       guide: "Guía", guideH: "Guía de campo", guideP: (n) => `${n} de 11 de vuelta`,
-      notYet: "Todavía no vuelve", today: "Línea abierta hoy", openLine: (n) => `📡 Línea abierta hoy: ${n}`,
+      notYet: "Todavía no vuelve", today: "Línea abierta hoy", openLine: (n) => `Línea abierta hoy: ${n}`,
       everyone: (n) => n ? `Entre todos trajeron robots de vuelta ${n} ${n === 1 ? "vez" : "veces"} hoy` : "Nadie ha traído un robot de vuelta hoy. Sé el primero.",
       cleared: "Los 11 están de vuelta. Todos los robots te recuerdan.", toastBack: (n) => `¡De vuelta! ${n} de 11`,
       back1: "Bienvenido de nuevo, {name}. ¿Descubriste qué me pasó?", back2: "¡{name}! Ahora lo recuerdo todo, gracias a ti.",
       heardClue: "Encontraste una pista al preguntar", hear: "Escucha su último día", sources: "Fuente NASA",
-      power: "Energía", hint: "💡 Pista", hintCost: "cuesta 1 ⚡", lockedMem: "Un recuerdo que todavía no alcanza", lockedSub: "Hazle la pregunta correcta para desbloquearlo",
+      power: "Energía", hint: "Pista", hintCost: "cuesta 1 ▮", lockedMem: "Un recuerdo que todavía no alcanza", lockedSub: "Hazle la pregunta correcta para desbloquearlo",
       flat: (s) => `Batería agotada. Recargando con el Sol… ${s}s`, flatToast: "¡Batería agotada!", scan: { last: "Busca en su última foto", orbit: "Encuéntralo desde órbita" }, scanSub: "toca para buscar",
       cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
-      tries: "Cada pregunta cuesta 1 ⚡. Si se agota, el robot se duerme.",
+      tries: "Cada pregunta cuesta 1 ▮. Si se agota, el robot se duerme.",
     },
   };
   const GENERIC = new Set(["how", "do", "who", "where", "cómo", "como", "quién", "quien", "dónde", "donde", "find", "see", "ver", "fly", "volar"]);
@@ -68,7 +68,7 @@
     if (recharging(id)) return false;
     S.power[id] = Math.max(0, pw(id) - 1); save(); FX("power");
     const b = document.querySelector("#gsCase .gs-bars i:not(.off):last-of-type");
-    if (b) { const [x, y] = window.GSFX.at(b); window.GSFX.float("−1 ⚡", x, y - 10, "#ffcf7a"); }
+    if (b) { const [x, y] = window.GSFX.at(b); window.GSFX.float("−1 ▮", x, y - 10, "#ffae36"); }
     if (S.power[id] <= 0) { S.recharge[id] = Date.now() + RECHARGE_MS; S.drained[id] = true; save(); setTimeout(() => { FX("flat"); toast(g("flatToast")); }, 300); }
     renderPower();
     return true;
@@ -84,7 +84,7 @@
     const id = cur.id; settleRecharge(id);
     const p = pw(id), rc = recharging(id);
     box.classList.toggle("flat", !!rc); box.classList.toggle("low", !rc && p <= 2);
-    box.innerHTML = `<span class="gs-k">⚡ ${g("power")}</span><span class="gs-bars">${Array.from({ length: MAXP }, (_, i) => `<i class="${i < p && !rc ? "" : "off"}"></i>`).join("")}</span>
+    box.innerHTML = `<span class="gs-k">${g("power")}</span><span class="gs-bars">${Array.from({ length: MAXP }, (_, i) => `<i class="${i < p && !rc ? "" : "off"}"></i>`).join("")}</span>
       ${rc ? `<span class="gs-flat">${g("flat")(Math.ceil((S.recharge[id] - Date.now()) / 1000))}</span>` : ""}`;
     document.querySelectorAll("#gsCase .gs-check, #gsCase .gs-hint").forEach((b) => { if (rc) b.disabled = true; });
   }
@@ -107,7 +107,7 @@
     if (card && !quiet) {
       const [x, y] = window.GSFX.at(card);
       window.GSFX.burst(x, y, { n: 34, speed: 7 }); window.GSFX.float("+ CLUE", x, y - 30);
-      (cl?.words || []).forEach((w, i) => setTimeout(() => window.GSFX.float("+ " + W(w), x + 40, y + 10, "#ffcf7a"), 250 + i * 200));
+      (cl?.words || []).forEach((w, i) => setTimeout(() => window.GSFX.float("+ " + W(w), x + 40, y + 10, "#ffae36"), 250 + i * 200));
     }
     window.dispatchEvent(new CustomEvent("gs:clue", { detail: { robot: id, clue: clueId } }));
   }
@@ -135,7 +135,7 @@
     if (!D) return;
     let gb = document.getElementById("gsGuideBtn");
     if (!gb) { gb = el("button", "gs-guidebtn"); gb.id = "gsGuideBtn"; gb.onclick = openGuide; document.querySelector(".top .brand")?.appendChild(gb); }
-    gb.innerHTML = `📖 <span class="gs-gl">${g("guide")}</span> <b>${solvedCount()}/11</b>`;
+    gb.innerHTML = `<span class="gs-gl">${g("guide")}</span> <b>${solvedCount()}/11</b>`;
     let tl = document.getElementById("gsToday");
     if (!tl) { tl = el("button", "gs-today"); tl.id = "gsToday"; tl.onclick = () => goTo(todayId()); document.body.appendChild(tl); }
     const tr = robots.find((r) => r.id === todayId());
@@ -238,19 +238,19 @@
       it.dataset.clue = cl.id;
       if (got) {
         const host = (() => { try { return new URL(cl.source).hostname.replace("www.", ""); } catch { return ""; } })();
-        it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "📷" : cl.how === "orbit" ? "🛰️" : "🔍"}</span><div><p>${esc(L(cl.say))}</p>
+        it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "CAM" : cl.how === "orbit" ? "ORB" : "REC"}</span><div><p>${esc(L(cl.say))}</p>
           ${cl.words.length ? `<div class="gs-earned">${cl.words.map((w) => `<span class="gs-word mini">${esc(W(w))}</span>`).join("")}</div>` : ""}
           <a class="gs-src" href="${cl.source}" target="_blank" rel="noopener">${g("sources")} · ${host}</a></div>${cl.id === newId ? `<span class="gs-newtag">${g("newClue")}</span>` : ""}`;
       } else if (cl.how === "ask" && !(S.hints[r.id] || []).includes(cl.id)) {
-        const m = el("div", "gs-clue locked mystery", `<span class="gs-ci">❔</span><div><b>${g("lockedMem")}</b><small>${g("lockedSub")}</small></div>`);
+        const m = el("div", "gs-clue locked mystery", `<span class="gs-ci">???</span><div><b>${g("lockedMem")}</b><small>${g("lockedSub")}</small></div>`);
         m.dataset.clue = cl.id; list.appendChild(m); return;
       } else if (cl.how === "ask") {
         it.classList.add("hinted");
-        it.innerHTML = `<span class="gs-ci">💡</span><div><b>${esc(L(cl.prompt))}</b><small>${g("tapToAsk")} · 1 ⚡</small></div>`;
+        it.innerHTML = `<span class="gs-ci">HINT</span><div><b>${esc(L(cl.prompt))}</b><small>${g("tapToAsk")} · 1 ▮</small></div>`;
         it.onclick = () => { if (!busy) ask({ text: L(cl.prompt).replace(/^(Ask|Pregúntale)\s*/i, ""), script: L(cl.say), sources: [{ source: cl.source, text: L(cl.say) }], clue: cl.id }); };
       } else {
         it.classList.add("hunt");
-        it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "📷" : "🛰️"}</span><div><b>${g("scan")[cl.how] || esc(L(cl.prompt))}</b><small>${cl.hunt ? esc(L(cl.hunt.find)) : g("look")}</small></div><span class="gs-go-scan">${g("scanSub")} ›</span>`;
+        it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "CAM" : "ORB"}</span><div><b>${g("scan")[cl.how] || esc(L(cl.prompt))}</b><small>${cl.hunt ? esc(L(cl.hunt.find)) : g("look")}</small></div><span class="gs-go-scan">${g("scanSub")} ›</span>`;
         it.onclick = () => {
           if (cl.hunt && media.img[r.id]?.[cl.how === "last" ? "last_seen" : "from_orbit"]?.file) openScan(r, cl);
           else { showSlide(cl.how); document.getElementById("stage")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
@@ -362,13 +362,13 @@
   }
 
   function closedCard(r, stars, perfect) {
-    FX("solve"); window.GSFX?.flash("#ffcf7a"); window.GSFX?.confetti();
-    const st = document.getElementById("stage"); if (st) { const [x, y] = window.GSFX.at(st); window.GSFX.burst(x, y, { n: 60, speed: 10, shape: "star", size: 5, colors: ["#ffcf7a", "#fff6d8", "#7cf3ff"] }); }
+    FX("solve"); window.GSFX?.flash("#ffae36"); window.GSFX?.confetti();
+    const st = document.getElementById("stage"); if (st) { const [x, y] = window.GSFX.at(st); window.GSFX.burst(x, y, { n: 60, speed: 10, shape: "star", size: 5, colors: ["#ffae36", "#fff6d8", "#fff0cf"] }); }
     const d = el("div", "gs-closed", `<div class="gs-cl-in"><div class="gs-stamp">${g("closed")}</div><div class="gs-cl-name">${esc(name(r))}</div>
       <div class="gs-cl-stars">${[0, 1, 2].map((i) => `<i class="${i < stars ? "on" : ""}">★</i>`).join("")}</div>
       <div class="gs-cl-rank">${g("stars")[stars - 1]}${perfect ? " · " + g("perfect") : ""}</div><div class="gs-cl-count">${g("toastBack")(solvedCount())}</div></div>`);
     document.body.appendChild(d);
-    d.querySelectorAll(".gs-cl-stars i").forEach((s, i) => setTimeout(() => { s.classList.add("in"); if (i < stars) { FX("star", { n: i }); const [x, y] = window.GSFX.at(s); window.GSFX.burst(x, y, { n: 18, shape: "star", colors: ["#ffcf7a", "#fff"], speed: 5 }); } }, 700 + i * 380));
+    d.querySelectorAll(".gs-cl-stars i").forEach((s, i) => setTimeout(() => { s.classList.add("in"); if (i < stars) { FX("star", { n: i }); const [x, y] = window.GSFX.at(s); window.GSFX.burst(x, y, { n: 18, shape: "star", colors: ["#ffae36", "#fff"], speed: 5 }); } }, 700 + i * 380));
     const bye = () => { d.classList.add("out"); setTimeout(() => d.remove(), 400); };
     d.onclick = bye; setTimeout(bye, 4200);
   }
@@ -398,15 +398,15 @@
       const ring = el("div", "gs-ring"); ring.style.left = px + "px"; ring.style.top = py + "px"; wrap.appendChild(ring); setTimeout(() => ring.remove(), 900);
       if (hit) {
         done = true; ring.classList.add("hit"); msg.className = "gs-scan-msg hit"; msg.textContent = g("gotIt");
-        FX("lock"); window.GSFX.burst(e.clientX, e.clientY, { n: 40, speed: 8, colors: ["#7cf3ff", "#fff", "#ffcf7a"] });
+        FX("lock"); window.GSFX.burst(e.clientX, e.clientY, { n: 40, speed: 8, colors: ["#fff0cf", "#fff", "#ffae36"] });
         const lock = el("div", "gs-lock"); lock.style.left = px + "px"; lock.style.top = py + "px"; wrap.appendChild(lock);
         setTimeout(() => { close(); showSlide(cl.how); unlock(r.id, cl.id); }, 1100);
         return;
       }
       misses++;
       const heat = Math.max(0, 1 - (dist - (h.r || 0)) / 0.45);
-      ring.style.setProperty("--c", heat > 0.75 ? "#ff6a3d" : heat > 0.45 ? "#ffcf7a" : "#7cf3ff");
-      msg.className = "gs-scan-msg"; msg.textContent = heat > 0.75 ? "🔥 " + g("hot") : heat > 0.45 ? "♨️ " + g("warm") : "❄️ " + g("cold");
+      ring.style.setProperty("--c", heat > 0.75 ? "#ff6a3d" : heat > 0.45 ? "#ffae36" : "#fff0cf");
+      msg.className = "gs-scan-msg"; msg.textContent = heat > 0.75 ? g("hot") : heat > 0.45 ? g("warm") : g("cold");
       FX("ping", { heat });
       if (misses === 4) {
         const z = el("div", "gs-zone"), cx = h.rect ? (h.rect[0] + h.rect[2]) / 2 : h.x, cy = h.rect ? (h.rect[1] + h.rect[3]) / 2 : h.y, ib = img.getBoundingClientRect();

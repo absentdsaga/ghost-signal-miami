@@ -71,7 +71,7 @@
   }
   const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function burst(x, y, { n = 26, colors = ["#7cf3ff", "#ffffff", "#ffcf7a"], speed = 6, shape = "dot", size = 3, grav = 0.08, life = 1 } = {}) {
+  function burst(x, y, { n = 26, colors = ["#fff0cf", "#ffffff", "#ffae36"], speed = 6, shape = "dot", size = 3, grav = 0.08, life = 1 } = {}) {
     if (reduce) return; ready();
     for (let i = 0; i < n; i++) {
       const a = Math.random() * Math.PI * 2, v = speed * (0.4 + Math.random());
@@ -81,11 +81,11 @@
   }
   function confetti() {
     if (reduce) return; ready();
-    const cols = ["#ffcf7a", "#7cf3ff", "#ff7ab6", "#9dff7a", "#ffffff"];
+    const cols = ["#ffae36", "#fff0cf", "#ff3f86", "#c6ff3a", "#ffffff"];
     for (let i = 0; i < 140; i++) parts.push({ x: innerWidth * Math.random(), y: -20 - Math.random() * 200, vx: (Math.random() - 0.5) * 3, vy: 2 + Math.random() * 4, drag: 0.99, grav: 0.06, rot: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4, s: 4 + Math.random() * 4, c: cols[i % 5], shape: i % 3 ? "rect" : "star", life: 3.2, max: 3.2 });
     kick();
   }
-  function float(text, x, y, color = "#7cf3ff") {
+  function float(text, x, y, color = "#fff0cf") {
     const d = document.createElement("div"); d.className = "gsfx-float"; d.textContent = text; d.style.cssText = `left:${x}px;top:${y}px;color:${color}`;
     document.body.appendChild(d); setTimeout(() => d.remove(), 1400);
   }
@@ -96,7 +96,7 @@
     requestAnimationFrame(() => { d.style.transform = `translate(${to.left + to.width / 2 - (from.left + from.width / 2)}px,${to.top + to.height / 2 - (from.top + from.height / 2)}px) scale(1.05)`; });
     setTimeout(() => { d.remove(); done && done(); }, 380);
   }
-  function flash(color = "#ffcf7a") { const d = document.createElement("div"); d.className = "gsfx-flash"; d.style.background = color; document.body.appendChild(d); setTimeout(() => d.remove(), 700); }
+  function flash(color = "#ffae36") { const d = document.createElement("div"); d.className = "gsfx-flash"; d.style.background = color; document.body.appendChild(d); setTimeout(() => d.remove(), 700); }
   function shake(el) { if (!el) return; el.classList.remove("gsfx-shake"); void el.offsetWidth; el.classList.add("gsfx-shake"); }
 
   window.GSFX = {
