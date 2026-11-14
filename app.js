@@ -7,7 +7,7 @@ const T = {
     warp: "⏩ Time-warp (skip the real wait)", last: "Hear its last day", label: "Imagined voice (AI). Real NASA facts, each one linked to its source.",
     landed: "Landed", lastc: "Last contact", left: "Left on", moonW: "the Moon", marsW: "Mars",
     listening: "Listening… tap again to send", hearing: "🎙 I can hear you", noaudio: "No sound yet, speak up or check your mic", paused: "Go on, or tap to send", tapsend: "tap to send", sending: (s) => `Your voice is travelling to the robot… ${s}`,
-    back: (s) => `Its answer is travelling back… ${s}`, waiting: (t) => `Real wait for a reply from Mars: ${t}. Real mission teams wait this long.`,
+    back: (s) => `Its answer is travelling back… ${s}`, tuning: "Picking up its signal…", waiting: (t) => `Real wait for a reply from Mars: ${t}. Real mission teams wait this long.`,
     lost: (d) => `Signal lost. Last contact: ${d}.`, err: "Signal lost. Try again.", heard: "You asked",
     delay: (m, r) => `Live from NASA JPL: a message takes ${m} to reach the Moon and ${r} to reach Mars right now`,
     chips: ["Who are you?", "What did you discover?", "What happened on your last day?", "Are you lonely?"],
@@ -24,7 +24,7 @@ const T = {
     warp: "⏩ Salto en el tiempo (saltar la espera real)", last: "Escucha su último día", label: "Voz imaginada (IA). Datos reales de la NASA, cada uno con su fuente.",
     landed: "Aterrizó", lastc: "Último contacto", left: "Dejado en", moonW: "la Luna", marsW: "Marte",
     listening: "Escuchando… toca otra vez para enviar", hearing: "🎙 Te escucho", noaudio: "Aún no se oye nada, habla más fuerte o revisa el micrófono", paused: "Sigue, o toca para enviar", tapsend: "toca para enviar", sending: (s) => `Tu voz viaja hacia el robot… ${s}`,
-    back: (s) => `Su respuesta viene de regreso… ${s}`, waiting: (t) => `Espera real para una respuesta desde Marte: ${t}. Los equipos de misión esperan esto de verdad.`,
+    back: (s) => `Su respuesta viene de regreso… ${s}`, tuning: "Captando su señal…", waiting: (t) => `Espera real para una respuesta desde Marte: ${t}. Los equipos de misión esperan esto de verdad.`,
     lost: (d) => `Señal perdida. Último contacto: ${d}.`, err: "Se perdió la señal. Intenta otra vez.", heard: "Preguntaste",
     delay: (m, r) => `En vivo desde NASA JPL: un mensaje tarda ${m} en llegar a la Luna y ${r} en llegar a Marte ahora mismo`,
     chips: ["¿Quién eres?", "¿Qué descubriste?", "¿Qué pasó en tu último día?", "¿Te sientes solo?"],
@@ -314,13 +314,14 @@ $("warpBtn").onclick = () => {
   if (warped) return;
   warped = true;
   const skipped = Math.max(0, (waitEnd - Date.now()) / 1000) + curOneWay;
+  $("warpBtn").hidden = true;
   timeWarpFx(skipped, () => { $("blip").style.transition = "left .5s linear"; warpNow && warpNow(); });
 };
 function timeWarpFx(skipped, done) {
   const fx = $("warpfx"), cv = $("warpCanvas"), cx = cv.getContext("2d");
   fx.hidden = false; cv.width = innerWidth; cv.height = innerHeight;
   const W = cv.width, H = cv.height, stars = Array.from({ length: 420 }, () => ({ a: Math.random() * Math.PI * 2, r: Math.random() * 40, v: 2 + Math.random() * 10 }));
-  const D = 1300, t0 = performance.now();
+  const D = 950, t0 = performance.now();
   try { const c = ensureCtx(); const o = c.createOscillator(), g = c.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(90, c.currentTime); o.frequency.exponentialRampToValueAtTime(900, c.currentTime + D / 1000); g.gain.setValueAtTime(0.0001, c.currentTime); g.gain.exponentialRampToValueAtTime(0.08, c.currentTime + 0.3); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + D / 1000); o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + D / 1000 + 0.05); } catch {}
   const frame = (now) => {
     const k = Math.min(1, (now - t0) / D), sp = 1 + 30 * Math.sin(Math.PI * k);
@@ -336,7 +337,7 @@ function timeWarpFx(skipped, done) {
     const left = skipped * (1 - (1 - Math.pow(1 - k, 3)));
     $("warpNum").textContent = fmt(Math.max(0, left));
     if (k < 1) requestAnimationFrame(frame);
-    else { $("warpNum").textContent = fmt(0); setTimeout(() => { fx.hidden = true; cx.clearRect(0, 0, W, H); done(); }, 180); }
+    else { $("warpNum").textContent = fmt(0); setTimeout(() => { fx.hidden = true; cx.clearRect(0, 0, W, H); done(); }, 60); }
   };
   requestAnimationFrame(frame);
 }
@@ -354,17 +355,19 @@ async function ask({ text, audio, last }) {
   fd.append("robot", r.id); fd.append("lang", lang); fd.append("voice", "0");
   if (text) fd.append("text", text);
   if (audio) fd.append("audio", audio, "q.webm");
-  const req = fetch(API + "/ask", { method: "POST", body: fd }).then((x) => x.json()).catch(() => ({ error: t("err") }));
-  try {
-    await travel(oneWay);
-    $("status").textContent = "…";
-    const res = await req;
-    if (!res.error && res.answer) {
+  const req = fetch(API + "/ask", { method: "POST", body: fd }).then((x) => x.json()).catch(() => ({ error: t("err") })).then((res) => {
+    if (cur === r && !res.error && res.answer) {
       player.onended = null; player.onerror = null;
       player.src = `${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&text=${encodeURIComponent(res.answer)}`;
       player.preload = "auto"; player.load(); audioEl = player;
     }
-    await travelBack(oneWay);
+    return res;
+  });
+  try {
+    await travel(oneWay);
+    $("status").textContent = t("tuning");
+    const res = await req;
+    if (!warped) await travelBack(oneWay);
     $("warpBtn").hidden = true;
     if (res.error) { $("status").textContent = res.error; return; }
     $("status").innerHTML = ""; const h = document.createElement("div"); h.className = "heard"; h.textContent = `${t("heard")}: “${res.heard}”`; $("status").appendChild(h);
