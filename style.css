@@ -58,3 +58,4 @@ h2{margin:2px 0 4px;font-size:24px}
 .warp,.lastday{width:100%;margin-top:6px;border:1px solid var(--line);background:#ffffff0d;border-radius:10px;padding:10px}
 .warp{border-color:var(--warm);color:var(--warm)}
 .label{font-size:11px;color:var(--muted);margin-top:14px}
+@media(max-width:600px){.top .sub{display:none}.brand b{white-space:nowrap;font-size:13px}.delaybar{white-space:normal;text-align:center;width:calc(100% - 24px);border-radius:14px;line-height:1.35}}

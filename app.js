@@ -57,7 +57,8 @@ function drawPins() {
   list.forEach((r) => {
     const icon = L.divIcon({ className: "", html: `<div class="ghost" id="g-${r.id}"></div>`, iconSize: [22, 22], iconAnchor: [11, 11] });
     const m = L.marker([r.lat, r.lon], { icon }).addTo(map);
-    m.bindTooltip(name(r), { permanent: true, direction: "right", offset: [12, 0], className: "ghost-label" });
+    const dir = r.label_dir || "right";
+    m.bindTooltip(name(r), { permanent: true, direction: dir, offset: dir === "left" ? [-12, 0] : dir === "top" ? [0, -12] : dir === "bottom" ? [0, 12] : [12, 0], className: "ghost-label" });
     m.on("click", () => openRobot(r));
     markers.push(m);
   });
