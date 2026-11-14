@@ -71,10 +71,12 @@ function drawPins() {
   markers = [];
   const list = robots.filter((r) => r.body === body);
   list.forEach((r) => {
-    const sz = innerWidth <= 600 ? 42 : 54, h = sz / 2 + 4;
     const im = media.img[r.id] || {};
     const cut = cutOf(im) || null, face = cut || im.portrait?.file || r.image?.url || "";
-    const icon = L.divIcon({ className: "", html: `<div class="pin" id="g-${r.id}"><div class="face${cut ? " cut" : ""}" style="background-image:url('${face}')"></div></div>`, iconSize: [sz, sz], iconAnchor: [sz / 2, sz / 2] });
+    const sz = cut ? (innerWidth <= 600 ? 62 : 84) : (innerWidth <= 600 ? 42 : 54), h = sz / 2 + 4;
+    const dl = (-(r.id.length * 0.37) % 4.2).toFixed(2);
+    const inner = cut ? `<div class="face"></div><div class="tint"></div><div class="burst"></div>` : `<div class="face"></div>`;
+    const icon = L.divIcon({ className: "", html: `<div class="pin${cut ? " cut" : ""}" id="g-${r.id}" style="--img:url('${face}');--sz:${sz}px;--dl:${dl}s">${inner}</div>`, iconSize: [sz, sz], iconAnchor: [sz / 2, sz / 2] });
     const m = L.marker([r.lat, r.lon], { icon }).addTo(map);
     const dir = r.label_dir || "right";
     m.bindTooltip(`${name(r)}<small class="sil" data-id="${r.id}">${silentShort(r.id)}</small>`, { permanent: true, direction: dir, offset: dir === "left" ? [-h, 0] : dir === "top" ? [0, -h] : dir === "bottom" ? [0, h] : [h, 0], className: "ghost-label" });
@@ -83,9 +85,23 @@ function drawPins() {
   });
   if (list.length) {
     const b = L.latLngBounds(list.map((r) => [r.lat, r.lon]));
-    map.fitBounds(b.pad(1.2), { maxZoom: 4 });
+    map.fitBounds(b.pad(innerWidth <= 600 ? 0.6 : 0.35), { maxZoom: 5, paddingTopLeft: [40, 110], paddingBottomRight: [40, 70] });
   }
+  requestAnimationFrame(spreadPins);
 }
+
+function spreadPins() {
+  const pts = markers.map((m) => ({ m, p: map.latLngToLayerPoint(m.getLatLng()), dx: 0, dy: 0, el: m.getElement()?.querySelector(".pin") }));
+  for (let k = 0; k < 6; k++) for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+    const a = pts[i], b = pts[j], min = ((a.el?.offsetWidth || 54) + (b.el?.offsetWidth || 54)) / 2 * 0.95;
+    let vx = b.p.x + b.dx - a.p.x - a.dx, vy = b.p.y + b.dy - a.p.y - a.dy, d = Math.hypot(vx, vy);
+    if (d >= min) continue;
+    if (d < 1) { vx = 1; vy = 0; d = 1; }
+    const push = (min - d) / 2; a.dx -= vx / d * push; a.dy -= vy / d * push; b.dx += vx / d * push; b.dy += vy / d * push;
+  }
+  pts.forEach(({ m, dx, dy }) => { const tr = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`; [m.getElement(), m.getTooltip()?.getElement()].forEach((w) => { if (w) w.style.translate = tr; }); });
+}
+map.on("zoomend", spreadPins);
 
 function silentParts(id) {
   const since = SILENT_SINCE[id]; if (!since) return null;

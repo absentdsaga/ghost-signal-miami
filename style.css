@@ -67,18 +67,38 @@ h2{margin:2px 0 4px;font-size:24px}
 .persona{display:inline-block;margin:2px 0 6px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--ghost);border:1px solid currentColor;opacity:.9}
 .persona:empty{display:none}
 
-/* ---- map portraits ---- */
+/* ---- map portraits: free-standing NASA cutouts ---- */
 .pin{position:relative;width:54px;height:54px;transform:translate(0,0)}
-.pin .face{width:54px;height:54px;border-radius:50%;overflow:hidden;border:1.5px solid #7cf3ff66;background:#0b0e16 center/cover no-repeat;filter:grayscale(1) brightness(.55) contrast(1.1);box-shadow:0 0 0 3px #00000088,0 0 18px #7cf3ff33;transition:filter 1.4s ease,box-shadow 1.4s ease,border-color 1.4s}
-.pin .face.cut{background-size:contain;background-color:#0b0e16cc}
-.pin:before{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid #7cf3ff40;animation:ring 3.2s ease-out infinite}
-.pin.sel .face,.pin.live .face{filter:none;border-color:var(--warm);box-shadow:0 0 0 3px #000a,0 0 26px var(--warm)}
-.pin.sel:before{border-color:#ffcf7a90}
-.pin.lost .face{filter:grayscale(1) brightness(.3);transition:filter 3s}
+.pin .face{width:54px;height:54px;border-radius:50%;overflow:hidden;border:1.5px solid #7cf3ff66;background:#0b0e16 center/cover no-repeat;background-image:var(--img);filter:grayscale(1) brightness(.55) contrast(1.1);box-shadow:0 0 0 3px #00000088,0 0 18px #7cf3ff33;transition:filter 1.4s ease,box-shadow 1.4s ease,border-color 1.4s}
+.pin:not(.cut):before{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid #7cf3ff40;animation:ring 3.2s ease-out infinite}
+.pin:not(.cut).sel .face,.pin:not(.cut).live .face{filter:none;border-color:var(--warm);box-shadow:0 0 0 3px #000a,0 0 26px var(--warm)}
+.pin:not(.cut).lost .face{filter:grayscale(1) brightness(.3);transition:filter 3s}
 @keyframes ring{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+
+.pin.cut{width:var(--sz);height:var(--sz);cursor:pointer;animation:bob 4.2s ease-in-out infinite;animation-delay:var(--dl,0s)}
+.pin.cut:before{content:"";position:absolute;left:12%;right:12%;bottom:4%;height:16%;border-radius:50%;background:radial-gradient(ellipse,#000c 0,#0000 70%);animation:shadow 4.2s ease-in-out infinite;animation-delay:var(--dl,0s)}
+.pin.cut .face,.pin.cut .tint{position:absolute;inset:0;width:auto;height:auto;border:0;border-radius:0;box-shadow:none;overflow:visible;background:var(--img) center/contain no-repeat;transition:transform .35s cubic-bezier(.3,1.6,.5,1),filter .6s}
+.pin.cut .face{filter:grayscale(1) brightness(.78) contrast(1.15) drop-shadow(0 0 1px #d9f6ff) drop-shadow(0 0 1px #d9f6ff) drop-shadow(0 0 8px #7cf3ff70)}
+.pin.cut .tint{clip-path:inset(100% 0 0 0);filter:saturate(1.35) brightness(1.08) drop-shadow(0 0 1.5px #ffe3a8) drop-shadow(0 0 12px var(--warm));transition:clip-path .9s cubic-bezier(.6,0,.2,1),transform .35s cubic-bezier(.3,1.6,.5,1)}
+.pin.cut .burst{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;pointer-events:none;opacity:0}
+.pin.cut:hover .face,.pin.cut:hover .tint{transform:scale(1.14) translateY(-3px)}
+.pin.cut:hover .face{filter:grayscale(.6) brightness(.95) contrast(1.1) drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff) drop-shadow(0 0 12px #7cf3ffa0)}
+.pin.cut.sel,.pin.cut.live{animation:pop .6s cubic-bezier(.3,1.7,.5,1) both,bob 4.2s ease-in-out .6s infinite;z-index:5}
+.pin.cut.sel .tint,.pin.cut.live .tint{clip-path:inset(0 0 0 0)}
+.pin.cut.sel .face,.pin.cut.sel .tint,.pin.cut.live .face,.pin.cut.live .tint{transform:scale(1.3) translateY(-6px)}
+.pin.cut.sel .burst{animation:burst .9s ease-out both}
+.pin.cut.live .tint{animation:alive 1.6s ease-in-out infinite}
+.pin.cut.lost .tint{clip-path:inset(100% 0 0 0);transition:clip-path 3s ease-in}
+.pin.cut.lost .face{filter:grayscale(1) brightness(.45) drop-shadow(0 0 1px #9bb) drop-shadow(0 0 6px #7cf3ff30);transition:filter 3s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes shadow{0%,100%{transform:scaleX(1);opacity:.9}50%{transform:scaleX(.82);opacity:.55}}
+@keyframes pop{0%{transform:scale(.8)}55%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes burst{0%{opacity:1;box-shadow:0 0 0 0 #ffcf7acc,0 0 0 0 #7cf3ff99}100%{opacity:0;box-shadow:0 0 0 calc(var(--sz)*.75) #ffcf7a00,0 0 0 calc(var(--sz)*1.1) #7cf3ff00}}
+@keyframes alive{0%,100%{filter:saturate(1.35) brightness(1.05) drop-shadow(0 0 1.5px #ffe3a8) drop-shadow(0 0 10px var(--warm))}50%{filter:saturate(1.5) brightness(1.18) drop-shadow(0 0 2px #fff) drop-shadow(0 0 22px var(--warm))}}
+@media(prefers-reduced-motion:reduce){.pin.cut,.pin.cut:before{animation:none}}
 .ghost-label{line-height:1.2;text-align:left}
 .ghost-label small{display:block;font-weight:500;font-size:10.5px;color:#b9c2d6;font-variant-numeric:tabular-nums;letter-spacing:.02em}
-@media(max-width:600px){.pin,.pin .face{width:42px;height:42px}}
+@media(max-width:600px){.pin:not(.cut),.pin:not(.cut) .face{width:42px;height:42px}}
 
 /* ---- sheet stage ---- */
 .stage{position:relative;height:230px;background:radial-gradient(ellipse at 50% 60%,#16203a 0,#05060a 70%);overflow:hidden}
