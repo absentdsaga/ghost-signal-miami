@@ -57,7 +57,7 @@ let media = { img: {}, model: {}, audio: {} }, visits = null;
 const $ = (id) => document.getElementById(id);
 const t = (k) => T[lang][k];
 
-const map = L.map("map", { crs: L.CRS.EPSG4326, zoomControl: false, attributionControl: true, minZoom: 1, maxZoom: 7, worldCopyJump: false })
+const map = L.map("map", { crs: L.CRS.EPSG4326, zoomControl: false, attributionControl: true, minZoom: 0, maxZoom: 7, zoomSnap: 0.25, zoomDelta: 0.5, worldCopyJump: false })
   .setView([0, 0], 2);
 L.control.zoom({ position: "bottomright" }).addTo(map);
 
@@ -73,19 +73,19 @@ function drawPins() {
   list.forEach((r) => {
     const im = media.img[r.id] || {};
     const cut = cutOf(im) || null, face = cut || im.portrait?.file || r.image?.url || "";
-    const sz = cut ? (innerWidth <= 600 ? 62 : 84) : (innerWidth <= 600 ? 42 : 54), h = sz / 2 + 4;
+    const sz = cut ? (innerWidth <= 600 ? 56 : 84) : (innerWidth <= 600 ? 42 : 54), h = sz / 2 + 4;
     const dl = (-(r.id.length * 0.37) % 4.2).toFixed(2);
-    const inner = cut ? `<div class="face"></div><div class="tint"></div><div class="burst"></div>` : `<div class="face"></div>`;
+    const inner = cut ? `<div class="face"></div><div class="glow"><div class="tint"></div></div><div class="burst"></div>` : `<div class="face"></div>`;
     const icon = L.divIcon({ className: "", html: `<div class="pin${cut ? " cut" : ""}" id="g-${r.id}" style="--img:url('${face}');--sz:${sz}px;--dl:${dl}s">${inner}</div>`, iconSize: [sz, sz], iconAnchor: [sz / 2, sz / 2] });
     const m = L.marker([r.lat, r.lon], { icon }).addTo(map);
-    const dir = r.label_dir || "right";
+    const dir = r.label_dir || "right"; m._dir = dir;
     m.bindTooltip(`${name(r)}<small class="sil" data-id="${r.id}">${silentShort(r.id)}</small>`, { permanent: true, direction: dir, offset: dir === "left" ? [-h, 0] : dir === "top" ? [0, -h] : dir === "bottom" ? [0, h] : [h, 0], className: "ghost-label" });
     m.on("click", () => openRobot(r));
     markers.push(m);
   });
   if (list.length) {
     const b = L.latLngBounds(list.map((r) => [r.lat, r.lon]));
-    map.fitBounds(b.pad(innerWidth <= 600 ? 0.6 : 0.35), { maxZoom: 5, paddingTopLeft: [40, 110], paddingBottomRight: [40, 70] });
+    map.fitBounds(b.pad(innerWidth <= 600 ? 0.12 : 0.35), { maxZoom: 5, paddingTopLeft: [40, 110], paddingBottomRight: [40, 70] });
   }
   requestAnimationFrame(spreadPins);
   window.dispatchEvent(new CustomEvent("gs:pins"));
@@ -100,9 +100,55 @@ function spreadPins() {
     if (d < 1) { vx = 1; vy = 0; d = 1; }
     const push = (min - d) / 2; a.dx -= vx / d * push; a.dy -= vy / d * push; b.dx += vx / d * push; b.dy += vy / d * push;
   }
+  const ms = map.getSize(), za0 = map.latLngToContainerPoint([90, -180]), zz0 = map.latLngToContainerPoint([-90, 180]);
+  const za = { x: Math.max(za0.x, 0), y: Math.max(za0.y, 0) }, zz = { x: Math.min(zz0.x, ms.x), y: Math.min(zz0.y, ms.y) };
+  pts.forEach((q) => {
+    const c = map.latLngToContainerPoint(q.m.getLatLng()), h = (q.el?.offsetWidth || 54) / 2 + 2;
+    const x = c.x + q.dx, y = c.y + q.dy;
+    if (x + h > zz.x) q.dx -= x + h - zz.x; if (x - h < za.x) q.dx += za.x - (x - h);
+    if (y + h > zz.y) q.dy -= y + h - zz.y; if (y - h < za.y) q.dy += za.y - (y - h);
+  });
   pts.forEach(({ m, dx, dy }) => { const tr = `${dx.toFixed(1)}px ${dy.toFixed(1)}px`; [m.getElement(), m.getTooltip()?.getElement()].forEach((w) => { if (w) w.style.translate = tr; }); });
+  placeLabels(pts);
 }
-map.on("zoomend", spreadPins);
+
+function placeLabels(pts) {
+  const size = map.getSize(), phone = innerWidth <= 600;
+  const a = map.latLngToContainerPoint([90, -180]), z = map.latLngToContainerPoint([-90, 180]);
+  const box = { l: Math.max(a.x, 0) + 6, t: Math.max(a.y, phone ? 64 : 70) + 4, r: Math.min(z.x, size.x) - 6, b: Math.min(z.y, size.y - (phone ? 70 : 46)) - 4 };
+  const pins = pts.map(({ m, dx, dy, el }) => {
+    const c = map.latLngToContainerPoint(m.getLatLng()), h = (el?.offsetWidth || 54) / 2;
+    return { m, c: { x: c.x + dx, y: c.y + dy }, h, r: { l: c.x + dx - h * 0.8, t: c.y + dy - h * 0.8, r: c.x + dx + h * 0.8, b: c.y + dy + h * 0.8 } };
+  });
+  const ov = (p, q) => Math.max(0, Math.min(p.r, q.r) - Math.max(p.l, q.l)) * Math.max(0, Math.min(p.b, q.b) - Math.max(p.t, q.t));
+  const placed = [];
+  pins.slice().sort((p, q) => p.c.x - q.c.x).forEach((p) => {
+    const tt = p.m.getTooltip(), te = tt?.getElement(); if (!te) return;
+    const w = te.offsetWidth || 120, ht = te.offsetHeight || 30, g = p.h + 2, pref = p.m._dir || "right";
+    const cands = {
+      right: { l: p.c.x + g, t: p.c.y - ht / 2, r: p.c.x + g + w, b: p.c.y + ht / 2 },
+      left: { l: p.c.x - g - w, t: p.c.y - ht / 2, r: p.c.x - g, b: p.c.y + ht / 2 },
+      bottom: { l: p.c.x - w / 2, t: p.c.y + g, r: p.c.x + w / 2, b: p.c.y + g + ht },
+      top: { l: p.c.x - w / 2, t: p.c.y - g - ht, r: p.c.x + w / 2, b: p.c.y - g },
+    };
+    let best = null, bs = Infinity;
+    Object.entries(cands).forEach(([d, r]) => {
+      const out = Math.max(0, box.l - r.l) + Math.max(0, r.r - box.r) + Math.max(0, box.t - r.t) + Math.max(0, r.b - box.b);
+      let s = out * 400 + (d === pref ? 0 : 5) + (d === "top" || d === "bottom" ? 3 : 0);
+      pins.forEach((q) => { if (q !== p) s += ov(r, q.r) * 3; });
+      placed.forEach((q) => { s += ov(r, q) * 4; });
+      if (s < bs) { bs = s; best = d; }
+    });
+    placed.push(cands[best]);
+    if (tt.options.direction !== best) {
+      const h = p.h + 2;
+      tt.options.direction = best;
+      tt.options.offset = L.point(best === "left" ? [-h, 0] : best === "top" ? [0, -h] : best === "bottom" ? [0, h] : [h, 0]);
+      tt.update();
+    }
+  });
+}
+let spreadT = 0; map.on("zoomend moveend resize", () => { clearTimeout(spreadT); spreadT = setTimeout(spreadPins, 60); });
 
 function silentParts(id) {
   const since = SILENT_SINCE[id]; if (!since) return null;
