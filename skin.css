@@ -50,10 +50,10 @@ main:after{content:"";position:fixed;inset:0;z-index:850;pointer-events:none;bac
 /* ---------- robots on the map: cream ghosts ---------- */
 .ghost-label{font-family:var(--sans);font-weight:600;font-size:12.5px;color:var(--cream);text-shadow:none;background:var(--plum);border-radius:12px;padding:5px 10px}
 .ghost-label small{font-family:var(--mono);color:var(--muted);font-size:10px;font-weight:400}
-.pin.cut .face{filter:brightness(0) invert(1) sepia(.25) drop-shadow(0 6px 0 rgba(33,10,27,.35))}
-.pin.cut:hover .face{filter:brightness(0) invert(1) drop-shadow(0 0 0 var(--lime)) drop-shadow(0 8px 0 rgba(33,10,27,.4))}
+.pin.cut .face{filter:grayscale(1) contrast(1.15) brightness(1.1) drop-shadow(0 6px 0 rgba(33,10,27,.35))}
+.pin.cut:hover .face{filter:grayscale(.4) contrast(1.1) brightness(1.15) drop-shadow(0 8px 0 rgba(33,10,27,.4))}
 .pin.cut .glow{filter:drop-shadow(0 6px 0 rgba(33,10,27,.4))}
-.pin.cut.lost .face{filter:brightness(0) invert(1) opacity(.45)}
+.pin.cut.lost .face{filter:grayscale(1) brightness(.7) opacity(.6)}
 .pin.cut.restored .glow{filter:drop-shadow(2px 0 0 var(--lime)) drop-shadow(-2px 0 0 var(--lime)) drop-shadow(0 2px 0 var(--lime)) drop-shadow(0 -2px 0 var(--lime))}
 .pin.today:after{background:var(--lime);box-shadow:0 0 0 0 rgba(216,255,62,.7)}
 @keyframes alive{0%,100%{filter:brightness(1) drop-shadow(0 6px 0 rgba(33,10,27,.4))}50%{filter:brightness(1.1) drop-shadow(0 9px 0 rgba(33,10,27,.4))}}
@@ -67,9 +67,9 @@ main:after{content:"";position:fixed;inset:0;z-index:850;pointer-events:none;bac
 .stage{margin:10px 10px 0;border-radius:26px;height:260px;background:var(--world);transition:background .8s}
 .stage.restored{background:var(--lime)}
 .slide[data-slide=robot] .portrait{filter:grayscale(1) contrast(1.2) brightness(1.05);mix-blend-mode:multiply}
-.slide[data-slide=robot] .portrait.cut,model-viewer{filter:brightness(0) invert(1) sepia(.25);mix-blend-mode:normal}
+.slide[data-slide=robot] .portrait.cut,model-viewer{filter:grayscale(1) contrast(1.15) brightness(1.1);mix-blend-mode:normal}
 .stage.awake .portrait,.stage.awake .portrait.cut,.stage.awake model-viewer{filter:none;mix-blend-mode:normal}
-.stage.lost .portrait,.stage.lost .portrait.cut,.stage.lost model-viewer{filter:brightness(0) opacity(.35);mix-blend-mode:normal}
+.stage.lost .portrait,.stage.lost .portrait.cut,.stage.lost model-viewer{filter:grayscale(1) brightness(.6) opacity(.6);mix-blend-mode:normal}
 .stage .credit{font-size:9.5px;background:var(--plum);color:var(--cream);bottom:50px;border-radius:999px;padding:3px 9px}
 .tabs{left:10px;right:10px;bottom:10px;gap:6px}
 .tabs button{font-size:12px;font-weight:500;background:var(--plum);backdrop-filter:none;border:0;color:var(--cream);padding:8px 4px}
