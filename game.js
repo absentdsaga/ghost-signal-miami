@@ -310,7 +310,7 @@
     }
     words.sort((a, b) => (a.length * 7 + a.charCodeAt(0)) % 5 - (b.length * 7 + b.charCodeAt(0)) % 5);
     const bank = el("div", "gs-bank");
-    if (!words.length) bank.appendChild(el("span", "gs-empty", g("bankEmpty")));
+    if (!words.length && !c.clues.some((cl) => !have.includes(cl.id) && cl.words && cl.words.length)) bank.appendChild(el("span", "gs-empty", g("bankEmpty")));
     words.forEach((w) => {
       const used = picks.includes(w);
       const b = el("button", `gs-word${used ? " used" : ""}`); b.textContent = W(w); b.dataset.word = w;
@@ -324,6 +324,13 @@
       };
       bank.appendChild(b);
     });
+    const locked = c.clues.filter((cl) => !have.includes(cl.id) && cl.words && cl.words.length).length;
+    for (let k = 0; k < locked; k++) {
+      const b = el("button", "gs-word locked"); b.disabled = true; b.textContent = "🔒 ? ? ?";
+      b.title = lang === "es" ? "Desbloquea un recuerdo para ganar esta palabra" : "Unlock a memory to earn this word";
+      bank.appendChild(b);
+    }
+    if (locked) bank.appendChild(el("div", "gs-lockhint", lang === "es" ? `Faltan ${locked} palabras: están en recuerdos bloqueados.` : `${locked} word${locked > 1 ? "s" : ""} still locked inside memories you haven't reached.`));
     wrap.appendChild(bank);
     const go = el("button", "gs-check"); go.textContent = g("check"); go.disabled = picks.includes(null);
     go.onclick = () => check(r, c); if (recharging(r.id)) go.disabled = true;

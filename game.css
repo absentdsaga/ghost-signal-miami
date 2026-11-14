@@ -189,3 +189,5 @@
 .gsfx-shake{animation:gsShakeB .45s}
 @keyframes gsShakeB{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
 @media(prefers-reduced-motion:reduce){.gs-clue.hunt:after,.gs-scanline,.gs-zone,.gs-power.low .gs-bars i{animation:none}}
+.gs-word.locked { opacity: .55; border-style: dashed; cursor: not-allowed; letter-spacing: .08em; }
+.gs-lockhint { width: 100%; font-size: .85em; opacity: .7; margin-top: 4px; }

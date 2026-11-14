@@ -66,6 +66,13 @@ function setTiles() {
   layer = L.tileLayer(TILES[body], { tileSize: 256, noWrap: true, bounds: [[-90, -180], [90, 180]], attribution: ATTR[body], maxNativeZoom: 7 }).addTo(map);
 }
 
+const WORLD = L.latLngBounds([[-90, -180], [90, 180]]);
+function coverZoom() {
+  const s = map.getSize(), a = map.project([90, -180], 0), z = map.project([-90, 180], 0);
+  return Math.log2(Math.max(s.x / (z.x - a.x), s.y / (z.y - a.y))) + 0.02;
+}
+map.on("resize", () => { if (innerWidth > 600) { const cz = coverZoom(); map.setMinZoom(cz); if (map.getZoom() < cz) map.setZoom(cz); } });
+
 function drawPins() {
   markers.forEach((m) => map.removeLayer(m));
   markers = [];
@@ -85,7 +92,13 @@ function drawPins() {
   });
   if (list.length) {
     const b = L.latLngBounds(list.map((r) => [r.lat, r.lon]));
-    map.fitBounds(b.pad(innerWidth <= 600 ? 0.12 : 0.35), { maxZoom: 5, paddingTopLeft: [40, 110], paddingBottomRight: [40, 70] });
+    const phone = innerWidth <= 600, opts = { paddingTopLeft: [40, 110], paddingBottomRight: [40, 70] };
+    const cz = coverZoom();
+    let z = Math.min(map.getBoundsZoom(b.pad(phone ? 0.12 : 0.35), false, L.point(80, 180)), 5);
+    if (!phone) { z = Math.max(z, cz); map.setMinZoom(cz); map.setMaxBounds(WORLD); }
+    else { map.setMinZoom(0); map.setMaxBounds(null); }
+    if (phone) map.fitBounds(b.pad(0.12), { maxZoom: 5, ...opts });
+    else map.setView(b.getCenter(), z, { animate: false });
   }
   requestAnimationFrame(spreadPins);
   window.dispatchEvent(new CustomEvent("gs:pins"));
@@ -101,7 +114,7 @@ function spreadPins() {
     const push = (min - d) / 2; a.dx -= vx / d * push; a.dy -= vy / d * push; b.dx += vx / d * push; b.dy += vy / d * push;
   }
   const ms = map.getSize(), za0 = map.latLngToContainerPoint([90, -180]), zz0 = map.latLngToContainerPoint([-90, 180]);
-  const za = { x: Math.max(za0.x, 0), y: Math.max(za0.y, 0) }, zz = { x: Math.min(zz0.x, ms.x), y: Math.min(zz0.y, ms.y) };
+  const ph = innerWidth <= 600, za = { x: Math.max(za0.x, 8), y: Math.max(za0.y, ph ? 70 : 140) }, zz = { x: Math.min(zz0.x, ms.x - (ph ? 8 : 150)), y: Math.min(zz0.y, ms.y - (ph ? 70 : 60)) };
   pts.forEach((q) => {
     const c = map.latLngToContainerPoint(q.m.getLatLng()), h = (q.el?.offsetWidth || 54) / 2 + 2;
     const x = c.x + q.dx, y = c.y + q.dy;
