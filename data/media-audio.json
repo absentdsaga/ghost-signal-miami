@@ -1,0 +1,101 @@
+{
+  "eagle": {
+    "file": "assets/audio/eagle.mp3",
+    "src": "https://apollojournals.org/alsj/a11/a11.landing.html",
+    "title": "Apollo 11 landing radio, July 20 1969: 'Contact light... Tranquility Base here, the Eagle has landed'",
+    "credit": "NASA (Mission Control Public Affairs loop); clip via Apollo Lunar Surface Journal, courtesy John Stoll, NASA JSC",
+    "seconds": 40.0,
+    "source_file": "https://apollojournals.org/alsj/a11/a11a1023114-4746.mp3",
+    "segment": "14:20-15:00"
+  },
+  "surveyor3": {
+    "file": "assets/audio/surveyor3.mp3",
+    "src": "https://apollojournals.org/alsj/a12/a12.surveyor.html",
+    "title": "Apollo 12 radio, Nov 20 1969: Pete Conrad and Al Bean cut parts off Surveyor 3 ('Good cut... it's even got dirt in it!')",
+    "credit": "NASA (Apollo 12 air-to-ground); clip via Apollo Lunar Surface Journal, Ken Glover",
+    "seconds": 30.0,
+    "source_file": "https://apollojournals.org/alsj/a12/a12a.1342858.mp3",
+    "segment": "0:00-0:30"
+  },
+  "alsep": {
+    "file": "assets/audio/alsep.mp3",
+    "src": "https://apollojournals.org/alsj/a12/a12.alsepdep.html",
+    "title": "Apollo 12 radio, Nov 19 1969: Al Bean sets up the first ALSEP seismometer ('Here's hoping nothing happens to it')",
+    "credit": "NASA (Apollo 12 air-to-ground); clip via Apollo Lunar Surface Journal",
+    "seconds": 40.0,
+    "source_file": "https://apollojournals.org/alsj/a12/a12a.1172334.mp3",
+    "segment": "0:00-0:40"
+  },
+  "rover16": {
+    "file": "assets/audio/rover16.mp3",
+    "src": "https://apollojournals.org/alsj/a16/a16.trvsta1.html",
+    "title": "Apollo 16 radio, April 21 1972: John Young reads out the rover's batteries, 'and we're on our way', first drive to Station 1",
+    "credit": "NASA (Apollo 16 air-to-ground); clip via Apollo Lunar Surface Journal, Roland Speth",
+    "seconds": 32.0,
+    "source_file": "https://apollojournals.org/alsj/a16/a16a1225802.mp3",
+    "segment": "0:00-0:32"
+  },
+  "insight": {
+    "file": "assets/audio/insight.mp3",
+    "src": "https://science.nasa.gov/resource/sounds-of-mars-nasas-insight-senses-martian-wind/",
+    "title": "Wind on Mars, recorded by InSight's seismometer, Dec 1 2018 (raised two octaves so it is audible)",
+    "credit": "NASA/JPL-Caltech/CNES/IPGP/Imperial College London",
+    "seconds": 20.0,
+    "source_file": "https://www.nasa.gov/wp-content/uploads/2015/01/08-Brian-Cook_raw_velocity_0.6_normalisedx1_2octavesUp_03.wav",
+    "segment": "full 0:00-0:20"
+  },
+  "ingenuity": {
+    "file": "assets/audio/ingenuity.mp3",
+    "src": "https://www.nasa.gov/sounds-from-beyond/",
+    "title": "Ingenuity's rotor hum over Martian wind, recorded by Perseverance's SuperCam microphone on its 4th flight, April 30 2021",
+    "credit": "NASA/JPL-Caltech/LANL/CNES/CNRS/ISAE-Supaero",
+    "seconds": 35.0,
+    "source_file": "https://www.nasa.gov/wp-content/uploads/2024/05/jpl-20210506-listen-to-nasas-ingenuity-helicopter-as-it-flies-on-mars.wav",
+    "segment": "1:35-2:10"
+  },
+  "spirit": {
+    "file": "assets/audio/spirit.mp3",
+    "src": "https://www.nasa.gov/sounds-from-beyond/",
+    "title": "A Martian dust devil passing over Perseverance, recorded by its SuperCam microphone, Sept 27 2021 (stand-in: Spirit's own mission had no microphone; dust devils famously cleaned its solar panels)",
+    "credit": "NASA/JPL-Caltech/LANL/CNES/CNRS/INTA-CSIC/Space Science Institute/ISAE-Supaero",
+    "seconds": 26.9,
+    "source_file": "https://www.nasa.gov/wp-content/uploads/2024/05/pia25657.wav",
+    "segment": "full 0:00-0:27"
+  },
+  "opportunity": {
+    "file": "assets/audio/opportunity.mp3",
+    "src": "https://www.nasa.gov/sounds-from-beyond/",
+    "title": "Wind on Mars, recorded by Perseverance's SuperCam microphone, Feb 22 2021 (stand-in: Opportunity had no microphone; a dust storm ended its mission)",
+    "credit": "NASA/JPL-Caltech/LANL/CNES/CNRS/ISAE-Supaero",
+    "seconds": 39.9,
+    "source_file": "https://www.nasa.gov/wp-content/uploads/2024/05/scam-mic-sol004-run001.wav",
+    "segment": "full 0:00-0:40"
+  },
+  "viking1": {
+    "file": "assets/audio/viking1.mp3",
+    "src": "https://www.nasa.gov/sounds-from-beyond/",
+    "title": "First sounds ever recorded on Mars: muffled wind, Perseverance SuperCam, Feb 19 2021 (stand-in: Viking 1 had no microphone)",
+    "credit": "NASA/JPL-Caltech/LANL/CNES/CNRS/ISAE-Supaero",
+    "seconds": 20.0,
+    "source_file": "https://www.nasa.gov/wp-content/uploads/2024/05/scam-mic-sol001-run001.wav",
+    "segment": "full 0:00-0:20"
+  },
+  "sojourner": {
+    "file": "assets/audio/sojourner.mp3",
+    "src": "https://www.nasa.gov/sounds-from-beyond/",
+    "title": "A rover's wheels rolling on Mars: Perseverance driving in Jezero Crater, sol 16, March 2021, filtered highlights (stand-in: Sojourner had no microphone)",
+    "credit": "NASA/JPL-Caltech",
+    "seconds": 30.0,
+    "source_file": "https://www.nasa.gov/wp-content/uploads/2024/05/filtered-highlights-sol16roverdrivehighlights.wav",
+    "segment": "0:25-0:55"
+  },
+  "phoenix": {
+    "file": "assets/audio/phoenix.mp3",
+    "src": "https://www.nasa.gov/sounds-from-beyond/",
+    "title": "A Mars lander creaking as it cools at sunset ('dinks and donks'), recorded by InSight's seismometer, July 16 2019 (stand-in: Phoenix carried a microphone but it never returned a sound; the polar winter froze it)",
+    "credit": "NASA/JPL-Caltech/CNES/IPGP/Imperial College London",
+    "seconds": 35.0,
+    "source_file": "https://www.nasa.gov/wp-content/uploads/2015/01/Cropped-Dinks-and-Donks-sample.wav",
+    "segment": "0:00-0:35"
+  }
+}

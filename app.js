@@ -252,6 +252,8 @@ function startPulse() {
 }
 function stopPulse() { cancelAnimationFrame(pulseRaf); $("stage").classList.remove("talking"); $("glowring").style.setProperty("--v", 1); const mv = $("rModel"); if (!mv.hidden) mv.exposure = 0.55; }
 player.addEventListener("play", startPulse);
+player.addEventListener("play", () => { if (!amb.paused) fadeAmb(0.06, 400); });
+player.addEventListener("ended", () => { if (!amb.paused && $("stage").classList.contains("awake")) fadeAmb(0.22, 900); });
 function startAmbient(r) {
   const a = media.audio[r.id]; if (!a?.file) return;
   try { if (!amb.src.endsWith(a.file)) amb.src = a.file; amb.volume = 0; amb.play().catch(() => {}); fadeAmb(0.22, 1500); } catch {}
