@@ -92,7 +92,8 @@ function showDelay() {
 
 function fillSheet(r) {
   $("rName").textContent = name(r);
-  $("rKicker").textContent = `${t("left")} ${body === "moon" ? t("moonW") : t("marsW")}`;
+  $("rTag").textContent = (lang === "es" ? r.persona?.tag_es : r.persona?.tag) || "";
+  $("rKicker").textContent = `${t("left")} ${r.body === "moon" ? t("moonW") : t("marsW")}`;
   $("rMeta").textContent = `${t("landed")} ${r.landed || "?"} · ${t("lastc")} ${r.last_contact || "?"}${r.mission_length ? " · " + r.mission_length : ""}`;
   $("rBuilt").textContent = fld(r, "built_to");
   $("rPhoto").src = r.image?.url || "";
@@ -110,6 +111,17 @@ function openRobot(r) {
   fillSheet(r);
   $("sheet").classList.add("open"); $("sheet").setAttribute("aria-hidden", "false");
   $("hint").style.display = "none";
+  prewarm(r);
+}
+
+const warmed = new Set();
+function prewarm(r) {
+  const k = r.id + "|" + lang;
+  if (warmed.has(k)) return; warmed.add(k);
+  const fd = new FormData(); fd.append("robot", r.id); fd.append("lang", lang); fd.append("voice", "0"); fd.append("text", t("lastQ"));
+  fetch(API + "/ask", { method: "POST", body: fd }).then((x) => x.json()).then((res) => {
+    if (res.answer) fetch(`${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&text=${encodeURIComponent(res.answer)}`).catch(() => {});
+  }).catch(() => {});
 }
 
 $("closeSheet").onclick = () => { $("sheet").classList.remove("open"); $("hint").style.display = ""; stopAudio(); };
@@ -138,8 +150,15 @@ function wait(ms, label) {
   });
 }
 
-let audioEl = null;
-function stopAudio() { if (audioEl) { audioEl.pause(); audioEl = null; } }
+const SILENT = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=";
+const player = new Audio();
+let audioEl = null, unlocked = false;
+function unlock() {
+  if (unlocked) return;
+  unlocked = true;
+  try { player.src = SILENT; const p = player.play(); if (p) p.catch(() => { unlocked = false; }); } catch { unlocked = false; }
+}
+function stopAudio() { player.onended = null; player.onerror = null; try { player.pause(); } catch {} audioEl = null; }
 
 async function travel(oneWay) {
   if (oneWay < 10) {
@@ -164,12 +183,13 @@ $("warpBtn").onclick = () => { warped = true; $("blip").style.transition = "left
 
 async function ask({ text, audio, last }) {
   if (!cur || busy) return;
+  unlock();
   busy = true; warped = false; stopAudio();
   const r = cur;
   const oneWay = delay ? delay[r.body].one_way_seconds : (r.body === "moon" ? 1.3 : 600);
   $("answer").className = "answer"; $("answer").textContent = ""; $("sources").innerHTML = "";
   const fd = new FormData();
-  fd.append("robot", r.id); fd.append("lang", lang);
+  fd.append("robot", r.id); fd.append("lang", lang); fd.append("voice", "0");
   if (text) fd.append("text", text);
   if (audio) fd.append("audio", audio, "q.webm");
   const req = fetch(API + "/ask", { method: "POST", body: fd }).then((x) => x.json()).catch(() => ({ error: t("err") }));
@@ -177,6 +197,11 @@ async function ask({ text, audio, last }) {
     await travel(oneWay);
     $("status").textContent = "…";
     const res = await req;
+    if (!res.error && res.answer) {
+      player.onended = null; player.onerror = null;
+      player.src = `${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&text=${encodeURIComponent(res.answer)}`;
+      player.preload = "auto"; player.load(); audioEl = player;
+    }
     await travelBack(oneWay);
     $("warpBtn").hidden = true;
     if (res.error) { $("status").textContent = res.error; return; }
@@ -186,10 +211,10 @@ async function ask({ text, audio, last }) {
       const a = document.createElement("a"); a.href = s.source; a.target = "_blank"; a.rel = "noopener";
       a.textContent = "NASA source · " + new URL(s.source).hostname.replace("www.", ""); a.title = s.text; $("sources").appendChild(a);
     });
-    if (res.audio_b64) {
-      audioEl = new Audio("data:audio/mp3;base64," + res.audio_b64);
-      if (last) audioEl.onended = () => signalLost(r);
-      audioEl.play().catch(() => {});
+    if (audioEl) {
+      const a = audioEl;
+      if (last) { a.onended = () => signalLost(r); a.onerror = () => signalLost(r); }
+      a.play().catch(() => { if (last) signalLost(r); });
     } else if (last) signalLost(r);
   } finally { busy = false; $("blip").style.opacity = 0; }
 }
@@ -245,6 +270,7 @@ function stopMeter() {
 let rec = null, chunks = [];
 $("micBtn").onclick = async () => {
   if (busy) return;
+  unlock();
   if (rec && rec.state === "recording") { rec.stop(); return; }
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -275,6 +301,7 @@ document.querySelectorAll("#langSeg button").forEach((b) => b.onclick = () => {
 
 (async function init() {
   setTiles();
+  $("micLabel").textContent = t("hold");
   try { robots = await (await fetch("data/robots.json", { cache: "no-store" })).json(); } catch { robots = []; }
   drawPins();
   try { delay = await (await fetch(API + "/delay")).json(); showDelay(); } catch {}

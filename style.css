@@ -65,3 +65,6 @@ h2{margin:2px 0 4px;font-size:24px}
 .meter.quiet i{background:#888}
 .heard{display:inline-block;background:#ffffff12;border:1px solid var(--line);border-radius:10px;padding:6px 10px;color:var(--fg);font-size:14px}
 @media(max-width:600px){.photo{height:130px}.meter{height:34px}.meter i{height:30px}}
+
+.persona{display:inline-block;margin:2px 0 6px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--ghost);border:1px solid currentColor;opacity:.9}
+.persona:empty{display:none}
