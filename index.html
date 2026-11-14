@@ -6,7 +6,7 @@
 <title>Ghost Signal · Call the robots we left behind</title>
 <meta name="description" content="Tap a robot NASA left on the Moon or Mars and call it. It answers from real NASA records, after the real signal delay.">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 <header class="top">
@@ -26,16 +26,32 @@
 <main>
   <div id="map"></div>
   <div class="delaybar" id="delaybar"><span class="pulse"></span><span id="delayText">…</span></div>
-  <div class="hint" id="hint" data-i18n="hint">Tap a glowing robot to call it</div>
+  <div class="hint" id="hint" data-i18n="hint">Tap a robot to call it</div>
 </main>
 
 <aside class="sheet" id="sheet" aria-hidden="true">
   <button class="close" id="closeSheet" aria-label="Close">×</button>
-  <div class="photo"><img id="rPhoto" alt=""><span class="credit" id="rCredit"></span></div>
+  <div class="stage" id="stage">
+    <div class="slide on" data-slide="robot">
+      <div class="glowring" id="glowring"></div>
+      <img id="rPhoto" class="portrait" alt="">
+      <model-viewer id="rModel" hidden camera-controls auto-rotate rotation-per-second="18deg" interaction-prompt="none" shadow-intensity="0" exposure="0.35" disable-zoom></model-viewer>
+      <canvas class="static" id="staticFx"></canvas>
+    </div>
+    <div class="slide" data-slide="last"><img id="rLast" alt=""></div>
+    <div class="slide" data-slide="orbit"><img id="rOrbit" alt=""></div>
+    <span class="credit" id="rCredit"></span>
+    <div class="tabs" id="stageTabs">
+      <button data-go="robot" class="on" data-i18n="tRobot">The robot</button>
+      <button data-go="last" data-i18n="tLast">The last thing it saw</button>
+      <button data-go="orbit" data-i18n="tOrbit">Where it is now</button>
+    </div>
+  </div>
   <div class="sheet-body">
     <div class="kicker" id="rKicker"></div>
     <h2 id="rName"></h2>
     <div class="persona" id="rTag"></div>
+    <div class="silent" id="rSilent"></div>
     <div class="meta" id="rMeta"></div>
     <p class="built" id="rBuilt"></p>
 
@@ -48,6 +64,7 @@
       <div class="meter" id="meter" hidden><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       <div class="status" id="status"></div>
       <div class="answer" id="answer"></div>
+      <button class="warp" id="warpBtn" hidden><span class="streaks"></span><span class="wlabel" data-i18n="warp">Time-warp</span><span class="wsub" id="warpSub"></span></button>
       <div class="sources" id="sources"></div>
 
       <div class="askrow">
@@ -58,14 +75,24 @@
         <button type="submit" data-i18n="send">Send</button>
       </form>
       <div class="chips" id="chips"></div>
-      <button class="warp" id="warpBtn" hidden data-i18n="warp">⏩ Time-warp</button>
       <button class="lastday" id="lastBtn" data-i18n="last">Hear its last day</button>
+    </div>
+    <div class="remember" id="remember">
+      <div class="calls" id="rCalls"></div>
+      <div class="msgs" id="rMsgs"></div>
+      <form class="msgrow" id="msgForm">
+        <input id="msgBox" maxlength="120" autocomplete="off" data-i18n-ph="msgph" placeholder="Leave it a message">
+        <button type="submit" data-i18n="leave">Leave it</button>
+      </form>
     </div>
     <p class="label" data-i18n="label">Imagined voice (AI). Real NASA facts, each one linked to its source.</p>
   </div>
 </aside>
 
+<div class="warpfx" id="warpfx" hidden><canvas id="warpCanvas"></canvas><div class="warpread"><div class="wr-k" data-i18n="skipping">Skipping the real wait</div><div class="wr-n" id="warpNum"></div></div></div>
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>
