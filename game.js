@@ -17,6 +17,10 @@
       cleared: "All 11 brought back. Every robot remembers you.", toastBack: (n) => `Brought back! ${n} of 11`,
       back1: "Welcome back, {name}. Did you find out what happened to me?", back2: "{name}! I remember everything now, thanks to you.",
       heardClue: "You found a clue by asking", hear: "Hear its last day", sources: "NASA source",
+      power: "Signal power", hint: "💡 Hint", hintCost: "costs 1 ⚡", lockedMem: "A memory it can't reach yet", lockedSub: "Ask it the right question to unlock it",
+      flat: (s) => `Battery flat. Recharging from the Sun… ${s}s`, flatToast: "Battery flat!", scan: { last: "Search its last photo", orbit: "Find it from orbit" }, scanSub: "tap to search",
+      cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
+      tries: "Each question costs 1 ⚡. Run out and the robot falls asleep.",
     },
     es: {
       welcomeK: "Turno de noche · Central Señal Fantasma", welcomeH: "11 robots quedaron en silencio. Ayúdalos a recordar.",
@@ -32,12 +36,16 @@
       cleared: "Los 11 están de vuelta. Todos los robots te recuerdan.", toastBack: (n) => `¡De vuelta! ${n} de 11`,
       back1: "Bienvenido de nuevo, {name}. ¿Descubriste qué me pasó?", back2: "¡{name}! Ahora lo recuerdo todo, gracias a ti.",
       heardClue: "Encontraste una pista al preguntar", hear: "Escucha su último día", sources: "Fuente NASA",
+      power: "Energía", hint: "💡 Pista", hintCost: "cuesta 1 ⚡", lockedMem: "Un recuerdo que todavía no alcanza", lockedSub: "Hazle la pregunta correcta para desbloquearlo",
+      flat: (s) => `Batería agotada. Recargando con el Sol… ${s}s`, flatToast: "¡Batería agotada!", scan: { last: "Busca en su última foto", orbit: "Encuéntralo desde órbita" }, scanSub: "toca para buscar",
+      cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
+      tries: "Cada pregunta cuesta 1 ⚡. Si se agota, el robot se duerme.",
     },
   };
   const GENERIC = new Set(["how", "do", "who", "where", "cómo", "como", "quién", "quien", "dónde", "donde", "find", "see", "ver", "fly", "volar"]);
   const KEY = "ghostsignal.v1";
   let D = null;
-  const S = Object.assign({ name: "", solved: {}, clues: {}, woke: {}, visits: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })());
+  const S = Object.assign({ name: "", solved: {}, clues: {}, woke: {}, visits: {}, power: {}, recharge: {}, drained: {}, hints: {}, wrongs: {}, stars: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })());
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
   const g = (k) => G[lang][k];
   const L = (o) => (o && (o[lang] || o.en)) || "";
@@ -51,6 +59,36 @@
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const solvedCount = () => Object.keys(S.solved).filter((id) => caseOf(id)).length;
   let picks = [];
+  const FX = (n, o) => window.GSFX?.sfx(n, o);
+  const MAXP = 6, RECHARGE_MS = 20000;
+  const pw = (id) => (S.power[id] ?? MAXP);
+  const recharging = (id) => S.recharge[id] && Date.now() < S.recharge[id];
+  function settleRecharge(id) { if (S.recharge[id] && Date.now() >= S.recharge[id]) { delete S.recharge[id]; S.power[id] = MAXP; save(); FX("recharge"); return true; } return false; }
+  function spend(id) {
+    if (recharging(id)) return false;
+    S.power[id] = Math.max(0, pw(id) - 1); save(); FX("power");
+    const b = document.querySelector("#gsCase .gs-bars i:not(.off):last-of-type");
+    if (b) { const [x, y] = window.GSFX.at(b); window.GSFX.float("−1 ⚡", x, y - 10, "#ffcf7a"); }
+    if (S.power[id] <= 0) { S.recharge[id] = Date.now() + RECHARGE_MS; S.drained[id] = true; save(); setTimeout(() => { FX("flat"); toast(g("flatToast")); }, 300); }
+    renderPower();
+    return true;
+  }
+  window.GS_spend = (r, o = {}) => {
+    const c = caseOf(r.id); if (!c || isSolved(r.id)) return true;
+    if (o.kind === "wake" || o.kind === "solved" || o.kind === "last") return true;
+    if (!spend(r.id)) { FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase .gs-power")); return false; }
+    return true;
+  };
+  function renderPower() {
+    const box = document.querySelector("#gsCase .gs-power"); if (!box || !cur) return;
+    const id = cur.id; settleRecharge(id);
+    const p = pw(id), rc = recharging(id);
+    box.classList.toggle("flat", !!rc); box.classList.toggle("low", !rc && p <= 2);
+    box.innerHTML = `<span class="gs-k">⚡ ${g("power")}</span><span class="gs-bars">${Array.from({ length: MAXP }, (_, i) => `<i class="${i < p && !rc ? "" : "off"}"></i>`).join("")}</span>
+      ${rc ? `<span class="gs-flat">${g("flat")(Math.ceil((S.recharge[id] - Date.now()) / 1000))}</span>` : ""}`;
+    document.querySelectorAll("#gsCase .gs-check, #gsCase .gs-hint").forEach((b) => { if (rc) b.disabled = true; });
+  }
+  setInterval(() => { if (cur && recharging(cur.id) || (cur && S.recharge[cur.id])) { const was = !!S.recharge[cur.id]; renderPower(); if (was && !S.recharge[cur.id]) renderCase(); } }, 1000);
 
   window.GS_isMystery = (id) => !!caseOf(id) && !isSolved(id);
 
@@ -65,6 +103,12 @@
     const c = caseOf(id); if (!c || found(id).includes(clueId)) return;
     found(id).push(clueId); save();
     if (cur?.id === id) renderCase(clueId, quiet);
+    const card = document.querySelector(`#gsCase .gs-clue[data-clue="${clueId}"]`), cl = c.clues.find((x) => x.id === clueId);
+    if (card && !quiet) {
+      const [x, y] = window.GSFX.at(card);
+      window.GSFX.burst(x, y, { n: 34, speed: 7 }); window.GSFX.float("+ CLUE", x, y - 30);
+      (cl?.words || []).forEach((w, i) => setTimeout(() => window.GSFX.float("+ " + W(w), x + 40, y + 10, "#ffcf7a"), 250 + i * 200));
+    }
     window.dispatchEvent(new CustomEvent("gs:clue", { detail: { robot: id, clue: clueId } }));
   }
 
@@ -129,7 +173,7 @@
       const card = el("button", `gs-page${ok ? " solved" : ""}${id === todayId() ? " today" : ""}`);
       card.dataset.robot = id;
       card.innerHTML = `<div class="gs-pimg" style="--img:url('${face}')"></div><div class="gs-pname">${esc(name(r))}</div>
-        ${ok ? `<div class="gs-pline">${esc(sentenceText(c))}</div><div class="gs-pkeep">★ ${esc(L(c.keepsake.title))}</div>` : `<div class="gs-pq">${esc(L(c.q))}</div><div class="gs-pstat">${g("notYet")} · ${found(id).length}/${c.clues.length}</div>`}
+        ${ok ? `<div class="gs-pline">${esc(sentenceText(c))}</div><div class="gs-pstars">${"★".repeat(S.stars[id] || 1)}<span>${"★".repeat(3 - (S.stars[id] || 1))}</span></div><div class="gs-pkeep">${esc(L(c.keepsake.title))}</div>` : `<div class="gs-pq">${esc(L(c.q))}</div><div class="gs-pstat">${g("notYet")} · ${found(id).length}/${c.clues.length}</div>`}
         ${id === todayId() ? `<span class="gs-ptoday">${g("today")}</span>` : ""}`;
       card.onclick = () => { ov.classList.add("out"); setTimeout(() => ov.remove(), 250); goTo(id); };
       grid.appendChild(card);
@@ -184,6 +228,7 @@
       box.appendChild(el("div", "gs-restored", `<div class="gs-k">✓ ${g("solvedK")}</div><p class="gs-sent done">${esc(sentenceText(c))}</p>`));
       box.appendChild(keepsake(c));
     }
+    if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("tries"))); }
     const head = el("div", "gs-cluehead", `<span class="gs-k">${g("clues")}</span><span>${g("found")(have.length, c.clues.length)}</span>`);
     box.appendChild(head);
     const list = el("div", "gs-clues");
@@ -196,21 +241,43 @@
         it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "📷" : cl.how === "orbit" ? "🛰️" : "🔍"}</span><div><p>${esc(L(cl.say))}</p>
           ${cl.words.length ? `<div class="gs-earned">${cl.words.map((w) => `<span class="gs-word mini">${esc(W(w))}</span>`).join("")}</div>` : ""}
           <a class="gs-src" href="${cl.source}" target="_blank" rel="noopener">${g("sources")} · ${host}</a></div>${cl.id === newId ? `<span class="gs-newtag">${g("newClue")}</span>` : ""}`;
+      } else if (cl.how === "ask" && !(S.hints[r.id] || []).includes(cl.id)) {
+        const m = el("div", "gs-clue locked mystery", `<span class="gs-ci">❔</span><div><b>${g("lockedMem")}</b><small>${g("lockedSub")}</small></div>`);
+        m.dataset.clue = cl.id; list.appendChild(m); return;
+      } else if (cl.how === "ask") {
+        it.classList.add("hinted");
+        it.innerHTML = `<span class="gs-ci">💡</span><div><b>${esc(L(cl.prompt))}</b><small>${g("tapToAsk")} · 1 ⚡</small></div>`;
+        it.onclick = () => { if (!busy) ask({ text: L(cl.prompt).replace(/^(Ask|Pregúntale)\s*/i, ""), script: L(cl.say), sources: [{ source: cl.source, text: L(cl.say) }], clue: cl.id }); };
       } else {
-        it.innerHTML = `<span class="gs-ci">🔒</span><div><b>${esc(L(cl.prompt))}</b><small>${cl.how === "ask" ? g("tapToAsk") : g("look")}</small></div>`;
+        it.classList.add("hunt");
+        it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "📷" : "🛰️"}</span><div><b>${g("scan")[cl.how] || esc(L(cl.prompt))}</b><small>${cl.hunt ? esc(L(cl.hunt.find)) : g("look")}</small></div><span class="gs-go-scan">${g("scanSub")} ›</span>`;
         it.onclick = () => {
-          if (cl.how === "ask") { if (!busy) ask({ text: L(cl.prompt).replace(/^(Ask|Pregúntale)\s*/i, ""), script: L(cl.say), sources: [{ source: cl.source, text: L(cl.say) }], clue: cl.id }); }
+          if (cl.hunt && media.img[r.id]?.[cl.how === "last" ? "last_seen" : "from_orbit"]?.file) openScan(r, cl);
           else { showSlide(cl.how); document.getElementById("stage")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
         };
       }
       list.appendChild(it);
     });
     box.appendChild(list);
-    if (!ok) box.appendChild(builder(r, c));
+    if (!ok) {
+      const left = c.clues.filter((cl) => cl.how === "ask" && !have.includes(cl.id) && !(S.hints[r.id] || []).includes(cl.id));
+      if (left.length) {
+        const hb = el("button", "gs-hint", `${g("hint")} <small>${g("hintCost")}</small>`);
+        hb.onclick = () => {
+          if (busy || !spend(r.id)) { FX("wrong"); return; }
+          (S.hints[r.id] ||= []).push(left[0].id); save(); FX("hint"); renderCase();
+          const n = document.querySelector(`#gsCase .gs-clue[data-clue="${left[0].id}"]`); if (n) { n.classList.add("new"); const [x, y] = window.GSFX.at(n); window.GSFX.burst(x, y, { n: 14, colors: ["#ffe9a8", "#fff"], speed: 4 }); }
+          renderPower();
+        };
+        box.appendChild(hb);
+      }
+      box.appendChild(builder(r, c));
+    }
+    renderPower();
     if (newId && !quiet) {
       const n = box.querySelector(".gs-clue.new");
       n?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      chime(660, 990);
+      FX("clue");
     }
   }
 
@@ -235,19 +302,31 @@
     wrap.appendChild(sent);
     const have = found(r.id);
     const words = [...new Set(c.clues.filter((cl) => have.includes(cl.id)).flatMap((cl) => cl.words))];
-    if (have.length) c.decoys.forEach((d) => { if (!words.includes(d)) words.push(d); });
+    if (have.length) {
+      c.decoys.forEach((d) => { if (!words.includes(d)) words.push(d); });
+      const pool = Object.keys(D.words).filter((w) => !words.includes(w) && !c.answer.includes(w));
+      let h = 0; for (const ch of r.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+      for (let k = 0; k < 2 && pool.length; k++) words.push(pool.splice((h >> (k * 5)) % pool.length, 1)[0]);
+    }
     words.sort((a, b) => (a.length * 7 + a.charCodeAt(0)) % 5 - (b.length * 7 + b.charCodeAt(0)) % 5);
     const bank = el("div", "gs-bank");
     if (!words.length) bank.appendChild(el("span", "gs-empty", g("bankEmpty")));
     words.forEach((w) => {
       const used = picks.includes(w);
       const b = el("button", `gs-word${used ? " used" : ""}`); b.textContent = W(w); b.dataset.word = w;
-      b.onclick = () => { if (used) return; const i = picks.indexOf(null); if (i < 0) return; picks[i] = w; chime(520); renderCase(); };
+      b.onclick = () => {
+        if (used) return; const i = picks.indexOf(null); if (i < 0) return;
+        const from = b.getBoundingClientRect(), slot = document.querySelector(`#gsCase .gs-blank[data-slot="${i}"]`)?.getBoundingClientRect();
+        FX("pick", { n: picks.filter(Boolean).length });
+        picks[i] = w;
+        const land = () => { renderCase(); FX("place"); const s2 = document.querySelector(`#gsCase .gs-blank[data-slot="${i}"]`); if (s2) { s2.classList.add("pop"); const [x, y] = window.GSFX.at(s2); window.GSFX.burst(x, y, { n: 12, speed: 3, size: 2 }); } };
+        if (slot && window.GSFX) { b.style.visibility = "hidden"; window.GSFX.fly(W(w), from, slot, land); } else land();
+      };
       bank.appendChild(b);
     });
     wrap.appendChild(bank);
     const go = el("button", "gs-check"); go.textContent = g("check"); go.disabled = picks.includes(null);
-    go.onclick = () => check(r, c);
+    go.onclick = () => check(r, c); if (recharging(r.id)) go.disabled = true;
     wrap.appendChild(go);
     wrap.appendChild(el("div", "gs-msg"));
     return wrap;
@@ -260,31 +339,89 @@
     const slots = document.querySelectorAll("#gsCase .gs-blank");
     slots.forEach((s, i) => s.classList.add(right[i] ? "right" : "wrong"));
     document.querySelector("#gsCase .gs-msg").textContent = g("wrong");
-    chime(300, 220);
+    FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase .gs-build")); window.GSFX?.flash("#ff3b3b");
+    S.wrongs[r.id] = (S.wrongs[r.id] || 0) + 1; save(); spend(r.id);
     window.dispatchEvent(new CustomEvent("gs:wrong", { detail: { robot: r.id } }));
     setTimeout(() => { picks = picks.map((w, i) => (right[i] ? w : null)); picks._id = r.id; if (cur?.id === r.id) renderCase(); }, 1300);
   }
 
   function solve(r, c) {
-    S.solved[r.id] = { t: new Date().toISOString() }; save();
+    const stars = S.drained[r.id] ? 1 : pw(r.id) >= 3 ? 3 : 2, perfect = !S.wrongs[r.id] && !S.drained[r.id];
+    S.stars[r.id] = Math.max(S.stars[r.id] || 0, stars);
+    S.solved[r.id] = { t: new Date().toISOString(), stars }; save();
     const words = picks.slice(); picks = [];
     postVisit(r.id, { kind: "solved" });
     document.getElementById("stage").classList.add("restored");
     showSlide("robot");
     const lb = document.getElementById("lastBtn"); if (lb) lb.hidden = false;
     renderTop(); renderCase(); markPins(); updateChrome();
-    toast(g("toastBack")(solvedCount()));
-    chime(523, 784, 1047);
+    closedCard(r, stars, perfect);
     ask({ text: "✓ " + sentenceText(c, words), script: fill(L(c.solved)), sources: [{ source: c.keepsake.source, text: L(c.keepsake.text) }], kind: "solved" });
     window.dispatchEvent(new CustomEvent("gs:solved", { detail: { robot: r.id } }));
     if (solvedCount() === 11) setTimeout(openGuide, 6000);
+  }
+
+  function closedCard(r, stars, perfect) {
+    FX("solve"); window.GSFX?.flash("#ffcf7a"); window.GSFX?.confetti();
+    const st = document.getElementById("stage"); if (st) { const [x, y] = window.GSFX.at(st); window.GSFX.burst(x, y, { n: 60, speed: 10, shape: "star", size: 5, colors: ["#ffcf7a", "#fff6d8", "#7cf3ff"] }); }
+    const d = el("div", "gs-closed", `<div class="gs-cl-in"><div class="gs-stamp">${g("closed")}</div><div class="gs-cl-name">${esc(name(r))}</div>
+      <div class="gs-cl-stars">${[0, 1, 2].map((i) => `<i class="${i < stars ? "on" : ""}">★</i>`).join("")}</div>
+      <div class="gs-cl-rank">${g("stars")[stars - 1]}${perfect ? " · " + g("perfect") : ""}</div><div class="gs-cl-count">${g("toastBack")(solvedCount())}</div></div>`);
+    document.body.appendChild(d);
+    d.querySelectorAll(".gs-cl-stars i").forEach((s, i) => setTimeout(() => { s.classList.add("in"); if (i < stars) { FX("star", { n: i }); const [x, y] = window.GSFX.at(s); window.GSFX.burst(x, y, { n: 18, shape: "star", colors: ["#ffcf7a", "#fff"], speed: 5 }); } }, 700 + i * 380));
+    const bye = () => { d.classList.add("out"); setTimeout(() => d.remove(), 400); };
+    d.onclick = bye; setTimeout(bye, 4200);
+  }
+
+  /* ---------- photo hunt: find the evidence in the real NASA photo ---------- */
+  function openScan(r, cl) {
+    const im = media.img[r.id] || {}, src = (cl.how === "last" ? im.last_seen : im.from_orbit)?.file, h = cl.hunt;
+    document.getElementById("gsScan")?.remove();
+    const ov = el("div", "gs-scan", `<div class="gs-scan-top"><div><div class="gs-k">${g("scan")[cl.how]}</div><b>${esc(L(h.find))}</b></div><button class="gs-x" aria-label="Close">×</button></div>
+      <div class="gs-scan-box"><div class="gs-scan-wrap"><img alt=""><div class="gs-lens"></div><div class="gs-scanline"></div></div></div><div class="gs-scan-msg"></div>`);
+    ov.id = "gsScan"; document.body.appendChild(ov); FX("open");
+    const img = ov.querySelector("img"), wrap = ov.querySelector(".gs-scan-wrap"), lens = ov.querySelector(".gs-lens"), msg = ov.querySelector(".gs-scan-msg");
+    img.src = src;
+    let misses = 0, done = false;
+    const close = () => { ov.classList.add("out"); setTimeout(() => ov.remove(), 250); };
+    ov.querySelector(".gs-x").onclick = close;
+    wrap.onpointermove = (e) => { const b = wrap.getBoundingClientRect(); lens.style.left = e.clientX - b.left + "px"; lens.style.top = e.clientY - b.top + "px"; lens.style.opacity = 1; };
+    wrap.onpointerleave = () => (lens.style.opacity = 0);
+    wrap.onclick = (e) => {
+      if (done) return;
+      const b = img.getBoundingClientRect(), x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
+      if (x < 0 || y < 0 || x > 1 || y > 1) return;
+      let hit, dist;
+      if (h.rect) { const [x0, y0, x1, y1] = h.rect; hit = x >= x0 && x <= x1 && y >= y0 && y <= y1; const cx = Math.max(x0, Math.min(x, x1)), cy = Math.max(y0, Math.min(y, y1)); dist = Math.hypot((x - cx) * b.width, (y - cy) * b.height) / b.width; }
+      else { dist = Math.hypot((x - h.x) * b.width, (y - h.y) * b.height) / b.width; hit = dist <= h.r; }
+      const wb = wrap.getBoundingClientRect(), px = e.clientX - wb.left, py = e.clientY - wb.top;
+      const ring = el("div", "gs-ring"); ring.style.left = px + "px"; ring.style.top = py + "px"; wrap.appendChild(ring); setTimeout(() => ring.remove(), 900);
+      if (hit) {
+        done = true; ring.classList.add("hit"); msg.className = "gs-scan-msg hit"; msg.textContent = g("gotIt");
+        FX("lock"); window.GSFX.burst(e.clientX, e.clientY, { n: 40, speed: 8, colors: ["#7cf3ff", "#fff", "#ffcf7a"] });
+        const lock = el("div", "gs-lock"); lock.style.left = px + "px"; lock.style.top = py + "px"; wrap.appendChild(lock);
+        setTimeout(() => { close(); showSlide(cl.how); unlock(r.id, cl.id); }, 1100);
+        return;
+      }
+      misses++;
+      const heat = Math.max(0, 1 - (dist - (h.r || 0)) / 0.45);
+      ring.style.setProperty("--c", heat > 0.75 ? "#ff6a3d" : heat > 0.45 ? "#ffcf7a" : "#7cf3ff");
+      msg.className = "gs-scan-msg"; msg.textContent = heat > 0.75 ? "🔥 " + g("hot") : heat > 0.45 ? "♨️ " + g("warm") : "❄️ " + g("cold");
+      FX("ping", { heat });
+      if (misses === 4) {
+        const z = el("div", "gs-zone"), cx = h.rect ? (h.rect[0] + h.rect[2]) / 2 : h.x, cy = h.rect ? (h.rect[1] + h.rect[3]) / 2 : h.y, ib = img.getBoundingClientRect();
+        z.style.left = (ib.left - wb.left) + cx * ib.width + "px"; z.style.top = (ib.top - wb.top) + cy * ib.height + "px"; z.style.width = z.style.height = Math.max(90, ib.width * 0.32) + "px";
+        wrap.appendChild(z);
+      }
+    };
   }
 
   function toast(msg) {
     const t = el("div", "gs-toast", esc(msg)); document.body.appendChild(t);
     setTimeout(() => t.classList.add("out"), 2600); setTimeout(() => t.remove(), 3200);
   }
-  function chime(...fs) {
+  function chime() { FX("place"); }
+  function chimeOld(...fs) {
     try {
       const c = ensureCtx(); if (!c) return;
       fs.forEach((f, i) => {
@@ -308,7 +445,7 @@
   });
   window.addEventListener("gs:slide", (e) => {
     const r = e.detail.robot, c = r && caseOf(r.id); if (!c || isSolved(r.id)) return;
-    const cl = c.clues.find((x) => x.how === e.detail.slide); if (cl) unlock(r.id, cl.id);
+    const cl = c.clues.find((x) => x.how === e.detail.slide); if (cl && !cl.hunt) unlock(r.id, cl.id);
   });
   window.addEventListener("gs:answer", (e) => {
     const { robot: r, clue, heard, scripted } = e.detail;

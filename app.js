@@ -252,6 +252,8 @@ function openRobot(r) {
   $("g-" + r.id)?.classList.add("sel");
   $("answer").textContent = ""; $("answer").className = "answer"; $("sources").innerHTML = ""; $("status").textContent = "";
   fillSheet(r);
+  if (!busy) stopAudio();
+  switchAmbient(r);
   window.dispatchEvent(new CustomEvent("gs:open", { detail: { robot: r } }));
   $("sheet").classList.add("open"); $("sheet").setAttribute("aria-hidden", "false");
   $("hint").style.display = "none";
@@ -327,6 +329,16 @@ player.addEventListener("ended", () => { if (!amb.paused && $("stage").classList
 function startAmbient(r) {
   const a = media.audio[r.id]; if (!a?.file) return;
   try { if (!amb.src.endsWith(a.file)) amb.src = a.file; amb.volume = 0; amb.play().catch(() => {}); fadeAmb(0.22, 1500); } catch {}
+}
+function switchAmbient(r) {
+  const a = media.audio[r.id];
+  try {
+    if (!a?.file) { fadeAmb(0, 400); return; }
+    if (amb.src.endsWith(a.file) && !amb.paused) { fadeAmb(0.12, 600); return; }
+    clearInterval(ambTimer); amb.pause(); amb.src = a.file; amb.currentTime = 0; amb.volume = 0;
+    amb.play().then(() => fadeAmb(0.12, 1200)).catch(() => {});
+    staticBurst(320, 0.06);
+  } catch {}
 }
 let ambTimer = 0;
 function fadeAmb(to, ms) {
@@ -410,6 +422,7 @@ function timeWarpFx(skipped, done) {
 
 async function ask({ text, audio, last, script, sources: scriptSources, clue, kind }) {
   if (!cur || busy) return;
+  if (window.GS_spend && !window.GS_spend(cur, { kind: kind || (last ? "last" : ""), clue })) return;
   if (text && !script && !audio && window.GS_beforeAsk) { const h = window.GS_beforeAsk(cur, text); if (h) { script = h.script; scriptSources = h.sources; clue = h.clue; } }
   unlock();
   busy = true; warped = false; stopAudio();
@@ -426,7 +439,7 @@ async function ask({ text, audio, last, script, sources: scriptSources, clue, ki
   const req = call.then((res) => {
     if (cur === r && !res.error && res.answer) {
       player.onended = null; player.onerror = null;
-      player.src = `${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&text=${encodeURIComponent(res.answer)}`;
+      player.src = `${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&mood=${kind || (clue ? "clue" : last ? "last" : "")}&text=${encodeURIComponent(res.answer)}`;
       player.preload = "auto"; player.load(); audioEl = player;
     }
     return res;

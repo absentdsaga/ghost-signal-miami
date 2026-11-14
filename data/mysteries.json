@@ -215,6 +215,15 @@
      "say": {
       "en": "September 2018: an orbiter photographed my valley after a dust storm had cleared. I'm the tiny blip.",
       "es": "Septiembre de 2018: un orbitador fotografió mi valle después de que se despejó una tormenta de polvo. Soy el puntito."
+     },
+     "hunt": {
+      "x": 0.32,
+      "y": 0.53,
+      "r": 0.1,
+      "find": {
+       "en": "Find Opportunity. It's a tiny blip in a valley, after the storm.",
+       "es": "Encuentra a Opportunity. Es un puntito en un valle, después de la tormenta."
+      }
      }
     },
     {
@@ -229,6 +238,18 @@
      "say": {
       "en": "My last picture, June 10, 2018, came back noisy and incomplete. The transmission stopped before it finished.",
       "es": "Mi última foto, del 10 de junio de 2018, llegó con ruido e incompleta. La transmisión se cortó antes de terminar."
+     },
+     "hunt": {
+      "rect": [
+       0,
+       0.76,
+       1,
+       1
+      ],
+      "find": {
+       "en": "Its last picture never finished. Tap where the picture stops.",
+       "es": "Su última foto nunca terminó. Toca donde se corta la foto."
+      }
      }
     },
     {
@@ -380,6 +401,15 @@
      "say": {
       "en": "June 2009: an orbiter photographed me as a bright dot next to Home Plate, stuck for more than a month.",
       "es": "Junio de 2009: un orbitador me fotografió como un punto brillante junto a Home Plate, atascado por más de un mes."
+     },
+     "hunt": {
+      "x": 0.265,
+      "y": 0.48,
+      "r": 0.07,
+      "find": {
+       "en": "Find Spirit: a bright dot beside a pale round plateau called Home Plate.",
+       "es": "Encuentra a Spirit: un punto brillante junto a una meseta redonda y clara llamada Home Plate."
+      }
      }
     },
     {
@@ -396,6 +426,15 @@
      "say": {
       "en": "One of my very last pictures, March 21, 2010, was a picture of the Sun.",
       "es": "Una de mis últimas fotos, del 21 de marzo de 2010, fue una foto del Sol."
+     },
+     "hunt": {
+      "x": 0.48,
+      "y": 0.48,
+      "r": 0.18,
+      "find": {
+       "en": "One of its last pictures. What is Spirit looking at? Tap it.",
+       "es": "Una de sus últimas fotos. ¿Qué está mirando Spirit? Tócalo."
+      }
      }
     }
    ],
@@ -486,6 +525,15 @@
      "say": {
       "en": "October 2024: an orbiter photographed me to study the dust on me. I'm the same reddish brown as the ground now.",
       "es": "Octubre de 2024: un orbitador me fotografió para estudiar el polvo sobre mí. Ahora soy del mismo color rojizo que el suelo."
+     },
+     "hunt": {
+      "x": 0.415,
+      "y": 0.494,
+      "r": 0.07,
+      "find": {
+       "en": "Find InSight. Dust has turned it the same colour as the ground.",
+       "es": "Encuentra a InSight. El polvo lo volvió del mismo color que el suelo."
+      }
      }
     },
     {
@@ -502,6 +550,15 @@
      "say": {
       "en": "One of my last pictures, December 11, 2022: my seismometer, still sitting on Mars.",
       "es": "Una de mis últimas fotos, del 11 de diciembre de 2022: mi sismómetro, todavía sobre Marte."
+     },
+     "hunt": {
+      "x": 0.46,
+      "y": 0.35,
+      "r": 0.12,
+      "find": {
+       "en": "Find its seismometer, the dome that listened for marsquakes.",
+       "es": "Encuentra su sismómetro, la cúpula que escuchaba los sismos marcianos."
+      }
      }
     },
     {
@@ -620,6 +677,15 @@
      "say": {
       "en": "One of my last pictures, October 27, 2008: frosty rocks in the Martian arctic. The arctic summer was ending.",
       "es": "Una de mis últimas fotos, del 27 de octubre de 2008: rocas con escarcha en el ártico marciano. El verano ártico se acababa."
+     },
+     "hunt": {
+      "x": 0.49,
+      "y": 0.65,
+      "r": 0.15,
+      "find": {
+       "en": "Find the biggest frosty rock in its last pictures.",
+       "es": "Encuentra la roca escarchada más grande de sus últimas fotos."
+      }
      }
     },
     {
@@ -636,6 +702,15 @@
      "say": {
       "en": "An orbiter photographed me in July 2008 and again in May 2010. The second picture suggests a solar panel collapsed under winter ice.",
       "es": "Un orbitador me fotografió en julio de 2008 y otra vez en mayo de 2010. La segunda foto sugiere que un panel solar colapsó bajo el hielo del invierno."
+     },
+     "hunt": {
+      "x": 0.75,
+      "y": 0.5,
+      "r": 0.09,
+      "find": {
+       "en": "Two pictures: 2008 and 2010. Tap Phoenix after the winter.",
+       "es": "Dos fotos: 2008 y 2010. Toca a Phoenix después del invierno."
+      }
      }
     },
     {
@@ -817,6 +892,15 @@
      "say": {
       "en": "An orbiter found me again in western Chryse Planitia. I'm about 3 meters across.",
       "es": "Un orbitador me volvió a encontrar en el oeste de Chryse Planitia. Mido unos 3 metros."
+     },
+     "hunt": {
+      "x": 0.51,
+      "y": 0.51,
+      "r": 0.06,
+      "find": {
+       "en": "Find Viking 1. It's only about 3 meters across.",
+       "es": "Encuentra a Viking 1. Mide solo unos 3 metros."
+      }
      }
     }
    ],
@@ -1096,6 +1180,18 @@
      "say": {
       "en": "After flight 72, I photographed my own shadow. One rotor blade was damaged.",
       "es": "Después del vuelo 72, fotografié mi propia sombra. Un aspa del rotor estaba dañada."
+     },
+     "hunt": {
+      "rect": [
+       0.58,
+       0.34,
+       0.9,
+       0.62
+      ],
+      "find": {
+       "en": "Find the broken tip of its rotor blade, in its shadow.",
+       "es": "Encuentra la punta rota de su aspa, en su sombra."
+      }
      }
     },
     {
@@ -1241,6 +1337,15 @@
      "say": {
       "en": "An orbiter photographed my site decades later, just as Armstrong and Aldrin left it.",
       "es": "Un orbitador fotografió mi sitio décadas después, tal como lo dejaron Armstrong y Aldrin."
+     },
+     "hunt": {
+      "x": 0.43,
+      "y": 0.46,
+      "r": 0.07,
+      "find": {
+       "en": "Find where Eagle's bottom half still sits.",
+       "es": "Encuentra dónde sigue la mitad de abajo de Eagle."
+      }
      }
     }
    ],
@@ -1326,6 +1431,15 @@
      "say": {
       "en": "My last picture, April 23, 1972: the crew's ship lifting off, seen through my own TV camera.",
       "es": "Mi última imagen, del 23 de abril de 1972: la nave de la tripulación despegando, vista por mi propia cámara de TV."
+     },
+     "hunt": {
+      "x": 0.5,
+      "y": 0.62,
+      "r": 0.15,
+      "find": {
+       "en": "Find the crew's ship lifting off.",
+       "es": "Encuentra la nave de la tripulación despegando."
+      }
      }
     },
     {
@@ -1461,6 +1575,15 @@
      "say": {
       "en": "November 20, 1969: astronaut Pete Conrad walked over and examined me. His lunar module was parked only 600 feet away.",
       "es": "20 de noviembre de 1969: el astronauta Pete Conrad caminó hasta mí y me examinó. Su módulo lunar estaba a solo 180 metros."
+     },
+     "hunt": {
+      "x": 0.5,
+      "y": 0.66,
+      "r": 0.14,
+      "find": {
+       "en": "Find the astronaut who walked over to Surveyor 3.",
+       "es": "Encuentra al astronauta que caminó hasta Surveyor 3."
+      }
      }
     },
     {
@@ -1650,6 +1773,15 @@
      "say": {
       "en": "Sol 80, September 23, 1997: me with my instrument pressed against a rock called Chimp. Our final data reached Earth on September 27.",
       "es": "Sol 80, 23 de septiembre de 1997: yo con mi instrumento contra una roca llamada Chimp. Nuestros últimos datos llegaron el 27 de septiembre."
+     },
+     "hunt": {
+      "x": 0.83,
+      "y": 0.67,
+      "r": 0.1,
+      "find": {
+       "en": "Find Sojourner, pressed against a rock called Chimp.",
+       "es": "Encuentra a Sojourner, pegado a una roca llamada Chimp."
+      }
      }
     }
    ],
