@@ -6,7 +6,7 @@ const T = {
     hold: "Tap to talk", stop: "Tap to send", typeph: "…or type a question", send: "Send",
     warp: "⏩ Time-warp (skip the real wait)", last: "Hear its last day", label: "Imagined voice (AI). Real NASA facts, each one linked to its source.",
     landed: "Landed", lastc: "Last contact", left: "Left on the", moonW: "Moon", marsW: "Mars",
-    listening: "Listening… tap again to send", sending: (s) => `Your voice is travelling to the robot… ${s}`,
+    listening: "Listening… tap again to send", hearing: "🎙 I can hear you", noaudio: "No sound yet, speak up or check your mic", paused: "Go on, or tap to send", tapsend: "tap to send", sending: (s) => `Your voice is travelling to the robot… ${s}`,
     back: (s) => `Its answer is travelling back… ${s}`, waiting: (t) => `Real wait for a reply from Mars: ${t}. Real mission teams wait this long.`,
     lost: (d) => `Signal lost. Last contact: ${d}.`, err: "Signal lost. Try again.", heard: "You asked",
     delay: (m, r) => `Live from NASA JPL: a message takes ${m} to reach the Moon and ${r} to reach Mars right now`,
@@ -18,7 +18,7 @@ const T = {
     hold: "Toca para hablar", stop: "Toca para enviar", typeph: "…o escribe una pregunta", send: "Enviar",
     warp: "⏩ Salto en el tiempo (saltar la espera real)", last: "Escucha su último día", label: "Voz imaginada (IA). Datos reales de la NASA, cada uno con su fuente.",
     landed: "Aterrizó", lastc: "Último contacto", left: "Dejado en", moonW: "la Luna", marsW: "Marte",
-    listening: "Escuchando… toca otra vez para enviar", sending: (s) => `Tu voz viaja hacia el robot… ${s}`,
+    listening: "Escuchando… toca otra vez para enviar", hearing: "🎙 Te escucho", noaudio: "Aún no se oye nada, habla más fuerte o revisa el micrófono", paused: "Sigue, o toca para enviar", tapsend: "toca para enviar", sending: (s) => `Tu voz viaja hacia el robot… ${s}`,
     back: (s) => `Su respuesta viene de regreso… ${s}`, waiting: (t) => `Espera real para una respuesta desde Marte: ${t}. Los equipos de misión esperan esto de verdad.`,
     lost: (d) => `Señal perdida. Último contacto: ${d}.`, err: "Se perdió la señal. Intenta otra vez.", heard: "Preguntaste",
     delay: (m, r) => `En vivo desde NASA JPL: un mensaje tarda ${m} en llegar a la Luna y ${r} en llegar a Marte ahora mismo`,
@@ -180,7 +180,7 @@ async function ask({ text, audio, last }) {
     await travelBack(oneWay);
     $("warpBtn").hidden = true;
     if (res.error) { $("status").textContent = res.error; return; }
-    $("status").textContent = `${t("heard")}: “${res.heard}”`;
+    $("status").innerHTML = ""; const h = document.createElement("div"); h.className = "heard"; h.textContent = `${t("heard")}: “${res.heard}”`; $("status").appendChild(h);
     $("answer").textContent = res.answer;
     (res.sources || []).forEach((s) => {
       const a = document.createElement("a"); a.href = s.source; a.target = "_blank"; a.rel = "noopener";
@@ -210,6 +210,38 @@ function signalLost(r) {
 $("lastBtn").onclick = () => ask({ text: t("lastQ"), last: true });
 $("typeForm").onsubmit = (e) => { e.preventDefault(); const v = $("typeBox").value.trim(); if (v) { $("typeBox").value = ""; ask({ text: v }); } };
 
+
+let meterCtx = null, meterRaf = 0;
+function startMeter(stream) {
+  const box = $("meter"), bars = [...box.children];
+  box.hidden = false;
+  try {
+    meterCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const an = meterCtx.createAnalyser(); an.fftSize = 512;
+    meterCtx.createMediaStreamSource(stream).connect(an);
+    const data = new Uint8Array(an.fftSize), t0 = performance.now();
+    let lastLoud = t0, heardAny = false;
+    const tick = () => {
+      an.getByteTimeDomainData(data);
+      let sum = 0; for (const v of data) { const x = (v - 128) / 128; sum += x * x; }
+      const lvl = Math.min(1, Math.sqrt(Math.sqrt(sum / data.length)) * 3.2);
+      const now = performance.now();
+      if (lvl > 0.25) { lastLoud = now; heardAny = true; }
+      bars.forEach((b, i) => { const k = 0.35 + 0.65 * Math.abs(Math.sin(now / 140 + i * 1.3)); b.style.transform = `scaleY(${Math.max(0.08, lvl * k)})`; });
+      const secs = Math.floor((now - t0) / 1000);
+      const quiet = now - lastLoud > 2500;
+      box.classList.toggle("quiet", quiet);
+      $("status").textContent = `${quiet ? t(heardAny ? "paused" : "noaudio") : t("hearing")} · 0:${String(secs).padStart(2, "0")} · ${t("tapsend")}`;
+      meterRaf = requestAnimationFrame(tick);
+    };
+    tick();
+  } catch {}
+}
+function stopMeter() {
+  cancelAnimationFrame(meterRaf); $("meter").hidden = true;
+  try { meterCtx && meterCtx.close(); } catch {} meterCtx = null;
+}
+
 let rec = null, chunks = [];
 $("micBtn").onclick = async () => {
   if (busy) return;
@@ -220,6 +252,7 @@ $("micBtn").onclick = async () => {
     rec = new MediaRecorder(stream);
     rec.ondataavailable = (e) => e.data.size && chunks.push(e.data);
     rec.onstop = () => {
+      stopMeter();
       stream.getTracks().forEach((x) => x.stop());
       $("micBtn").classList.remove("rec"); $("micLabel").textContent = t("hold");
       const blob = new Blob(chunks, { type: rec.mimeType || "audio/webm" });
@@ -227,6 +260,7 @@ $("micBtn").onclick = async () => {
     };
     rec.start();
     $("micBtn").classList.add("rec"); $("micLabel").textContent = t("stop"); $("status").textContent = t("listening");
+    startMeter(stream);
   } catch (e) { $("status").textContent = "Mic blocked. Type instead."; }
 };
 

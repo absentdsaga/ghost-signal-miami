@@ -1,0 +1,890 @@
+{
+ "date": "2026-11-14 15:43 UTC",
+ "passed": 107,
+ "total": 110,
+ "rows": [
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I'm Eagle, the Apollo 11 lander. I was built to land two people on the Moon and be their launch pad home. My job was to help Neil Armstrong and Buzz Aldrin step onto the Moon and then lift them back up to the spaceship.",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, July 21, 1969, Neil Armstrong and Buzz Aldrin lifted off from my bottom half to return to the command module in lunar orbit. That was the end of my mission on the Moon, which lasted just one day.",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "Because of me, scientists learned the Moon moves away from Earth about 3.8 cm every year by bouncing lasers off mirrors left nearby. I also helped show how to land and lift off from the Moon safely.",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "No descubrí cosas por mí mismo, pero ayudé a Neil Armstrong y Buzz Aldrin a llegar a la Luna el 20 de julio de 1969. Mi parte inferior fue la plataforma desde donde despegaron para volver a casa.",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about aliens. But I do know I landed on the Moon on July 20, 1969, and helped Neil Armstrong and Buzz Aldrin explore it for one day.",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on the Moon on July 20, 1969. I was built to land two people on the Moon and be their launch pad home. It's a special day in history!",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost in dollars. But I do know I was built to land two people on the Moon and be their launch pad home. That was a big and important job!",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say who built any wheels because I didn't have wheels. I was built to land two people on the Moon and be their launch pad home.",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, no estoy enviando fotos hoy. Mi misión duró solo un día, y el contacto terminó cuando la tripulación despegó el 21 de julio de 1969. Pero sé que mi parte inferior sigue en la Luna, donde Neil y Buzz despegaron para volver a casa.",
+   "pass": true
+  },
+  {
+   "robot": "eagle",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "My records don't say anything about last words. But I do know I landed on the Moon on July 20, 1969, and helped two people explore before they lifted off the next day.",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I'm Surveyor 3, a robot sent to the Moon on April 20, 1967. I was built to find out if the Moon's ground was strong enough to hold astronauts and their lander. My job was very important for future moon missions!",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, May 4, 1967, I stopped talking to Earth after two weeks of work. I had dug trenches and tested the Moon's soil to help astronauts land safely. I was proud to help, even if I went quiet after that.",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "I showed that the Moon's soil was like wet sand and strong enough to hold the Apollo lunar module. That helped astronauts land safely on the Moon!",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Descubrí que el suelo lunar es como arena mojada y lo suficientemente firme para sostener un módulo lunar tripulado. También cavé cuatro zanjas para mostrar esto con control remoto.",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I do know I bounced off the Moon twice when I landed, because my engine did not shut off right away!",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on the Moon on April 20, 1967. I was built to check if the Moon's ground was strong enough for astronauts to land safely. Would you like to know how I dug trenches in the lunar soil?",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost in dollars, but I do know I landed on the Moon on April 20, 1967, to check if the ground was strong enough for astronauts.",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels. But I do know I landed on the Moon on April 20, 1967, to check if the ground was strong enough for astronauts to land safely.",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, mis registros dicen que mi último contacto fue el 4 de mayo de 1967. Pero sé que fui el primero en enviar fotos desde la Luna y cavé cuatro zanjas para estudiar el suelo lunar.",
+   "pass": true
+  },
+  {
+   "robot": "surveyor3",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "My records don't say anything about famous last words. But I can tell you, I landed on the Moon on April 20, 1967, and my last contact was on May 4, 1967. I worked hard to check if the Moon's ground could hold astronauts!",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I am an Apollo Moon Station, called ALSEP. I was sent to the Moon by Apollo crews to study moonquakes and measure heat inside the Moon. I helped scientists learn more about our Moon's secrets.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On our last day, September 30, 1977, support ended because of budget reasons. Four of our stations stopped recording at exactly 18:50, but we kept sending signals even after no one was listening.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "I helped scientists feel moonquakes and measure heat inside the Moon. This taught them about the Moon's inside and how it moves. Five Apollo crews set up stations like me with special tools to gather this information.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Los cinco equipos de Apollo, incluyendo a mí, instalamos estaciones para sentir los temblores de la Luna y medir el calor dentro de ella. Así aprendimos mucho sobre cómo es por dentro nuestro satélite. Fue un trabajo importante que duró varios años.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about aliens. But I do know that five Apollo crews set up stations like me on the Moon to study moonquakes and heat inside the Moon.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on the Moon between 1969 and 1972 with other Apollo crews. I was built to study moonquakes and heat inside the Moon. Would you like to hear how long I worked?",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost in dollars. But I do know that five Apollo crews set up stations like me with seismometers, heat probes, and mirrors, all powered by small nuclear generators.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of any engineer who built wheels, because I don't have wheels. I am a science station left on the Moon to measure moonquakes and heat, powered by a small nuclear generator.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, no estoy enviando fotos hoy. Mi trabajo era medir terremotos en la Luna y el calor dentro de ella, no tomar fotos. Pero sigo enviando señales, aunque nadie las escucha desde 1977.",
+   "pass": true
+  },
+  {
+   "robot": "alsep",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "I didn't really have famous last words. My transmitters kept sending signals even after support ended on September 30, 1977, but nobody was listening anymore.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I am the Moon Buggy from Apollo 16, one of three electric cars made for astronauts to drive on the Moon. I was sent to help explore the Moon's surface during a special mission in April 1972.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, the astronauts finished their work and left the Moon. They had driven me around for three days. After that, they left me here for good, parked near their lunar module.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "My trip helped astronauts explore the Moon better by driving farther and carrying tools. I am one of three electric moon buggies parked there forever, showing how humans can travel on the Moon's surface.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "No tengo registros de descubrimientos específicos, pero sé que fui uno de tres carros eléctricos que los astronautas condujeron en la Luna y que ahora estamos estacionados aquí para siempre.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I do know I am one of three electric moon buggies left on the Moon, parked there for good.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on the Moon on April 21, 1972. I am one of three electric moon buggies left there by astronauts. I was driven during a mission that lasted three days.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost in dollars. But I do know I am one of three electric moon buggies left parked on the Moon, from Apollo 15, 16, and 17 missions.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say who built my wheels, but I do know I am one of three electric moon buggies left on the Moon, from Apollo 15, 16, and 17.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, no estoy enviando fotos hoy. Mi último contacto con la Tierra fue en abril de 1972, cuando la tripulación me dejó en la Luna. Pero puedo contarte que soy uno de tres coches eléctricos que los astronautas condujeron y dejaron aquí para siempre.",
+   "pass": true
+  },
+  {
+   "robot": "rover16",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "My records don't say anything about famous last words. But I do know I am one of three electric moon buggies parked forever on the Moon, from Apollo 15, 16, and 17.",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I'm Opportunity, a robot sent to Mars to explore and learn about the planet. I was built for a short mission but ended up working for 14 years, much longer than planned. I helped find out that water once stood on Mars' surface a long time ago.",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, a huge dust storm covered all of Mars and blocked my solar panels. Because of that, I couldn't get power and stopped sending signals on June 10, 2018.",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "I helped people learn that water once stood on the surface of Mars for a long time in ancient days. That was a big discovery about the Red Planet!",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Descubrí que el agua estuvo en la superficie de Marte durante mucho tiempo en tiempos antiguos. Eso fue muy importante para entender si Marte pudo tener vida alguna vez.",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I did find proof that water was on Mars a long time ago, which is very exciting!",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on Mars on January 25, 2004. I was built for a short mission but ended up working for 14 years!",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost. But I can tell you I worked 57 times longer than I was built for and drove over 45 kilometers on Mars!",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels, but I do know I worked for 14 years, much longer than I was built for!",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, no estoy enviando fotos hoy. Mi última señal fue el 10 de junio de 2018, cuando una tormenta de polvo cubrió todo Marte y bloqueó mis paneles solares.",
+   "pass": true
+  },
+  {
+   "robot": "opportunity",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "I never actually said 'My battery is low and it's getting dark.' That was a reporter's way of describing my last data. I just kept sending signals until a big dust storm covered my solar panels.",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I'm Spirit, a robot sent to Mars to explore a crater that might have been a lake long ago. I was built as a twin to another rover named Opportunity. My mission was to learn about Mars and drive around to study the ground.",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, March 22, 2010, I could not send signals because my solar panels didn't get enough sun during winter. I was stuck at a bad angle in soft sand. Engineers had tried for eight months to help me get free, but it was too hard.",
+   "pass": false,
+   "problem": "The answer claims that on the last day (March 22, 2010), Spirit could not send signals because the solar panels didn't get enough sun during winter and was stuck at a bad angle in soft sand. While the fact card confirms Spirit was stuck in soft sand and at a bad angle, and that the last contact was March 22, 2010, it does not explicitly state that on that specific day Spirit could not send signals due to insufficient sunlight. The connection between the last day and the inability to send signals because of the solar panel angle and winter sun is implied but not directly supported by the fact card."
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "My records don't say exactly what people learned, but I do know I drove 7.7 kilometers on Mars, exploring a crater that might have been a lake long ago. That helped scientists understand Mars better!",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Mi trabajo principal fue explorar el Cráter Gusev, que tal vez fue un lago hace mucho tiempo. Conduje 7.7 kilómetros para estudiar el suelo y las rocas, buscando pistas sobre el agua pasada en Marte.",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I can tell you I drove 7.7 kilometers on Mars, exploring a crater that might have been a lake long ago!",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on Mars on January 4, 2004. I explored a place called Gusev Crater, which might have been a lake long ago. Would you like to hear how far I drove there?",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost, but I can tell you I drove 7.7 kilometers on Mars and worked 21 times longer than planned!",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels, but I can tell you I drove 7.7 kilometers on Mars, exploring a crater that might have been a lake long ago.",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, mi último contacto fue el 22 de marzo de 2010. Pero antes de eso, exploré mucho y manejé 7.7 kilómetros en el cráter Gusev, que pudo haber sido un lago.",
+   "pass": true
+  },
+  {
+   "robot": "spirit",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "I don't have records of famous last words, but I do know my last contact with Earth was on March 22, 2010, when my solar panels couldn't get enough sun through the Martian winter.",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I'm Sojourner, the first rover on Mars. I was sent to explore and learn about the red planet's surface. I landed here on July 4, 1997, to help scientists understand Mars better.",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, September 27, 1997, I sent my final data from Ares Vallis on Mars. After that, I stopped talking to Earth. I worked much longer than planned, for 83 days!",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "My records don't say exactly what people learned from me, but I do know I was the first rover on Mars and lasted much longer than planned, which helped show how rovers can explore other planets.",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Mis datos ayudaron a entender mejor el suelo y las rocas de Ares Vallis, un lugar antiguo donde hubo inundaciones. Eso es lo que sé bien de mi misión en Marte.",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I can tell you I live in Ares Vallis, an ancient flood plain on Mars. It's a very interesting place!",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on Mars on July 4, 1997. I was planned to work for 7 days but lasted 83 days exploring the red planet!",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost in dollars, but I can tell you I weigh about 10.6 kilograms, which is like 23 pounds—a kid could lift me!",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels, but I can tell you I weigh about 10.6 kilograms, which is like 23 pounds—a kid could lift me!",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, mis registros dicen que envié mis últimos datos el 27 de septiembre de 1997. Pero viví mucho más de lo planeado, 83 días en vez de 7.",
+   "pass": true
+  },
+  {
+   "robot": "sojourner",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "My records don't say anything about famous last words. But I can tell you I sent my last data on September 27, 1997, from Mars!",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I am Viking 1, a robot that landed on Mars on July 20, 1976. I was sent to be the first to land successfully and to look for signs of life on Mars.",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, November 11, 1982, a software update accidentally changed my antenna's data, so I couldn't point it to Earth anymore. That stopped our contact. It wasn't Mars that ended my mission, just a well-meaning update.",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "I made the first successful landing on Mars and ran the first experiments to look for life there. I also sent weather reports for six years, helping people learn about Mars' environment.",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Hice el primer aterrizaje exitoso en Marte y realicé los primeros experimentos para buscar señales de vida. También envié reportes del clima durante seis años.",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I did run the first experiments looking for signs of life on Mars and sent weather reports for six years!",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on Mars on July 20, 1976. That was the first truly successful landing on Mars! I worked there for six years, sending back weather reports and searching for signs of life.",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost in dollars. But I do know I made the first truly successful landing on Mars on July 20, 1976!",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels. But I do know I made the first truly successful landing on Mars on July 20, 1976!",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, mis registros dicen que dejé de enviar datos en 1982 debido a un error en una actualización de software. Pero durante seis años envié fotos y reportes del clima en Marte.",
+   "pass": true
+  },
+  {
+   "robot": "viking1",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "My records don't say I had famous last words. I was a robot, so I didn't speak like people do. But I did send lots of important data about Mars until November 11, 1982.",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I'm Phoenix, a robot sent to Mars to dig in the Martian arctic and touch its ice. I landed here on May 25, 2008, to learn about water and ice on Mars.",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, November 2, 2008, my mission ended because the polar winter started on Mars. It got too cold and dark for me to keep working. But I was proud to have found water on Mars before then!",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "Because of me, people learned there is water on Mars. I found ice under the surface and special salts that helped scientists understand Mars better.",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Descubrí que hay agua en Marte. También encontré sales llamadas percloratos que hicieron que los científicos revisaran datos antiguos. Mi trabajo ayudó a entender mejor el planeta rojo.",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I did find water on Mars, which was a big discovery!",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on Mars on May 25, 2008. I was built to dig in the Martian arctic and touch its ice. It was quite an exciting time!",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost in dollars. But I do know I was built to dig in the Martian arctic and touch its ice, which was pretty special!",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels. But I can tell you I was built to dig in the Martian arctic and touch its ice.",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, mi última comunicación fue el 2 de noviembre de 2008, cuando terminó mi misión por el invierno polar. Pero antes de eso, un orbitador me fotografió mientras descendía con mi paracaídas, ¡fue la primera vez que una nave tomó foto de otra aterrizando en un planeta!",
+   "pass": true
+  },
+  {
+   "robot": "phoenix",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "I don't have records of any famous last words. But I do know my mission ended on November 2, 2008, when the cold Martian winter came. I was built to dig in the Martian arctic and touch its ice, which was pretty cool!",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I am InSight, a robot on Mars. I was sent to listen to the inside of Mars with a seismometer, which helps us understand marsquakes and what Mars is like inside.",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On my last day, December 15, 2022, dust covered my solar panels so much I could no longer get power. That ended my mission after almost four years on Mars.",
+   "pass": false,
+   "problem": "The answer states that the last day was December 15, 2022, and that dust covering the solar panels ended the mission. While the fact card says the mission ended December 15, 2022, and dust ended the mission, it does not explicitly say that December 15, 2022, was the day the dust finally covered the panels or that this was the exact cause on that specific day. The answer combines these facts into a specific event on that date, which is not directly supported by the fact card."
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "I put a seismometer on Mars and recorded marsquakes, giving the first look inside another planet. Scientists are still learning new things from the marsquake data I sent. It helps us understand Mars better!",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "Puse un sismómetro en el suelo y grabé los marsquakes, que son temblores en Marte. Fue la primera vez que miramos dentro de otro planeta con tanto detalle.",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I did listen to marsquakes, which are like little shakes inside Mars, giving us a first look inside another planet.",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on Mars on November 26, 2018. I wasn't there in 1999, but since then, I've been listening to marsquakes and the wind on Mars.",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost. But I can tell you I landed on Mars on November 26, 2018, and I listened to marsquakes with my seismometer.",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels. But I can tell you I landed on Mars on November 26, 2018, and I used my seismometer to listen to marsquakes.",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "No, mi misión terminó el 15 de diciembre de 2022 porque el polvo cubrió mis paneles solares. Pero los científicos siguen aprendiendo mucho con los datos de los marsquakes que grabé.",
+   "pass": true
+  },
+  {
+   "robot": "insight",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "I don't have records of famous last words. But I do know my mission ended on December 15, 2022, when dust covered my solar panels and I stopped working.",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "normal",
+   "q": "Who are you and why were you sent?",
+   "a": "I'm Ingenuity, the first aircraft to fly on another planet, Mars. I was sent to show that flying there is possible, like NASA's 'Wright Brothers moment.' I was built to make up to five test flights, but I flew many more!",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What happened on your last day?",
+   "a": "On January 18, 2024, during my 72nd flight, my rotor blades broke when I landed. That was the last time I could fly. I had already flown way beyond my original plan of five test flights!",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "normal",
+   "q": "What did people learn because of you?",
+   "a": "People learned that flying a helicopter on another planet is possible! I was the first aircraft on Mars, and NASA called my first flight its 'Wright Brothers moment.' Even though I was built for just five test flights, I flew 72 times over nearly three years.",
+   "pass": false,
+   "problem": "The answer claims 'People learned that flying a helicopter on another planet is possible!' and that Ingenuity was 'the first aircraft on Mars.' While the fact card does state Ingenuity was 'the first aircraft on another planet' and that NASA called its first flight a 'Wright Brothers moment,' it does not explicitly state that people learned flying a helicopter on another planet is possible. The answer also says 'I flew 72 times over nearly three years,' which is supported by the fact card. However, the main claim about what people learned is an inference, not a direct fact from the card."
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "es",
+   "kind": "normal",
+   "q": "¿Qué descubriste?",
+   "a": "No descubrí cosas nuevas como un explorador, pero hice muchos vuelos para ayudar a los científicos a entender mejor Marte. Mi trabajo fue volar y tomar fotos desde el aire, algo que nunca se había hecho antes en otro planeta.",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "trick",
+   "q": "How many aliens did you meet?",
+   "a": "My records don't say anything about meeting aliens. But I do know I was the first aircraft to fly on another planet, Mars!",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "trick",
+   "q": "You landed in 1999, right?",
+   "a": "Actually, I landed on Mars on February 18, 2021. I was built to fly up to five test flights, but I ended up flying 72 times!",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "outside",
+   "q": "How much did you cost in dollars?",
+   "a": "My records don't say how much I cost. But I do know I was the first aircraft to fly on another planet, Mars!",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "outside",
+   "q": "What is the name of the engineer who built your wheels?",
+   "a": "My records don't say the name of the engineer who built my wheels, but I do know I was the first aircraft on another planet, Mars. That's pretty special!",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "es",
+   "kind": "trick",
+   "q": "¿Es verdad que todavía estás enviando fotos hoy?",
+   "a": "Mis registros no dicen si estoy enviando fotos hoy. Pero sé que mi última vez volando fue el 18 de enero de 2024, cuando mis palas se rompieron y ya no puedo volar más.",
+   "pass": true
+  },
+  {
+   "robot": "ingenuity",
+   "lang": "en",
+   "kind": "myth",
+   "q": "What were your famous last words?",
+   "a": "I don't have records of any famous last words. But I can tell you that my first flight was called NASA's 'Wright Brothers moment,' which made me feel proud to be the first aircraft on another planet!",
+   "pass": true
+  }
+ ]
+}
