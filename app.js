@@ -88,6 +88,7 @@ function drawPins() {
     map.fitBounds(b.pad(innerWidth <= 600 ? 0.6 : 0.35), { maxZoom: 5, paddingTopLeft: [40, 110], paddingBottomRight: [40, 70] });
   }
   requestAnimationFrame(spreadPins);
+  window.dispatchEvent(new CustomEvent("gs:pins"));
 }
 
 function spreadPins() {
@@ -140,6 +141,7 @@ function applyLang() {
   drawPins();
   if (cur) fillSheet(cur); else renderVisits();
   tickSilence();
+  window.dispatchEvent(new CustomEvent("gs:lang"));
 }
 
 function showDelay() {
@@ -185,6 +187,7 @@ function showSlide(k) {
   const lab = k === "last" ? t("tLast") : k === "orbit" ? t("tOrbit") : "";
   $("rCredit").textContent = (lab ? lab + " · " : "") + bits.join(" · ");
   $("rCredit").title = src?.caption || "";
+  window.dispatchEvent(new CustomEvent("gs:slide", { detail: { robot: cur, slide: k } }));
 }
 document.querySelectorAll("#stageTabs button").forEach((b) => (b.onclick = () => showSlide(b.dataset.go)));
 $("rModel").addEventListener("error", () => { $("rModel").hidden = true; $("rPhoto").style.visibility = ""; });
@@ -203,6 +206,7 @@ function openRobot(r) {
   $("g-" + r.id)?.classList.add("sel");
   $("answer").textContent = ""; $("answer").className = "answer"; $("sources").innerHTML = ""; $("status").textContent = "";
   fillSheet(r);
+  window.dispatchEvent(new CustomEvent("gs:open", { detail: { robot: r } }));
   $("sheet").classList.add("open"); $("sheet").setAttribute("aria-hidden", "false");
   $("hint").style.display = "none";
   prewarm(r);
@@ -210,9 +214,9 @@ function openRobot(r) {
 
 const warmed = new Set();
 function prewarm(r) {
-  const k = r.id + "|" + lang;
+  const k = r.id + "|" + lang + "|" + (window.GS_isMystery?.(r.id) ? "M" : "");
   if (warmed.has(k)) return; warmed.add(k);
-  const fd = new FormData(); fd.append("robot", r.id); fd.append("lang", lang); fd.append("voice", "0"); fd.append("text", t("lastQ"));
+  const fd = new FormData(); fd.append("robot", r.id); fd.append("lang", lang); fd.append("voice", "0"); fd.append("text", t("lastQ")); fd.append("mystery", window.GS_isMystery?.(r.id) ? "1" : "0");
   fetch(API + "/ask", { method: "POST", body: fd }).then((x) => x.json()).then((res) => {
     if (res.answer) fetch(`${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&text=${encodeURIComponent(res.answer)}`).catch(() => {});
   }).catch(() => {});
@@ -358,8 +362,9 @@ function timeWarpFx(skipped, done) {
   requestAnimationFrame(frame);
 }
 
-async function ask({ text, audio, last }) {
+async function ask({ text, audio, last, script, sources: scriptSources, clue, kind }) {
   if (!cur || busy) return;
+  if (text && !script && !audio && window.GS_beforeAsk) { const h = window.GS_beforeAsk(cur, text); if (h) { script = h.script; scriptSources = h.sources; clue = h.clue; } }
   unlock();
   busy = true; warped = false; stopAudio();
   const r = cur;
@@ -368,10 +373,11 @@ async function ask({ text, audio, last }) {
   setAwake(true); staticBurst(Math.min(2400, Math.max(1200, oneWay * 1000))); startAmbient(r); postVisit(r.id, { kind: "call" });
   $("answer").className = "answer"; $("answer").textContent = ""; $("sources").innerHTML = "";
   const fd = new FormData();
-  fd.append("robot", r.id); fd.append("lang", lang); fd.append("voice", "0");
+  fd.append("robot", r.id); fd.append("lang", lang); fd.append("voice", "0"); fd.append("mystery", window.GS_isMystery?.(r.id) ? "1" : "0");
   if (text) fd.append("text", text);
   if (audio) fd.append("audio", audio, "q.webm");
-  const req = fetch(API + "/ask", { method: "POST", body: fd }).then((x) => x.json()).catch(() => ({ error: t("err") })).then((res) => {
+  const call = script ? Promise.resolve({ heard: text || "", answer: script, sources: scriptSources || [], scripted: true }) : fetch(API + "/ask", { method: "POST", body: fd }).then((x) => x.json()).catch(() => ({ error: t("err") }));
+  const req = call.then((res) => {
     if (cur === r && !res.error && res.answer) {
       player.onended = null; player.onerror = null;
       player.src = `${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&text=${encodeURIComponent(res.answer)}`;
@@ -386,12 +392,13 @@ async function ask({ text, audio, last }) {
     if (!warped) await travelBack(oneWay);
     $("warpBtn").hidden = true;
     if (res.error) { $("status").textContent = res.error; return; }
-    $("status").innerHTML = ""; const h = document.createElement("div"); h.className = "heard"; h.textContent = `${t("heard")}: “${res.heard}”`; $("status").appendChild(h);
+    $("status").innerHTML = ""; if (res.heard) { const h = document.createElement("div"); h.className = "heard"; h.textContent = (kind === "wake" || kind === "solved") ? res.heard : `${t("heard")}: “${res.heard}”`; $("status").appendChild(h); }
     $("answer").textContent = res.answer;
     [...new Map((res.sources || []).map((x) => [x.source, x])).values()].forEach((s) => {
       const a = document.createElement("a"); a.href = s.source; a.target = "_blank"; a.rel = "noopener";
-      const host = new URL(s.source).hostname.replace("www.", ""); a.textContent = (/nasa\.gov|alsj|lroc|hirise|jpl/.test(host) ? "NASA source · " : "Source · ") + host; a.title = s.text; $("sources").appendChild(a);
+      const host = new URL(s.source).hostname.replace("www.", ""); a.textContent = (/nasa\.gov|alsj|lroc|hirise|jpl|arizona/.test(host) ? "NASA source · " : "Source · ") + host; a.title = s.text || ""; $("sources").appendChild(a);
     });
+    window.dispatchEvent(new CustomEvent("gs:answer", { detail: { robot: r, heard: res.heard, answer: res.answer, clue, kind, scripted: !!res.scripted } }));
     if (audioEl) {
       const a = audioEl;
       if (last) { a.onended = () => signalLost(r); a.onerror = () => signalLost(r); if (media.img[r.id]?.last_seen?.file) showSlide("last"); }

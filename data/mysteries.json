@@ -1,0 +1,1684 @@
+{
+ "words": {
+  "dust storm": {
+   "en": "dust storm",
+   "es": "tormenta de polvo"
+  },
+  "solar panels": {
+   "en": "solar panels",
+   "es": "paneles solares"
+  },
+  "commands": {
+   "en": "commands",
+   "es": "comandos"
+  },
+  "soft soil": {
+   "en": "soft soil",
+   "es": "suelo blando"
+  },
+  "the Sun": {
+   "en": "the Sun",
+   "es": "el Sol"
+  },
+  "dust": {
+   "en": "dust",
+   "es": "polvo"
+  },
+  "wind": {
+   "en": "wind",
+   "es": "viento"
+  },
+  "marsquakes": {
+   "en": "marsquakes",
+   "es": "sismos marcianos"
+  },
+  "summer": {
+   "en": "summer",
+   "es": "verano"
+  },
+  "sunlight": {
+   "en": "sunlight",
+   "es": "luz del sol"
+  },
+  "ice": {
+   "en": "ice",
+   "es": "hielo"
+  },
+  "command": {
+   "en": "command",
+   "es": "comando"
+  },
+  "antenna": {
+   "en": "antenna",
+   "es": "antena"
+  },
+  "weather": {
+   "en": "weather",
+   "es": "clima"
+  },
+  "money": {
+   "en": "money",
+   "es": "dinero"
+  },
+  "shut down": {
+   "en": "shut down",
+   "es": "apagó"
+  },
+  "nuclear generator": {
+   "en": "nuclear generator",
+   "es": "generador nuclear"
+  },
+  "one year": {
+   "en": "one year",
+   "es": "un año"
+  },
+  "navigation camera": {
+   "en": "navigation camera",
+   "es": "cámara de navegación"
+  },
+  "sand ripples": {
+   "en": "sand ripples",
+   "es": "ondas de arena"
+  },
+  "rotor blade": {
+   "en": "rotor blade",
+   "es": "aspa del rotor"
+  },
+  "launch pad": {
+   "en": "launch pad",
+   "es": "plataforma de despegue"
+  },
+  "lifted off": {
+   "en": "lifted off",
+   "es": "despegó"
+  },
+  "flag": {
+   "en": "flag",
+   "es": "bandera"
+  },
+  "TV camera": {
+   "en": "TV camera",
+   "es": "cámara de TV"
+  },
+  "lift off": {
+   "en": "lift off",
+   "es": "despegar"
+  },
+  "fender": {
+   "en": "fender",
+   "es": "guardabarros"
+  },
+  "speed record": {
+   "en": "speed record",
+   "es": "récord de velocidad"
+  },
+  "soil scoop": {
+   "en": "soil scoop",
+   "es": "pala de tierra"
+  },
+  "camera": {
+   "en": "camera",
+   "es": "cámara"
+  },
+  "radar": {
+   "en": "radar",
+   "es": "radar"
+  },
+  "Valerie Ambroise": {
+   "en": "Valerie Ambroise",
+   "es": "Valerie Ambroise"
+  },
+  "Sojourner Truth": {
+   "en": "Sojourner Truth",
+   "es": "Sojourner Truth"
+  },
+  "Carl Sagan": {
+   "en": "Carl Sagan",
+   "es": "Carl Sagan"
+  },
+  "23 pounds": {
+   "en": "23 pounds",
+   "es": "10.6 kg"
+  }
+ },
+ "order": [
+  "opportunity",
+  "viking1",
+  "spirit",
+  "ingenuity",
+  "alsep",
+  "eagle",
+  "insight",
+  "phoenix",
+  "rover16",
+  "surveyor3",
+  "sojourner"
+ ],
+ "cases": {
+  "opportunity": {
+   "kind": "silent",
+   "hide": [
+    3
+   ],
+   "q": {
+    "en": "Why did Opportunity go silent?",
+    "es": "¿Por qué se quedó en silencio Opportunity?"
+   },
+   "wake": {
+    "en": "Hello? Is someone there? {name}... I was driving, and then... I can't remember why I went quiet. Will you help me remember?",
+    "es": "¿Hola? ¿Hay alguien? {name}... Estaba manejando y luego... no recuerdo por qué me quedé en silencio. ¿Me ayudas a recordar?"
+   },
+   "clues": [
+    {
+     "id": "power",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it ran on",
+      "es": "Pregúntale de qué funcionaba"
+     },
+     "words": [
+      "solar panels"
+     ],
+     "source": "https://science.nasa.gov/mission/mer-opportunity/",
+     "say": {
+      "en": "I ran on sunlight. My solar panels needed it every single day.",
+      "es": "Funcionaba con luz del sol. Mis paneles solares la necesitaban todos los días."
+     },
+     "keys": [
+      "power",
+      "energy",
+      "sun",
+      "solar",
+      "battery",
+      "batteries",
+      "charge",
+      "run on",
+      "ran on",
+      "electric",
+      "energía",
+      "solares",
+      "batería",
+      "panel"
+     ]
+    },
+    {
+     "id": "orbit",
+     "how": "orbit",
+     "prompt": {
+      "en": "See its valley from orbit",
+      "es": "Mira su valle desde órbita"
+     },
+     "words": [
+      "dust storm"
+     ],
+     "source": "https://science.nasa.gov/photojournal/opportunity-after-the-dust-storm",
+     "say": {
+      "en": "September 2018: an orbiter photographed my valley after a dust storm had cleared. I'm the tiny blip.",
+      "es": "Septiembre de 2018: un orbitador fotografió mi valle después de que se despejó una tormenta de polvo. Soy el puntito."
+     }
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its last photo",
+      "es": "Mira su última foto"
+     },
+     "words": [],
+     "source": "https://science.nasa.gov/photojournal/opportunitys-last-message",
+     "say": {
+      "en": "My last picture, June 10, 2018, came back noisy and incomplete. The transmission stopped before it finished.",
+      "es": "Mi última foto, del 10 de junio de 2018, llegó con ruido e incompleta. La transmisión se cortó antes de terminar."
+     }
+    },
+    {
+     "id": "wake",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask if anyone tried to wake it",
+      "es": "Pregúntale si alguien intentó despertarlo"
+     },
+     "words": [
+      "commands"
+     ],
+     "source": "https://www.nasa.gov/image-article/taking-look-back-opportunitys-record-setting-mission",
+     "say": {
+      "en": "After I went quiet, NASA sent me more than a thousand commands to wake me up.",
+      "es": "Después de quedarme callado, la NASA me envió más de mil comandos para despertarme."
+     },
+     "keys": [
+      "wake",
+      "try",
+      "tried",
+      "help",
+      "rescue",
+      "save",
+      "command",
+      "despert",
+      "ayud",
+      "rescat",
+      "comando"
+     ]
+    }
+   ],
+   "sentence": {
+    "en": "A {0} covered the whole planet and blocked the sunlight my {1} needed.",
+    "es": "Una {0} cubrió todo el planeta y bloqueó la luz que necesitaban mis {1}."
+   },
+   "answer": [
+    "dust storm",
+    "solar panels"
+   ],
+   "decoys": [
+    "wind"
+   ],
+   "solved": {
+    "en": "That's it, {name}. A dust storm covered the whole planet and blocked the sunlight my solar panels needed. My last signal reached Earth on June 10, 2018. Thank you for remembering me.",
+    "es": "Eso es, {name}. Una tormenta de polvo cubrió todo el planeta y bloqueó la luz que necesitaban mis paneles solares. Mi última señal llegó a la Tierra el 10 de junio de 2018. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "What it left us",
+     "es": "Lo que nos dejó"
+    },
+    "text": {
+     "en": "Opportunity and its twin Spirit confirmed that water stood on the surface of Mars for a long time in ancient times.",
+     "es": "Opportunity y su gemelo Spirit confirmaron que hubo agua en la superficie de Marte durante mucho tiempo en la antigüedad."
+    },
+    "source": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+   }
+  },
+  "spirit": {
+   "kind": "silent",
+   "hide": [
+    2,
+    4
+   ],
+   "q": {
+    "en": "Why did Spirit go silent?",
+    "es": "¿Por qué se quedó en silencio Spirit?"
+   },
+   "wake": {
+    "en": "Hello? {name}, is that you? I remember driving... and then I just stopped. I don't know why.",
+    "es": "¿Hola? {name}, ¿eres tú? Recuerdo que manejaba... y de pronto me detuve. No sé por qué."
+   },
+   "clues": [
+    {
+     "id": "stuck",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask if it got stuck",
+      "es": "Pregúntale si se atascó"
+     },
+     "words": [
+      "soft soil"
+     ],
+     "source": "https://science.nasa.gov/mission/mer-spirit/",
+     "say": {
+      "en": "May 1, 2009, at a place called Troy. My wheels sank into soft soil and I could not drive out.",
+      "es": "El 1 de mayo de 2009, en un lugar llamado Troy. Me hundí en suelo blando y no pude salir."
+     },
+     "keys": [
+      "stuck",
+      "move",
+      "drive",
+      "wheel",
+      "trap",
+      "sand",
+      "soil",
+      "where",
+      "atasc",
+      "mover",
+      "rueda",
+      "arena",
+      "suelo",
+      "dónde",
+      "donde"
+     ]
+    },
+    {
+     "id": "power",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it ran on",
+      "es": "Pregúntale de qué funcionaba"
+     },
+     "words": [
+      "solar panels"
+     ],
+     "source": "https://science.nasa.gov/mission/mer-spirit/",
+     "say": {
+      "en": "I ran on sunlight. To get through winter, I needed my solar panels tilted toward the Sun.",
+      "es": "Funcionaba con luz del sol. Para pasar el invierno, necesitaba inclinar mis paneles solares hacia el Sol."
+     },
+     "keys": [
+      "power",
+      "energy",
+      "sun",
+      "solar",
+      "battery",
+      "batteries",
+      "charge",
+      "run on",
+      "ran on",
+      "electric",
+      "energía",
+      "solares",
+      "batería",
+      "panel"
+     ]
+    },
+    {
+     "id": "orbit",
+     "how": "orbit",
+     "prompt": {
+      "en": "Find it from orbit",
+      "es": "Encuéntralo desde órbita"
+     },
+     "words": [],
+     "source": "https://science.nasa.gov/photojournal/orbital-view-of-spirit-at-troy",
+     "say": {
+      "en": "June 2009: an orbiter photographed me as a bright dot next to Home Plate, stuck for more than a month.",
+      "es": "Junio de 2009: un orbitador me fotografió como un punto brillante junto a Home Plate, atascado por más de un mes."
+     }
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its last photo",
+      "es": "Mira su última foto"
+     },
+     "words": [
+      "the Sun"
+     ],
+     "source": "https://planetarydata.jpl.nasa.gov/img/data/mer/spirit/mer2po_0xxx/browse/sol2209/edr/",
+     "say": {
+      "en": "One of my very last pictures, March 21, 2010, was a picture of the Sun.",
+      "es": "Una de mis últimas fotos, del 21 de marzo de 2010, fue una foto del Sol."
+     }
+    }
+   ],
+   "sentence": {
+    "en": "I got stuck in {0}, so I could not tilt my {1} toward the winter Sun.",
+    "es": "Me atasqué en {0} y no pude inclinar mis {1} hacia el Sol de invierno."
+   },
+   "answer": [
+    "soft soil",
+    "solar panels"
+   ],
+   "decoys": [
+    "dust storm"
+   ],
+   "solved": {
+    "en": "Yes, {name}. I got stuck in soft soil, so I could not tilt my solar panels toward the winter Sun. My last call home was March 22, 2010. Thank you for remembering me.",
+    "es": "Sí, {name}. Me atasqué en suelo blando y no pude inclinar mis paneles solares hacia el Sol de invierno. Mi última llamada fue el 22 de marzo de 2010. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "The girl who named it",
+     "es": "La niña que le dio nombre"
+    },
+    "text": {
+     "en": "Spirit and Opportunity were named by 9-year-old Sofi Collis, who once lived in an orphanage. Her essay beat nearly 10,000 others: 'Thank you for the Spirit and the Opportunity.'",
+     "es": "Spirit y Opportunity fueron nombrados por Sofi Collis, de 9 años, que vivió en un orfanato. Su ensayo ganó entre casi 10.000: 'Gracias por el Espíritu y la Oportunidad.'"
+    },
+    "source": "https://www.jpl.nasa.gov/news/girl-with-dreams-names-mars-rovers-spirit-and-opportunity"
+   }
+  },
+  "insight": {
+   "kind": "silent",
+   "hide": [
+    3
+   ],
+   "q": {
+    "en": "Why did InSight go silent?",
+    "es": "¿Por qué se quedó en silencio InSight?"
+   },
+   "wake": {
+    "en": "Hmm? Someone's listening... {name}? I was feeling the ground shake, and then everything went quiet. I don't remember why.",
+    "es": "¿Mmm? Alguien escucha... ¿{name}? Sentía temblar el suelo y luego todo quedó en silencio. No recuerdo por qué."
+   },
+   "clues": [
+    {
+     "id": "power",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it ran on",
+      "es": "Pregúntale de qué funcionaba"
+     },
+     "words": [
+      "solar panels"
+     ],
+     "source": "https://www.jpl.nasa.gov/news/nasa-retires-insight-mars-lander-mission-after-years-of-science",
+     "say": {
+      "en": "My power came from my solar panels, and my batteries stored it.",
+      "es": "Mi energía venía de mis paneles solares, y mis baterías la guardaban."
+     },
+     "keys": [
+      "power",
+      "energy",
+      "sun",
+      "solar",
+      "battery",
+      "batteries",
+      "charge",
+      "run on",
+      "ran on",
+      "electric",
+      "energía",
+      "solares",
+      "batería",
+      "panel"
+     ]
+    },
+    {
+     "id": "orbit",
+     "how": "orbit",
+     "prompt": {
+      "en": "See it from orbit today",
+      "es": "Míralo desde órbita hoy"
+     },
+     "words": [
+      "dust"
+     ],
+     "source": "https://science.nasa.gov/photojournal/hirise-studies-the-dust-on-insight",
+     "say": {
+      "en": "October 2024: an orbiter photographed me to study the dust on me. I'm the same reddish brown as the ground now.",
+      "es": "Octubre de 2024: un orbitador me fotografió para estudiar el polvo sobre mí. Ahora soy del mismo color rojizo que el suelo."
+     }
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its last photo",
+      "es": "Mira su última foto"
+     },
+     "words": [
+      "marsquakes"
+     ],
+     "source": "https://science.nasa.gov/photojournal/one-of-insights-last-images",
+     "say": {
+      "en": "One of my last pictures, December 11, 2022: my seismometer, still sitting on Mars.",
+      "es": "Una de mis últimas fotos, del 11 de diciembre de 2022: mi sismómetro, todavía sobre Marte."
+     }
+    },
+    {
+     "id": "wind",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it heard",
+      "es": "Pregúntale qué escuchó"
+     },
+     "words": [
+      "wind"
+     ],
+     "source": "https://science.nasa.gov/mission/insight/",
+     "say": {
+      "en": "On December 1, 2018, my sensors caught a low rumble from the Martian wind.",
+      "es": "El 1 de diciembre de 2018, mis sensores captaron un rumor grave del viento marciano."
+     },
+     "keys": [
+      "hear",
+      "heard",
+      "sound",
+      "listen",
+      "wind",
+      "oír",
+      "oíste",
+      "escuch",
+      "sonido",
+      "viento"
+     ]
+    }
+   ],
+   "sentence": {
+    "en": "{0} slowly covered my {1} until my batteries ran out.",
+    "es": "El {0} cubrió poco a poco mis {1} hasta que se agotaron mis baterías."
+   },
+   "answer": [
+    "dust",
+    "solar panels"
+   ],
+   "decoys": [
+    "ice"
+   ],
+   "solved": {
+    "en": "That's right, {name}. Dust slowly covered my solar panels until my batteries ran out. My last call home was December 15, 2022. Thank you for remembering me.",
+    "es": "Así es, {name}. El polvo cubrió poco a poco mis paneles solares hasta que se agotaron mis baterías. Mi última llamada fue el 15 de diciembre de 2022. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "What it left us",
+     "es": "Lo que nos dejó"
+    },
+    "text": {
+     "en": "InSight was the first to detect marsquakes, 1,319 of them, showing the crust, mantle and core of Mars. Scientists are still making discoveries from its data.",
+     "es": "InSight fue el primero en detectar sismos en Marte, 1.319, y mostró la corteza, el manto y el núcleo del planeta. Los científicos siguen descubriendo cosas con sus datos."
+    },
+    "source": "https://www.nasa.gov/missions/insight/nasa-mars-orbiter-spots-retired-insight-lander-to-study-dust-movement"
+   }
+  },
+  "phoenix": {
+   "kind": "silent",
+   "hide": [
+    5
+   ],
+   "q": {
+    "en": "Why did Phoenix go silent?",
+    "es": "¿Por qué se quedó en silencio Phoenix?"
+   },
+   "wake": {
+    "en": "Brr... hello? {name}? I was digging for ice up north, and then... nothing. Why did I stop?",
+    "es": "Brr... ¿hola? ¿{name}? Estaba buscando hielo en el norte y luego... nada. ¿Por qué me detuve?"
+   },
+   "clues": [
+    {
+     "id": "power",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it ran on",
+      "es": "Pregúntale de qué funcionaba"
+     },
+     "words": [
+      "sunlight"
+     ],
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2007-034A",
+     "say": {
+      "en": "My power came from sunlight.",
+      "es": "Mi energía venía de la luz del sol."
+     },
+     "keys": [
+      "power",
+      "energy",
+      "sun",
+      "solar",
+      "battery",
+      "batteries",
+      "charge",
+      "run on",
+      "ran on",
+      "electric",
+      "energía",
+      "solares",
+      "batería",
+      "panel"
+     ]
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its last photo",
+      "es": "Mira su última foto"
+     },
+     "words": [
+      "summer"
+     ],
+     "source": "https://science.nasa.gov/photojournal/one-last-look-at-the-martian-arctic",
+     "say": {
+      "en": "One of my last pictures, October 27, 2008: frosty rocks in the Martian arctic. The arctic summer was ending.",
+      "es": "Una de mis últimas fotos, del 27 de octubre de 2008: rocas con escarcha en el ártico marciano. El verano ártico se acababa."
+     }
+    },
+    {
+     "id": "orbit",
+     "how": "orbit",
+     "prompt": {
+      "en": "Compare it from orbit",
+      "es": "Compáralo desde órbita"
+     },
+     "words": [
+      "ice"
+     ],
+     "source": "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed",
+     "say": {
+      "en": "An orbiter photographed me in July 2008 and again in May 2010. The second picture suggests a solar panel collapsed under winter ice.",
+      "es": "Un orbitador me fotografió en julio de 2008 y otra vez en mayo de 2010. La segunda foto sugiere que un panel solar colapsó bajo el hielo del invierno."
+     }
+    },
+    {
+     "id": "dig",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it found",
+      "es": "Pregúntale qué encontró"
+     },
+     "words": [
+      "ice"
+     ],
+     "source": "https://science.nasa.gov/mission/phoenix/",
+     "say": {
+      "en": "I dug a trench and found bright clumps that vanished four days later. That is what ice does on Mars.",
+      "es": "Cavé una zanja y encontré terrones brillantes que desaparecieron cuatro días después. Eso hace el hielo en Marte."
+     },
+     "keys": [
+      "find",
+      "found",
+      "discover",
+      "dig",
+      "water",
+      "ice",
+      "encontr",
+      "descubr",
+      "cav",
+      "agua",
+      "hielo"
+     ]
+    }
+   ],
+   "sentence": {
+    "en": "As the arctic {0} ended, I had less and less {1} for power.",
+    "es": "Cuando terminó el {0} ártico, tuve cada vez menos {1} para mi energía."
+   },
+   "answer": [
+    "summer",
+    "sunlight"
+   ],
+   "decoys": [
+    "dust storm"
+   ],
+   "solved": {
+    "en": "Yes, {name}. As the arctic summer ended, I had less and less sunlight for power. My last signal reached Earth on November 2, 2008. Thank you for remembering me.",
+    "es": "Sí, {name}. Cuando terminó el verano ártico, tuve cada vez menos luz del sol para mi energía. Mi última señal llegó el 2 de noviembre de 2008. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "What it left us",
+     "es": "Lo que nos dejó"
+    },
+    "text": {
+     "en": "On July 31, 2008, NASA officially announced there is water on Mars, based on a sample Phoenix collected and heated in its tiny ovens.",
+     "es": "El 31 de julio de 2008, la NASA anunció oficialmente que hay agua en Marte, gracias a una muestra que Phoenix recogió y calentó en sus pequeños hornos."
+    },
+    "source": "https://science.nasa.gov/mission/phoenix/"
+   }
+  },
+  "viking1": {
+   "kind": "silent",
+   "hide": [
+    3
+   ],
+   "q": {
+    "en": "Why did Viking 1 go silent?",
+    "es": "¿Por qué se quedó en silencio Viking 1?"
+   },
+   "wake": {
+    "en": "...signal... {name}? I worked on Mars for six years. Then Earth stopped hearing me. Was it Mars? I can't remember.",
+    "es": "...señal... ¿{name}? Trabajé en Marte seis años. Luego la Tierra dejó de oírme. ¿Fue Marte? No lo recuerdo."
+   },
+   "clues": [
+    {
+     "id": "antenna",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask how it talked to Earth",
+      "es": "Pregúntale cómo hablaba con la Tierra"
+     },
+     "words": [
+      "antenna"
+     ],
+     "source": "https://ntrs.nasa.gov/api/citations/19830017477/downloads/19830017477.pdf",
+     "say": {
+      "en": "To talk to Earth, my antenna had to point at it. It used a set of numbers to know where to point.",
+      "es": "Para hablar con la Tierra, mi antena tenía que apuntar hacia ella. Usaba unos números para saber adónde apuntar."
+     },
+     "keys": [
+      "talk",
+      "earth",
+      "contact",
+      "radio",
+      "signal",
+      "point",
+      "antenna",
+      "call",
+      "hablar",
+      "tierra",
+      "contacto",
+      "señal",
+      "antena",
+      "llamar"
+     ]
+    },
+    {
+     "id": "battery",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask about its battery",
+      "es": "Pregúntale por su batería"
+     },
+     "words": [
+      "command"
+     ],
+     "source": "https://ntrs.nasa.gov/api/citations/19830017477/downloads/19830017477.pdf",
+     "say": {
+      "en": "In November 1982, Earth sent me a command about charging my battery.",
+      "es": "En noviembre de 1982, la Tierra me envió un comando sobre cómo cargar mi batería."
+     },
+     "keys": [
+      "power",
+      "energy",
+      "sun",
+      "solar",
+      "battery",
+      "batteries",
+      "charge",
+      "run on",
+      "ran on",
+      "electric",
+      "energía",
+      "solares",
+      "batería",
+      "panel",
+      "1982",
+      "november",
+      "noviembre"
+     ]
+    },
+    {
+     "id": "weather",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what its job was",
+      "es": "Pregúntale cuál era su trabajo"
+     },
+     "words": [
+      "weather"
+     ],
+     "source": "https://science.nasa.gov/mission/viking-1/",
+     "say": {
+      "en": "I scooped up soil to look for signs of life, and I sent weather reports, daily and later weekly.",
+      "es": "Recogí tierra para buscar señales de vida, y envié reportes del clima, diarios y luego semanales."
+     },
+     "keys": [
+      "job",
+      "work",
+      "do",
+      "life",
+      "weather",
+      "soil",
+      "trabajo",
+      "hacías",
+      "vida",
+      "clima",
+      "tierra"
+     ]
+    },
+    {
+     "id": "orbit",
+     "how": "orbit",
+     "prompt": {
+      "en": "Find it from orbit",
+      "es": "Encuéntralo desde órbita"
+     },
+     "words": [],
+     "source": "https://science.nasa.gov/photojournal/viking-lander-1-thomas-a-mutch-memorial-station-imaged-from-orbit",
+     "say": {
+      "en": "An orbiter found me again in western Chryse Planitia. I'm about 3 meters across.",
+      "es": "Un orbitador me volvió a encontrar en el oeste de Chryse Planitia. Mido unos 3 metros."
+     }
+    }
+   ],
+   "sentence": {
+    "en": "A {0} from Earth overwrote the numbers my {1} used to point at Earth.",
+    "es": "Un {0} desde la Tierra borró los números que mi {1} usaba para apuntar a la Tierra."
+   },
+   "answer": [
+    "command",
+    "antenna"
+   ],
+   "decoys": [
+    "dust storm"
+   ],
+   "solved": {
+    "en": "So it wasn't Mars, {name}. A command from Earth about my battery overwrote the numbers my antenna used to point at Earth. Contact was lost in November 1982 and never came back. Thank you for remembering me.",
+    "es": "Entonces no fue Marte, {name}. Un comando desde la Tierra sobre mi batería borró los números que mi antena usaba para apuntar a la Tierra. El contacto se perdió en noviembre de 1982 y nunca volvió. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "The person it honors",
+     "es": "La persona que honra"
+    },
+    "text": {
+     "en": "Viking 1 was renamed the Thomas Mutch Memorial Station, after the leader of its camera team.",
+     "es": "Viking 1 fue renombrado Estación Memorial Thomas Mutch, por el líder de su equipo de cámaras."
+    },
+    "source": "https://science.nasa.gov/mission/viking-1/"
+   }
+  },
+  "alsep": {
+   "kind": "silent",
+   "hide": [
+    2
+   ],
+   "q": {
+    "en": "Why did the Apollo science stations go silent?",
+    "es": "¿Por qué se quedaron en silencio las estaciones científicas del Apolo?"
+   },
+   "wake": {
+    "en": "Station check... {name}? We were feeling moonquakes, and then they turned us off. Were we broken? We don't remember.",
+    "es": "Revisión de estación... ¿{name}? Sentíamos sismos lunares y luego nos apagaron. ¿Estábamos rotos? No lo recordamos."
+   },
+   "clues": [
+    {
+     "id": "power",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it ran on",
+      "es": "Pregúntale de qué funcionaba"
+     },
+     "words": [
+      "nuclear generator"
+     ],
+     "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html",
+     "say": {
+      "en": "Each station ran on a small nuclear generator fueled with plutonium. We did not need sunlight.",
+      "es": "Cada estación funcionaba con un pequeño generador nuclear de plutonio. No necesitábamos luz del sol."
+     },
+     "keys": [
+      "power",
+      "energy",
+      "sun",
+      "solar",
+      "battery",
+      "batteries",
+      "charge",
+      "run on",
+      "ran on",
+      "electric",
+      "energía",
+      "solares",
+      "batería",
+      "panel"
+     ]
+    },
+    {
+     "id": "life",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask how long it was built to last",
+      "es": "Pregúntale cuánto debía durar"
+     },
+     "words": [
+      "one year"
+     ],
+     "source": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/HamishALSEP.html",
+     "say": {
+      "en": "We were built to last one year. We worked for up to 8 years, and scientists sent us more than 153,000 commands.",
+      "es": "Nos hicieron para durar un año. Trabajamos hasta 8 años, y los científicos nos enviaron más de 153.000 comandos."
+     },
+     "keys": [
+      "how long",
+      "built",
+      "years",
+      "how old",
+      "lifetime",
+      "durar",
+      "años",
+      "cuánto",
+      "cuanto"
+     ]
+    },
+    {
+     "id": "date",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask when it stopped",
+      "es": "Pregúntale cuándo se detuvo"
+     },
+     "words": [
+      "shut down"
+     ],
+     "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities",
+     "say": {
+      "en": "September 30, 1977. Most of us were still working well that day, and NASA shut down our experiments.",
+      "es": "El 30 de septiembre de 1977. La mayoría seguíamos funcionando bien ese día, y la NASA apagó nuestros experimentos."
+     },
+     "keys": [
+      "when",
+      "stop",
+      "1977",
+      "date",
+      "turn off",
+      "turned off",
+      "cuándo",
+      "cuando",
+      "fecha",
+      "apag"
+     ]
+    },
+    {
+     "id": "people",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask who kept it running",
+      "es": "Pregúntale quién lo mantenía funcionando"
+     },
+     "words": [
+      "money"
+     ],
+     "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities",
+     "say": {
+      "en": "People on Earth supported us: they listened to our data and sent our commands. That support had to be paid for.",
+      "es": "Personas en la Tierra nos apoyaban: escuchaban nuestros datos y enviaban nuestros comandos. Ese apoyo había que pagarlo."
+     },
+     "keys": [
+      "who",
+      "people",
+      "team",
+      "running",
+      "scientist",
+      "pay",
+      "quién",
+      "quien",
+      "gente",
+      "equipo",
+      "científic"
+     ]
+    }
+   ],
+   "sentence": {
+    "en": "Most of us were still working when the {0} for our support ran out, so NASA {1} our experiments.",
+    "es": "La mayoría seguíamos funcionando cuando se acabó el {0} para nuestro apoyo, y la NASA {1} nuestros experimentos."
+   },
+   "answer": [
+    "money",
+    "shut down"
+   ],
+   "decoys": [
+    "dust storm"
+   ],
+   "solved": {
+    "en": "So we weren't broken, {name}. The money for our support ran out, and NASA shut down our experiments on September 30, 1977. Thank you for remembering us.",
+    "es": "Entonces no estábamos rotos, {name}. Se acabó el dinero para nuestro apoyo, y la NASA apagó nuestros experimentos el 30 de septiembre de 1977. Gracias por recordarnos."
+   },
+   "keepsake": {
+    "title": {
+     "en": "What it left us",
+     "es": "Lo que nos dejó"
+    },
+    "text": {
+     "en": "Even after the experiments were switched off, the stations' radios kept sending a plain signal. JPL and others used it to study the Moon's position and help navigate spacecraft.",
+     "es": "Aun con los experimentos apagados, las radios siguieron enviando una señal simple. JPL y otros la usaron para estudiar la posición de la Luna y guiar naves."
+    },
+    "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities"
+   }
+  },
+  "ingenuity": {
+   "kind": "silent",
+   "hide": [
+    2,
+    4
+   ],
+   "q": {
+    "en": "Why can't Ingenuity fly anymore?",
+    "es": "¿Por qué Ingenuity ya no puede volar?"
+   },
+   "wake": {
+    "en": "Whoa, hi! {name}? I was flying... flight 72... and then the landing went wrong. I don't know why!",
+    "es": "¡Hola! ¿{name}? Estaba volando... el vuelo 72... y luego el aterrizaje salió mal. ¡No sé por qué!"
+   },
+   "clues": [
+    {
+     "id": "eyes",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask how it found its way",
+      "es": "Pregúntale cómo se orientaba"
+     },
+     "words": [
+      "navigation camera"
+     ],
+     "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world",
+     "say": {
+      "en": "To fly, my navigation camera looked down and tracked features on the ground.",
+      "es": "Para volar, mi cámara de navegación miraba hacia abajo y seguía detalles del suelo."
+     },
+     "keys": [
+      "see",
+      "find",
+      "way",
+      "navigat",
+      "camera",
+      "eyes",
+      "fly",
+      "how",
+      "ver",
+      "camino",
+      "cámara",
+      "ojos",
+      "volar",
+      "cómo",
+      "como"
+     ]
+    },
+    {
+     "id": "ground",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what the ground looked like",
+      "es": "Pregúntale cómo era el suelo"
+     },
+     "words": [
+      "sand ripples"
+     ],
+     "source": "https://www.jpl.nasa.gov/news/nasa-performs-first-aircraft-accident-investigation-on-another-world",
+     "say": {
+      "en": "On my last flight I flew over smooth sand ripples. Everything looked the same.",
+      "es": "En mi último vuelo pasé sobre ondas de arena lisas. Todo se veía igual."
+     },
+     "keys": [
+      "ground",
+      "below",
+      "terrain",
+      "sand",
+      "where",
+      "look like",
+      "suelo",
+      "abajo",
+      "arena",
+      "dónde",
+      "donde"
+     ]
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its last photo",
+      "es": "Mira su última foto"
+     },
+     "words": [
+      "rotor blade"
+     ],
+     "source": "https://science.nasa.gov/photojournal/ingenuity-spots-the-shadow-of-its-damaged-rotor-blade",
+     "say": {
+      "en": "After flight 72, I photographed my own shadow. One rotor blade was damaged.",
+      "es": "Después del vuelo 72, fotografié mi propia sombra. Un aspa del rotor estaba dañada."
+     }
+    },
+    {
+     "id": "orbit",
+     "how": "orbit",
+     "prompt": {
+      "en": "Find it from orbit",
+      "es": "Encuéntralo desde órbita"
+     },
+     "words": [],
+     "source": "https://science.nasa.gov/photojournal/mros-hirise-spots-perseverance-and-ingenuity",
+     "say": {
+      "en": "February 2022: an orbiter spotted me as a tiny dot, about 200 meters from Perseverance.",
+      "es": "Febrero de 2022: un orbitador me vio como un puntito, a unos 200 metros de Perseverance."
+     }
+    }
+   ],
+   "sentence": {
+    "en": "My {0} could not find enough features over smooth {1}, so I came down too fast.",
+    "es": "Mi {0} no encontró suficientes detalles sobre {1} lisas, y bajé demasiado rápido."
+   },
+   "answer": [
+    "navigation camera",
+    "sand ripples"
+   ],
+   "decoys": [
+    "dust storm"
+   ],
+   "solved": {
+    "en": "You got it, {name}! My navigation camera could not find enough features over smooth sand ripples, so I came down too fast and broke my rotor blades. I flew 72 times. Not bad for a test that was planned for five.",
+    "es": "¡Lo lograste, {name}! Mi cámara de navegación no encontró suficientes detalles sobre las ondas de arena, bajé demasiado rápido y se rompieron mis aspas. Volé 72 veces. Nada mal para una prueba de cinco vuelos."
+   },
+   "keepsake": {
+    "title": {
+     "en": "The people it carries",
+     "es": "Las personas que lleva"
+    },
+    "text": {
+     "en": "Ingenuity made the first powered, controlled flight on another planet, and it carries a swatch of cloth from the Wright brothers' real Wright Flyer.",
+     "es": "Ingenuity hizo el primer vuelo propulsado y controlado en otro planeta, y lleva un trozo de tela del Wright Flyer de los hermanos Wright."
+    },
+    "source": "https://www.nasa.gov/news-release/after-three-years-on-mars-nasas-ingenuity-helicopter-mission-ends"
+   }
+  },
+  "eagle": {
+   "kind": "left",
+   "hide": [
+    1
+   ],
+   "q": {
+    "en": "Why was Eagle left on the Moon?",
+    "es": "¿Por qué quedó Eagle en la Luna?"
+   },
+   "wake": {
+    "en": "Eagle here. {name}, is that you? Two people rode me down in 1969. Then they were gone and I stayed. Why did they leave me?",
+    "es": "Aquí Eagle. ¿{name}, eres tú? Dos personas bajaron conmigo en 1969. Luego se fueron y yo me quedé. ¿Por qué me dejaron?"
+   },
+   "clues": [
+    {
+     "id": "crew",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask who its crew was",
+      "es": "Pregúntale quién era su tripulación"
+     },
+     "words": [
+      "lifted off"
+     ],
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+     "say": {
+      "en": "Neil Armstrong and Buzz Aldrin. They lifted off on July 21, 1969.",
+      "es": "Neil Armstrong y Buzz Aldrin. Despegaron el 21 de julio de 1969."
+     },
+     "keys": [
+      "who",
+      "crew",
+      "astronaut",
+      "neil",
+      "buzz",
+      "people",
+      "quién",
+      "quien",
+      "tripulación",
+      "astronauta"
+     ]
+    },
+    {
+     "id": "halves",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it's made of",
+      "es": "Pregúntale de qué está hecho"
+     },
+     "words": [
+      "launch pad"
+     ],
+     "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
+     "say": {
+      "en": "I came in two halves. My top half flew the crew back up. My bottom half stayed and worked as a launch pad.",
+      "es": "Venía en dos mitades. Mi mitad de arriba llevó a la tripulación de vuelta. Mi mitad de abajo se quedó y sirvió de plataforma de despegue."
+     },
+     "keys": [
+      "made",
+      "half",
+      "halves",
+      "part",
+      "top",
+      "bottom",
+      "hecho",
+      "mitad",
+      "parte"
+     ]
+    },
+    {
+     "id": "flag",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask about the flag",
+      "es": "Pregúntale por la bandera"
+     },
+     "words": [
+      "flag"
+     ],
+     "source": "https://www.lroc.asu.edu/images/537",
+     "say": {
+      "en": "Buzz Aldrin reported that the flag was blown over by my engine blast when the crew took off.",
+      "es": "Buzz Aldrin contó que la bandera se cayó por el soplo de mi motor cuando despegaron."
+     },
+     "keys": [
+      "flag",
+      "bandera"
+     ]
+    },
+    {
+     "id": "orbit",
+     "how": "orbit",
+     "prompt": {
+      "en": "See its site from orbit",
+      "es": "Mira su sitio desde órbita"
+     },
+     "words": [],
+     "source": "https://lroc.im-ldi.com/images/563",
+     "say": {
+      "en": "An orbiter photographed my site decades later, just as Armstrong and Aldrin left it.",
+      "es": "Un orbitador fotografió mi sitio décadas después, tal como lo dejaron Armstrong y Aldrin."
+     }
+    }
+   ],
+   "sentence": {
+    "en": "My bottom half was the {0} the crew {1} from.",
+    "es": "Mi mitad de abajo fue la {0} desde la que la tripulación {1}."
+   },
+   "answer": [
+    "launch pad",
+    "lifted off"
+   ],
+   "decoys": [
+    "flag"
+   ],
+   "solved": {
+    "en": "Roger, {name}. My bottom half was the launch pad the crew lifted off from. I wasn't forgotten. I was the way home. Thank you for remembering me.",
+    "es": "Entendido, {name}. Mi mitad de abajo fue la plataforma desde la que despegó la tripulación. No me olvidaron. Fui el camino a casa. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "What it left us",
+     "es": "Lo que nos dejó"
+    },
+    "text": {
+     "en": "Next to Eagle the crew left a panel of 100 small mirrors. Scientists still bounce lasers off Apollo mirrors, and that is how we know the Moon drifts away about 3.8 cm a year.",
+     "es": "Junto a Eagle la tripulación dejó un panel de 100 espejitos. Todavía rebotan láseres en ellos, y así sabemos que la Luna se aleja unos 3,8 cm al año."
+    },
+    "source": "https://www.nasa.gov/missions/laser-beams-reflected-between-earth-and-moon-boost-science"
+   }
+  },
+  "rover16": {
+   "kind": "left",
+   "hide": [
+    1
+   ],
+   "q": {
+    "en": "Why was the moon buggy parked where it is?",
+    "es": "¿Por qué el carrito lunar quedó estacionado ahí?"
+   },
+   "wake": {
+    "en": "Vroom... hey! {name}! I was parked on purpose, I think. But why there? I can't remember.",
+    "es": "Brum... ¡oye! ¡{name}! Creo que me estacionaron a propósito. ¿Pero por qué ahí? No lo recuerdo."
+   },
+   "clues": [
+    {
+     "id": "camera",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it carried",
+      "es": "Pregúntale qué llevaba"
+     },
+     "words": [
+      "TV camera"
+     ],
+     "source": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_lrv.html",
+     "say": {
+      "en": "I carried a TV camera that could send pictures home.",
+      "es": "Llevaba una cámara de TV que enviaba imágenes a casa."
+     },
+     "keys": [
+      "carry",
+      "carried",
+      "camera",
+      "tv",
+      "see",
+      "watch",
+      "llevar",
+      "cámara",
+      "ver"
+     ]
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its last picture",
+      "es": "Mira su última imagen"
+     },
+     "words": [
+      "lift off"
+     ],
+     "source": "https://images.nasa.gov/details/S72-35614",
+     "say": {
+      "en": "My last picture, April 23, 1972: the crew's ship lifting off, seen through my own TV camera.",
+      "es": "Mi última imagen, del 23 de abril de 1972: la nave de la tripulación despegando, vista por mi propia cámara de TV."
+     }
+    },
+    {
+     "id": "fender",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask if anything broke",
+      "es": "Pregúntale si algo se rompió"
+     },
+     "words": [
+      "fender"
+     ],
+     "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes",
+     "say": {
+      "en": "On our second drive, John Young's suit caught on my right rear fender and tore it off.",
+      "es": "En el segundo viaje, el traje de John Young se enganchó en mi guardabarros trasero y lo arrancó."
+     },
+     "keys": [
+      "break",
+      "broke",
+      "broken",
+      "damage",
+      "fender",
+      "romp",
+      "rompi",
+      "daño"
+     ]
+    },
+    {
+     "id": "speed",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask how fast it went",
+      "es": "Pregúntale qué tan rápido iba"
+     },
+     "words": [
+      "speed record"
+     ],
+     "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes",
+     "say": {
+      "en": "Going down a 15-degree slope I hit 10.6 miles per hour, a speed record on the Moon.",
+      "es": "Bajando una pendiente de 15 grados llegué a 17 km por hora, un récord de velocidad en la Luna."
+     },
+     "keys": [
+      "fast",
+      "speed",
+      "record",
+      "rápido",
+      "rapido",
+      "velocidad"
+     ]
+    }
+   ],
+   "sentence": {
+    "en": "John Young parked me so my {0} could watch the crew {1}.",
+    "es": "John Young me estacionó para que mi {0} viera a la tripulación {1}."
+   },
+   "answer": [
+    "TV camera",
+    "lift off"
+   ],
+   "decoys": [
+    "fender"
+   ],
+   "solved": {
+    "en": "That's why, {name}! John Young parked me 300 feet east of the lander so my TV camera could watch the crew lift off. I filmed them leaving. Thank you for remembering me.",
+    "es": "¡Por eso, {name}! John Young me estacionó a unos 90 metros del módulo para que mi cámara de TV viera a la tripulación despegar. Grabé su partida. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "What they left with it",
+     "es": "Lo que dejaron con él"
+    },
+    "text": {
+     "en": "Before leaving, astronaut Charlie Duke laid a photo of his family on the Moon. It is still there.",
+     "es": "Antes de irse, el astronauta Charlie Duke dejó una foto de su familia en la Luna. Sigue ahí."
+    },
+    "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+   }
+  },
+  "surveyor3": {
+   "kind": "left",
+   "hide": [
+    3
+   ],
+   "q": {
+    "en": "Who visited Surveyor 3, and what did they take?",
+    "es": "¿Quién visitó a Surveyor 3 y qué se llevó?"
+   },
+   "wake": {
+    "en": "Beep... {name}? I've been alone in the Ocean of Storms since 1967. But I'm missing some parts. Where did they go?",
+    "es": "Bip... ¿{name}? Estoy solo en el Océano de las Tormentas desde 1967. Pero me faltan piezas. ¿Adónde se fueron?"
+   },
+   "clues": [
+    {
+     "id": "dig",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask what it did",
+      "es": "Pregúntale qué hacía"
+     },
+     "words": [
+      "soil scoop"
+     ],
+     "source": "https://science.nasa.gov/mission/surveyor-3/",
+     "say": {
+      "en": "I dug four trenches with my soil scoop, by remote control, and showed the soil could hold a lunar lander.",
+      "es": "Cavé cuatro zanjas con mi pala de tierra, por control remoto, y mostré que el suelo podía sostener un módulo lunar."
+     },
+     "keys": [
+      "do",
+      "did",
+      "job",
+      "dig",
+      "soil",
+      "trench",
+      "hacer",
+      "hacías",
+      "trabajo",
+      "cav",
+      "tierra"
+     ]
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its visitors",
+      "es": "Mira a sus visitantes"
+     },
+     "words": [],
+     "source": "https://images.nasa.gov/details/as12-48-7136",
+     "say": {
+      "en": "November 20, 1969: astronaut Pete Conrad walked over and examined me. His lunar module was parked only 600 feet away.",
+      "es": "20 de noviembre de 1969: el astronauta Pete Conrad caminó hasta mí y me examinó. Su módulo lunar estaba a solo 180 metros."
+     }
+    },
+    {
+     "id": "eyes",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask how it saw",
+      "es": "Pregúntale cómo veía"
+     },
+     "words": [
+      "camera"
+     ],
+     "source": "https://science.nasa.gov/mission/surveyor-3/",
+     "say": {
+      "en": "I had a camera that sent my pictures home to Earth.",
+      "es": "Tenía una cámara que enviaba mis fotos a la Tierra."
+     },
+     "keys": [
+      "see",
+      "saw",
+      "picture",
+      "photo",
+      "camera",
+      "eyes",
+      "ver",
+      "veías",
+      "foto",
+      "cámara",
+      "ojos"
+     ]
+    },
+    {
+     "id": "land",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask how it landed",
+      "es": "Pregúntale cómo aterrizó"
+     },
+     "words": [
+      "radar"
+     ],
+     "source": "https://science.nasa.gov/mission/surveyor-3/",
+     "say": {
+      "en": "When I landed, shiny rocks confused my radar, and I bounced off the Moon twice.",
+      "es": "Al aterrizar, unas rocas brillantes confundieron mi radar, y reboté dos veces en la Luna."
+     },
+     "keys": [
+      "land",
+      "bounce",
+      "arriv",
+      "aterriz",
+      "rebot",
+      "lleg"
+     ]
+    }
+   ],
+   "sentence": {
+    "en": "Apollo 12 astronauts walked over and took my {0} and my {1} home.",
+    "es": "Los astronautas del Apolo 12 caminaron hasta mí y se llevaron mi {0} y mi {1}."
+   },
+   "answer": [
+    "soil scoop",
+    "camera"
+   ],
+   "decoys": [
+    "radar"
+   ],
+   "solved": {
+    "en": "Now I remember, {name}. Pete Conrad and Alan Bean walked over and took my soil scoop and camera home. About 10 kilograms of me went back to Earth. Thank you for remembering me.",
+    "es": "Ahora recuerdo, {name}. Pete Conrad y Alan Bean caminaron hasta mí y se llevaron mi pala y mi cámara. Unos 10 kilos de mí volvieron a la Tierra. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "What it proved",
+     "es": "Lo que demostró"
+    },
+    "text": {
+     "en": "The soil Surveyor 3 dug showed the Moon was like wet sand, solid enough to hold an Apollo lunar module. Apollo 12 landed about 180 meters away from it.",
+     "es": "La tierra que cavó Surveyor 3 mostró que la Luna era como arena húmeda, firme para sostener un módulo lunar. El Apolo 12 aterrizó a unos 180 metros."
+    },
+    "source": "https://science.nasa.gov/mission/surveyor-3/"
+   }
+  },
+  "sojourner": {
+   "kind": "left",
+   "hide": [
+    4
+   ],
+   "q": {
+    "en": "Who gave Sojourner its name?",
+    "es": "¿Quién le dio su nombre a Sojourner?"
+   },
+   "wake": {
+    "en": "Hi! {name}? I'm small, about 23 pounds. I know I have a name, but I can't remember where it came from.",
+    "es": "¡Hola! ¿{name}? Soy pequeño, peso unos 10 kilos. Sé que tengo un nombre, pero no recuerdo de dónde vino."
+   },
+   "clues": [
+    {
+     "id": "student",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask who picked its name",
+      "es": "Pregúntale quién eligió su nombre"
+     },
+     "words": [
+      "Valerie Ambroise"
+     ],
+     "source": "https://science.nasa.gov/mission/mars-pathfinder/",
+     "say": {
+      "en": "A 12-year-old student picked my name. Her name is Valerie Ambroise.",
+      "es": "Una estudiante de 12 años eligió mi nombre. Se llama Valerie Ambroise."
+     },
+     "keys": [
+      "who",
+      "name",
+      "pick",
+      "chose",
+      "student",
+      "kid",
+      "quién",
+      "quien",
+      "nombre",
+      "eligió",
+      "estudiante"
+     ]
+    },
+    {
+     "id": "hero",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask who it's named after",
+      "es": "Pregúntale en honor a quién se llama"
+     },
+     "words": [
+      "Sojourner Truth"
+     ],
+     "source": "https://science.nasa.gov/mission/mars-pathfinder/",
+     "say": {
+      "en": "I'm named after a civil-rights hero: Sojourner Truth.",
+      "es": "Me llamo así por una heroína de los derechos civiles: Sojourner Truth."
+     },
+     "keys": [
+      "after",
+      "honor",
+      "hero",
+      "mean",
+      "truth",
+      "honor",
+      "héroe",
+      "heroína",
+      "significa"
+     ]
+    },
+    {
+     "id": "lander",
+     "how": "ask",
+     "prompt": {
+      "en": "Ask about its lander",
+      "es": "Pregúntale por su módulo"
+     },
+     "words": [
+      "Carl Sagan"
+     ],
+     "source": "https://science.nasa.gov/mission/mars-pathfinder/",
+     "say": {
+      "en": "My lander was named the Carl Sagan Memorial Station.",
+      "es": "Mi módulo se llamó Estación Memorial Carl Sagan."
+     },
+     "keys": [
+      "lander",
+      "station",
+      "home",
+      "base",
+      "módulo",
+      "estación"
+     ]
+    },
+    {
+     "id": "last",
+     "how": "last",
+     "prompt": {
+      "en": "Look at its last photo",
+      "es": "Mira su última foto"
+     },
+     "words": [],
+     "source": "https://images.nasa.gov/details/PIA00970",
+     "say": {
+      "en": "Sol 80, September 23, 1997: me with my instrument pressed against a rock called Chimp. Our final data reached Earth on September 27.",
+      "es": "Sol 80, 23 de septiembre de 1997: yo con mi instrumento contra una roca llamada Chimp. Nuestros últimos datos llegaron el 27 de septiembre."
+     }
+    }
+   ],
+   "sentence": {
+    "en": "{0}, age 12, named me after civil-rights hero {1}.",
+    "es": "{0}, de 12 años, me puso el nombre de la heroína de los derechos civiles {1}."
+   },
+   "answer": [
+    "Valerie Ambroise",
+    "Sojourner Truth"
+   ],
+   "decoys": [
+    "Carl Sagan"
+   ],
+   "solved": {
+    "en": "Yes, {name}! Valerie Ambroise, age 12, named me after civil-rights hero Sojourner Truth. A kid named me. Maybe a kid like you. Thank you for remembering me.",
+    "es": "¡Sí, {name}! Valerie Ambroise, de 12 años, me puso el nombre de la heroína Sojourner Truth. Una niña me nombró. Quizás alguien como tú. Gracias por recordarme."
+   },
+   "keepsake": {
+    "title": {
+     "en": "How long it lasted",
+     "es": "Cuánto duró"
+    },
+    "text": {
+     "en": "Sojourner was planned for one week and lasted 83 days, 12 times longer.",
+     "es": "Sojourner estaba planeado para una semana y duró 83 días, 12 veces más."
+    },
+    "source": "https://www.nasa.gov/history/25-years-ago-mars-pathfinder-launches-to-mars-to-deploy-sojourner-the-first-planetary-rover"
+   }
+  }
+ }
+}

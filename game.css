@@ -1,0 +1,112 @@
+/* Case-file game layer. Emily: everything here is yours to restyle. Class names are the contract with game.js. */
+.gs-k{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ghost)}
+
+/* welcome / name */
+.gs-welcome{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at 50% 30%,#0b1a2acc,#000e 70%);backdrop-filter:blur(6px);transition:opacity .4s}
+.gs-welcome.out{opacity:0}
+.gs-card{max-width:440px;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 22px;box-shadow:0 0 60px #7cf3ff22}
+.gs-card h1{font-size:26px;line-height:1.15;margin:8px 0 10px}
+.gs-card p{color:#c9d0de;margin:0 0 16px}
+.gs-card form{display:flex;gap:8px}
+.gs-card input{flex:1;min-width:0;background:#0007;border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--fg);font:inherit;font-size:16px}
+.gs-go{border:0;border-radius:12px;padding:12px 16px;background:var(--warm);color:#000;font-weight:700}
+.gs-skip{margin-top:10px;background:none;border:0;color:var(--muted);font-size:13px;text-decoration:underline}
+
+/* header + today's line */
+.gs-guidebtn{margin-left:6px;flex-shrink:0;background:#ffffff12;border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:13px;white-space:nowrap}
+.gs-guidebtn b{color:var(--warm)}
+@media(max-width:600px){.gs-gl{display:none}}
+.gs-today{position:fixed;z-index:900;left:50%;transform:translateX(-50%);top:calc(96px + env(safe-area-inset-top));background:#1a1305d9;border:1px solid #ffcf7a66;color:var(--warm);border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;white-space:nowrap;box-shadow:0 0 18px #ffcf7a33;animation:gsGlow 2.6s ease-in-out infinite}
+@keyframes gsGlow{50%{box-shadow:0 0 28px #ffcf7a66}}
+
+/* pins: restored robots keep their colour on the map; today's robot gets a beacon */
+.pin.cut.restored .tint{clip-path:inset(0 0 0 0)}
+.pin.cut.restored .face{filter:none}
+.pin:not(.cut).restored .face{filter:none;border-color:var(--warm)}
+.pin.today:after{content:"";position:absolute;left:50%;top:-6px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--warm);box-shadow:0 0 0 0 #ffcf7a99;animation:gsBeacon 1.8s ease-out infinite}
+@keyframes gsBeacon{to{box-shadow:0 0 0 16px #ffcf7a00}}
+
+/* the robot stays in colour once brought back */
+.stage.restored .portrait,.stage.restored model-viewer{filter:none!important}
+
+/* case question + wake button (top of sheet) */
+.gs-top{margin:0 0 12px;padding:12px;border:1px solid #ffcf7a40;border-radius:14px;background:linear-gradient(135deg,#ffcf7a14,#7cf3ff0a)}
+.gs-q{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+.gs-q b{font-size:17px;line-height:1.25}
+.gs-solved .gs-q .gs-k{color:var(--warm)}
+.gs-wake{width:100%;border:0;border-radius:12px;padding:12px;font-weight:700;font-size:16px;background:var(--warm);color:#000;box-shadow:0 0 22px #ffcf7a55}
+.gs-solved .gs-wake{background:#ffffff14;color:var(--fg);box-shadow:none}
+
+/* clues */
+.gs-case{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
+.gs-cluehead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-size:13px;color:var(--muted)}
+.gs-clues{display:flex;flex-direction:column;gap:8px}
+.gs-clue{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border-radius:12px;padding:10px 12px;border:1px solid var(--line);background:#ffffff08;position:relative}
+.gs-clue.locked{border-style:dashed;color:var(--fg)}
+.gs-clue.locked:hover{border-color:var(--ghost);background:#7cf3ff10}
+.gs-clue.locked b{display:block;font-weight:600}
+.gs-clue.locked small{color:var(--muted)}
+.gs-clue.got{border-color:#7cf3ff55;background:#7cf3ff0d}
+.gs-clue.got p{margin:0 0 6px}
+.gs-clue.new{animation:gsIn .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes gsIn{from{transform:scale(.92);opacity:0}}
+.gs-ci{font-size:18px;line-height:1.2}
+.gs-newtag{position:absolute;right:8px;top:-9px;background:var(--ghost);color:#000;font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px}
+.gs-src{font-size:11px;color:var(--muted)}
+.gs-earned{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+
+/* sentence builder */
+.gs-build{margin-top:14px;padding:14px;border-radius:14px;background:#000a;border:1px solid var(--line)}
+.gs-sent{font-size:18px;line-height:2.1;margin:6px 0 10px}
+.gs-sent.done{font-size:16px;line-height:1.5;color:var(--warm)}
+.gs-blank{border:0;border-bottom:2px solid var(--ghost);background:#7cf3ff14;border-radius:6px 6px 0 0;padding:0 8px;margin:0 2px;font-weight:700;color:var(--ghost);min-width:72px}
+.gs-blank.filled{color:var(--fg)}
+.gs-blank.right{border-color:#5f5;color:#8f8}
+.gs-blank.wrong{border-color:#f66;color:#f99;animation:gsShake .4s}
+@keyframes gsShake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.gs-bank{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.gs-word{border:1px solid #7cf3ff66;background:#7cf3ff18;color:var(--fg);border-radius:999px;padding:7px 12px;font-weight:600}
+.gs-word.mini{padding:1px 8px;font-size:12px;font-weight:500}
+.gs-word.used{opacity:.3}
+.gs-empty{color:var(--muted);font-size:13px}
+.gs-check{width:100%;border:0;border-radius:12px;padding:11px;font-weight:700;background:var(--ghost);color:#000}
+.gs-check:disabled{opacity:.35}
+.gs-msg{min-height:1.2em;margin-top:8px;font-size:13px;color:#fbb}
+
+/* solved: keepsake */
+.gs-restored{margin-bottom:10px}
+.gs-keep{margin:0 0 14px;padding:12px 14px;border-radius:14px;border:1px solid #ffcf7a66;background:#ffcf7a12}
+.gs-keep .gs-k{color:var(--warm)}
+.gs-keep p{margin:6px 0}
+.gs-unsolved #lastBtn{display:none}
+
+/* field guide */
+.gs-guide{position:fixed;inset:0;z-index:2500;background:#000c;backdrop-filter:blur(8px);display:grid;place-items:center;padding:16px;transition:opacity .25s}
+.gs-guide.out{opacity:0}
+.gs-gpanel{position:relative;width:min(960px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+.gs-gpanel h2{margin:4px 0 10px}
+.gs-x{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;border:0;background:#000a;font-size:22px}
+.gs-progress{height:8px;border-radius:99px;background:#ffffff14;overflow:hidden}
+.gs-progress i{display:block;height:100%;background:linear-gradient(90deg,var(--ghost),var(--warm));transition:width .8s}
+.gs-everyone{color:var(--muted);font-size:13px}
+.gs-cleared{color:var(--warm);font-weight:700}
+.gs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px}
+.gs-page{position:relative;text-align:left;border:1px dashed var(--line);border-radius:14px;padding:10px;background:#ffffff06}
+.gs-page.solved{border:1px solid #ffcf7a77;background:#ffcf7a10}
+.gs-pimg{height:96px;background:var(--img) center/contain no-repeat;filter:grayscale(1) brightness(.55);margin-bottom:6px}
+.gs-page.solved .gs-pimg{filter:drop-shadow(0 0 10px #ffcf7a66)}
+.gs-pname{font-weight:700}
+.gs-pq,.gs-pstat{font-size:12px;color:var(--muted)}
+.gs-pline{font-size:12px;color:var(--fg);margin:2px 0}
+.gs-pkeep{font-size:12px;color:var(--warm)}
+.gs-ptoday{position:absolute;top:8px;right:8px;font-size:10px;font-weight:700;background:var(--warm);color:#000;border-radius:99px;padding:2px 7px}
+
+.gs-toast{position:fixed;z-index:3100;left:50%;top:calc(50% - 40px);transform:translate(-50%,-50%) scale(1);background:var(--warm);color:#000;font-weight:800;font-size:22px;padding:14px 22px;border-radius:16px;box-shadow:0 0 60px #ffcf7a99;animation:gsPop .5s cubic-bezier(.3,1.7,.5,1);transition:opacity .5s,transform .5s}
+.gs-toast.out{opacity:0;transform:translate(-50%,-70%)}
+@keyframes gsPop{from{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+@media(prefers-reduced-motion:reduce){.gs-today,.pin.today:after,.gs-clue.new,.gs-toast{animation:none}}
+@media(max-width:600px){
+  .gs-guidebtn{position:fixed;z-index:950;left:12px;bottom:calc(22px + env(safe-area-inset-bottom));margin:0;padding:8px 12px;background:#000c;font-size:14px}
+  .gs-today{top:calc(112px + env(safe-area-inset-top));font-size:12px}
+  .hint{left:auto;right:56px;transform:none;max-width:calc(100% - 170px);white-space:normal;text-align:center}
+}
