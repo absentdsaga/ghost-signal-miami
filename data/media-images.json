@@ -1,0 +1,307 @@
+{
+  "eagle": {
+    "portrait": {
+      "file": "assets/img/eagle-portrait.jpg",
+      "src": "https://images.nasa.gov/details/as11-44-6581",
+      "img_url": "https://images-assets.nasa.gov/image/as11-44-6581/as11-44-6581~orig.jpg",
+      "credit": "NASA",
+      "caption": "AS11-44-6581 (20 July 1969): The Apollo 11 Lunar Module, in a lunar landing configuration, is photographed in lunar orbit from the Command and Service Modules.",
+      "notes": "Shows the whole LM (ascent + descent stage) before landing; only the descent stage remains on the Moon."
+    },
+    "last_seen": {
+      "file": "assets/img/eagle-last.jpg",
+      "src": "https://images.nasa.gov/details/as11-37-5551",
+      "img_url": "https://images-assets.nasa.gov/image/as11-37-5551/as11-37-5551~orig.jpg",
+      "credit": "NASA",
+      "caption": "AS11-37-5551 (20 July 1969): Two components of the Early Apollo Scientific Experiments Package are seen deployed on the lunar surface in this view photographed from inside the Lunar Module. In the far background is the Passive Seismic Experiment Package; to the right and closer is the Laser Ranging Retro-Reflector.",
+      "date": "1969-07-20",
+      "notes": "Through-the-window shot from inside Eagle after the moonwalk; highest-numbered frame of Hasselblad magazine 37 in NASA's library. NASA does not label it \"last\"; the 16mm liftoff film is not in images.nasa.gov."
+    },
+    "from_orbit": {
+      "file": "assets/img/eagle-orbit.jpg",
+      "src": "https://lroc.im-ldi.com/images/563",
+      "img_url": "https://lroc.im-ldi.com/news/uploads/Apollo_11.png",
+      "credit": "NASA/GSFC/Arizona State University",
+      "caption": "\"Houston, Tranquility base here.\" Apollo 11 landing site, as Armstrong and Aldrin left it some 43 years ago, LROC M175124932R. (Labeled: LM, camera, LRRR, PSEP, discarded cover.)",
+      "date": "2012-08-27 (published)"
+    },
+    "cutout": "assets/img/eagle-cut.png"
+  },
+  "surveyor3": {
+    "portrait": {
+      "file": "assets/img/surveyor3-portrait.jpg",
+      "src": "https://images.nasa.gov/details/as12-48-7121",
+      "img_url": "https://images-assets.nasa.gov/image/as12-48-7121/as12-48-7121~orig.jpg",
+      "credit": "NASA",
+      "caption": "AS12-48-7121 (20 Nov. 1969): An excellent view of the unmanned Surveyor 3 spacecraft, photographed during the second Apollo 12 EVA. Surveyor 3 landed on the side of this small crater in the Ocean of Storms on April 19, 1967."
+    },
+    "last_seen": {
+      "file": "assets/img/surveyor3-last.jpg",
+      "src": "https://images.nasa.gov/details/as12-48-7136",
+      "img_url": "https://images-assets.nasa.gov/image/as12-48-7136/as12-48-7136~orig.jpg",
+      "credit": "NASA",
+      "caption": "AS12-48-7136 (20 Nov. 1969): Astronaut Charles Conrad Jr. examines the unmanned Surveyor 3 spacecraft during the second Apollo 12 EVA. In the background is the lunar module, parked only 600 feet from Surveyor 3. The TV camera and several other pieces were taken from Surveyor 3 and brought back to Earth.",
+      "date": "1969-11-20",
+      "notes": "Surveyor 3's own last TV frames (early May 1967) are not in NASA's image library, so this is the last time humans saw it (Apollo 12 visit), as the brief allowed."
+    },
+    "from_orbit": {
+      "file": "assets/img/surveyor3-orbit.jpg",
+      "src": "https://lroc.im-ldi.com/images/401",
+      "img_url": "https://lroc.im-ldi.com/news/uploads/M175428601RE_25cm_AP12_area.png",
+      "credit": "NASA/GSFC/Arizona State University",
+      "caption": "The Apollo 12 landing site in Oceanus Procellarum imaged during the second LRO low-altitude campaign. Image width is 225 m, NAC Image M175428601R. (Annotated; Surveyor 3 and the Intrepid descent stage both visible.)",
+      "date": "2012-03-06 (published)"
+    },
+    "cutout": null,
+    "notes": "No cutout: rembg could not separate grey hardware from grey lunar ground cleanly."
+  },
+  "alsep": {
+    "portrait": {
+      "file": "assets/img/alsep-portrait.jpg",
+      "src": "https://images.nasa.gov/details/as14-67-09376",
+      "img_url": "https://images-assets.nasa.gov/image/as14-67-09376/as14-67-09376~orig.jpg",
+      "credit": "NASA",
+      "caption": "AS14-67-9376 (5 Feb. 1971): Several components of the Apollo lunar surface experiments package (ALSEP) deployed during the first Apollo 14 EVA. The larger object with antenna is the ALSEP central station.",
+      "notes": "Apollo 14 station chosen because robots.json coordinates (-3.645, -17.47) are Fra Mauro / Apollo 14."
+    },
+    "last_seen": {
+      "file": "assets/img/alsep-last.jpg",
+      "src": "https://lroc.im-ldi.com/images/285",
+      "img_url": "https://lroc.im-ldi.com/news/uploads/AS14-66-9338.jpg",
+      "credit": "NASA (via LROC page)",
+      "caption": "AS14-66-9338: Post EVA view from LM window looking west towards ALSEP. Match astronaut track patterns in the surface image and LROC overhead view.",
+      "date": "1971-02-06",
+      "notes": "Last crew view of the station before liftoff. The station kept radioing data until Sept 30, 1977, but sent no pictures. Not in images.nasa.gov; the file comes from the LROC team page. Date is end of EVA-2, inferred from the \"post EVA\" wording."
+    },
+    "from_orbit": {
+      "file": "assets/img/alsep-orbit.jpg",
+      "src": "https://lroc.im-ldi.com/images/285",
+      "img_url": "https://lroc.im-ldi.com/news/uploads/M150633128LR_close.png",
+      "credit": "NASA/GSFC/Arizona State University",
+      "caption": "Close-up showing LM descent stage (right) and ALSEP (arrow), note astronaut tracks between the two landmarks. NAC image of the Apollo 14 landing site acquired 25 January 2011.",
+      "date": "2011-01-25",
+      "notes": "Only 438 px wide."
+    },
+    "cutout": null,
+    "notes": "No cutout: rembg could not separate grey hardware from grey lunar ground cleanly."
+  },
+  "rover16": {
+    "portrait": {
+      "file": "assets/img/rover16-portrait.jpg",
+      "src": "https://images.nasa.gov/details/as16-107-17436",
+      "img_url": "https://images-assets.nasa.gov/image/as16-107-17436/as16-107-17436~orig.jpg",
+      "credit": "NASA",
+      "caption": "AS16-107-17436 (21 April 1972): An excellent view of the Lunar Module \"Orion\" and Lunar Roving Vehicle, photographed by Charles M. Duke Jr. during the first Apollo 16 EVA. John W. Young can be seen directly behind the LRV.",
+      "notes": "Cropped to the rover (right side of the frame)."
+    },
+    "last_seen": {
+      "file": "assets/img/rover16-last.jpg",
+      "src": "https://images.nasa.gov/details/S72-35614",
+      "img_url": "https://images-assets.nasa.gov/image/S72-35614/S72-35614~orig.jpg",
+      "credit": "NASA",
+      "caption": "S72-35614 (23 April 1972): The Apollo 16 Lunar Module \"Orion\" ascent stage makes its liftoff from the lunar surface, in this reproduction taken from a color television transmission made by the RCA color TV camera mounted on the Lunar Roving Vehicle. Liftoff occurred at 175:44 GET, 7:26 p.m. CST, April 23, 1972.",
+      "date": "1972-04-23",
+      "notes": "The buggy's own TV camera watching the crew leave."
+    },
+    "from_orbit": {
+      "file": "assets/img/rover16-orbit.jpg",
+      "src": "https://lroc.im-ldi.com/images/520",
+      "img_url": "https://lroc.im-ldi.com/news/uploads/M175179080LRE_thumb_annotate.png",
+      "credit": "NASA/GSFC/Arizona State University",
+      "caption": "Annotated low orbit view of Apollo 16, image width 250 meters, M175179080 (LRV, LM, LPM, rover tracks, ALSEP parts labeled).",
+      "date": "2012-04-23 (published)"
+    },
+    "cutout": null,
+    "notes": "No cutout: rembg could not separate grey hardware from grey lunar ground cleanly."
+  },
+  "opportunity": {
+    "portrait": {
+      "file": "assets/img/opportunity-portrait.jpg",
+      "src": "https://images.nasa.gov/details/PIA04413",
+      "img_url": "https://images-assets.nasa.gov/image/PIA04413/PIA04413~orig.jpg",
+      "credit": "NASA/JPL/Cornell University",
+      "caption": "PIA04413: An artist concept portrays a NASA Mars Exploration Rover on the surface of Mars. Two rovers were launched in 2003 and arrived at sites on Mars in January 2004."
+    },
+    "last_seen": {
+      "file": "assets/img/opportunity-last.jpg",
+      "src": "https://science.nasa.gov/photojournal/opportunitys-last-message",
+      "img_url": "https://images-assets.nasa.gov/image/PIA22929/PIA22929~orig.jpg",
+      "credit": "NASA/JPL-Caltech/Cornell/ASU",
+      "caption": "PIA22929 \"Opportunity's Last Message\": Taken on June 10, 2018 (sol 5,111) this \"noisy\", incomplete image was the last data NASA's Opportunity rover sent back from Perseverance Valley on Mars. The transmission stopped before the full image was transmitted.",
+      "date": "2018-06-10",
+      "notes": "Alt: PIA22930 \"Last Images Opportunity Took\" (tiny sun thumbnails, tau ~10.8)."
+    },
+    "from_orbit": {
+      "file": "assets/img/opportunity-orbit.jpg",
+      "src": "https://science.nasa.gov/photojournal/opportunity-after-the-dust-storm",
+      "img_url": "https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia22/pia22549/figures/PIA22549_fig1.jpg",
+      "credit": "NASA/JPL-Caltech/Univ. of Arizona",
+      "caption": "PIA22549: HiRISE image shows the dust storm over Perseverance Valley has substantially cleared. Opportunity appears as a blip in this image taken on September 20, 2018, from about 166 miles (268 km) above the surface. (Fig. 1, box marks the rover.)",
+      "date": "2018-09-20"
+    },
+    "cutout": "assets/img/opportunity-cut.png"
+  },
+  "spirit": {
+    "portrait": {
+      "file": "assets/img/spirit-portrait.jpg",
+      "src": "https://images.nasa.gov/details/PIA04413",
+      "img_url": "https://images-assets.nasa.gov/image/PIA04413/PIA04413~orig.jpg",
+      "credit": "NASA/JPL/Cornell University",
+      "caption": "PIA04413: An artist concept portrays a NASA Mars Exploration Rover on the surface of Mars. Two rovers were launched in 2003 and arrived in January 2004.",
+      "notes": "Same render as Opportunity; Spirit and Opportunity were identical twins. spirit-cut.png = opportunity-cut.png."
+    },
+    "last_seen": {
+      "file": "assets/img/spirit-last.jpg",
+      "src": "https://planetarydata.jpl.nasa.gov/img/data/mer/spirit/mer2po_0xxx/browse/sol2209/edr/",
+      "img_url": "https://planetarydata.jpl.nasa.gov/img/data/mer/spirit/mer2po_0xxx/browse/sol2209/edr/2p322473707esfb27mp2600l8m1.img.jpg",
+      "credit": "NASA/JPL-Caltech/Cornell (PDS archive)",
+      "caption": "Pancam left-eye subframe of the Sun (product 2p322473707esf...l8), sol 2209 in the PDS archive: the last Pancam image directory Spirit has in NASA's Planetary Data System.",
+      "date": "2010-03-21",
+      "notes": "No NASA caption calls this \"last\". It is the final Pancam frame in the PDS archive (spacecraft clock 322473707 = 2010-03-21 ~20:00 UTC), one day before last contact on Mar 22, 2010. The original is only 63x63 px; the file is upscaled 8x with no smoothing, so it looks pixelated on purpose. NASA never put out a captioned last image. The Planetary Society \"last color photo, sol 2191\" is a third-party composite and was not used."
+    },
+    "from_orbit": {
+      "file": "assets/img/spirit-orbit.jpg",
+      "src": "https://science.nasa.gov/photojournal/orbital-view-of-spirit-at-troy",
+      "img_url": "https://images-assets.nasa.gov/image/PIA12205/PIA12205~orig.jpg",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "caption": "PIA12205: The pale circular shape in the center is a low plateau called \"Home Plate.\" The bright dot just to the left of Home Plate at the 9 o'clock position is NASA's Mars Exploration Rover Spirit. Portion of a HiRISE image taken June 13, 2009, when Spirit had been embedded for more than a month in soft soil called \"Troy.\"",
+      "date": "2009-06-13",
+      "notes": "Not annotated; the rover is the bright dot at 9 o'clock."
+    },
+    "cutout": "assets/img/spirit-cut.png"
+  },
+  "sojourner": {
+    "portrait": {
+      "file": "assets/img/sojourner-portrait.jpg",
+      "src": "https://images.nasa.gov/details/PIA01122",
+      "img_url": "https://images-assets.nasa.gov/image/PIA01122/PIA01122~orig.jpg",
+      "credit": "NASA/JPL",
+      "caption": "PIA01122: Lander image of rover near \"The Dice\" (three small rocks behind the rover) and \"Yogi\" on sol 22."
+    },
+    "last_seen": {
+      "file": "assets/img/sojourner-last.jpg",
+      "src": "https://images.nasa.gov/details/PIA00970",
+      "img_url": "https://images-assets.nasa.gov/image/PIA00970/PIA00970~orig.jpg",
+      "credit": "NASA/JPL",
+      "caption": "PIA00970: This image taken on the morning of Sol 80 (September 23) shows the Sojourner rover with its APXS deployed against the rock \"Chimp.\" ... The final data transmission received from Pathfinder was at 10:23 UTC on September 27, 1997.",
+      "date": "1997-09-23",
+      "notes": "Chimp is Sojourner's last known position at the final transmission, per the PIA09105 caption. Small original (486x248)."
+    },
+    "from_orbit": {
+      "file": "assets/img/sojourner-orbit.jpg",
+      "src": "https://science.nasa.gov/photojournal/mars-pathfinder-landing-site-and-surroundings",
+      "img_url": "https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia09/pia09105/figures/PIA09105_fig2.jpg",
+      "credit": "NASA/JPL/Univ. of Arizona/USGS",
+      "caption": "PIA09105: HiRISE took an image on Dec. 21, 2006, that provides unprecedented detail of the geology of the region and hardware on the surface. (Fig. 2, annotated: Pathfinder, Twin Peaks, Big Crater, North Knob.)",
+      "date": "2006-12-21",
+      "notes": "Other figures in the same release show a close-up with a candidate Sojourner location about 6 m south of the lander."
+    },
+    "cutout": "assets/img/sojourner-cut.png"
+  },
+  "viking1": {
+    "portrait": {
+      "file": "assets/img/viking1-portrait.jpg",
+      "src": "https://science.nasa.gov/photojournal/viking-lander-model",
+      "img_url": "https://images-assets.nasa.gov/image/PIA09703/PIA09703~orig.jpg",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "caption": "PIA09703 \"Viking Lander Model\": NASA's Viking Project found a place in history when it became the first U.S. mission to land a spacecraft successfully on the surface of Mars.",
+      "notes": "Photo of a lander model, not the flight unit on Mars."
+    },
+    "last_seen": null,
+    "from_orbit": {
+      "file": "assets/img/viking1-orbit.jpg",
+      "src": "https://science.nasa.gov/photojournal/viking-lander-1-thomas-a-mutch-memorial-station-imaged-from-orbit",
+      "img_url": "https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia01/pia01881/figures/PIA01881_lander.jpg",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "caption": "PIA01881: NASA's Viking Lander 1 touched down in western Chryse Planitia on July 20, 1976. The lander, about 3 meters across, has been precisely located in this image from HiRISE on Mars Reconnaissance Orbiter. (Lander enlargement.)",
+      "date": "2006-12-05 (released)",
+      "notes": "Unannotated lander cutout; an annotated version is figures/PIA01881_fig1.jpg."
+    },
+    "notes": "last_seen is null: NASA has no published or captioned last Viking Lander 1 image (last contact Nov 11, 1982). Raw frames exist only in the PDS Viking lander archive, which was not searched in this pass.",
+    "cutout": "assets/img/viking1-cut.png"
+  },
+  "phoenix": {
+    "portrait": {
+      "file": "assets/img/phoenix-portrait.jpg",
+      "src": "https://images.nasa.gov/details/PIA09344",
+      "img_url": "https://images-assets.nasa.gov/image/PIA09344/PIA09344~orig.jpg",
+      "credit": "NASA/JPL/UA/Lockheed Martin",
+      "caption": "PIA09344: NASA's Phoenix Mars Lander monitors the atmosphere overhead and reaches out to the soil below in this artist's depiction of the spacecraft fully deployed on the surface of Mars."
+    },
+    "last_seen": {
+      "file": "assets/img/phoenix-last.jpg",
+      "src": "https://science.nasa.gov/photojournal/one-last-look-at-the-martian-arctic",
+      "img_url": "https://images-assets.nasa.gov/image/PIA11725/PIA11725~orig.jpg",
+      "credit": "NASA/JPL-Caltech/University of Arizona/Texas A&M University",
+      "caption": "PIA11725 \"One Last Look at the Martian Arctic\": false color image of the rock \"Winkies\" (rock \"Quadlings\" in foreground) taken by the Surface Stereo Imager on Sol 151 (Oct. 27, 2008). This frosty image is among the last taken by the lander before the mission's final communications on Nov. 2, 2008.",
+      "date": "2008-10-27"
+    },
+    "from_orbit": {
+      "file": "assets/img/phoenix-orbit.jpg",
+      "src": "https://science.nasa.gov/photojournal/image-from-mars-orbit-indicates-solar-panels-on-phoenix-lander-may-have-collapsed",
+      "img_url": "https://images-assets.nasa.gov/image/PIA13158/PIA13158~orig.jpg",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "caption": "PIA13158: \"before\" and \"after\" HiRISE images of the Phoenix lander. The \"before\" image was taken on July 20, 2008 and the \"after\" image on May 7, 2010; the 2010 image suggests a solar panel collapsed under winter ice.",
+      "date": "2010-05-07",
+      "notes": "Small (640x350). Newer alternative: PIA22223 (Dec 21, 2017, dust-covered site, larger, unannotated)."
+    },
+    "cutout": "assets/img/phoenix-cut.png"
+  },
+  "insight": {
+    "portrait": {
+      "file": "assets/img/insight-portrait.jpg",
+      "src": "https://images.nasa.gov/details/PIA22571",
+      "img_url": "https://images-assets.nasa.gov/image/PIA22571/PIA22571~orig.jpg",
+      "credit": "NASA/JPL-Caltech",
+      "caption": "PIA22571: This artist's illustration shows NASA's InSight lander on the surface of Mars, with its solar arrays deployed.",
+      "notes": "Cropped around the lander."
+    },
+    "last_seen": {
+      "file": "assets/img/insight-last.jpg",
+      "src": "https://science.nasa.gov/photojournal/one-of-insights-last-images",
+      "img_url": "https://images-assets.nasa.gov/image/PIA25680/PIA25680~orig.jpg",
+      "credit": "NASA/JPL-Caltech",
+      "caption": "PIA25680: This is one of the last images ever taken by NASA's InSight Mars lander. Captured on Dec. 11, 2022, the 1,436th Martian day, or sol, of the mission, it shows InSight's seismometer on the Red Planet's surface.",
+      "date": "2022-12-11",
+      "notes": "Final selfie alt: PIA25287 (Apr 24, 2022)."
+    },
+    "from_orbit": {
+      "file": "assets/img/insight-orbit.jpg",
+      "src": "https://science.nasa.gov/photojournal/hirise-studies-the-dust-on-insight",
+      "img_url": "https://images-assets.nasa.gov/image/PIA26515/PIA26515~orig.jpg",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "caption": "PIA26515 \"HiRISE Studies the Dust on InSight\": Figure A is the single HiRISE image taken on Oct. 23, 2024. InSight has acquired the same reddish-brown hue as the rest of the planet; the dark blast halo is fading and dust-devil tracks cross the surface.",
+      "date": "2024-10-23",
+      "notes": "Not annotated. Sharper earlier alt: PIA23376 (Sept 23, 2019)."
+    },
+    "cutout": "assets/img/insight-cut.png"
+  },
+  "ingenuity": {
+    "portrait": {
+      "file": "assets/img/ingenuity-portrait.jpg",
+      "src": "https://images.nasa.gov/details/PIA23882",
+      "img_url": "https://images-assets.nasa.gov/image/PIA23882/PIA23882~orig.jpg",
+      "credit": "NASA/JPL-Caltech",
+      "caption": "PIA23882: The flight model of NASA's Ingenuity Mars Helicopter."
+    },
+    "last_seen": {
+      "file": "assets/img/ingenuity-last.jpg",
+      "src": "https://science.nasa.gov/photojournal/ingenuity-spots-the-shadow-of-its-damaged-rotor-blade",
+      "img_url": "https://images-assets.nasa.gov/image/PIA26243/PIA26243~orig.jpg",
+      "credit": "NASA/JPL-Caltech",
+      "caption": "PIA26243: After its 72nd flight on Jan. 18, 2024, NASA's Ingenuity Mars Helicopter captured this color image showing the shadow of a rotor blade damaged during a rough landing.",
+      "date": "2024-01-18",
+      "notes": "Later frames do exist: PIA26244, a black-and-white Navcam video from Feb 11, 2024 showing a missing blade (640x480 still). The shadow image was kept because it is the one NASA features. Final data downlink was Apr 16, 2024."
+    },
+    "from_orbit": {
+      "file": "assets/img/ingenuity-orbit.jpg",
+      "src": "https://science.nasa.gov/photojournal/mros-hirise-spots-perseverance-and-ingenuity",
+      "img_url": "https://images-assets.nasa.gov/image/PIA25174/PIA25174~orig.jpg",
+      "credit": "NASA/JPL-Caltech/University of Arizona",
+      "caption": "PIA25174: Perseverance and Ingenuity spotted in this black-and-white image captured Feb. 26, 2022, by HiRISE. About 200 meters to the left of the rover is the Ingenuity helicopter, so small it appears as a mere dot.",
+      "date": "2022-02-26",
+      "notes": "Taken before the final crash. No NASA-published orbital image of the final Valinor Hills site was found. Ground views of the final site: PIA26236 (Feb 4, 2024) and PIA26237 (Feb 21, 2024), both from Perseverance's Mastcam-Z."
+    },
+    "cutout": "assets/img/ingenuity-cut.png"
+  }
+}

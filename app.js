@@ -12,7 +12,7 @@ const T = {
     delay: (m, r) => `Live from NASA JPL: a message takes ${m} to reach the Moon and ${r} to reach Mars right now`,
     chips: ["Who are you?", "What did you discover?", "What happened on your last day?", "Are you lonely?"],
     lastQ: "What happened on your last day?", photo: "Photo: NASA",
-    tRobot: "The robot", tLast: "The last thing it saw", tOrbit: "Where it is now", msgph: "Leave it a message", leave: "Leave it",
+    tRobot: "The robot", tLast: "Its last photo", tOrbit: "From orbit today", msgph: "Leave it a message", leave: "Leave it",
     skipping: "Skipping the real wait", warp: "Time-warp", warpSub: (x) => `skip the real ${x} round trip`,
     silent: "Silent for", awake: "Signal open", ago: "ago",
     calls: (n, tot) => n ? `Not forgotten: called <b>${n}</b> time${n === 1 ? "" : "s"} today${tot > n ? ` · ${tot} all time` : ""}` : `Nobody has called today. Be the first.`,
@@ -29,7 +29,7 @@ const T = {
     delay: (m, r) => `En vivo desde NASA JPL: un mensaje tarda ${m} en llegar a la Luna y ${r} en llegar a Marte ahora mismo`,
     chips: ["¿Quién eres?", "¿Qué descubriste?", "¿Qué pasó en tu último día?", "¿Te sientes solo?"],
     lastQ: "¿Qué pasó en tu último día?", photo: "Foto: NASA",
-    tRobot: "El robot", tLast: "Lo último que vio", tOrbit: "Dónde está hoy", msgph: "Déjale un mensaje", leave: "Dejar",
+    tRobot: "El robot", tLast: "Su última foto", tOrbit: "Desde órbita hoy", msgph: "Déjale un mensaje", leave: "Dejar",
     skipping: "Saltando la espera real", warp: "Salto en el tiempo", warpSub: (x) => `saltar los ${x} reales de ida y vuelta`,
     silent: "En silencio desde hace", awake: "Señal abierta", ago: "",
     calls: (n, tot) => n ? `No olvidado: lo llamaron <b>${n}</b> ${n === 1 ? "vez" : "veces"} hoy${tot > n ? ` · ${tot} en total` : ""}` : `Nadie lo ha llamado hoy. Sé el primero.`,
@@ -73,7 +73,7 @@ function drawPins() {
   list.forEach((r) => {
     const sz = innerWidth <= 600 ? 42 : 54, h = sz / 2 + 4;
     const im = media.img[r.id] || {};
-    const cut = im.cutout?.file || null, face = cut || im.portrait?.file || r.image?.url || "";
+    const cut = cutOf(im) || null, face = cut || im.portrait?.file || r.image?.url || "";
     const icon = L.divIcon({ className: "", html: `<div class="pin" id="g-${r.id}"><div class="face${cut ? " cut" : ""}" style="background-image:url('${face}')"></div></div>`, iconSize: [sz, sz], iconAnchor: [sz / 2, sz / 2] });
     const m = L.marker([r.lat, r.lon], { icon }).addTo(map);
     const dir = r.label_dir || "right";
@@ -107,6 +107,7 @@ function tickSilence() {
 }
 setInterval(tickSilence, 1000);
 
+const cutOf = (im) => (typeof im.cutout === "string" ? im.cutout : im.cutout?.file) || null;
 const name = (r) => (lang === "es" && r.es?.name) || r.name;
 const fld = (r, k) => (lang === "es" && r.es?.[k]) || r[k] || "";
 const fmt = (s) => {
@@ -144,7 +145,7 @@ function fillSheet(r) {
 
 function fillStage(r) {
   const im = media.img[r.id] || {}, mdl = media.model[r.id];
-  const cut = im.cutout?.file, por = cut || im.portrait?.file || r.image?.url || "";
+  const cut = cutOf(im), por = cut || im.portrait?.file || r.image?.url || "";
   const p = $("rPhoto"); p.classList.toggle("cut", !!cut); p.src = por; p.alt = im.portrait?.caption || r.image?.caption || name(r);
   const mv = $("rModel");
   if (mdl?.file) { if (mv.getAttribute("src") !== mdl.file) mv.setAttribute("src", mdl.file); mv.hidden = false; p.style.visibility = "hidden"; }
@@ -165,7 +166,9 @@ function showSlide(k) {
   document.querySelectorAll("#stageTabs button").forEach((b) => b.classList.toggle("on", b.dataset.go === k));
   const src = k === "last" ? im.last_seen : k === "orbit" ? im.from_orbit : (media.model[cur.id]?.file ? { credit: "3D model: NASA" } : im.portrait);
   const bits = [src?.credit || t("photo"), src?.date].filter(Boolean);
-  $("rCredit").textContent = (k !== "robot" && src?.caption ? src.caption + " · " : "") + bits.join(" · ");
+  const lab = k === "last" ? t("tLast") : k === "orbit" ? t("tOrbit") : "";
+  $("rCredit").textContent = (lab ? lab + " · " : "") + bits.join(" · ");
+  $("rCredit").title = src?.caption || "";
 }
 document.querySelectorAll("#stageTabs button").forEach((b) => (b.onclick = () => showSlide(b.dataset.go)));
 $("rModel").addEventListener("error", () => { $("rModel").hidden = true; $("rPhoto").style.visibility = ""; });
