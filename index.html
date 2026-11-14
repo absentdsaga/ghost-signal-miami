@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ghost Signal · Call the robots we left behind</title>
+<meta name="description" content="Tap a robot NASA left on the Moon or Mars and call it. It answers from real NASA records, after the real signal delay.">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="dot"></span><b>GHOST SIGNAL</b><span class="sub" data-i18n="tag">Call the robots we left behind</span></div>
+  <div class="controls">
+    <div class="seg" id="bodySeg">
+      <button data-body="moon" class="on" data-i18n="moon">Moon</button>
+      <button data-body="mars" data-i18n="mars">Mars</button>
+    </div>
+    <div class="seg" id="langSeg">
+      <button data-lang="en" class="on">EN</button>
+      <button data-lang="es">ES</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div id="map"></div>
+  <div class="delaybar" id="delaybar"><span class="pulse"></span><span id="delayText">…</span></div>
+  <div class="hint" id="hint" data-i18n="hint">Tap a glowing robot to call it</div>
+</main>
+
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <button class="close" id="closeSheet" aria-label="Close">×</button>
+  <div class="photo"><img id="rPhoto" alt=""><span class="credit" id="rCredit"></span></div>
+  <div class="sheet-body">
+    <div class="kicker" id="rKicker"></div>
+    <h2 id="rName"></h2>
+    <div class="meta" id="rMeta"></div>
+    <p class="built" id="rBuilt"></p>
+
+    <div class="call">
+      <div class="signal" id="signal">
+        <div class="earth">🌍</div>
+        <div class="wire"><span class="blip" id="blip"></span></div>
+        <div class="robot" id="robotGlyph">🛰️</div>
+      </div>
+      <div class="status" id="status"></div>
+      <div class="answer" id="answer"></div>
+      <div class="sources" id="sources"></div>
+
+      <div class="askrow">
+        <button class="mic" id="micBtn"><span class="micdot"></span><span id="micLabel" data-i18n="hold">Hold to talk</span></button>
+      </div>
+      <form class="typerow" id="typeForm">
+        <input id="typeBox" autocomplete="off" data-i18n-ph="typeph" placeholder="…or type a question">
+        <button type="submit" data-i18n="send">Send</button>
+      </form>
+      <div class="chips" id="chips"></div>
+      <button class="warp" id="warpBtn" hidden data-i18n="warp">⏩ Time-warp</button>
+      <button class="lastday" id="lastBtn" data-i18n="last">Hear its last day</button>
+    </div>
+    <p class="label" data-i18n="label">Imagined voice (AI). Real NASA facts, each one linked to its source.</p>
+  </div>
+</aside>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
