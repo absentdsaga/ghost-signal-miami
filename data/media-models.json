@@ -1,0 +1,79 @@
+{
+  "eagle": {
+    "file": "assets/models/eagle.glb",
+    "src": "https://science.nasa.gov/3d-resources/apollo-lunar-module/",
+    "title": "Apollo Lunar Module (NASA 3D Resources)",
+    "notes": "Generic Apollo LM (not LM-5-specific). Source GLB was Draco+WebP; decoded to plain mesh + PNG textures. +Y up, metres (~5.1 m tall). Contains 135 animation clips from the source: do NOT set autoplay on <model-viewer>. Mirror: github.com/nasa/NASA-3D-Resources '3D Models/Apollo Lunar Module'.",
+    "size_mb": 2.06,
+    "tris": 97588,
+    "textured": true,
+    "license": "NASA media usage guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/): US Gov work, free to use; no NASA endorsement implied, don't use the NASA insignia/logo as branding."
+  },
+  "surveyor3": null,
+  "alsep": null,
+  "rover16": null,
+  "opportunity": {
+    "file": "assets/models/opportunity.glb",
+    "src": "https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/",
+    "title": "Spirit and Opportunity Rover, 3D Model (NASA/JPL-Caltech)",
+    "notes": "Same file as spirit. Source 24883_MER_static.glb (11.9 MB, PNG textures) -> textures re-encoded JPEG q85 at original 1024px. +Y up, metres (~1.6 m tall), sits on y=0. Also at science.nasa.gov/3d-resources/mars-exploration-rover-opportunity-mer-b/ (3.8k tris, untextured: worse).",
+    "size_mb": 2.88,
+    "tris": 31450,
+    "textured": true,
+    "license": "NASA media usage guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/): US Gov work, free to use; no NASA endorsement implied, don't use the NASA insignia/logo as branding."
+  },
+  "spirit": {
+    "file": "assets/models/spirit.glb",
+    "src": "https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/",
+    "title": "Spirit and Opportunity Rover, 3D Model (NASA/JPL-Caltech)",
+    "notes": "Byte-identical copy of opportunity.glb (twin MER rovers).",
+    "size_mb": 2.88,
+    "tris": 31450,
+    "textured": true,
+    "license": "NASA media usage guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/): US Gov work, free to use; no NASA endorsement implied, don't use the NASA insignia/logo as branding."
+  },
+  "sojourner": null,
+  "viking1": {
+    "file": "assets/models/viking1.glb",
+    "src": "https://science.nasa.gov/3d-resources/viking-lander/",
+    "title": "Viking Lander (NASA 3D Resources)",
+    "notes": "Untextured (flat materials, renders white/grey with a few coloured parts). Plain GLB copied as-is (no Draco). Upright in model-viewer. Has 2 animation clips: don't set autoplay. Generic Viking lander, fits Viking 1 and 2.",
+    "size_mb": 1.85,
+    "tris": 99526,
+    "textured": false,
+    "license": "NASA media usage guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/): US Gov work, free to use; no NASA endorsement implied, don't use the NASA insignia/logo as branding."
+  },
+  "phoenix": null,
+  "insight": {
+    "file": "assets/models/insight.glb",
+    "src": "https://science.nasa.gov/resource/insight-lander-3d-model/",
+    "title": "InSight Lander, 3D Model (NASA/JPL-Caltech), deployed",
+    "notes": "Deployed config: solar arrays open, SEIS + wind shield and HP3 mole on the ground. Source 24880_InSight_deployed.glb 22.4 MB / 178k tris -> simplified to ~62% tris, PNG->JPEG textures, KHR_mesh_quantization (core three.js/model-viewer support, no decoder needed; not Draco/meshopt). +Y up.",
+    "size_mb": 6.53,
+    "tris": 110540,
+    "textured": true,
+    "license": "NASA media usage guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/): US Gov work, free to use; no NASA endorsement implied, don't use the NASA insignia/logo as branding."
+  },
+  "ingenuity": {
+    "file": "assets/models/ingenuity.glb",
+    "src": "https://science.nasa.gov/resource/mars-ingenuity-helicopter-3d-model/",
+    "title": "Mars Ingenuity Helicopter, 3D Model (NASA/JPL-Caltech)",
+    "notes": "Source 25043_Ingenuity_v3.glb used as-is (plain GLB, JPEG textures); only fix: clamped one baseColorFactor 1.0000001 -> 1.0 so it passes glTF validation. Upright in model-viewer.",
+    "size_mb": 1.76,
+    "tris": 9092,
+    "textured": true,
+    "license": "NASA media usage guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/): US Gov work, free to use; no NASA endorsement implied, don't use the NASA insignia/logo as branding."
+  },
+  "_notes": {
+    "generated": "2026-11-14",
+    "nulls": {
+      "surveyor3": "No official NASA 3D model of the Surveyor lander found (checked science.nasa.gov 3D Resources + resource API, NASA-3D-Resources GitHub incl. 2022 history, archived nasa3d.arc.nasa.gov listing, Eyes on the Solar System model list, NASA SVS). Closest NASA 3D: Apollo 12 Landing Site printable terrain STL (science.nasa.gov/3d-resources/apollo-12-landing-site/), no spacecraft. Use a photo/still instead.",
+      "alsep": "No official NASA 3D model of ALSEP or any ALSEP instrument found (same sources). Closest: NASA 3D Resources 'Apollo 11 Landing Site' terrain STL; Smithsonian NASM holds a Passive Seismic Experiment artifact but no NASA 3D scan found. Use photo.",
+      "rover16": "No official NASA 3D model of the Apollo Lunar Roving Vehicle found (same sources). Only community CC0/paid models exist (Blender Artists CC0 LRV, Sketchfab, CGTrader): not NASA. Fallback idea: show eagle.glb (Apollo LM) or a photo.",
+      "sojourner": "No official NASA 3D model of Sojourner or the Mars Pathfinder lander found. Eyes on the Solar System lists 'Mars Pathfinder' but with no model; its only related asset is the MER/MPF cruise stage (eyes.nasa.gov/assets/static/models/sc_mars_exploration_rover/cruise/mpf_mera_merb_cruise.gltf), not the rover. Closest official rover: assets/models/opportunity.glb (successor MER).",
+      "phoenix": "No official NASA 3D model of the landed Phoenix lander found. JPL Eyes has only cruise (sc_phoenix/cruise/phoenix_cruise.gltf) and EDL aeroshell (sc_phoenix/edl/phoenix_edl.gltf = heat shield + backshell, lander hidden) at eyes.nasa.gov/assets/static/models/. Closest official lander: assets/models/insight.glb (InSight reused Phoenix's lander design)."
+    },
+    "viewer": "All files are plain GLB with embedded textures; no Draco/meshopt. insight.glb uses KHR_mesh_quantization (supported natively by model-viewer/three.js). All pass gltf-transform validate with 0 errors and were render-tested in model-viewer 4.0 headless.",
+    "license": "NASA media usage guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/): US Gov work, free to use; no NASA endorsement implied, don't use the NASA insignia/logo as branding."
+  }
+}

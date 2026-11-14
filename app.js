@@ -168,6 +168,7 @@ function showSlide(k) {
   $("rCredit").textContent = (k !== "robot" && src?.caption ? src.caption + " · " : "") + bits.join(" · ");
 }
 document.querySelectorAll("#stageTabs button").forEach((b) => (b.onclick = () => showSlide(b.dataset.go)));
+$("rModel").addEventListener("error", () => { $("rModel").hidden = true; $("rPhoto").style.visibility = ""; });
 
 function setAwake(on) {
   const st = $("stage"); st.classList.toggle("awake", on); st.classList.remove("lost");
