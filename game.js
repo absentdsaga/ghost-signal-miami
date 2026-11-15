@@ -48,7 +48,7 @@
   };
   const GENERIC = new Set(["how", "do", "who", "where", "cómo", "como", "quién", "quien", "dónde", "donde", "find", "see", "ver", "fly", "volar"]);
   const KEY = "ghostsignal.v1";
-  let D = null;
+  let D = null, DOOR = {};
   const S = Object.assign({ name: "", solved: {}, clues: {}, woke: {}, visits: {}, power: {}, recharge: {}, drained: {}, hints: {}, wrongs: {}, stars: {}, bets: {}, chat: {}, streak: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })());
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
   const g = (k) => G[lang][k];
@@ -79,7 +79,7 @@
   }
   window.GS_spend = (r, o = {}) => {
     const c = caseOf(r.id); if (!c || isSolved(r.id)) return true;
-    if (o.kind === "wake" || o.kind === "solved" || o.kind === "last" || o.kind === "memory") return true;
+    if (o.kind === "wake" || o.kind === "solved" || o.kind === "last" || o.kind === "memory" || o.kind === "door") return true;
     if (!spend(r.id)) { FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase .gs-power")); return false; }
     return true;
   };
@@ -240,6 +240,7 @@
     if (!ok && !S.woke[r.id]) { renderPower(); return; }
     if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(chatLog(r)); box.appendChild(gutCall(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
+    if (!ok && DOOR[r.id] && !S.open?.[r.id]) { box.appendChild(doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
     if (ok) { box.appendChild(chatLog(r)); renderPower(); return; }
     box.appendChild(memStrip(r, c, have));
@@ -357,6 +358,99 @@
     return wrap;
   }
 
+
+  /* ---------- the door: talk your way in (Suck Up rules: read the machine, pick who you are, don't get caught) ---------- */
+  const DS = {};
+  const dstate = (id) => (DS[id] ||= { trust: 40, used: [], test: null, knocked: false, shuffle: 0 });
+  const MOVE_LBL = { disguise: "Pretend to be", flatter: "Butter it up", honest: "Tell the truth" };
+  function trustWord(t) { return t >= 85 ? "Almost open" : t >= 60 ? "Warming up" : t >= 35 ? "Suspicious" : "About to hang up"; }
+  function doorMeter(r) {
+    const d = dstate(r.id), t = Math.max(0, Math.min(100, d.trust));
+    return el("div", `gs-door-m${t >= 85 ? " hot" : t < 35 ? " cold" : ""}`, `<div class="gs-door-top"><span class="gs-k">Hatch</span><b>${trustWord(t)}</b><span class="gs-door-n">${t}%</span></div><div class="gs-door-bar"><i style="width:${t}%"></i></div><div class="gs-door-mood">${esc(DOOR[r.id].mood)}</div>`);
+  }
+  function bumpTrust(r, delta, anchor) {
+    const d = dstate(r.id); d.trust = Math.max(0, Math.min(100, d.trust + delta));
+    const n = anchor || document.querySelector("#gsCase .gs-door-m");
+    if (n && window.GSFX) { const [x, y] = window.GSFX.at(n); window.GSFX.float(`${delta > 0 ? "+" : ""}${delta} TRUST`, x, y - 16, delta > 0 ? "#e7ff3a" : "#ff5a5a"); if (delta > 0) window.GSFX.burst(x, y, { n: 14, speed: 4, colors: ["#e7ff3a", "#fff"] }); }
+    if (delta < 0) { FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase")); window.GSFX?.flash("#ff3b3b"); } else FX("place");
+  }
+  const whenIdle = (fn, n = 0) => (busy || pending) && n < 3000 ? setTimeout(() => whenIdle(fn, n + 1), 250) : fn();
+  function afterMove(r) {
+    const d = dstate(r.id), dd = DOOR[r.id];
+    if (d.trust >= 100) return whenIdle(() => cur?.id === r.id && openHatch(r));
+    const left = dd.moves.filter((m, i) => !d.used.includes(i)).length;
+    if (d.trust <= 0 || (!left && d.test == null)) return whenIdle(() => cur?.id === r.id && hangUp(r));
+  }
+  function hangUp(r) {
+    const dd = DOOR[r.id]; say(r.id, "bot", dd.hangup); say(r.id, "you", "(call dropped. call back and try different moves)");
+    FX("flat"); window.GSFX?.flash("#ff3b3b"); toast("Call dropped. Try again.");
+    DS[r.id] = { trust: 40, used: [], test: null, knocked: true, shuffle: (DS[r.id]?.shuffle || 0) + 1 };
+    renderCase();
+  }
+  function openHatch(r) {
+    const c = caseOf(r.id), dd = DOOR[r.id];
+    (S.open ||= {})[r.id] = true; save();
+    FX("solve"); window.GSFX?.flash("#e7ff3a"); window.GSFX?.confetti?.();
+    toast("Hatch open!");
+    c.clues.filter((cl) => cl.how === "ask" && !found(r.id).includes(cl.id)).forEach((cl) => { say(r.id, "bot", L(cl.say), cl.source); found(r.id).push(cl.id); });
+    save();
+    pending = true; renderCase();
+    ask({ text: "", script: dd.open, kind: "door" });
+  }
+  function doorView(r, c) {
+    const d = dstate(r.id), dd = DOOR[r.id], wrap = el("div", "gs-door");
+    wrap.appendChild(doorMeter(r));
+    wrap.appendChild(chatLog(r));
+    if (!d.knocked) { d.knocked = true; setTimeout(() => whenIdle(() => { if (cur?.id !== r.id) return; pending = true; renderCase(); ask({ text: "", script: dd.knock, kind: "door" }); }), 0); return wrap; }
+    if (busy || pending) { if (!pending && !d.wait) { d.wait = 1; setTimeout(() => whenIdle(() => { d.wait = 0; if (cur?.id === r.id) renderCase(); }), 0); } return wrap; }
+    const row = el("div", "gs-reply-row");
+    if (d.test != null) {
+      const m = dd.moves[d.test];
+      wrap.appendChild(el("div", "gs-k gs-door-ask", `You're ${esc(m.who)}. Answer like them:`));
+      const opts = [m.right, ...m.wrong]; let h = d.shuffle + 1; for (const ch of r.id + m.who) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+      opts.sort((a, b) => ((h ^ a.length * 2654435761) >>> 0) % 7 - ((h ^ b.length * 2654435761) >>> 0) % 7);
+      opts.forEach((o) => {
+        const b = el("button", "gs-reply", esc(o));
+        b.onclick = () => {
+          if (busy) return; d.test = null; say(r.id, "you", o);
+          if (o === m.right) {
+            bumpTrust(r, 35, b); S.streak[r.id] = (S.streak[r.id] || 0) + 1; save();
+            const cl = c.clues.find((x) => x.id === m.clue);
+            pending = true; renderCase();
+            ask({ text: o, script: m.yes + (cl ? " " + L(cl.say) : ""), sources: cl ? [{ source: cl.source, text: L(cl.say) }] : [], clue: cl?.id, kind: "memory" });
+          } else {
+            b.classList.add("miss"); bumpTrust(r, -25, b); S.streak[r.id] = 0; save();
+            pending = true; renderCase();
+            ask({ text: o, script: "Busted. " + m.no, kind: "door" });
+          }
+          setTimeout(() => afterMove(r), 0);
+        };
+        row.appendChild(b);
+      });
+      wrap.appendChild(row); return wrap;
+    }
+    wrap.appendChild(el("div", "gs-k gs-door-ask", "Get it to open the hatch. Pick your move:"));
+    dd.moves.forEach((m, i) => {
+      if (d.used.includes(i)) return;
+      const label = m.kind === "disguise" ? `<small>${MOVE_LBL.disguise} ${esc(m.who)}</small>${esc(m.role)}` : `<small>${MOVE_LBL[m.kind]}</small>${esc(m.line)}`;
+      const b = el("button", `gs-reply gs-move ${m.kind}`, label);
+      b.onclick = () => {
+        if (busy) return; d.used.push(i);
+        if (m.kind === "disguise") {
+          d.test = i; say(r.id, "you", m.claim); FX("place");
+          pending = true; renderCase(); ask({ text: m.claim, script: m.test, kind: "door" });
+        } else {
+          say(r.id, "you", m.line); bumpTrust(r, m.trust, b);
+          pending = true; renderCase(); ask({ text: m.line, script: m.say, kind: "door" });
+          setTimeout(() => afterMove(r), 0);
+        }
+      };
+      row.appendChild(b);
+    });
+    wrap.appendChild(row);
+    return wrap;
+  }
+
   function gutCall(r, c) {
     const wrap = el("div", "gs-replies gs-gut2", `<div class="gs-k">${g("gutK")}: ${g("gutH")}</div>`);
     let h = 7; for (const ch of r.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
@@ -365,7 +459,7 @@
     order.forEach((i) => {
       const b = el("button", "gs-reply"); b.textContent = L(c.gut.opts[i]);
       b.onclick = () => {
-        S.bets[r.id] = i; say(r.id, "you", g("gutSay")(L(c.gut.opts[i]))); say(r.id, "bot", g("gutBack")); save(); FX("place");
+        S.bets[r.id] = i; say(r.id, "you", g("gutSay")(L(c.gut.opts[i]))); if (!DOOR[r.id]) say(r.id, "bot", g("gutBack")); save(); FX("place");
         b.classList.add("picked"); const [x, y] = window.GSFX?.at(b) || [0, 0]; window.GSFX?.burst(x, y, { n: 16, speed: 4, colors: ["#e7ff3a", "#fff"] });
         setTimeout(() => renderCase(), 380);
       };
@@ -576,6 +670,7 @@
 
   (async () => {
     try { D = await (await fetch("data/mysteries.json", { cache: "no-store" })).json(); } catch { return; }
+    try { DOOR = await (await fetch("data/door.json", { cache: "no-store" })).json(); } catch { DOOR = {}; }
     const wait = () => (robots.length ? Promise.resolve() : new Promise((res) => setTimeout(() => wait().then(res), 150)));
     await wait();
     updateChrome(); welcome();

@@ -244,3 +244,20 @@
 .gs-gut2 .gs-k{color:#e7ff3a}
 .sheet.gs-unsolved .gs-wake.small{min-height:0;width:auto;padding:8px 16px;font-size:14px;background:transparent;color:#e7ff3a;border:1px solid #e7ff3a66;box-shadow:none}
 .sheet.gs-unsolved #status .heard{display:none}
+/* the door: talk your way in */
+.gs-door{display:flex;flex-direction:column;gap:10px}
+.gs-door-m{padding:12px 14px;border-radius:18px;background:#1a0814cc;border:1px solid #ffffff1f}
+.gs-door-top{display:flex;align-items:baseline;gap:10px}
+.gs-door-top b{font:700 18px/1.1 Unbounded,Geist,system-ui,sans-serif;color:#fff6e8;flex:1}
+.gs-door-n{font:600 14px Geist,system-ui,sans-serif;color:#fff6e8aa;font-variant-numeric:tabular-nums}
+.gs-door-bar{height:12px;border-radius:99px;background:#ffffff14;overflow:hidden;margin:8px 0 6px}
+.gs-door-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#ff4fa3,#ffae36,#e7ff3a);transition:width .6s cubic-bezier(.2,.9,.2,1.2)}
+.gs-door-m.cold .gs-door-bar i{background:#ff3b3b;animation:gsPulse .8s infinite}
+.gs-door-m.hot{border-color:#e7ff3a88;box-shadow:0 0 24px #e7ff3a33}
+.gs-door-mood{font:500 13px/1.35 Geist,system-ui,sans-serif;color:#fff6e8b3}
+.gs-door-ask{margin-top:4px}
+.gs-move{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.gs-move small{font:700 11px/1 Geist,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#e7ff3a}
+.gs-move.flatter small{color:#ff8fc8}.gs-move.honest small{color:#8fe3ff}
+.gs-move.disguise{border-color:#e7ff3a99}
+@keyframes gsPulse{50%{opacity:.45}}
