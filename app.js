@@ -2,7 +2,7 @@ const API = "https://dioni.zo.space/api/ghost-signal";
 
 const T = {
   en: {
-    tag: "Call the robots we left behind", moon: "Moon", mars: "Mars", hint: "Tap a robot to call it",
+    tag: "Call the robots we left behind", moon: "Moon", mars: "Mars", hint: "Tap a machine. It calls you back",
     hold: "Tap to talk", stop: "Tap to send", warpToTalk: "Skipping ahead so you can talk…", typeph: "…or type a question", send: "Send",
     warp: "⏩ Time-warp (skip the real wait)", last: "Hear its last day", label: "Imagined voice (AI). Real NASA facts, each one linked to its source.",
     landed: "Landed", lastc: "Last contact", left: "Left on", moonW: "the Moon", marsW: "Mars",

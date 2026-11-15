@@ -126,3 +126,36 @@
 .ss-count{margin-top:18px;font:800 20px Unbounded;color:var(--lime)}
 .ss-next{margin-top:14px}.ss-next .p{font-size:18px;padding:16px 28px;box-shadow:0 6px 0 rgba(0,0,0,.5)}
 @media (max-width:760px){.ss-pill[data-a="case"]{display:none}.ss-bimg{height:130px}.ss-mem{font-size:14px}}
+
+/* talk first (Nov 15): full colour from the first second, story beats, mission card, big bright keys, home goal */
+.ss-scene{filter:brightness(calc(.72 + var(--ss-sig)*.3)) saturate(calc(.75 + var(--ss-sig)*.4))}
+.ss-static{opacity:.04}
+.ss-pill[data-a="case"],.ss-pips,.ss-found{display:none}
+.ss-beats{position:absolute;top:max(18px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:6px;padding:7px;border-radius:99px;background:rgba(11,8,18,.62);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);max-width:calc(100vw - 24px)}
+.ss-beats b{font:700 12px Unbounded;padding:9px 13px;border-radius:99px;color:rgba(255,255,255,.5);white-space:nowrap;transition:.3s}
+.ss-beats b.now{background:#fff7ea;color:#16101c}.ss-beats b.ok{background:var(--lime);color:#16101c}.ss-beats b.no{background:var(--pink);color:#16101c}
+.ss-mission{position:absolute;left:50%;top:34%;transform:translate(-50%,-50%) scale(.7) rotate(-2deg);z-index:7;width:min(520px,88vw);background:#fff7ea;color:#16101c;border-radius:28px;padding:26px 28px;text-align:center;box-shadow:0 30px 90px rgba(0,0,0,.65);opacity:0;pointer-events:none;transition:.4s cubic-bezier(.3,1.5,.5,1)}
+.ss-mission.show{opacity:1;transform:translate(-50%,-50%) rotate(-2deg)}
+.ss-mission small{display:inline-block;font:700 11px Unbounded;letter-spacing:.1em;background:#16101c;color:var(--lime);padding:6px 11px;border-radius:7px}
+.ss-mission b{display:block;font:800 clamp(30px,4.4vw,52px)/1.02 Unbounded;letter-spacing:-.02em;margin:12px 0 10px}
+.ss-mission span{display:block;font:600 19px/1.35 Geist}
+.ss-mission em{display:block;font:600 15px Geist;font-style:normal;margin-top:12px;padding-top:12px;border-top:1px dashed rgba(22,16,28,.3);color:#5b4a68}
+.ss-line{display:inline-block;background:#fff7ea;color:#16101c;text-shadow:none;padding:18px 26px;border-radius:26px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.ss-who.you + .ss-line{background:rgba(11,8,18,.8);color:#fff}
+.ss-line em{color:#c2389a}
+.ss-opt,.ss-opt.in:hover{background:var(--c);color:#16101c;border:0;max-width:400px;padding:20px 22px 22px;box-shadow:0 8px 0 rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.6);backdrop-filter:none}
+.ss-opt.in:hover{filter:brightness(1.08)}
+.ss-opt .k{background:#16101c;color:var(--c)}
+.ss-opt .s{font:800 22px/1.2 Geist}
+.ss-o1{--c:var(--lime)}.ss-o2{--c:var(--pink)}.ss-o3{--c:var(--amber)}
+.ss-opt.right{background:var(--lime);box-shadow:0 8px 0 rgba(0,0,0,.5),0 0 40px var(--lime)}
+.ss-opt.wrong{background:#3a1a2c;color:#fff}
+.ss-mic{background:#fff7ea;color:#16101c;border:0;box-shadow:0 8px 0 rgba(0,0,0,.5)}.ss-mic small{color:#5b4a68}
+#gsToday{display:none!important}
+#ssHome{position:fixed;left:50%;top:92px;transform:translateX(-50%);z-index:40;font:600 15px Geist;color:#16101c;background:#d7ff5a;padding:10px 18px;border-radius:99px;box-shadow:0 6px 0 rgba(0,0,0,.45);pointer-events:none;white-space:nowrap}
+#ssHome b{font:800 16px Unbounded}
+body.sc-on #ssHome,body.sc-going #ssHome{display:none}
+.ss-start{position:absolute;left:50%;bottom:calc(100% + 6px);transform:translateX(-50%);font:800 11px Unbounded;letter-spacing:.04em;color:#16101c;background:#d7ff5a;padding:7px 10px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 0 rgba(0,0,0,.45);animation:ssbob 1s ease-in-out infinite alternate;pointer-events:none;z-index:3}
+.ss-start:after{content:"";position:absolute;left:50%;top:100%;margin-left:-6px;border:6px solid transparent;border-top-color:#d7ff5a}
+@keyframes ssbob{to{transform:translateX(-50%) translateY(-6px)}}
+@media (max-width:760px){.ss-beats{top:calc(max(18px,env(safe-area-inset-top)) + 46px)}.ss-beats b{font-size:9px;padding:7px 8px}.ss-id{display:none}.ss-opt .s{font-size:20px}.ss-line{padding:12px 16px;border-radius:18px}.ss-mission b{font-size:28px}.ss-mission span{font-size:16px}#ssHome{top:auto;bottom:74px;font-size:13px}}

@@ -4,8 +4,8 @@
 (() => {
   const G = {
     en: {
-      welcomeK: "Night shift · Ghost Signal desk", welcomeH: "11 robots went quiet. Help them remember.",
-      welcomeP: "NASA left these machines on the Moon and Mars. Each one forgot what happened to it. Call them, find real NASA clues, and solve each case to bring it back.",
+      welcomeK: "Night shift · Ghost Signal desk", welcomeH: "11 machines went silent. You're on the radio tonight.",
+      welcomeP: "NASA left them on the Moon and Mars. Tap one and it calls you back. Get it through its hardest moment and its memory comes home.",
       namePh: "Your name", start: "Start my shift", skip: "Skip", operator: "Operator",
       wake: "Wake it up", wakeAgain: "Call it again", again: "Say hi again", wakeHeard: "You called it", caseK: "Case file", solvedK: "Brought back",
       clues: "Clues", found: (n, m) => `${n} of ${m} found`, newClue: "New clue!", tapToAsk: "tap to ask",

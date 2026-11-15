@@ -38,7 +38,7 @@
   <div class="ss-hud"><button class="ss-pill" data-a="map">&larr; Map</button>
     <div class="ss-id"><b></b><small></small></div>
     <div class="ss-right"><span class="ss-streak"></span><span class="ss-pill ss-found"></span><button class="ss-pill" data-a="voice">Voice on</button><button class="ss-pill" data-a="case">Case file</button><div class="ss-pips"></div></div></div>
-  <div class="ss-tune"><div class="ss-tw">
+  <div class="ss-beats"></div><div class="ss-mission"></div><div class="ss-tune gone"><div class="ss-tw">
     <button class="ss-knob" aria-label="Hold to tune"><svg viewBox="0 0 232 232"><circle cx="116" cy="116" r="108" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="8"/><circle class="ss-arc" cx="116" cy="116" r="108" fill="none" stroke="#d7ff5a" stroke-width="8" stroke-linecap="round" stroke-dasharray="679" stroke-dashoffset="679" style="filter:drop-shadow(0 0 8px #d7ff5a)"/></svg><span class="ss-core">HOLD<br>TO TUNE</span></button>
     <p class="ss-tp"></p><div class="ss-mood"></div></div></div>
   <div class="ss-cap"><div class="ss-who"><span class="ss-wn"></span><span class="ss-wave"><i></i><i></i><i></i></span></div><p class="ss-line"></p><a class="ss-src" target="_blank" rel="noopener" hidden>True story. See the NASA source</a></div>
@@ -75,7 +75,7 @@
     let src = (d.game?.rounds || []).map((r) => ({ q: [r.say, r.q].filter(Boolean).join(" "), right: r.right, wrong: r.wrong || [], yes: r.yes, no: r.no }));
     if (!src.length) src = (d.moves || []).filter((m) => m.kind === "disguise" && m.test).map((m) => ({ q: `Someone says they're ${m.who}. ${m.test}`, right: m.right, wrong: m.wrong || [], yes: m.yes, no: m.no }));
     const P = PX(id);
-    return src.slice(0, 3).map((r, k) => {
+    return src.slice(0, 5).map((r, k) => {
       const opts = [r.right, ...r.wrong.slice(0, 2)].map((t, j) => ({ t, ok: j === 0, re: j === 0 ? `${P.yay[k % P.yay.length]} ${r.yes}` : `${P.oops[(j - 1) % P.oops.length]} ${r.no}` }));
       for (let a = opts.length - 1; a > 0; a--) { const b = Math.floor(Math.random() * (a + 1)); [opts[a], opts[b]] = [opts[b], opts[a]]; }
       return { ...r, opts, fact: facts.length ? facts[k % facts.length] : null };
@@ -100,21 +100,34 @@
     await ready; if (!DOOR || !ROBOTS) return;
     const r = ROBOTS.find((x) => x.id === id); if (!r) return;
     clearAll(); run++; R = r; rounds = buildRounds(id); if (!rounds.length) return;
-    i = 0; score = 0; streak = 0; told = false; phase = "tune"; q(".ss-src").hidden = true; found();
+    i = 0; score = 0; streak = 0; told = false; phase = "talk"; q(".ss-src").hidden = true; found();
     root.classList.remove("locked", "glitch"); q(".ss-win").classList.remove("show"); q(".ss-fact").classList.remove("show"); q(".ss-cap").classList.remove("show");
     q(".ss-dock").innerHTML = ""; q(".ss-timer").classList.remove("on"); q(".ss-streak").classList.remove("on");
     q(".ss-scene").style.backgroundImage = `url(assets/img/${id}-scene.jpg)`;
     q(".ss-id b").textContent = plain(r).toUpperCase(); q(".ss-id small").textContent = `${PX(id).tag} · ${r.body === "mars" ? "Mars" : "Moon"}`;
     q(".ss-tp").innerHTML = `Something on the ${r.body === "mars" ? "Mars" : "Moon"} is still transmitting<small>hold the dial, or hold SPACE</small>`;
     q(".ss-mood").textContent = DOOR[id]?.game?.title ? `${DOOR[id].game.title.toUpperCase()} · ${rounds.length} QUESTIONS` : `${rounds.length} QUESTIONS`;
-    hold = 0; q(".ss-arc").style.strokeDashoffset = 679; q(".ss-tune").classList.remove("gone");
-    pips(); sig(0);
+    q(".ss-mission").classList.remove("show");
+    pips(); beats(); sig(0.6);
     root.hidden = false; requestAnimationFrame(() => root.classList.add("on"));
+    later(start, 600);
     window.dispatchEvent(new CustomEvent("gs:scope-open", { detail: { robot: id } }));
   }
   function close() {
     clearAll(); run++; phase = "off"; window.speechSynthesis?.cancel();
     root.classList.remove("on"); setTimeout(() => { if (phase === "off") root.hidden = true; }, 500);
+  }
+
+  /* talk first: the machine speaks the moment you arrive, then states the mission */
+  function waitSpeech(cb, max = 7000) { const t0 = Date.now(), id = run; (function p() { if (id !== run) return; if (voice && window.speechSynthesis?.speaking && Date.now() - t0 < max) return setTimeout(p, 150); cb(); })(); }
+  function beats() { const st = DOOR?.[R.id]?.game?.steps || []; q(".ss-beats").innerHTML = rounds.map((r, k) => `<b class="${r.res || ""}${k === i && phase !== "won" ? " now" : ""}">${st[k] || k + 1}</b>`).join(""); }
+  function start() {
+    const g = DOOR?.[R.id]?.game || {}, ms = q(".ss-mission");
+    ms.innerHTML = `<small>YOUR MISSION</small><b>${g.title || "Prove you know me"}</b><span>${g.rule || "Answer right and I'll open up."}</span><em>I'll shout what's happening. You pick what we do.</em>`;
+    tone(660, 0.15); later(() => tone(990, 0.3), 120);
+    say(g.intro || PX(R.id).hi, "robot");
+    later(() => ms.classList.add("show"), 900);
+    later(() => waitSpeech(() => { ms.classList.remove("show"); q(".ss-cap").classList.remove("show"); later(ask, 350); }), 3800);
   }
 
   /* tune */
@@ -129,7 +142,7 @@
 
   /* one question */
   function ask() {
-    const r = rounds[i]; phase = "ask";
+    const r = rounds[i]; phase = "ask"; beats();
     say(r.q, "robot", () => {
       const dk = q(".ss-dock"); dk.innerHTML = "";
       r.opts.forEach((o, k) => {
@@ -141,7 +154,7 @@
       m.innerHTML = `<span class="dot"><svg viewBox="0 0 24 24" fill="#111"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0" stroke="#111" stroke-width="2" fill="none"/><rect x="11" y="17" width="2" height="4"/></svg></span><b>Say it</b><small>tap, then talk</small>`;
       m.onclick = () => listen(m); dk.appendChild(m); later(() => m.classList.add("in"), 80 + r.opts.length * 110);
       root.style.setProperty("--ss-dock", dk.offsetHeight + "px");
-      later(() => { phase = "pick"; startTimer(); }, 80 + r.opts.length * 110);
+      later(() => { phase = "pick"; if (i > 0) startTimer(); }, 80 + r.opts.length * 110);
     });
   }
   function startTimer() {
@@ -187,7 +200,7 @@
       q(".ss-delay").classList.remove("show");
       if (ok) {
         opts[k].classList.add("right"); score++; streak++;
-        q(`.ss-pips i:nth-child(${score})`)?.classList.add("on"); sig(0.25 + (score / rounds.length) * 0.75); pipLabel();
+        q(`.ss-pips i:nth-child(${score})`)?.classList.add("on"); sig(0.6 + (score / rounds.length) * 0.4); pipLabel();
         const pl = q(".ss-plus"), bb = opts[k].getBoundingClientRect(); pl.textContent = streak > 1 ? `x${streak}` : "+1";
         pl.style.left = bb.left + bb.width / 2 - 40 + "px"; pl.style.top = bb.top - 60 + "px"; pl.classList.remove("go"); void pl.offsetWidth; pl.classList.add("go");
         tone(784, 0.12); later(() => tone(1175, 0.25), 110);
@@ -198,8 +211,9 @@
         const rt = opts[r.opts.findIndex((o) => o.ok)]; rt?.classList.remove("dim"); rt?.classList.add("right");
         root.classList.add("glitch"); noise(0.35, 0.15); later(() => root.classList.remove("glitch"), 450);
       }
+      r.res = ok ? "ok" : "no"; beats();
       window.dispatchEvent(new CustomEvent("gs:scope-answer", { detail: { robot: R.id, ok } }));
-      say(k >= 0 ? r.opts[k].re : "Static ate your answer. " + r.no, "robot", () => later(advance, 700));
+      say(k >= 0 ? r.opts[k].re : "Static ate your answer. " + r.no, "robot", () => later(() => waitSpeech(advance, 6000), 900));
     }, 750);
   }
   function advance() {
@@ -232,7 +246,7 @@
   function found() { const n = ROBOTS.filter((x) => won[x.id] != null).length; q(".ss-found").textContent = `${n} of ${ROBOTS.length} found`; return n; }
 
   function win() {
-    phase = "won"; root.classList.add("locked"); q(".ss-streak").classList.remove("on"); sig(Math.max(0.55, score / rounds.length));
+    phase = "won"; beats(); root.classList.add("locked"); q(".ss-streak").classList.remove("on"); sig(1);
     [523, 659, 784, 1047].forEach((f, k) => later(() => tone(f, 0.4, "triangle", 0.1), k * 120));
     won[R.id] = Math.max(won[R.id] || 0, score); saveWon();
     window.GS_scenePower?.(R.id, true);
@@ -266,8 +280,8 @@
     if (a === "voice") { voice = !voice; e.target.textContent = voice ? "Voice on" : "Voice off"; if (!voice) speechSynthesis?.cancel(); }
     if (a === "case") close();
     if (a === "again") open(R.id);
-    if (a === "map") { close(); if (window.GS_scene?.phase && window.GS_scene.phase !== "off") window.GS_scene.leave(); else document.getElementById("closeSheet")?.click(); }
-    if (a === "next") { const nx = nextRobot(); close(); if (!nx) { if (window.GS_scene?.phase && window.GS_scene.phase !== "off") window.GS_scene.leave(); else document.getElementById("closeSheet")?.click(); return; } if (window.GS_scene?.phase && window.GS_scene.phase !== "off") window.GS_scene.enter(nx.id); else if (typeof openRobot === "function") openRobot(nx); }
+    if (a === "map") toMap();
+    if (a === "next") { const nx = nextRobot(); if (!nx) return toMap(); const sc = window.GS_scene; if (sc?.phase && sc.phase !== "off") { sc.leave(); const t0 = Date.now(); (function w() { if (sc.phase === "off") { close(); sc.enter(nx.id); } else if (Date.now() - t0 < 4000) setTimeout(w, 100); else close(); })(); } else { close(); if (typeof openRobot === "function") openRobot(nx); } }
   });
   document.addEventListener("keydown", (e) => {
     if (root.hidden || phase === "off") return;
@@ -275,9 +289,20 @@
     e.stopPropagation();
     if (e.code === "Space") { e.preventDefault(); if (phase === "tune") down(); else if (phase === "fact") advance(); }
     else if (/^Digit[1-3]$/.test(e.code)) { const k = +e.code.slice(-1) - 1; if (phase === "offerpick") { if (k < 2) story(k === 0); } else pick(k); }
-    else if (e.key === "Escape") close();
+    else if (e.key === "Escape") toMap();
   }, true);
   document.addEventListener("keyup", (e) => { if (!root.hidden && e.code === "Space") { e.stopPropagation(); up(); } }, true);
-  addEventListener("gs:open", (e) => { const id = e.detail?.robot?.id; if (id && won[id] == null) open(id); });
+  function toMap() { const sc = window.GS_scene; if (sc?.phase && sc.phase !== "off") sc.leave(); else document.getElementById("closeSheet")?.click(); setTimeout(close, 200); home(); }
+  /* home screen: the goal and where to start */
+  const hb = document.createElement("div"); hb.id = "ssHome"; document.body.appendChild(hb);
+  function home() {
+    const n = ROBOTS ? ROBOTS.filter((x) => won[x.id] != null).length : 0, of = ROBOTS?.length || 11;
+    hb.innerHTML = `<b>${n} of ${of}</b> memories home`;
+    document.querySelectorAll(".ss-start").forEach((x) => x.remove());
+    const pin = n === 0 && document.getElementById("g-eagle");
+    if (pin) { const t = document.createElement("span"); t.className = "ss-start"; t.textContent = "START HERE"; pin.appendChild(t); }
+  }
+  ready.then(home); addEventListener("gs:pins", () => setTimeout(home, 50)); addEventListener("gs:scope-won", home);
+  addEventListener("gs:open", (e) => { const id = e.detail?.robot?.id; if (id) open(id); });
   window.GS_scope = { open, close, won };
 })();

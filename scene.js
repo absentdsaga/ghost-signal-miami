@@ -383,6 +383,7 @@
     anim(q(".h-n"), [{ opacity: 0, transform: "translateY(16px) scale(1.03)" }, { opacity: 1, transform: "none" }], { duration: 900, delay: fromScene ? 600 : 900, easing: OUT, fill: "both" });
     later(() => type(q(".h-s"), root.dataset.s, 40), fromScene ? 1000 : 1400);
 
+    if (window.GS_scope) { later(() => skip(), fromScene ? 900 : 1300); return; } /* talk first: the call opens as soon as the camera lands */
     if (solved) {
       /* already brought back: lights on from the first frame, short shot */
       lightUp(id, R, true);
