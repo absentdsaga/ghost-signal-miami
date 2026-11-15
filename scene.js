@@ -74,7 +74,7 @@
   /* ---------- data ---------- */
   const robot = (id) => robots.find((r) => r.id === id);
   const rig = (id) => (window.GS_RIGS || {})[id] || { heart: { x: 50, y: 20, c: "#d8ff6a" }, foot: { x: 50, y: 88, w: 60 }, lamps: [], fx: [] };
-  const L = (id) => ({ g: `assets/layers/${id}/ground.webp`, sh: `assets/layers/${id}/shadow.webp`, m: `assets/layers/${id}/machine.webp` });
+  const L = (id) => ({ g: `assets/layers/${id}/ground.webp`, sh: `assets/layers/${id}/shadow.webp`, m: `assets/layers/${id}/machine.webp`, d: `assets/wake/scene/${id}-dark.webp` }); /* -dark = machine layer pre-greyed (no runtime filter) */
   function order(b) {
     const panels = VISTA[b]; if (!panels) return robots.filter((r) => r.body === b).map((r) => r.id);
     return panels.flatMap((p) => Object.entries(p.pts).sort((a, c) => a[1][0] - c[1][0]).map(([id]) => id)).filter(robot);
@@ -117,7 +117,7 @@
     root.style.setProperty("--bar-b", Math.max(phone ? vh - top - h * 0.97 : vh * 0.07, 0) + "px");
     root.classList.toggle("phone", phone);
     root.classList.toggle("hud-right", R.hud === "right" && !phone);
-    const dpr = Math.min(devicePixelRatio || 1, 1.5), cw = Math.min(2048, Math.round(w * dpr)), ch = Math.round(cw * 720 / 1280);
+    const cw = Math.min(1400, Math.round(w * 0.8)), ch = Math.round(cw * 720 / 1280); /* light FX are soft: 0.8x resolution is invisible and cheap */
     [cUnder, cOver].forEach((c) => { if (c.width !== cw) { c.width = cw; c.height = ch; } });
     geo = { w, h, left, top, ox, oy, phone, cw, ch, k: cw / w };
   }
@@ -127,7 +127,9 @@
   const gU = cUnder.getContext("2d"), gO = cOver.getContext("2d");
   let fx = [], raf = 0;
   const P = (x, y) => [x / 100 * cUnder.width, y / 100 * cUnder.height];
+  let odd = false;
   function loop(now) {
+    if (phase === "behind" && (odd = !odd)) { raf = requestAnimationFrame(loop); return; } /* half rate while dimmed behind the case */
     gU.clearRect(0, 0, cUnder.width, cUnder.height); gO.clearRect(0, 0, cOver.width, cOver.height);
     gU.globalCompositeOperation = gO.globalCompositeOperation = "lighter";
     fx = fx.filter((f) => { const g = f.over ? gO : gU; g.save(); const keep = f.draw(f.t0 + (now - f.t0) / TS, g, cUnder.width, cUnder.height) !== false; g.restore(); return keep; });
@@ -320,7 +322,7 @@
   function build(id, lit) {
     clearRun(); fx = []; lights.innerHTML = "";
     const l = L(id);
-    q(".g").src = l.g; q(".sh").src = l.sh; q(".m-dark").src = l.m; q(".m-lit").src = l.m;
+    q(".g").src = l.g; q(".sh").src = l.sh; q(".m-dark").src = l.d; q(".m-lit").src = l.m;
     layout(id);
     root.classList.toggle("lit", lit); root.classList.remove("behind", "waking", "awake", "show-hud", "show-note", "done");
     root.dataset.body = robot(id).body;
@@ -383,7 +385,7 @@
 
     root.classList.add("show-hud");
     later(() => type(q(".h-k"), root.dataset.k, 44), fromScene ? 300 : 500);
-    anim(q(".h-n"), [{ opacity: 0, transform: "translateY(16px)", letterSpacing: ".04em" }, { opacity: 1, transform: "none", letterSpacing: "-.04em" }], { duration: 900, delay: fromScene ? 600 : 900, easing: OUT, fill: "both" });
+    anim(q(".h-n"), [{ opacity: 0, transform: "translateY(16px) scale(1.03)" }, { opacity: 1, transform: "none" }], { duration: 900, delay: fromScene ? 600 : 900, easing: OUT, fill: "both" });
     later(() => type(q(".h-s"), root.dataset.s, 40), fromScene ? 1000 : 1400);
 
     if (solved) {

@@ -11,11 +11,10 @@
 .pl{will-change:transform}
 .pl img,.mach .m{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .mach{transform-origin:50% 88%}
-.fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
-@supports (mix-blend-mode:plus-lighter){.fx{mix-blend-mode:plus-lighter}}
+.fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none} /* no CSS blend modes: they halved the frame rate; the canvases add light internally ('lighter') */
 
 /* dead -> alive: a dark copy of the machine under a full-colour copy that fades in; the world under a dimmer */
-.m-dark{filter:grayscale(1) brightness(.42) contrast(1.15)}
+.m-dark{will-change:opacity}
 .m-lit{opacity:0;transition:opacity calc(1.2s * var(--ts,1)) cubic-bezier(.4,0,.2,1);will-change:opacity}
 .sc-dark{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 70%,rgba(6,4,12,.5),rgba(3,2,6,.78));opacity:.85;transition:opacity calc(1.6s * var(--ts,1)) ease;pointer-events:none}
 .sc.waking .sc-dark{opacity:1;transition:opacity calc(.25s * var(--ts,1)) ease}
@@ -25,8 +24,7 @@
 .sc.scanning .sc-dark{transition:none}
 
 /* lamps: hot white core + coloured halo, additive */
-.lights{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
-@supports (mix-blend-mode:plus-lighter){.lights{mix-blend-mode:plus-lighter}}
+.lights{position:absolute;inset:0;pointer-events:none}
 .lamp{position:absolute;width:calc(var(--r) * 1%);aspect-ratio:1;translate:-50% -50%;border-radius:50%;opacity:0;
   background:radial-gradient(circle,#fff 0 9%,var(--c) 20%,color-mix(in srgb,var(--c) 38%,transparent) 40%,transparent 68%);will-change:opacity,transform}
 .lamp::after{content:"";position:absolute;inset:-160%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c) 30%,transparent),transparent 62%);opacity:.9}
@@ -44,8 +42,8 @@
 
 /* film: vignette, grain, letterbox */
 .sc-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 72% at 50% 46%,transparent 52%,rgba(3,2,5,.72) 100%)}
-.sc-grain{position:absolute;inset:-60%;pointer-events:none;opacity:.07;background-size:220px 220px;animation:grain .9s steps(6) infinite}
-@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-7%,4%)}40%{transform:translate(5%,-6%)}60%{transform:translate(-3%,8%)}80%{transform:translate(8%,2%)}100%{transform:translate(0,0)}}
+.sc-grain{position:absolute;inset:-12%;will-change:transform;pointer-events:none;opacity:.07;background-size:220px 220px;animation:grain .9s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-7%,4%)}40%{transform:translate(5%,-6%)}60%{transform:translate(-3%,7%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
 .sc-bar{position:absolute;left:0;right:0;background:#000;pointer-events:none;transform:scaleY(0);transition:transform calc(.9s * var(--ts,1)) cubic-bezier(.16,.84,.3,1)}
 .sc-bar.t{top:0;height:var(--bar-t,8vh);transform-origin:top}
 .sc-bar.b{bottom:0;height:var(--bar-b,8vh);transform-origin:bottom}
