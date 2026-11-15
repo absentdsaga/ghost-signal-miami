@@ -22,6 +22,7 @@
       cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
       tries: "Each question costs 1 ▮. Run out and the robot falls asleep.",
       gutK: "Gut call", gutH: "Before you dig: what do you think happened?", gutYour: "Your gut said", gutFind: "Find the clues. Were you right?", gutRight: "Called it. Your gut was right.", gutWrong: "Plot twist. Your gut said something else.",
+      you: "You", gutSay: (x) => `I think: ${x}`, gutBack: "Maybe... I can't tell yet. Ask me the right things and it'll come back.", notMine: (n) => `That memory isn't mine. ${n} would know that one.`, link: (n) => `Memory link ×${n}`, missed: "Static", showMe: "Show me where you are", showMeR: "Can you see me? Look closely.", allBack: "It's all coming back. Say it with me.", memK: "Memories", pick: "Pick your next question", wrongCost: "Right question: free. Wrong one: costs 1 ▮.",
     },
     es: {
       welcomeK: "Turno de noche · Central Señal Fantasma", welcomeH: "11 robots quedaron en silencio. Ayúdalos a recordar.",
@@ -42,12 +43,13 @@
       cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
       tries: "Cada pregunta cuesta 1 ▮. Si se agota, el robot se duerme.",
       gutK: "Corazonada", gutH: "Antes de investigar: ¿qué crees que pasó?", gutYour: "Tu corazonada", gutFind: "Encuentra las pistas. ¿Acertaste?", gutRight: "¡Le atinaste! Tu corazonada era cierta.", gutWrong: "Giro inesperado. Tu corazonada era otra.",
+      you: "Tú", gutSay: (x) => `Creo que: ${x}`, gutBack: "Quizás... todavía no lo sé. Hazme las preguntas correctas y volverá.", notMine: (n) => `Ese recuerdo no es mío. ${n} lo sabría.`, link: (n) => `Enlace de memoria ×${n}`, missed: "Estática", showMe: "Muéstrame dónde estás", showMeR: "¿Me ves? Mira bien.", allBack: "Lo recuerdo todo. Dilo conmigo.", memK: "Recuerdos", pick: "Elige tu siguiente pregunta", wrongCost: "Pregunta correcta: gratis. Incorrecta: cuesta 1 ▮.",
     },
   };
   const GENERIC = new Set(["how", "do", "who", "where", "cómo", "como", "quién", "quien", "dónde", "donde", "find", "see", "ver", "fly", "volar"]);
   const KEY = "ghostsignal.v1";
   let D = null;
-  const S = Object.assign({ name: "", solved: {}, clues: {}, woke: {}, visits: {}, power: {}, recharge: {}, drained: {}, hints: {}, wrongs: {}, stars: {}, bets: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })());
+  const S = Object.assign({ name: "", solved: {}, clues: {}, woke: {}, visits: {}, power: {}, recharge: {}, drained: {}, hints: {}, wrongs: {}, stars: {}, bets: {}, chat: {}, streak: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })());
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
   const g = (k) => G[lang][k];
   const L = (o) => (o && (o[lang] || o.en)) || "";
@@ -77,7 +79,7 @@
   }
   window.GS_spend = (r, o = {}) => {
     const c = caseOf(r.id); if (!c || isSolved(r.id)) return true;
-    if (o.kind === "wake" || o.kind === "solved" || o.kind === "last") return true;
+    if (o.kind === "wake" || o.kind === "solved" || o.kind === "last" || o.kind === "memory") return true;
     if (!spend(r.id)) { FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase .gs-power")); return false; }
     return true;
   };
@@ -103,7 +105,9 @@
 
   function unlock(id, clueId, quiet) {
     const c = caseOf(id); if (!c || found(id).includes(clueId)) return;
-    found(id).push(clueId); save();
+    found(id).push(clueId);
+    const cl0 = c.clues.find((x) => x.id === clueId); if (cl0 && cl0.how !== "ask") { say(id, "bot", L(cl0.say), cl0.source); if (c.clues.every((x) => found(id).includes(x.id))) say(id, "bot", g("allBack")); }
+    save();
     if (cur?.id === id) renderCase(clueId, quiet);
     const card = document.querySelector(`#gsCase .gs-clue[data-clue="${clueId}"]`), cl = c.clues.find((x) => x.id === clueId);
     if (card && !quiet) {
@@ -233,57 +237,121 @@
     }
     if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(gutCall(r, c)); return; }
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
-    if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("tries"))); }
-    const head = el("div", "gs-cluehead", `<span class="gs-k">${g("clues")}</span><span>${g("found")(have.length, c.clues.length)}</span>`);
-    box.appendChild(head);
-    const list = el("div", "gs-clues");
-    c.clues.forEach((cl) => {
-      const got = have.includes(cl.id);
-      const it = el(got ? "div" : "button", `gs-clue ${got ? "got" : "locked"} how-${cl.how}${cl.id === newId ? " new" : ""}`);
-      it.dataset.clue = cl.id;
-      if (got) {
-        const host = (() => { try { return new URL(cl.source).hostname.replace("www.", ""); } catch { return ""; } })();
-        it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "CAM" : cl.how === "orbit" ? "ORB" : "REC"}</span><div><p>${esc(L(cl.say))}</p>
-          ${cl.words.length ? `<div class="gs-earned">${cl.words.map((w) => `<span class="gs-word mini">${esc(W(w))}</span>`).join("")}</div>` : ""}
-          <a class="gs-src" href="${cl.source}" target="_blank" rel="noopener">${g("sources")} · ${host}</a></div>${cl.id === newId ? `<span class="gs-newtag">${g("newClue")}</span>` : ""}`;
-      } else if (cl.how === "ask" && !(S.hints[r.id] || []).includes(cl.id)) {
-        const m = el("div", "gs-clue locked mystery", `<span class="gs-ci">???</span><div><b>${g("lockedMem")}</b><small>${g("lockedSub")}</small></div>`);
-        m.dataset.clue = cl.id; list.appendChild(m); return;
-      } else if (cl.how === "ask") {
-        it.classList.add("hinted");
-        it.innerHTML = `<span class="gs-ci">HINT</span><div><b>${esc(L(cl.prompt))}</b><small>${g("tapToAsk")} · 1 ▮</small></div>`;
-        it.onclick = () => { if (!busy) ask({ text: L(cl.prompt).replace(/^(Ask|Pregúntale)\s*/i, ""), script: L(cl.say), sources: [{ source: cl.source, text: L(cl.say) }], clue: cl.id }); };
-      } else {
-        it.classList.add("hunt");
-        it.innerHTML = `<span class="gs-ci">${cl.how === "last" ? "CAM" : "ORB"}</span><div><b>${g("scan")[cl.how] || esc(L(cl.prompt))}</b><small>${cl.hunt ? esc(L(cl.hunt.find)) : g("look")}</small></div><span class="gs-go-scan">${g("scanSub")} ›</span>`;
-        it.onclick = () => {
-          if (cl.hunt && media.img[r.id]?.[cl.how === "last" ? "last_seen" : "from_orbit"]?.file) openScan(r, cl);
-          else { showSlide(cl.how); document.getElementById("stage")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
-        };
-      }
-      list.appendChild(it);
-    });
-    box.appendChild(list);
-    if (!ok) {
-      const left = c.clues.filter((cl) => cl.how === "ask" && !have.includes(cl.id) && !(S.hints[r.id] || []).includes(cl.id));
-      if (left.length) {
-        const hb = el("button", "gs-hint", `${g("hint")} <small>${g("hintCost")}</small>`);
-        hb.onclick = () => {
-          if (busy || !spend(r.id)) { FX("wrong"); return; }
-          (S.hints[r.id] ||= []).push(left[0].id); save(); FX("hint"); renderCase();
-          const n = document.querySelector(`#gsCase .gs-clue[data-clue="${left[0].id}"]`); if (n) { n.classList.add("new"); const [x, y] = window.GSFX.at(n); window.GSFX.burst(x, y, { n: 14, colors: ["#ffe9a8", "#fff"], speed: 4 }); }
-          renderPower();
-        };
-        box.appendChild(hb);
-      }
+    if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
+    if (ok) { box.appendChild(chatLog(r)); renderPower(); return; }
+    box.appendChild(memStrip(r, c, have));
+    box.appendChild(chatLog(r));
+    const lockedW = c.clues.filter((cl) => !have.includes(cl.id) && cl.words && cl.words.length).length;
+    if (lockedW || c.clues.some((cl) => !have.includes(cl.id))) box.appendChild(replies(r, c, have));
+    if (!lockedW) {
       box.appendChild(builder(r, c));
     }
     renderPower();
+    const log = box.querySelector(".gs-chat"); if (log) log.scrollTop = log.scrollHeight;
     if (newId && !quiet) {
       const n = box.querySelector(".gs-clue.new");
       n?.scrollIntoView({ behavior: "smooth", block: "nearest" });
       FX("clue");
     }
+  }
+
+  /* ---------- the conversation: the case is played by talking ---------- */
+  const QS = {
+    "Ask what it ran on": ["What kept you running?", "¿Qué te daba energía?"],
+    "Ask if anyone tried to wake it": ["Did anyone try to wake you up?", "¿Alguien intentó despertarte?"],
+    "Ask if it got stuck": ["Did you get stuck?", "¿Te quedaste atascado?"],
+    "Ask what it heard": ["What did you hear out there?", "¿Qué escuchaste allá?"],
+    "Ask what it found": ["What did you find?", "¿Qué encontraste?"],
+    "Ask how it talked to Earth": ["How did you talk to Earth?", "¿Cómo hablabas con la Tierra?"],
+    "Ask about its battery": ["What about your battery?", "¿Y tu batería?"],
+    "Ask what its job was": ["What was your job?", "¿Cuál era tu trabajo?"],
+    "Ask how long it was built to last": ["How long were you built to last?", "¿Cuánto debías durar?"],
+    "Ask when it stopped": ["When did you stop?", "¿Cuándo te detuviste?"],
+    "Ask who kept it running": ["Who kept you running?", "¿Quién te mantenía funcionando?"],
+    "Ask how it found its way": ["How did you find your way?", "¿Cómo te orientabas?"],
+    "Ask what the ground looked like": ["What did the ground look like?", "¿Cómo era el suelo?"],
+    "Ask who its crew was": ["Who was your crew?", "¿Quién era tu tripulación?"],
+    "Ask what it's made of": ["What are you made of?", "¿De qué estás hecho?"],
+    "Ask about the flag": ["What happened to the flag?", "¿Qué pasó con la bandera?"],
+    "Ask what it carried": ["What did you carry?", "¿Qué llevabas?"],
+    "Ask if anything broke": ["Did anything break?", "¿Se rompió algo?"],
+    "Ask how fast it went": ["How fast did you go?", "¿Qué tan rápido ibas?"],
+    "Ask what it did": ["What did you do up there?", "¿Qué hacías allá?"],
+    "Ask how it saw": ["How did you see?", "¿Cómo veías?"],
+    "Ask how it landed": ["How did you land?", "¿Cómo aterrizaste?"],
+    "Ask who picked its name": ["Who picked your name?", "¿Quién eligió tu nombre?"],
+    "Ask who it's named after": ["Who are you named after?", "¿En honor a quién te llamas?"],
+    "Ask about its lander": ["Where's your lander?", "¿Dónde está tu módulo?"],
+  };
+  const Q = (cl) => { const q = QS[cl.prompt.en]; return q ? q[lang === "es" ? 1 : 0] : L(cl.prompt).replace(/^(Ask|Pregúntale)\s*/i, ""); };
+  const chat = (id) => (S.chat[id] ||= []);
+  function say(id, who, text, src) { const a = chat(id); a.push({ who, text, src }); if (a.length > 40) a.splice(0, a.length - 40); save(); }
+  function chatLog(r) {
+    const log = el("div", "gs-chat");
+    chat(r.id).forEach((m) => {
+      const host = m.src ? (() => { try { return new URL(m.src).hostname.replace("www.", ""); } catch { return ""; } })() : "";
+      log.appendChild(el("div", `gs-msg-b ${m.who}`, `${esc(m.text)}${m.src ? `<a class="gs-src" href="${m.src}" target="_blank" rel="noopener">${g("sources")} · ${host}</a>` : ""}`));
+    });
+    if (busy && pending) log.appendChild(el("div", "gs-msg-b bot typing", `<i></i><i></i><i></i>`));
+    return log;
+  }
+  function memStrip(r, c, have) {
+    const words = c.clues.filter((cl) => have.includes(cl.id)).flatMap((cl) => cl.words);
+    const n = c.clues.length, k = have.length;
+    const st = S.streak[r.id] || 0;
+    return el("div", "gs-mem", `<span class="gs-k">${g("memK")}</span><span class="gs-dots">${c.clues.map((cl) => `<i class="${have.includes(cl.id) ? "on" : ""}"></i>`).join("")}</span><span class="gs-memn">${k}/${n}</span>${st > 1 ? `<span class="gs-streak">${g("link")(st)}</span>` : ""}`);
+  }
+  let pending = false; const tried = {};
+  function decoys(r, c) {
+    const mine = new Set(c.clues.map((cl) => cl.prompt.en));
+    const out = [];
+    for (const id of D.order) {
+      if (id === r.id) continue;
+      for (const cl of caseOf(id).clues) if (cl.how === "ask" && !mine.has(cl.prompt.en) && !(tried[r.id] || []).includes(cl.prompt.en) && !out.some((o) => o.cl.prompt.en === cl.prompt.en)) out.push({ id, cl });
+    }
+    let h = (found(r.id).length + 3) * 2654435761 >>> 0; for (const ch of r.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    return [out[h % out.length], out[(h >> 7) % out.length === h % out.length ? (h % out.length + 5) % out.length : (h >> 7) % out.length]];
+  }
+  function replies(r, c, have) {
+    const wrap = el("div", "gs-replies", `<div class="gs-k">${g("pick")}</div>`);
+    const next = c.clues.find((cl) => cl.how === "ask" && !have.includes(cl.id));
+    const row = el("div", "gs-reply-row");
+    if (!next) {
+      const hunt = c.clues.find((cl) => !have.includes(cl.id));
+      if (!hunt) return el("div");
+      const b = el("button", "gs-reply go", esc(g("showMe")));
+      b.onclick = () => {
+        if (busy || document.getElementById("gsScan")) return; say(r.id, "you", g("showMe")); say(r.id, "bot", g("showMeR")); FX("place");
+        if (hunt.hunt && media.img[r.id]?.[hunt.how === "last" ? "last_seen" : "from_orbit"]?.file) openScan(r, hunt);
+        else { showSlide(hunt.how); unlock(r.id, hunt.id); }
+        renderCase();
+      };
+      row.appendChild(b); wrap.appendChild(row); return wrap;
+    }
+    const opts = decoys(r, c).filter(Boolean).map((d) => ({ right: false, ...d }));
+    let h = 0; for (const ch of r.id + next.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    opts.splice((h + (tried[r.id] || []).length) % (opts.length + 1), 0, { right: true, cl: next });
+    opts.forEach((o) => {
+      const b = el("button", "gs-reply", esc(Q(o.cl)));
+      b.onclick = () => {
+        if (busy || recharging(r.id)) { FX("wrong"); return; }
+        say(r.id, "you", Q(o.cl));
+        if (o.right) {
+          S.streak[r.id] = (S.streak[r.id] || 0) + 1; save();
+          pending = true; renderCase();
+          ask({ text: Q(o.cl), script: L(o.cl.say), sources: [{ source: o.cl.source, text: L(o.cl.say) }], clue: o.cl.id, kind: "memory" });
+        } else {
+          S.streak[r.id] = 0; save(); (tried[r.id] ||= []).push(o.cl.prompt.en);
+          const other = robots.find((x) => x.id === o.id); const nmO = other ? name(other) : o.id;
+          pending = true; renderCase();
+          b.classList.add("miss"); window.GSFX?.shake(b);
+          ask({ text: Q(o.cl), script: g("notMine")(nmO), sources: [], kind: "miss" });
+        }
+      };
+      row.appendChild(b);
+    });
+    wrap.appendChild(row);
+    return wrap;
   }
 
   function gutCall(r, c) {
@@ -294,7 +362,7 @@
     order.forEach((i) => {
       const b = el("button", "gs-gut-opt"); b.textContent = L(c.gut.opts[i]);
       b.onclick = () => {
-        S.bets[r.id] = i; save(); FX("place");
+        S.bets[r.id] = i; say(r.id, "you", g("gutSay")(L(c.gut.opts[i]))); say(r.id, "bot", g("gutBack")); save(); FX("place");
         b.classList.add("picked"); const [x, y] = window.GSFX?.at(b) || [0, 0]; window.GSFX?.burst(x, y, { n: 16, speed: 4, colors: ["#e7ff3a", "#fff"] });
         setTimeout(() => renderCase(), 380);
       };
@@ -483,7 +551,18 @@
     const cl = c.clues.find((x) => x.how === e.detail.slide); if (cl && !cl.hunt) unlock(r.id, cl.id);
   });
   window.addEventListener("gs:answer", (e) => {
-    const { robot: r, clue, heard, scripted } = e.detail;
+    const { robot: r, clue, heard, scripted, answer, kind } = e.detail;
+    if (caseOf(r.id) && answer) {
+      if (!scripted && heard) say(r.id, "you", heard);
+      const cl = clue && caseOf(r.id).clues.find((x) => x.id === clue);
+      say(r.id, "bot", answer, cl?.source);
+      if (kind === "miss") { FX("wrong"); window.GSFX?.flash("#ff3b3b"); }
+      if (clue && (S.streak[r.id] || 0) > 1) { const n = document.querySelector("#gsCase .gs-mem"); if (n) { const [x, y] = window.GSFX.at(n); setTimeout(() => window.GSFX.float(g("link")(S.streak[r.id]), x, y - 20, "#e7ff3a"), 400); } }
+      pending = false;
+      const c2 = caseOf(r.id), left = c2.clues.filter((x) => !found(r.id).includes(x.id) && x.id !== clue).length;
+      if (!isSolved(r.id) && clue && left === 0) say(r.id, "bot", g("allBack"));
+      if (!clue && cur?.id === r.id) setTimeout(() => renderCase(), 0);
+    }
     if (clue) return unlock(r.id, clue);
     if (scripted || !heard || !caseOf(r.id) || isSolved(r.id)) return;
     const h = window.GS_beforeAsk(r, heard);

@@ -204,3 +204,30 @@
 .gs-cl-gut{margin-top:10px;font:600 16px/1.3 Geist,system-ui,sans-serif}
 .gs-cl-gut.right{color:#e7ff3a}
 .gs-cl-gut.twist{color:#ffae36}
+/* conversation */
+.gs-unsolved #chips,.gs-unsolved #answer,.gs-unsolved #sources{display:none}
+.gs-mem{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 10px}
+.gs-dots{display:flex;gap:5px}
+.gs-dots i{width:22px;height:8px;border-radius:999px;background:#ffffff1f}
+.gs-dots i.on{background:#e7ff3a;box-shadow:0 0 10px #e7ff3a88}
+.gs-memn{font:500 13px Geist Mono,monospace;color:var(--muted)}
+.gs-streak{margin-left:auto;padding:3px 10px;border-radius:999px;background:#e7ff3a;color:#1a0814;font:700 12px Geist,sans-serif;animation:gsPop .3s cubic-bezier(.2,1.6,.4,1)}
+@keyframes gsPop{from{transform:scale(.6)}to{transform:scale(1)}}
+.gs-chat{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;padding:4px 2px 8px;scroll-behavior:smooth}
+.gs-msg-b{max-width:86%;padding:12px 15px;border-radius:20px;font:500 16px/1.4 Geist,system-ui,sans-serif;animation:gsIn .28s cubic-bezier(.2,.8,.2,1) both}
+.gs-msg-b.bot{align-self:flex-start;background:#fff3e2;color:#1a0814;border-bottom-left-radius:6px}
+.gs-msg-b.you{align-self:flex-end;background:#3a1a30;color:#fff6e8;border-bottom-right-radius:6px}
+.gs-msg-b .gs-src{display:block;margin-top:6px;font-size:11.5px;color:#7a3a5a}
+.gs-msg-b.typing{display:flex;gap:5px;padding:14px 16px}
+.gs-msg-b.typing i{width:7px;height:7px;border-radius:50%;background:#1a0814;opacity:.35;animation:gsDot 1s infinite}
+.gs-msg-b.typing i:nth-child(2){animation-delay:.15s}.gs-msg-b.typing i:nth-child(3){animation-delay:.3s}
+@keyframes gsDot{50%{opacity:1;transform:translateY(-3px)}}
+@keyframes gsIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+.gs-replies{margin:6px 0 10px}
+.gs-reply-row{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.gs-reply{align-self:flex-end;max-width:90%;min-height:48px;padding:11px 16px;border-radius:20px 20px 6px 20px;border:1px solid #e7ff3a66;background:transparent;color:#fff6e8;font:600 16px/1.3 Geist,system-ui,sans-serif;text-align:right;cursor:pointer;transition:transform .12s cubic-bezier(.2,.8,.2,1),background .12s}
+.gs-reply:hover{background:#e7ff3a1a}
+.gs-reply:active{transform:scale(.96)}
+.gs-reply.go{background:#e7ff3a;color:#1a0814;border-color:#e7ff3a}
+.gs-reply.miss{border-color:#ff3b3b;color:#ffb3a8}
+@media(prefers-reduced-motion:reduce){.gs-msg-b,.gs-streak,.gs-msg-b.typing i{animation:none}}
