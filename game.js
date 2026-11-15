@@ -243,8 +243,6 @@
       box.appendChild(keepsake(c));
     }
     if (!ok && !S.woke[r.id]) { renderPower(); return; }
-    if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(chatLog(r)); box.appendChild(gutCall(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
-    if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
     if (!ok && DOOR[r.id] && !DOOR[r.id].game && !S.open?.[r.id]) { box.appendChild(DOOR[r.id].game ? gameView(r, c) : doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", lang === "es" ? "Cada archivo NASA tiene una palabra tachada. Haz la pregunta correcta para destaparla. Puedes resolver el caso cuando quieras." : "Each NASA file has a word blacked out. Ask the right question to uncover it. Solve the case whenever you think you know.")); }
     if (ok) { box.appendChild(chatLog(r)); nextBtn(box, r); renderPower(); return; }
@@ -798,7 +796,7 @@
     const st = document.getElementById("stage"); if (st) { const [x, y] = window.GSFX.at(st); window.GSFX.burst(x, y, { n: 60, speed: 10, shape: "star", size: 5, colors: ["#ffae36", "#fff6d8", "#fff0cf"] }); }
     const d = el("div", "gs-closed", `<div class="gs-cl-in"><div class="gs-stamp">${g("closed")}</div><div class="gs-cl-name">${esc(name(r))}</div>
       <div class="gs-cl-stars">${[0, 1, 2].map((i) => `<i class="${i < stars ? "on" : ""}">★</i>`).join("")}</div>
-      <div class="gs-cl-rank">${g("stars")[stars - 1]}${perfect ? " · " + g("perfect") : ""}</div><div class="gs-cl-count">${g("toastBack")(solvedCount())}</div>${gutLine(r)}</div>`);
+      <div class="gs-cl-rank">${g("stars")[stars - 1]}${perfect ? " · " + g("perfect") : ""}</div><div class="gs-cl-count">${g("toastBack")(solvedCount())}</div></div>`);
     document.body.appendChild(d);
     d.querySelectorAll(".gs-cl-stars i").forEach((s, i) => setTimeout(() => { s.classList.add("in"); if (i < stars) { FX("star", { n: i }); const [x, y] = window.GSFX.at(s); window.GSFX.burst(x, y, { n: 18, shape: "star", colors: ["#ffae36", "#fff"], speed: 5 }); } }, 700 + i * 380));
     const bye = () => { d.classList.add("out"); setTimeout(() => d.remove(), 400); };
@@ -893,7 +891,7 @@
       if (!isSolved(r.id) && clue && left === 0) say(r.id, "bot", g("allBack"));
       if (!clue && cur?.id === r.id) setTimeout(() => renderCase(), 0);
     }
-    if (kind === "wake" && cur?.id === r.id && caseOf(r.id) && !isSolved(r.id)) setTimeout(() => { const n = document.querySelector("#gsCase .gs-gut, #gsCase .gs-replies"); n?.scrollIntoView({ behavior: "smooth", block: "center" }); n?.classList.add("gs-attn"); setTimeout(() => n?.classList.remove("gs-attn"), 2400); }, 900);
+    if (kind === "wake" && cur?.id === r.id && caseOf(r.id) && !isSolved(r.id)) setTimeout(() => { const n = document.querySelector("#gsCase .gs-lead"); n?.scrollIntoView({ behavior: "smooth", block: "center" }); n?.classList.add("gs-attn"); setTimeout(() => n?.classList.remove("gs-attn"), 2400); }, 900);
     if (clue) return unlock(r.id, clue);
     if (scripted || !heard || !caseOf(r.id) || isSolved(r.id)) return;
     const h = window.GS_beforeAsk(r, heard);
