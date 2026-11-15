@@ -285,3 +285,9 @@
 .gs-two .gs-reply:active{transform:translateY(3px);box-shadow:0 2px 0 #d7ff5a}
 .gs-two .gs-reply.miss{background:#ff5a5a;color:#fff}
 .gs-next{margin-top:12px;width:100%}
+
+.gs-hint-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;margin:8px 0 2px;padding:10px 14px;border-radius:14px;border:1px dashed rgba(255,174,54,.6);background:rgba(255,174,54,.08);color:#ffd28a;font:600 14px/1.2 inherit;cursor:pointer}
+.gs-hint-btn em{font-style:normal;font-weight:500;opacity:.75;font-size:12px;white-space:nowrap}
+.gs-hint-btn:hover{background:rgba(255,174,54,.16)}
+.gs-hint{margin:8px 0 2px;padding:10px 14px;border-radius:14px;background:rgba(255,174,54,.12);border-left:3px solid #ffae36;color:#fff3dc;font-size:15px;line-height:1.35}
+.gs-hint small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#ffae36;margin-bottom:3px}

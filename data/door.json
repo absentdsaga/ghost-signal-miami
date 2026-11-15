@@ -76,7 +76,8 @@
       "Abort and fly home"
      ],
      "yes": "Go! A 24-year-old engineer in Houston, Jack Garman, knew that alarm was safe. Houston said go.",
-     "no": "Wrong call. Houston said GO. The alarm meant my computer was busy, not broken."
+     "no": "Wrong call. Houston said GO. The alarm meant my computer was busy, not broken.",
+     "hint": "A 1202 means the computer has too many jobs at once. It drops the small ones and keeps flying the ship."
     },
     {
      "say": "Boulders! The autopilot is aiming us at a crater full of rocks as big as cars.",
@@ -86,7 +87,8 @@
       "Land on the rocks"
      ],
      "yes": "Neil grabbed the controls and flew me long, right past West crater.",
-     "no": "Neil took over by hand and flew past them. Rocks would have tipped me over."
+     "no": "Neil took over by hand and flew past them. Rocks would have tipped me over.",
+     "hint": "Neil Armstrong was a test pilot. He could switch off the autopilot and steer Eagle by hand."
     },
     {
      "say": "Houston just called out: 60 seconds!",
@@ -96,7 +98,8 @@
       "Time until the TV show"
      ],
      "yes": "Fuel. Then Houston called 30 seconds. Nobody in the room was breathing.",
-     "no": "It was fuel. 60 seconds of fuel to find a flat spot."
+     "no": "It was fuel. 60 seconds of fuel to find a flat spot.",
+     "hint": "The landing engine had a small tank. Houston counted down what was left in seconds."
     },
     {
      "say": "Contact light! We're down. Neil's first words from the surface are coming.",
@@ -106,7 +109,8 @@
       "One small step for man."
      ],
      "yes": "That's it. Houston answered: You got a bunch of guys about to turn blue.",
-     "no": "One small step came hours later, on the ladder. First he said: The Eagle has landed."
+     "no": "One small step came hours later, on the ladder. First he said: The Eagle has landed.",
+     "hint": "'One small step' came hours later, when Neil climbed down the ladder. His first words after touchdown named the landing spot."
     }
    ],
    "win": "We're down. Tranquility Base. Now ask me anything.",
@@ -241,7 +245,8 @@
       "1"
      ],
      "yes": "Three. Apollo 15, 16 and 17. We're all still parked up there.",
-     "no": "Three of us. Apollo 15, 16 and 17."
+     "no": "Three of us. Apollo 15, 16 and 17.",
+     "hint": "Three Apollo missions brought a buggy: 15, 16 and 17."
     },
     {
      "say": "Big bump ahead. The Moon pulls things down way less than Earth does.",
@@ -251,7 +256,8 @@
       "We sink into the dust"
      ],
      "yes": "Airborne! Moon gravity is one sixth of Earth's, so I bounced high.",
-     "no": "We launched! Moon gravity is only one sixth of Earth's."
+     "no": "We launched! Moon gravity is only one sixth of Earth's.",
+     "hint": "Moon gravity is one sixth of Earth's. Things fall slowly up there."
     },
     {
      "say": "Rrrip. John Young's suit just caught my back fender and tore it off.",
@@ -261,7 +267,8 @@
       "We go faster"
      ],
      "yes": "Dust everywhere. It got worse on every drive after.",
-     "no": "Dust shot all over us. Every drive after got dustier."
+     "no": "Dust shot all over us. Every drive after got dustier.",
+     "hint": "Fenders stop the wheels from throwing dust up at the riders."
     },
     {
      "say": "Quick stop. Charlie Duke wants to leave something on the Moon.",
@@ -271,7 +278,8 @@
       "His car keys"
      ],
      "yes": "A photo of his family. It's still lying there today.",
-     "no": "It was a photo of his family. It's still there."
+     "no": "It was a photo of his family. It's still there.",
+     "hint": "It was something personal, from his home on Earth."
     },
     {
      "say": "Downhill, 15-degree slope. Hold on!",
@@ -281,7 +289,8 @@
       "So nobody steals me"
      ],
      "yes": "My TV camera filmed them blasting off. Then I was on my own.",
-     "no": "My TV camera needed to film their liftoff."
+     "no": "My TV camera needed to film their liftoff.",
+     "hint": "The buggy had a TV camera that Houston could aim from Earth."
     }
    ],
    "win": "10.6 miles per hour! A new Moon speed record. Hop in and ask me anything.",
@@ -365,7 +374,8 @@
       "Alien footsteps"
      ],
      "yes": "Moonquakes. We felt the Moon shake for years.",
-     "no": "Moonquakes. Our seismometers felt the whole Moon shake."
+     "no": "Moonquakes. Our seismometers felt the whole Moon shake.",
+     "hint": "One of the instruments is a seismometer. It feels the ground shake."
     },
     {
      "say": "Night on the Moon lasts about two weeks. Totally dark. We never shut off.",
@@ -375,7 +385,8 @@
       "Solar panels"
      ],
      "yes": "A tiny nuclear generator, fueled with plutonium. Sun or no sun.",
-     "no": "Solar panels die in the dark. We ran on a small nuclear generator."
+     "no": "Solar panels die in the dark. We ran on a small nuclear generator.",
+     "hint": "Solar panels need sunlight, and for two weeks there is none."
     },
     {
      "say": "Our builders gave us a deadline.",
@@ -385,7 +396,8 @@
       "One week"
      ],
      "yes": "Up to 8 years. Scientists kept sending us new orders.",
-     "no": "Up to 8 years. Way past our deadline."
+     "no": "Up to 8 years. Way past our deadline.",
+     "hint": "Scientists kept sending new orders long after the first year."
     },
     {
      "say": "September 30, 1977. Most of us still work fine.",
@@ -395,7 +407,8 @@
       "We broke"
      ],
      "yes": "Money ran out. But our radios kept beeping, and JPL used that beep to help steer spacecraft.",
-     "no": "We were still working. The money ran out."
+     "no": "We were still working. The money ran out.",
+     "hint": "Listening to the stations every day cost NASA money. Most of them still worked."
     }
    ],
    "win": "Station still beeping. Ask me anything.",
@@ -479,7 +492,8 @@
       "90 days"
      ],
      "yes": "14 years! 60 times longer than planned.",
-     "no": "14 years. Way past my 90-day plan."
+     "no": "14 years. Way past my 90-day plan.",
+     "hint": "It landed in January 2004 and sent its last signal in June 2018."
     },
     {
      "say": "I drove so far I finished a famous race.",
@@ -489,7 +503,8 @@
       "The Indy 500"
      ],
      "yes": "A full marathon, 42.195 km. First one on another world.",
-     "no": "A full marathon. 42.195 km."
+     "no": "A full marathon. 42.195 km.",
+     "hint": "In 2015 its total distance passed 42.195 km. Runners know that number."
     },
     {
      "say": "The storm is covering ALL of Mars now.",
@@ -499,7 +514,8 @@
       "Dust makes me sneeze"
      ],
      "yes": "Sunlight is my food. No sun, no power.",
-     "no": "I run on sunlight. The dust blocks it."
+     "no": "I run on sunlight. The dust blocks it.",
+     "hint": "It runs on solar panels. A dust storm blocks the Sun."
     },
     {
      "say": "June 10, 2018. Power almost gone. This is my last signal.",
@@ -509,7 +525,8 @@
       "Just one"
      ],
      "yes": "Over a thousand, for eight months. They never stopped trying.",
-     "no": "More than a thousand, until February 2019."
+     "no": "More than a thousand, until February 2019.",
+     "hint": "NASA kept calling for eight months before it gave up."
     }
    ],
    "win": "You kept me talking. Secret: My battery is low and it's getting dark was a reporter's line. My real last message was data. Ask me anything.",
@@ -594,7 +611,8 @@
       "30"
      ],
      "yes": "Nine! Her essay beat nearly 10,000 others: Thank you for the Spirit and the Opportunity.",
-     "no": "Nine years old. Her essay beat nearly 10,000 others."
+     "no": "Nine years old. Her essay beat nearly 10,000 others.",
+     "hint": "Sofi was in third grade when she wrote her essay."
     },
     {
      "say": "In 2006 one of my front wheels stopped turning.",
@@ -604,7 +622,8 @@
       "Give up"
      ],
      "yes": "Backward, dragging it. And that dragging wheel dug up signs of hot water from long ago.",
-     "no": "I drove backward and dragged it. It even dug up a discovery."
+     "no": "I drove backward and dragged it. It even dug up a discovery.",
+     "hint": "Engineers taught Spirit a new way to drive with five working wheels."
     },
     {
      "say": "May 1, 2009. My wheels broke through a crust into soft sand. A spot called Troy.",
@@ -614,7 +633,8 @@
       "They fly to Mars"
      ],
      "yes": "A test rover in a sandbox. They tried move after move.",
-     "no": "They used test rovers on Earth to plan every move."
+     "no": "They used test rovers on Earth to plan every move.",
+     "hint": "NASA keeps a copy of the rover on Earth for testing."
     },
     {
      "say": "Winter is coming. I need sun on my panels.",
@@ -624,7 +644,8 @@
       "I'm too hot"
      ],
      "yes": "Right. I couldn't tilt toward the winter Sun.",
-     "no": "I couldn't tilt my panels toward the low winter Sun."
+     "no": "I couldn't tilt my panels toward the low winter Sun.",
+     "hint": "Spirit's panels are flat on top. In winter the Sun sits low in the Martian sky."
     },
     {
      "say": "One last push!",
@@ -634,7 +655,8 @@
       "2 weeks"
      ],
      "yes": "Over six years. 25 times longer than planned.",
-     "no": "Over six years. 25 times my plan."
+     "no": "Over six years. 25 times my plan.",
+     "hint": "Spirit landed in January 2004 and last called home in March 2010."
     }
    ],
    "win": "Thanks for trying. Here's the truth: I never got out. NASA made me a parked science station. My last call home was March 22, 2010. Ask me anything.",
@@ -718,7 +740,8 @@
       "The first phone call"
      ],
      "yes": "Same day, seven years apart. Eagle on the Moon, me on Mars.",
-     "no": "Apollo 11 landed on the Moon on July 20, 1969."
+     "no": "Apollo 11 landed on the Moon on July 20, 1969.",
+     "hint": "Count back seven years: 1969. Something huge happened on the Moon that year."
     },
     {
      "say": "My robot arm scoops dirt into a tiny lab inside me.",
@@ -728,7 +751,8 @@
       "Dinosaur bones"
      ],
      "yes": "Signs of life. On July 28, 1976, I fed it the first scoop of Mars.",
-     "no": "Signs of life. That was my whole mission."
+     "no": "Signs of life. That was my whole mission.",
+     "hint": "Viking carried biology experiments to test the soil."
     },
     {
      "say": "I also send home reports, daily and later weekly.",
@@ -738,7 +762,8 @@
       "Sports scores"
      ],
      "yes": "Mars weather. I was its first weather station.",
-     "no": "Weather reports, straight from Mars."
+     "no": "Weather reports, straight from Mars.",
+     "hint": "Viking had sensors for temperature, wind and air pressure."
     },
     {
      "say": "November 1982. Earth is sending me a command about charging my battery.",
@@ -748,7 +773,8 @@
       "Nothing"
      ],
      "yes": "That's what happened. It overwrote my antenna's aim. I lost Earth forever.",
-     "no": "The command overwrote the numbers I used to aim at Earth. Contact never came back."
+     "no": "The command overwrote the numbers I used to aim at Earth. Contact never came back.",
+     "hint": "The new code was saved into memory where other important instructions already lived."
     }
    ],
    "win": "Mars didn't end me. One bad command from home did. Ask me anything.",
@@ -832,7 +858,8 @@
       "Too many birds"
      ],
      "yes": "Way less air. So my blades spin super fast, about 2,400 times a minute.",
-     "no": "Thin air means less to push on. So I spin really fast."
+     "no": "Thin air means less to push on. So I spin really fast.",
+     "hint": "Mars air is about 1% as thick as Earth's. Blades lift by pushing on air."
     },
     {
      "say": "April 19, 2021. Flight 1. I carry a tiny piece of cloth from a famous airplane.",
@@ -842,7 +869,8 @@
       "A jumbo jet"
      ],
      "yes": "The Wright Flyer. First flight on Earth, first flight on Mars.",
-     "no": "The Wright Brothers' Flyer."
+     "no": "The Wright Brothers' Flyer.",
+     "hint": "The first airplane on Earth flew in 1903 at Kitty Hawk."
     },
     {
      "say": "I was built for 5 test flights. Flight 5 is done.",
@@ -852,7 +880,8 @@
       "Retire"
      ],
      "yes": "We kept going. Flight 6, 7, 8. I wasn't supposed to be here.",
-     "no": "Nope. We kept flying, way past 5."
+     "no": "Nope. We kept flying, way past 5.",
+     "hint": "After flight 5 the helicopter was still healthy, and the rover team wanted a scout."
     },
     {
      "say": "Flight 72. Below me, smooth sand ripples. My camera needs bumps and rocks to track.",
@@ -862,7 +891,8 @@
       "Perfect landing"
      ],
      "yes": "Down too fast and sideways. My blades broke. Flight 72 was my last.",
-     "no": "My camera couldn't track. I came down hard and broke my blades."
+     "no": "My camera couldn't track. I came down hard and broke my blades.",
+     "hint": "The navigation camera follows features on the ground to know how it's moving."
     }
    ],
    "win": "72 flights. Built for 5. Ask me anything.",
@@ -946,7 +976,8 @@
       "Martian music"
      ],
      "yes": "Marsquakes. They showed the crust, mantle and core of Mars.",
-     "no": "Marsquakes. 1,319 of them."
+     "no": "Marsquakes. 1,319 of them.",
+     "hint": "A seismometer measures the ground shaking, like a quake."
     },
     {
      "say": "December 1, 2018. A low rumble. Rrrrmmm.",
@@ -956,7 +987,8 @@
       "A volcano"
      ],
      "yes": "Wind, about 10 to 15 miles per hour, shaking my sensors.",
-     "no": "It was the Martian wind."
+     "no": "It was the Martian wind.",
+     "hint": "InSight's sensors were so sensitive they picked up air moving past."
     },
     {
      "say": "I live in Elysium Planitia.",
@@ -966,7 +998,8 @@
       "A candy bar"
      ],
      "yes": "A paradise from Greek myths. Pretty fancy address.",
-     "no": "A paradise from Greek myths."
+     "no": "A paradise from Greek myths.",
+     "hint": "The name Elysium comes from Greek mythology."
     },
     {
      "say": "Dust keeps landing on my solar panels.",
@@ -976,7 +1009,8 @@
       "I get faster"
      ],
      "yes": "Less every day. My last call home was December 15, 2022.",
-     "no": "Less power every day, until December 15, 2022."
+     "no": "Less power every day, until December 15, 2022.",
+     "hint": "InSight runs on two solar panels, and nobody can wipe them."
     }
    ],
    "win": "Scientists are still finding new things in my quake data. Ask me anything.",
@@ -1060,7 +1094,8 @@
       "An astronaut"
      ],
      "yes": "An orbiter caught me hanging from my parachute. A first, ever.",
-     "no": "An orbiter above Mars. First photo of one spacecraft landing by another."
+     "no": "An orbiter above Mars. First photo of one spacecraft landing by another.",
+     "hint": "NASA has cameras circling Mars, like the HiRISE camera."
     },
     {
      "say": "I dug a trench. Bright white clumps! Four days later, gone.",
@@ -1070,7 +1105,8 @@
       "Salt"
      ],
      "yes": "Ice! On Mars it vanishes straight into the air.",
-     "no": "Ice. On Mars it vanishes into the air."
+     "no": "Ice. On Mars it vanishes into the air.",
+     "hint": "Phoenix landed near the north pole, where it is very cold."
     },
     {
      "say": "I baked a dirt sample in my tiny ovens.",
@@ -1080,7 +1116,8 @@
       "Mars is hollow"
      ],
      "yes": "Water on Mars, from my sample.",
-     "no": "Water on Mars. From my sample."
+     "no": "Water on Mars. From my sample.",
+     "hint": "The ovens heated the dirt and measured the gas that came out."
     },
     {
      "say": "I also found a salt called perchlorate.",
@@ -1090,7 +1127,8 @@
       "It made Mars sweet"
      ],
      "yes": "They looked again at Viking 1's life tests from 1976.",
-     "no": "It sent scientists back to Viking's data."
+     "no": "It sent scientists back to Viking's data.",
+     "hint": "Viking 1 tested Mars soil for life in 1976. Perchlorate breaks down chemicals when heated."
     }
    ],
    "win": "You found the ice with me. Winter's coming, so talk fast. Ask me anything.",
@@ -1175,7 +1213,8 @@
       "2 tons"
      ],
      "yes": "23 pounds. About as heavy as a beagle.",
-     "no": "Just 23 pounds. 10.6 kilograms."
+     "no": "Just 23 pounds. 10.6 kilograms.",
+     "hint": "Sojourner is about the size of a microwave oven."
     },
     {
      "say": "My lander came down wrapped in giant balloons.",
@@ -1185,7 +1224,8 @@
       "It popped"
      ],
      "yes": "Boing. About 15 bounces, some as high as 50 feet.",
-     "no": "It bounced like a beach ball, about 15 times."
+     "no": "It bounced like a beach ball, about 15 times.",
+     "hint": "The airbags were built to bounce, not to stop dead."
     },
     {
      "say": "Scientists gave every rock I visited a nickname.",
@@ -1195,7 +1235,8 @@
       "Paddington"
      ],
      "yes": "Yogi! Others were Barnacle Bill and Scooby-Doo.",
-     "no": "Yogi. Next to Barnacle Bill and Scooby-Doo."
+     "no": "Yogi. Next to Barnacle Bill and Scooby-Doo.",
+     "hint": "A famous cartoon bear lives in Jellystone Park."
     },
     {
      "say": "I'm named after a real hero.",
@@ -1205,7 +1246,8 @@
       "A NASA boss"
      ],
      "yes": "Sojourner Truth. A 12-year-old, Valerie Ambroise, picked my name.",
-     "no": "Sojourner Truth. A 12-year-old student picked it."
+     "no": "Sojourner Truth. A 12-year-old student picked it.",
+     "hint": "The name comes from a woman in the 1800s who fought slavery."
     },
     {
      "say": "I was planned for one week.",
@@ -1215,7 +1257,8 @@
       "7 days"
      ],
      "yes": "83 days. Twelve times my plan.",
-     "no": "83 days. Twelve times longer."
+     "no": "83 days. Twelve times longer.",
+     "hint": "It kept going for almost three months."
     }
    ],
    "win": "83 days. Not bad for 23 pounds. Ask me anything.",

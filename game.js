@@ -21,7 +21,7 @@
       flat: (s) => `Battery flat. Recharging from the Sun… ${s}s`, flatToast: "Battery flat!", scan: { last: "Search its last photo", orbit: "Find it from orbit" }, scanSub: "tap to search",
       cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
       tries: "Each question costs 1 ▮. Run out and the robot falls asleep.",
-      gutK: "Gut call", gutH: "Before you dig: what do you think happened?", gutYour: "Your gut said", gutFind: "Find the clues. Were you right?", gutRight: "Called it. Your gut was right.", gutWrong: "Plot twist. Your gut said something else.",
+      gutK: "Gut call", gutH: "First guess, before you dig. No wrong answer yet: you'll find out if you were right.", gutYour: "Your gut said", gutFind: "Find the clues. Were you right?", gutRight: "Called it. Your gut was right.", gutWrong: "Plot twist. Your gut said something else.",
       you: "You", gutSay: (x) => `I think: ${x}`, gutBack: "Maybe... I can't tell yet. Ask me the right things and it'll come back.", notMine: (n) => `That memory isn't mine. ${n} would know that one.`, link: (n) => `Memory link ×${n}`, missed: "Static", showMe: "Show me where you are", showMeR: "Can you see me? Look closely.", allBack: "It's all coming back. Say it with me.", memK: "Memories", pick: "Pick your next question", wrongCost: "Right question: free. Wrong one: costs 1 ▮.",
     },
     es: {
@@ -42,7 +42,7 @@
       flat: (s) => `Batería agotada. Recargando con el Sol… ${s}s`, flatToast: "¡Batería agotada!", scan: { last: "Busca en su última foto", orbit: "Encuéntralo desde órbita" }, scanSub: "toca para buscar",
       cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
       tries: "Cada pregunta cuesta 1 ▮. Si se agota, el robot se duerme.",
-      gutK: "Corazonada", gutH: "Antes de investigar: ¿qué crees que pasó?", gutYour: "Tu corazonada", gutFind: "Encuentra las pistas. ¿Acertaste?", gutRight: "¡Le atinaste! Tu corazonada era cierta.", gutWrong: "Giro inesperado. Tu corazonada era otra.",
+      gutK: "Corazonada", gutH: "Primera corazonada, antes de investigar. Aún no hay respuesta incorrecta: al final sabrás si acertaste.", gutYour: "Tu corazonada", gutFind: "Encuentra las pistas. ¿Acertaste?", gutRight: "¡Le atinaste! Tu corazonada era cierta.", gutWrong: "Giro inesperado. Tu corazonada era otra.",
       you: "Tú", gutSay: (x) => `Creo que: ${x}`, gutBack: "Quizás... todavía no lo sé. Hazme las preguntas correctas y volverá.", notMine: (n) => `Ese recuerdo no es mío. ${n} lo sabría.`, link: (n) => `Enlace de memoria ×${n}`, missed: "Estática", showMe: "Muéstrame dónde estás", showMeR: "¿Me ves? Mira bien.", allBack: "Lo recuerdo todo. Dilo conmigo.", memK: "Recuerdos", pick: "Elige tu siguiente pregunta", wrongCost: "Pregunta correcta: gratis. Incorrecta: cuesta 1 ▮.",
     },
   };
@@ -546,6 +546,21 @@
     if (busy || pending) { if (!pending && !d.wait) { d.wait = 1; setTimeout(() => whenIdle(() => { d.wait = 0; if (cur?.id === r.id) renderCase(); }), 0); } return wrap; }
     if (d.i === 0) wrap.appendChild(el("div", "gs-mission", `<small>Your mission${lang === "en" && window.GS_persona ? " · " + esc(window.GS_persona(r.id).tag) : ""}</small><b>${esc(gm.title)}</b><span>${esc(gm.rule)}</span>`));
     const tb = el("div", "gs-timer", "<i></i>"); wrap.appendChild(tb);
+    if (rd.hint) {
+      d.hints = d.hints || {};
+      const cost = Math.max(1, Math.round(gm.meter.loss / 2));
+      if (d.hints[d.i]) wrap.appendChild(el("div", "gs-hint", `<small>${lang === "es" ? "Registro de la misión" : "Mission log"}</small>${esc(rd.hint)}`));
+      else {
+        const hb = el("button", "gs-hint-btn", `${lang === "es" ? "Revisar el registro" : "Check the mission log"} <em>−${cost}${esc(gm.meter.unit)} ${esc(gm.meter.name.toLowerCase())} · +6s</em>`);
+        hb.onclick = () => {
+          if (busy || pending) return;
+          d.hints[d.i] = true; d.v -= cost; d.deadline = (d.deadline || Date.now()) + 6000; save(); FX("place");
+          if (d.v <= 0) { clearInterval(gTimer); return gLose(r); }
+          renderCase();
+        };
+        wrap.appendChild(hb);
+      }
+    }
     const row = el("div", "gs-reply-row gs-two");
     const opts = [rd.right, ...rd.wrong.slice(0, 2)];
     let h = (d.tries || 0) + 3; for (const ch of r.id + d.i) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
