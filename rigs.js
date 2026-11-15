@@ -6,7 +6,7 @@
    fx = the one REAL thing each machine does when it wakes (§5 storyboards). */
 window.GS_RIGS = {
   eagle: {
-    heart: { x: 48.4, y: 21.6, c: "#d8ff6a" }, foot: { x: 53, y: 84, w: 46 }, spill: "#ffcf8a",
+    heart: { x: 56.3, y: 14.9, c: "#d8ff6a" }, foot: { x: 53, y: 84, w: 46 }, spill: "#ffcf8a",
     lamps: [
       { x: 41.9, y: 38.2, c: "#ff3b30", r: 1.5, t: 0, real: true, label: "docking light, port (red)" },
       { x: 66.3, y: 38.2, c: "#34ff6a", r: 1.5, t: 160, real: true, label: "docking light, starboard (green)" },
@@ -44,7 +44,7 @@ window.GS_RIGS = {
     note: { en: "Its TV camera was steered from Earth · glow stylized", es: "Su cámara de TV se movía desde la Tierra · brillo estilizado" },
   },
   opportunity: {
-    heart: { x: 46.7, y: 16.5, c: "#d8ff6a" }, foot: { x: 50, y: 86, w: 64 }, spill: "#ffc28a",
+    heart: { x: 44.7, y: 12.6, c: "#d8ff6a" }, foot: { x: 50, y: 86, w: 64 }, spill: "#ffc28a",
     lamps: [{ x: 44.6, y: 14.9, c: "#bfe8ff", r: 1.2, t: 400, kind: "eye", real: false, label: "Pancam" }],
     fx: [{ type: "panels", x0: 26, x1: 84, y0: 47, y1: 57 }, { type: "dust", x0: 28, x1: 84, y: 52 }, { type: "glint", x0: 58, x1: 74, y0: 30, y1: 42, c: "255,230,200" }],
     note: { en: "Wind really blew dust off its panels · glow stylized", es: "El viento sí le limpió el polvo de los paneles · brillo estilizado" },
@@ -75,7 +75,7 @@ window.GS_RIGS = {
     note: { en: "Real green laser (lidar) and real arm-camera LEDs", es: "Láser verde real (lidar) y luces LED reales en la cámara del brazo" },
   },
   insight: {
-    heart: { x: 52.5, y: 32.7, c: "#d8ff6a" }, foot: { x: 50, y: 90, w: 80 }, spill: "#ffc48a",
+    heart: { x: 50.0, y: 41.3, c: "#d8ff6a" }, foot: { x: 50, y: 90, w: 80 }, spill: "#ffc48a",
     lamps: [],
     fx: [{ type: "panels", x0: 4, x1: 96, y0: 44, y1: 54 }, { type: "dust", x0: 4, x1: 96, y: 49 }, { type: "ripples", x: 33.7, y: 79, c: "#9fe8ff" }],
     note: { en: "Rings show what its seismometer felt · glow stylized", es: "Los anillos muestran lo que sintió su sismómetro · brillo estilizado" },

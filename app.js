@@ -276,13 +276,14 @@ function fillStage(r) {
   document.querySelector('#stageTabs [data-go="last"]').disabled = !im.last_seen?.file;
   document.querySelector('#stageTabs [data-go="orbit"]').disabled = !im.from_orbit?.file;
   document.querySelector('#stageTabs').style.display = (im.last_seen?.file || im.from_orbit?.file) ? "" : "none";
-  showSlide(curSlide || "robot");
+  showSlide(curSlide === "orbit" ? "orbit" : "last");
 }
-let curSlide = "robot";
+let curSlide = "last";
 function showSlide(k) {
   if (!cur) return;
   const im = media.img[cur.id] || {};
-  if ((k === "last" && !im.last_seen?.file) || (k === "orbit" && !im.from_orbit?.file)) k = "robot";
+  if (k === "robot" || (k === "last" && !im.last_seen?.file)) k = im.last_seen?.file ? "last" : im.from_orbit?.file ? "orbit" : "robot"; /* "The robot" tab removed: the scene behind the case is the robot */
+  if (k === "orbit" && !im.from_orbit?.file) k = im.last_seen?.file ? "last" : "robot";
   curSlide = k;
   document.querySelectorAll("#stage .slide").forEach((s) => s.classList.toggle("on", s.dataset.slide === k));
   document.querySelectorAll("#stageTabs button").forEach((b) => b.classList.toggle("on", b.dataset.go === k));
