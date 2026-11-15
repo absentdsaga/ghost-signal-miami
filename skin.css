@@ -259,3 +259,12 @@ input:focus,input:focus-visible{outline:3px solid var(--lime);outline-offset:0}
   .hint{font-size:13px;white-space:nowrap;padding:11px 16px}
   .leaflet-control-zoom{display:none}
 }
+
+/* painted scenes: one world per site, grey while silent, colour when it wakes */
+.stage.has-scene{background:#0b0712}
+.slide[data-slide=robot] .portrait.scene{object-fit:cover;object-position:50% 45%;padding:0;mix-blend-mode:normal;filter:grayscale(.9) brightness(.5) contrast(1.05);transition:filter 2.2s ease}
+.stage.awake .portrait.scene,.stage.restored .portrait.scene{filter:none!important}
+.stage.lost .portrait.scene{filter:grayscale(1) brightness(.35)!important;transition:filter 4s ease}
+.stage.has-scene{height:340px}
+@media(max-width:600px){.stage.has-scene{height:240px}}
+.stage.has-scene .glowring{display:none}

@@ -222,10 +222,11 @@ function fillSheet(r) {
 
 function fillStage(r) {
   const im = media.img[r.id] || {}, mdl = media.model[r.id];
-  const cut = cutOf(im), por = cut || im.portrait?.file || r.image?.url || "";
-  const p = $("rPhoto"); p.classList.toggle("cut", !!cut); p.src = por; p.alt = im.portrait?.caption || r.image?.caption || name(r);
+  const scene = im.scene?.file, cut = scene ? null : cutOf(im), por = scene || cut || im.portrait?.file || r.image?.url || "";
+  const p = $("rPhoto"); p.classList.toggle("cut", !!cut); p.classList.toggle("scene", !!scene); p.src = por; p.alt = (scene ? im.scene.caption : im.portrait?.caption) || r.image?.caption || name(r);
+  $("stage").classList.toggle("has-scene", !!scene);
   const mv = $("rModel");
-  if (mdl?.file) { if (mv.getAttribute("src") !== mdl.file) mv.setAttribute("src", mdl.file); mv.hidden = false; p.style.visibility = "hidden"; }
+  if (mdl?.file && !scene) { if (mv.getAttribute("src") !== mdl.file) mv.setAttribute("src", mdl.file); mv.hidden = false; p.style.visibility = "hidden"; }
   else { mv.hidden = true; mv.removeAttribute("src"); p.style.visibility = ""; }
   $("rLast").src = im.last_seen?.file || ""; $("rOrbit").src = im.from_orbit?.file || "";
   document.querySelector('#stageTabs [data-go="last"]').disabled = !im.last_seen?.file;
@@ -241,7 +242,7 @@ function showSlide(k) {
   curSlide = k;
   document.querySelectorAll("#stage .slide").forEach((s) => s.classList.toggle("on", s.dataset.slide === k));
   document.querySelectorAll("#stageTabs button").forEach((b) => b.classList.toggle("on", b.dataset.go === k));
-  const src = k === "last" ? im.last_seen : k === "orbit" ? im.from_orbit : (media.model[cur.id]?.file ? { credit: "3D model: NASA" } : im.portrait);
+  const src = k === "last" ? im.last_seen : k === "orbit" ? im.from_orbit : (im.scene?.file ? im.scene : media.model[cur.id]?.file ? { credit: "3D model: NASA" } : im.portrait);
   const bits = [src?.credit || t("photo"), src?.date].filter(Boolean);
   const lab = k === "last" ? t("tLast") : k === "orbit" ? t("tOrbit") : "";
   $("rCredit").textContent = (lab ? lab + " · " : "") + bits.join(" · ");

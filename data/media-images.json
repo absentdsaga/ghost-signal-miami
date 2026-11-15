@@ -25,7 +25,12 @@
    "caption": "\"Houston, Tranquility base here.\" Apollo 11 landing site, as Armstrong and Aldrin left it some 43 years ago, LROC M175124932R. (Labeled: LM, camera, LRRR, PSEP, discarded cover.)",
    "date": "2012-08-27 (published)"
   },
-  "cutout": "assets/img/eagle-cut.png"
+  "cutout": "assets/img/eagle-cut.png",
+  "scene": {
+   "file": "assets/img/eagle-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  },
  "surveyor3": {
   "portrait": {
@@ -58,6 +63,11 @@
    "credit": "NASA",
    "caption": "AS12-48-7099 (20 Nov. 1969): Surveyor 3, photographed by the Apollo 12 crew.",
    "notes": "Cut out with rembg birefnet-general from a tighter crop, 2026-11-14."
+  },
+  "scene": {
+   "file": "assets/img/surveyor3-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
   }
  },
  "alsep": {
@@ -93,6 +103,11 @@
    "credit": "NASA",
    "caption": "AS14-67-9376 (5 Feb. 1971): the ALSEP central station deployed during the first Apollo 14 EVA.",
    "notes": "Cut out with rembg birefnet-general from a tighter crop, 2026-11-14."
+  },
+  "scene": {
+   "file": "assets/img/alsep-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
   }
  },
  "rover16": {
@@ -127,6 +142,11 @@
    "credit": "NASA",
    "caption": "The Lunar Roving Vehicle during the Apollo 16 mission (NASA MSFC).",
    "notes": "Cut out with rembg birefnet-general from a tighter crop, 2026-11-14."
+  },
+  "scene": {
+   "file": "assets/img/rover16-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
   }
  },
  "opportunity": {
@@ -154,7 +174,12 @@
    "caption": "PIA22549: HiRISE image shows the dust storm over Perseverance Valley has substantially cleared. Opportunity appears as a blip in this image taken on September 20, 2018, from about 166 miles (268 km) above the surface. (Fig. 1, box marks the rover.)",
    "date": "2018-09-20"
   },
-  "cutout": "assets/img/opportunity-cut.png"
+  "cutout": "assets/img/opportunity-cut.png",
+  "scene": {
+   "file": "assets/img/opportunity-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  },
  "spirit": {
   "portrait": {
@@ -183,7 +208,12 @@
    "date": "2009-06-13",
    "notes": "Not annotated; the rover is the bright dot at 9 o'clock."
   },
-  "cutout": "assets/img/spirit-cut.png"
+  "cutout": "assets/img/spirit-cut.png",
+  "scene": {
+   "file": "assets/img/spirit-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  },
  "sojourner": {
   "portrait": {
@@ -211,7 +241,12 @@
    "date": "2006-12-21",
    "notes": "Other figures in the same release show a close-up with a candidate Sojourner location about 6 m south of the lander."
   },
-  "cutout": "assets/img/sojourner-cut.png"
+  "cutout": "assets/img/sojourner-cut.png",
+  "scene": {
+   "file": "assets/img/sojourner-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  },
  "viking1": {
   "portrait": {
@@ -233,7 +268,12 @@
    "notes": "Unannotated lander cutout; an annotated version is figures/PIA01881_fig1.jpg."
   },
   "notes": "last_seen is null: NASA has no published or captioned last Viking Lander 1 image (last contact Nov 11, 1982). Raw frames exist only in the PDS Viking lander archive, which was not searched in this pass.",
-  "cutout": "assets/img/viking1-cut.png"
+  "cutout": "assets/img/viking1-cut.png",
+  "scene": {
+   "file": "assets/img/viking1-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  },
  "phoenix": {
   "portrait": {
@@ -260,7 +300,12 @@
    "date": "2010-05-07",
    "notes": "Small (640x350). Newer alternative: PIA22223 (Dec 21, 2017, dust-covered site, larger, unannotated)."
   },
-  "cutout": "assets/img/phoenix-cut.png"
+  "cutout": "assets/img/phoenix-cut.png",
+  "scene": {
+   "file": "assets/img/phoenix-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  },
  "insight": {
   "portrait": {
@@ -289,7 +334,12 @@
    "date": "2024-10-23",
    "notes": "Not annotated. Sharper earlier alt: PIA23376 (Sept 23, 2019)."
   },
-  "cutout": "assets/img/insight-cut.png"
+  "cutout": "assets/img/insight-cut.png",
+  "scene": {
+   "file": "assets/img/insight-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  },
  "ingenuity": {
   "portrait": {
@@ -317,6 +367,11 @@
    "date": "2022-02-26",
    "notes": "Taken before the final crash. No NASA-published orbital image of the final Valinor Hills site was found. Ground views of the final site: PIA26236 (Feb 4, 2024) and PIA26237 (Feb 21, 2024), both from Perseverance's Mastcam-Z."
   },
-  "cutout": "assets/img/ingenuity-cut.png"
+  "cutout": "assets/img/ingenuity-cut.png",
+  "scene": {
+   "file": "assets/img/ingenuity-scene.jpg",
+   "credit": "Painted from NASA photos and data · AI-assisted",
+   "caption": "Stylized scene painted from real NASA photos of this machine. AI-assisted. The real photos are in the other tabs."
+  }
  }
 }
