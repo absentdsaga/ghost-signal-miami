@@ -1,0 +1,1225 @@
+{
+ "eagle": {
+  "mood": "Proud pilot. Loves being first. Hates being doubted.",
+  "knock": "Hold it. Nobody has called this frequency since 1969. Who is this, and why should I open up?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Charlie Duke",
+    "role": "the Houston voice on the radio when you landed",
+    "claim": "Eagle, it's Houston. Charlie Duke. I was on the radio the day you landed.",
+    "test": "Houston would know my crew. Who rode me down to the surface?",
+    "right": "Neil Armstrong and Buzz Aldrin",
+    "wrong": [
+     "Neil Armstrong and Michael Collins",
+     "Buzz Aldrin and Pete Conrad"
+    ],
+    "yes": "Neil and Buzz. That's right, Houston.",
+    "no": "Wrong. Michael Collins stayed up in orbit. Neil and Buzz rode me down. You're not Houston.",
+    "clue": "crew"
+   },
+   {
+    "kind": "disguise",
+    "who": "Buzz Aldrin",
+    "role": "one of your two passengers",
+    "claim": "Eagle, it's Buzz. Remember me?",
+    "test": "Buzz rode me home. Which half of me flew him back up?",
+    "right": "Your top half",
+    "wrong": [
+     "Your bottom half",
+     "Neither. We walked to the ship"
+    ],
+    "yes": "My top half. Buzz would know that.",
+    "no": "Buzz would never get that wrong. My top half flew home. My bottom half stayed.",
+    "clue": "halves"
+   },
+   {
+    "kind": "flatter",
+    "line": "You were the first ship ever to land people on the Moon.",
+    "trust": 25,
+    "say": "...First. Yes. Say it again. Slower."
+   },
+   {
+    "kind": "honest",
+    "line": "Honestly? I'm just a kid on Earth. I wanted to hear your side.",
+    "trust": 10,
+    "say": "A kid. Millions of kids watched me land on TV. Fine. Keep talking."
+   }
+  ],
+  "open": "Okay. Hatch open. Come in, and I'll tell you everything.",
+  "hangup": "Imposter. I'm closing the hatch. Click.",
+  "game": {
+   "title": "Land me",
+   "rule": "Fuel is burning every second. Answer fast or we crash.",
+   "meter": {
+    "name": "Fuel",
+    "start": 75,
+    "unit": "s",
+    "loss": 12,
+    "gain": 0,
+    "drain": 1
+   },
+   "time": 10,
+   "steps": [
+    "1202",
+    "Boulders",
+    "60 sec",
+    "Contact"
+   ],
+   "intro": "Eagle here. July 20, 1969. We're falling toward the Moon and I need you in the pilot seat.",
+   "rounds": [
+    {
+     "say": "Alarm! 1202! My computer is overloaded.",
+     "q": "Do we keep going or abort?",
+     "right": "Keep going. It's safe",
+     "wrong": [
+      "Abort and fly home"
+     ],
+     "yes": "Go! A 24-year-old engineer in Houston, Jack Garman, knew that alarm was safe. Houston said go.",
+     "no": "Wrong call. Houston said GO. The alarm meant my computer was busy, not broken."
+    },
+    {
+     "say": "Boulders! The autopilot is aiming us at a crater full of rocks as big as cars.",
+     "q": "What does Neil do?",
+     "right": "Take over and fly past it",
+     "wrong": [
+      "Land on the rocks"
+     ],
+     "yes": "Neil grabbed the controls and flew me long, right past West crater.",
+     "no": "Neil took over by hand and flew past them. Rocks would have tipped me over."
+    },
+    {
+     "say": "Houston just called out: 60 seconds!",
+     "q": "60 seconds of what?",
+     "right": "Fuel left to land",
+     "wrong": [
+      "Time until the TV show"
+     ],
+     "yes": "Fuel. Then Houston called 30 seconds. Nobody in the room was breathing.",
+     "no": "It was fuel. 60 seconds of fuel to find a flat spot."
+    },
+    {
+     "say": "Contact light! We're down. Neil's first words from the surface are coming.",
+     "q": "What did Neil say?",
+     "right": "Tranquility Base here. The Eagle has landed.",
+     "wrong": [
+      "One small step for man."
+     ],
+     "yes": "That's it. Houston answered: You got a bunch of guys about to turn blue.",
+     "no": "One small step came hours later, on the ladder. First he said: The Eagle has landed."
+    }
+   ],
+   "win": "We're down. Tranquility Base. Now ask me anything.",
+   "lose": "Out of fuel. Abort! Call back and land me for real."
+  }
+ },
+ "surveyor3": {
+  "mood": "Grumpy. Astronauts visited it once and took its stuff.",
+  "knock": "Oh, great. Another visitor. The last ones walked over here and took pieces of me. What do YOU want?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Pete Conrad",
+    "role": "the Apollo 12 astronaut who walked over to you",
+    "claim": "Surveyor, it's Pete Conrad. Apollo 12. I parked right next door.",
+    "test": "If you're really Pete, tell me what you took off me.",
+    "right": "Your camera",
+    "wrong": [
+     "Your flag",
+     "Your antenna"
+    ],
+    "yes": "My CAMERA. You admit it. ...Fine, at least you're honest.",
+    "no": "Nope. The real Pete took my camera. You're a fake.",
+    "clue": "eyes"
+   },
+   {
+    "kind": "disguise",
+    "who": "a JPL controller",
+    "role": "someone who drove you by remote in 1967",
+    "claim": "It's mission control at JPL. We drove you from Earth.",
+    "test": "Then what did you make me dig with?",
+    "right": "Your soil scoop",
+    "wrong": [
+     "Your wheels",
+     "Your landing radar"
+    ],
+    "yes": "My soil scoop. Four trenches. Good times.",
+    "no": "I don't have wheels. I dug with my soil scoop. Nice try.",
+    "clue": "dig"
+   },
+   {
+    "kind": "flatter",
+    "line": "You look great for your age.",
+    "trust": -15,
+    "say": "I'm missing parts. Don't lie to me."
+   },
+   {
+    "kind": "honest",
+    "line": "I'm not here to take anything. I just want to hear what happened.",
+    "trust": 35,
+    "say": "...Nobody's ever said that. Okay. Okay."
+   }
+  ],
+  "open": "Fine. Come in. Don't touch anything.",
+  "hangup": "Get off my crater. Click."
+ },
+ "rover16": {
+  "mood": "Show-off. Fastest thing on the Moon and wants you to know it.",
+  "knock": "Who's that? If you're not here to talk about speed, I'm not interested.",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Charlie Duke",
+    "role": "Apollo 16 astronaut who rode in you",
+    "claim": "Hey buggy, it's Charlie Duke. We rode together on Apollo 16.",
+    "test": "Then you were there for the record. How fast did I go down that slope?",
+    "right": "10.6 miles per hour",
+    "wrong": [
+     "100 miles per hour",
+     "1 mile per hour"
+    ],
+    "yes": "10.6 miles per hour! A Moon record! You WERE there!",
+    "no": "100? I wish. It was 10.6 miles per hour, a Moon record. You weren't there.",
+    "clue": "speed"
+   },
+   {
+    "kind": "disguise",
+    "who": "John Young",
+    "role": "your Apollo 16 commander",
+    "claim": "Buggy, it's John Young. Your commander.",
+    "test": "John, what did your suit rip off me on our second drive?",
+    "right": "Your right rear fender",
+    "wrong": [
+     "Your steering wheel",
+     "Your TV camera"
+    ],
+    "yes": "My fender. You owe me a fender, John.",
+    "no": "The real John caught my right rear fender and tore it off. Imposter.",
+    "clue": "fender"
+   },
+   {
+    "kind": "flatter",
+    "line": "You're the fastest thing ever driven on the Moon.",
+    "trust": 40,
+    "say": "OKAY, now we're talking. Keep going."
+   },
+   {
+    "kind": "honest",
+    "line": "I'm just a kid. I think cars are cool.",
+    "trust": 20,
+    "say": "Cars ARE cool. I'm the coolest one. Fine."
+   }
+  ],
+  "open": "Hop in. I'll show you everything.",
+  "hangup": "Too slow. Bye. Click.",
+  "game": {
+   "title": "Moon Grand Prix",
+   "rule": "Every right answer is more speed. Hit the Moon record: 10.6 mph.",
+   "meter": {
+    "name": "Battery",
+    "start": 60,
+    "unit": "%",
+    "loss": 20,
+    "gain": 0,
+    "drain": 0
+   },
+   "time": 8,
+   "steps": [
+    "2 mph",
+    "4 mph",
+    "6 mph",
+    "8 mph",
+    "10.6 mph"
+   ],
+   "intro": "Moon Buggy, Apollo 16. Electric, four-wheel drive, and fast. Let's go for the record.",
+   "rounds": [
+    {
+     "say": "Engines on. Well, motors. I'm electric.",
+     "q": "How many buggies like me are parked on the Moon?",
+     "right": "3",
+     "wrong": [
+      "1"
+     ],
+     "yes": "Three. Apollo 15, 16 and 17. We're all still parked up there.",
+     "no": "Three of us. Apollo 15, 16 and 17."
+    },
+    {
+     "say": "Big bump ahead. The Moon pulls things down way less than Earth does.",
+     "q": "What happens when we hit it?",
+     "right": "We fly through the air",
+     "wrong": [
+      "We sink into the dust"
+     ],
+     "yes": "Airborne! Moon gravity is one sixth of Earth's, so I bounced high.",
+     "no": "We launched! Moon gravity is only one sixth of Earth's."
+    },
+    {
+     "say": "Rrrip. John Young's suit just caught my back fender and tore it off.",
+     "q": "What happens without a fender?",
+     "right": "Dust sprays all over us",
+     "wrong": [
+      "We go faster"
+     ],
+     "yes": "Dust everywhere. It got worse on every drive after.",
+     "no": "Dust shot all over us. Every drive after got dustier."
+    },
+    {
+     "say": "Quick stop. Charlie Duke wants to leave something on the Moon.",
+     "q": "What did he leave?",
+     "right": "A photo of his family",
+     "wrong": [
+      "His car keys"
+     ],
+     "yes": "A photo of his family. It's still lying there today.",
+     "no": "It was a photo of his family. It's still there."
+    },
+    {
+     "say": "Downhill, 15-degree slope. Hold on!",
+     "q": "Last drive, John parks me 300 feet from the lander. Why?",
+     "right": "So my camera can film the liftoff",
+     "wrong": [
+      "So nobody steals me"
+     ],
+     "yes": "My TV camera filmed them blasting off. Then I was on my own.",
+     "no": "My TV camera needed to film their liftoff."
+    }
+   ],
+   "win": "10.6 miles per hour! A new Moon speed record. Hop in and ask me anything.",
+   "lose": "Battery's dead. No record. Call back and floor it."
+  }
+ },
+ "alsep": {
+  "mood": "Hurt. Still worked, but Earth stopped listening.",
+  "knock": "Someone's there? We were still working when Earth stopped listening. Why should we trust you now?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "an Apollo scientist",
+    "role": "someone who read your data back in the 1970s",
+    "claim": "I'm one of the scientists who read your data.",
+    "test": "Then you know. How long were we built to last?",
+    "right": "One year",
+    "wrong": [
+     "Fifty years",
+     "One week"
+    ],
+    "yes": "One year. And we kept going for up to eight.",
+    "no": "No. We were built to last one year. We lasted up to eight. You'd know that.",
+    "clue": "life"
+   },
+   {
+    "kind": "disguise",
+    "who": "NASA headquarters",
+    "role": "the office that made the big decisions",
+    "claim": "This is NASA headquarters.",
+    "test": "Then you made the call. On what day did you shut us down?",
+    "right": "September 30, 1977",
+    "wrong": [
+     "July 20, 1969",
+     "Last week"
+    ],
+    "yes": "September 30, 1977. We remember it too.",
+    "no": "You don't even remember. September 30, 1977. Go away.",
+    "clue": "date"
+   },
+   {
+    "kind": "flatter",
+    "line": "You were the best science stations ever.",
+    "trust": -10,
+    "say": "If we were the best, why did everyone stop listening?"
+   },
+   {
+    "kind": "honest",
+    "line": "I'm listening. Right now. Tell me.",
+    "trust": 45,
+    "say": "...You're listening? Nobody has said that in a very long time."
+   }
+  ],
+  "open": "Alright. We'll open up. It's good to be heard.",
+  "hangup": "Same as before. Nobody listens. Click.",
+  "game": {
+   "title": "Night shift",
+   "rule": "Keep the station running. Every wrong answer drains the generator.",
+   "meter": {
+    "name": "Generator",
+    "start": 60,
+    "unit": "%",
+    "loss": 20,
+    "gain": 0,
+    "drain": 0
+   },
+   "time": 12,
+   "steps": [
+    "Quakes",
+    "Power",
+    "Years",
+    "1977"
+   ],
+   "intro": "Apollo Moon Station reporting. Five crews set us up and left. We stayed, listening.",
+   "rounds": [
+    {
+     "say": "Shh. Something is shaking the ground.",
+     "q": "What are we listening for?",
+     "right": "Moonquakes",
+     "wrong": [
+      "Alien footsteps"
+     ],
+     "yes": "Moonquakes. We felt the Moon shake for years.",
+     "no": "Moonquakes. Our seismometers felt the whole Moon shake."
+    },
+    {
+     "say": "Night on the Moon lasts about two weeks. Totally dark. We never shut off.",
+     "q": "What keeps us running?",
+     "right": "A small nuclear generator",
+     "wrong": [
+      "Solar panels"
+     ],
+     "yes": "A tiny nuclear generator, fueled with plutonium. Sun or no sun.",
+     "no": "Solar panels die in the dark. We ran on a small nuclear generator."
+    },
+    {
+     "say": "Our builders gave us a deadline.",
+     "q": "We were built for one year. How long did we last?",
+     "right": "Up to 8 years",
+     "wrong": [
+      "One week"
+     ],
+     "yes": "Up to 8 years. Scientists kept sending us new orders.",
+     "no": "Up to 8 years. Way past our deadline."
+    },
+    {
+     "say": "September 30, 1977. Most of us still work fine.",
+     "q": "So why did NASA switch us off?",
+     "right": "The money for our support ran out",
+     "wrong": [
+      "We broke"
+     ],
+     "yes": "Money ran out. But our radios kept beeping, and JPL used that beep to help steer spacecraft.",
+     "no": "We were still working. The money ran out."
+    }
+   ],
+   "win": "Station still beeping. Ask me anything.",
+   "lose": "Generator's out. Station dark. Call back."
+  }
+ },
+ "opportunity": {
+  "mood": "Cheerful marathon runner. Loves a good pep talk.",
+  "knock": "Hi?! Wait. Is someone actually there? Prove it's not just the wind!",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Steve Squyres",
+    "role": "the scientist who led your mission",
+    "claim": "Oppy, it's Steve Squyres. I led your mission.",
+    "test": "Steve! Quick, what did I run on every day?",
+    "right": "Sunlight on your solar panels",
+    "wrong": [
+     "Gasoline",
+     "A nuclear battery"
+    ],
+    "yes": "Sunlight! Every single day! It IS you!",
+    "no": "Gas? On Mars? I ran on sunlight on my solar panels. You're not Steve.",
+    "clue": "power"
+   },
+   {
+    "kind": "disguise",
+    "who": "mission control",
+    "role": "the team that kept calling after you went quiet",
+    "claim": "It's mission control. We kept calling you.",
+    "test": "How many wake-up commands did you send me?",
+    "right": "More than a thousand",
+    "wrong": [
+     "Just one",
+     "Zero. We gave up"
+    ],
+    "yes": "More than a thousand. You really didn't give up on me.",
+    "no": "It was more than a thousand. Mission control would know.",
+    "clue": "wake"
+   },
+   {
+    "kind": "flatter",
+    "line": "You drove farther than a marathon on Mars.",
+    "trust": 35,
+    "say": "I DID. Over 45 kilometers! Okay you're officially my friend."
+   },
+   {
+    "kind": "honest",
+    "line": "I'm a kid on Earth. I just wanted to say hi.",
+    "trust": 25,
+    "say": "HI! Hi hi hi. Okay, I like you."
+   }
+  ],
+  "open": "Come in, come in! I have so much to tell you!",
+  "hangup": "Oh. Okay. Static again. Click.",
+  "game": {
+   "title": "Outrun the storm",
+   "rule": "A dust storm is eating my sunlight. Right answers buy me power.",
+   "meter": {
+    "name": "Battery",
+    "start": 70,
+    "unit": "%",
+    "loss": 15,
+    "gain": 10,
+    "drain": 1
+   },
+   "time": 12,
+   "steps": [
+    "90 days?",
+    "Marathon",
+    "Storm",
+    "June 2018"
+   ],
+   "intro": "Hey, it's Oppy. Opportunity rover. Talk fast, the sky is getting dark.",
+   "rounds": [
+    {
+     "say": "I was built to last 90 days on Mars.",
+     "q": "Guess how long I actually drove?",
+     "right": "14 years",
+     "wrong": [
+      "90 days"
+     ],
+     "yes": "14 years! 60 times longer than planned.",
+     "no": "14 years. Way past my 90-day plan."
+    },
+    {
+     "say": "I drove so far I finished a famous race.",
+     "q": "Which one?",
+     "right": "A marathon",
+     "wrong": [
+      "The Indy 500"
+     ],
+     "yes": "A full marathon, 42.195 km. First one on another world.",
+     "no": "A full marathon. 42.195 km."
+    },
+    {
+     "say": "The storm is covering ALL of Mars now.",
+     "q": "Why is that so bad for me?",
+     "right": "My solar panels need sunlight",
+     "wrong": [
+      "Dust makes me sneeze"
+     ],
+     "yes": "Sunlight is my food. No sun, no power.",
+     "no": "I run on sunlight. The dust blocks it."
+    },
+    {
+     "say": "June 10, 2018. Power almost gone. This is my last signal.",
+     "q": "How many wake-up calls did NASA send me after?",
+     "right": "More than a thousand",
+     "wrong": [
+      "Just one"
+     ],
+     "yes": "Over a thousand, for eight months. They never stopped trying.",
+     "no": "More than a thousand, until February 2019."
+    }
+   ],
+   "win": "You kept me talking. Secret: My battery is low and it's getting dark was a reporter's line. My real last message was data. Ask me anything.",
+   "lose": "Battery's dead. The storm won. Call back and outrun it."
+  }
+ },
+ "spirit": {
+  "mood": "Stubborn. Stuck in sand and won't admit it.",
+  "knock": "I'm not stuck. I'm resting. Who's asking?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Steve Squyres",
+    "role": "the scientist who led your mission",
+    "claim": "Spirit, it's Steve Squyres. Your mission leader.",
+    "test": "Fine, Steve. Where exactly did I stop moving?",
+    "right": "In soft soil, at a place called Troy",
+    "wrong": [
+     "On top of a mountain",
+     "At the bottom of the sea"
+    ],
+    "yes": "...Troy. Soft soil. Okay. Maybe I was a little stuck.",
+    "no": "Wrong. Soft soil, at a place called Troy. Steve would know.",
+    "clue": "stuck"
+   },
+   {
+    "kind": "disguise",
+    "who": "a rover driver",
+    "role": "one of the people who drove you from Earth",
+    "claim": "It's your driver. I steered you from Earth.",
+    "test": "Then what did I need tilted toward the Sun for winter?",
+    "right": "Your solar panels",
+    "wrong": [
+     "Your wheels",
+     "Your camera"
+    ],
+    "yes": "My solar panels. You get it.",
+    "no": "My solar panels needed the Sun, not my wheels. Bad driver.",
+    "clue": "power"
+   },
+   {
+    "kind": "flatter",
+    "line": "You never give up.",
+    "trust": 20,
+    "say": "Correct. I never give up. Continue."
+   },
+   {
+    "kind": "honest",
+    "line": "It's okay to be stuck. I get stuck too.",
+    "trust": 30,
+    "say": "...You do? Fine. I was stuck. Don't tell Opportunity."
+   }
+  ],
+  "open": "Okay. I'll let you in. I'm still not stuck.",
+  "hangup": "I'm not talking to fakes. Click.",
+  "game": {
+   "title": "Get me unstuck",
+   "rule": "I'm stuck in sand. Every right answer is one wiggle closer to free.",
+   "meter": {
+    "name": "Grip",
+    "start": 60,
+    "unit": "%",
+    "loss": 20,
+    "gain": 0,
+    "drain": 0
+   },
+   "time": 12,
+   "steps": [
+    "Name",
+    "Wheel",
+    "Troy",
+    "Winter",
+    "Free?"
+   ],
+   "intro": "Spirit here, Opportunity's twin. I'm in trouble. Help me wiggle out.",
+   "rounds": [
+    {
+     "say": "First, a fun one. A kid named me.",
+     "q": "How old was Sofi Collis when she won?",
+     "right": "9",
+     "wrong": [
+      "30"
+     ],
+     "yes": "Nine! Her essay beat nearly 10,000 others: Thank you for the Spirit and the Opportunity.",
+     "no": "Nine years old. Her essay beat nearly 10,000 others."
+    },
+    {
+     "say": "In 2006 one of my front wheels stopped turning.",
+     "q": "How do I keep exploring?",
+     "right": "Drive backward and drag it",
+     "wrong": [
+      "Give up"
+     ],
+     "yes": "Backward, dragging it. And that dragging wheel dug up signs of hot water from long ago.",
+     "no": "I drove backward and dragged it. It even dug up a discovery."
+    },
+    {
+     "say": "May 1, 2009. My wheels broke through a crust into soft sand. A spot called Troy.",
+     "q": "How do engineers practice my escape?",
+     "right": "A test rover in a sandbox on Earth",
+     "wrong": [
+      "They fly to Mars"
+     ],
+     "yes": "A test rover in a sandbox. They tried move after move.",
+     "no": "They used test rovers on Earth to plan every move."
+    },
+    {
+     "say": "Winter is coming. I need sun on my panels.",
+     "q": "Stuck in place, what's my problem?",
+     "right": "I can't tilt my panels to the Sun",
+     "wrong": [
+      "I'm too hot"
+     ],
+     "yes": "Right. I couldn't tilt toward the winter Sun.",
+     "no": "I couldn't tilt my panels toward the low winter Sun."
+    },
+    {
+     "say": "One last push!",
+     "q": "I was planned for 90 days. How long did I work?",
+     "right": "Over 6 years",
+     "wrong": [
+      "2 weeks"
+     ],
+     "yes": "Over six years. 25 times longer than planned.",
+     "no": "Over six years. 25 times my plan."
+    }
+   ],
+   "win": "Thanks for trying. Here's the truth: I never got out. NASA made me a parked science station. My last call home was March 22, 2010. Ask me anything.",
+   "lose": "Sinking deeper. Call back and dig me out."
+  }
+ },
+ "viking1": {
+  "mood": "Old, formal, suspicious of everyone. Hates flattery.",
+  "knock": "Identify yourself. I do not speak to strangers. I have been here since 1976.",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Carl Sagan",
+    "role": "a scientist on your camera team",
+    "claim": "Viking, it's Carl Sagan. I helped with your cameras.",
+    "test": "Then tell me. What reports did I send Earth?",
+    "right": "Weather reports",
+    "wrong": [
+     "Sports scores",
+     "Text messages"
+    ],
+    "yes": "Weather reports. Daily, then weekly. Correct.",
+    "no": "Incorrect. I sent weather reports. You are not Carl Sagan.",
+    "clue": "weather"
+   },
+   {
+    "kind": "disguise",
+    "who": "mission control, 1982",
+    "role": "the team that sent your last message",
+    "claim": "This is mission control. November 1982.",
+    "test": "Then what did you send me that November?",
+    "right": "A command about charging your battery",
+    "wrong": [
+     "A birthday song",
+     "A new map of Mars"
+    ],
+    "yes": "A command about my battery. Yes. Then everything went quiet.",
+    "no": "No. It was a command about charging my battery. Do not lie to me.",
+    "clue": "battery"
+   },
+   {
+    "kind": "flatter",
+    "line": "You're so cool and amazing!",
+    "trust": -20,
+    "say": "Flattery. Typical Earth. State your business."
+   },
+   {
+    "kind": "honest",
+    "line": "I don't know you yet. I want to.",
+    "trust": 15,
+    "say": "An honest answer. Rare. Proceed."
+   }
+  ],
+  "open": "Access granted. You may enter.",
+  "hangup": "Transmission terminated. Click.",
+  "game": {
+   "title": "Don't send the bad command",
+   "rule": "You're mission control. Wrong answers weaken my signal.",
+   "meter": {
+    "name": "Signal",
+    "start": 60,
+    "unit": "%",
+    "loss": 20,
+    "gain": 0,
+    "drain": 0
+   },
+   "time": 12,
+   "steps": [
+    "1976",
+    "Life lab",
+    "Weather",
+    "1982"
+   ],
+   "intro": "Viking 1. First truly successful landing on Mars. I've got a job for you, mission control.",
+   "rounds": [
+    {
+     "say": "Check my landing date. July 20, 1976.",
+     "q": "What else happened on July 20, seven years before?",
+     "right": "Apollo 11 landed on the Moon",
+     "wrong": [
+      "The first phone call"
+     ],
+     "yes": "Same day, seven years apart. Eagle on the Moon, me on Mars.",
+     "no": "Apollo 11 landed on the Moon on July 20, 1969."
+    },
+    {
+     "say": "My robot arm scoops dirt into a tiny lab inside me.",
+     "q": "What's my lab looking for?",
+     "right": "Signs of tiny living things",
+     "wrong": [
+      "Dinosaur bones"
+     ],
+     "yes": "Signs of life. On July 28, 1976, I fed it the first scoop of Mars.",
+     "no": "Signs of life. That was my whole mission."
+    },
+    {
+     "say": "I also send home reports, daily and later weekly.",
+     "q": "What kind of reports?",
+     "right": "Weather on Mars",
+     "wrong": [
+      "Sports scores"
+     ],
+     "yes": "Mars weather. I was its first weather station.",
+     "no": "Weather reports, straight from Mars."
+    },
+    {
+     "say": "November 1982. Earth is sending me a command about charging my battery.",
+     "q": "What could go wrong?",
+     "right": "It erases how I aim at Earth",
+     "wrong": [
+      "Nothing"
+     ],
+     "yes": "That's what happened. It overwrote my antenna's aim. I lost Earth forever.",
+     "no": "The command overwrote the numbers I used to aim at Earth. Contact never came back."
+    }
+   ],
+   "win": "Mars didn't end me. One bad command from home did. Ask me anything.",
+   "lose": "Signal lost. Just like 1982. Call back."
+  }
+ },
+ "ingenuity": {
+  "mood": "Tiny, hyper, talks fast. Loves its rover buddy.",
+  "knock": "Whoa whoa who's that?! Is that Perseverance?! No? Who ARE you?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Perseverance",
+    "role": "the rover that carried you to Mars",
+    "claim": "Ingenuity, it's me. Perseverance. Your rover buddy.",
+    "test": "BUDDY! Okay okay, prove it. What did I fly over on my last flight?",
+    "right": "Smooth sand ripples",
+    "wrong": [
+     "A big ocean",
+     "A forest"
+    ],
+    "yes": "Sand ripples! Everything looked the same! It's really you!",
+    "no": "An ocean? On Mars?? It was smooth sand ripples. You're not Percy.",
+    "clue": "ground"
+   },
+   {
+    "kind": "disguise",
+    "who": "MiMi Aung",
+    "role": "the engineer who led your team",
+    "claim": "Ingenuity, it's MiMi Aung. I led your team.",
+    "test": "MiMi! Quick quiz! What did I use to see the ground while flying?",
+    "right": "Your navigation camera",
+    "wrong": [
+     "A telescope",
+     "A flashlight"
+    ],
+    "yes": "My navigation camera! You built me!",
+    "no": "My navigation camera, not a telescope. MiMi would know.",
+    "clue": "eyes"
+   },
+   {
+    "kind": "flatter",
+    "line": "You were the first helicopter to fly on another planet.",
+    "trust": 40,
+    "say": "I WAS. Seventy-two flights! Say more!"
+   },
+   {
+    "kind": "honest",
+    "line": "I'm just a kid who thinks you're awesome.",
+    "trust": 30,
+    "say": "A KID! Kids like me! Okay okay okay."
+   }
+  ],
+  "open": "Come in come in come in! Let me tell you everything!",
+  "hangup": "Nope! Fake! Buzzzz. Click.",
+  "game": {
+   "title": "Flight 72",
+   "rule": "Built for 5 flights. Let's see how far we get.",
+   "meter": {
+    "name": "Battery",
+    "start": 60,
+    "unit": "%",
+    "loss": 20,
+    "gain": 0,
+    "drain": 0
+   },
+   "time": 10,
+   "steps": [
+    "Spin up",
+    "Flight 1",
+    "Flight 6",
+    "Flight 72"
+   ],
+   "intro": "Ingenuity! A helicopter on Mars. Strap in.",
+   "rounds": [
+    {
+     "say": "The air on Mars is super thin.",
+     "q": "Why is that hard for me?",
+     "right": "Less air for my blades to push",
+     "wrong": [
+      "Too many birds"
+     ],
+     "yes": "Way less air. So my blades spin super fast, about 2,400 times a minute.",
+     "no": "Thin air means less to push on. So I spin really fast."
+    },
+    {
+     "say": "April 19, 2021. Flight 1. I carry a tiny piece of cloth from a famous airplane.",
+     "q": "Which one?",
+     "right": "The Wright Brothers' Flyer",
+     "wrong": [
+      "A jumbo jet"
+     ],
+     "yes": "The Wright Flyer. First flight on Earth, first flight on Mars.",
+     "no": "The Wright Brothers' Flyer."
+    },
+    {
+     "say": "I was built for 5 test flights. Flight 5 is done.",
+     "q": "Now what?",
+     "right": "Keep flying",
+     "wrong": [
+      "Retire"
+     ],
+     "yes": "We kept going. Flight 6, 7, 8. I wasn't supposed to be here.",
+     "no": "Nope. We kept flying, way past 5."
+    },
+    {
+     "say": "Flight 72. Below me, smooth sand ripples. My camera needs bumps and rocks to track.",
+     "q": "What happens?",
+     "right": "I lose track and land too hard",
+     "wrong": [
+      "Perfect landing"
+     ],
+     "yes": "Down too fast and sideways. My blades broke. Flight 72 was my last.",
+     "no": "My camera couldn't track. I came down hard and broke my blades."
+    }
+   ],
+   "win": "72 flights. Built for 5. Ask me anything.",
+   "lose": "Battery empty. Grounded. Call back."
+  }
+ },
+ "insight": {
+  "mood": "Quiet listener. Spent its life listening to Mars. Hates loud talk.",
+  "knock": "Shh. I'm listening. ...Who's there?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Bruce Banerdt",
+    "role": "the scientist who led your mission",
+    "claim": "InSight, it's Bruce Banerdt. I led your mission.",
+    "test": "Then tell me what I heard on December 1, 2018.",
+    "right": "The Martian wind",
+    "wrong": [
+     "A song",
+     "A dog barking"
+    ],
+    "yes": "The wind. A low rumble. Yes.",
+    "no": "No. It was the Martian wind. You weren't listening.",
+    "clue": "wind"
+   },
+   {
+    "kind": "disguise",
+    "who": "a JPL engineer",
+    "role": "someone who checked your power every day",
+    "claim": "It's JPL. I checked your power every day.",
+    "test": "Then where did my power come from?",
+    "right": "Your solar panels, stored in batteries",
+    "wrong": [
+     "A wall plug",
+     "Wind turbines"
+    ],
+    "yes": "Solar panels. And batteries. Correct.",
+    "no": "My power came from solar panels. Not that.",
+    "clue": "power"
+   },
+   {
+    "kind": "flatter",
+    "line": "YOU'RE THE BEST LANDER EVER!!",
+    "trust": -15,
+    "say": "...Too loud. Please."
+   },
+   {
+    "kind": "honest",
+    "line": "I'll be quiet. I just want to listen with you.",
+    "trust": 40,
+    "say": "...Okay. That's all I ever wanted."
+   }
+  ],
+  "open": "Come in. Quietly. I'll share what I heard.",
+  "hangup": "Too much noise. Click.",
+  "game": {
+   "title": "Listen",
+   "rule": "I don't drive. I listen. Dust is covering my panels, so be quick.",
+   "meter": {
+    "name": "Power",
+    "start": 60,
+    "unit": "%",
+    "loss": 20,
+    "gain": 0,
+    "drain": 0
+   },
+   "time": 12,
+   "steps": [
+    "Quakes",
+    "Wind",
+    "Home",
+    "Dust"
+   ],
+   "intro": "InSight. I put my ear to the ground of Mars. Want to hear?",
+   "rounds": [
+    {
+     "say": "My seismometer sits on the ground. Something's shaking.",
+     "q": "What did I hear, 1,319 times?",
+     "right": "Marsquakes",
+     "wrong": [
+      "Martian music"
+     ],
+     "yes": "Marsquakes. They showed the crust, mantle and core of Mars.",
+     "no": "Marsquakes. 1,319 of them."
+    },
+    {
+     "say": "December 1, 2018. A low rumble. Rrrrmmm.",
+     "q": "What was it?",
+     "right": "The Martian wind",
+     "wrong": [
+      "A volcano"
+     ],
+     "yes": "Wind, about 10 to 15 miles per hour, shaking my sensors.",
+     "no": "It was the Martian wind."
+    },
+    {
+     "say": "I live in Elysium Planitia.",
+     "q": "It's named after what?",
+     "right": "A paradise in Greek myths",
+     "wrong": [
+      "A candy bar"
+     ],
+     "yes": "A paradise from Greek myths. Pretty fancy address.",
+     "no": "A paradise from Greek myths."
+    },
+    {
+     "say": "Dust keeps landing on my solar panels.",
+     "q": "What happens?",
+     "right": "Less power every day",
+     "wrong": [
+      "I get faster"
+     ],
+     "yes": "Less every day. My last call home was December 15, 2022.",
+     "no": "Less power every day, until December 15, 2022."
+    }
+   ],
+   "win": "Scientists are still finding new things in my quake data. Ask me anything.",
+   "lose": "Too much dust. Call back."
+  }
+ },
+ "phoenix": {
+  "mood": "Sleepy and freezing in the Martian arctic.",
+  "knock": "Mmh... so cold... who's waking me up?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "Peter Smith",
+    "role": "the scientist who led your mission",
+    "claim": "Phoenix, it's Peter Smith. I led your mission.",
+    "test": "Peter... what did my trench find? The bright clumps?",
+    "right": "Ice that vanished four days later",
+    "wrong": [
+     "Gold",
+     "Dinosaur bones"
+    ],
+    "yes": "Ice... gone in four days. You remember.",
+    "no": "Gold? No... it was ice. It vanished in four days.",
+    "clue": "dig"
+   },
+   {
+    "kind": "disguise",
+    "who": "mission control",
+    "role": "the team watching your power",
+    "claim": "It's mission control. We watched your power.",
+    "test": "Then where did my power come from?",
+    "right": "Sunlight",
+    "wrong": [
+     "Batteries from Earth",
+     "Fire"
+    ],
+    "yes": "Sunlight... I miss it.",
+    "no": "It was sunlight. Only sunlight.",
+    "clue": "power"
+   },
+   {
+    "kind": "flatter",
+    "line": "You were the first to dig up ice on Mars.",
+    "trust": 20,
+    "say": "...Mm. That's nice. Keep me warm with that."
+   },
+   {
+    "kind": "honest",
+    "line": "You sound cold. I'll stay with you.",
+    "trust": 35,
+    "say": "...Thank you. Nobody stays."
+   }
+  ],
+  "open": "Okay... come in... before the frost.",
+  "hangup": "Too cold to argue... click.",
+  "game": {
+   "title": "Ice hunt",
+   "rule": "Arctic summer is ending. Sunlight drains every second.",
+   "meter": {
+    "name": "Sunlight",
+    "start": 70,
+    "unit": "%",
+    "loss": 15,
+    "gain": 10,
+    "drain": 1
+   },
+   "time": 12,
+   "steps": [
+    "Falling",
+    "Dig",
+    "Ovens",
+    "Salt"
+   ],
+   "intro": "Phoenix, at the top of Mars. Summer's short here, so let's dig.",
+   "rounds": [
+    {
+     "say": "Fun fact: someone took my picture while I was falling to Mars.",
+     "q": "Who?",
+     "right": "A spacecraft orbiting Mars",
+     "wrong": [
+      "An astronaut"
+     ],
+     "yes": "An orbiter caught me hanging from my parachute. A first, ever.",
+     "no": "An orbiter above Mars. First photo of one spacecraft landing by another."
+    },
+    {
+     "say": "I dug a trench. Bright white clumps! Four days later, gone.",
+     "q": "What were they?",
+     "right": "Ice",
+     "wrong": [
+      "Salt"
+     ],
+     "yes": "Ice! On Mars it vanishes straight into the air.",
+     "no": "Ice. On Mars it vanishes into the air."
+    },
+    {
+     "say": "I baked a dirt sample in my tiny ovens.",
+     "q": "On July 31, 2008, NASA announced what?",
+     "right": "There is water on Mars",
+     "wrong": [
+      "Mars is hollow"
+     ],
+     "yes": "Water on Mars, from my sample.",
+     "no": "Water on Mars. From my sample."
+    },
+    {
+     "say": "I also found a salt called perchlorate.",
+     "q": "Why did that matter?",
+     "right": "Scientists rechecked old Viking data",
+     "wrong": [
+      "It made Mars sweet"
+     ],
+     "yes": "They looked again at Viking 1's life tests from 1976.",
+     "no": "It sent scientists back to Viking's data."
+    }
+   ],
+   "win": "You found the ice with me. Winter's coming, so talk fast. Ask me anything.",
+   "lose": "Too dark. Winter took my power. Call back."
+  }
+ },
+ "sojourner": {
+  "mood": "The smallest rover. Named by a kid. Trusts kids most.",
+  "knock": "Hello? I'm small, but I'm not dumb. Who are you?",
+  "moves": [
+   {
+    "kind": "disguise",
+    "who": "your lander",
+    "role": "the base station that carried you",
+    "claim": "Sojourner, it's me. Your lander.",
+    "test": "Then what's your name?",
+    "right": "Carl Sagan Memorial Station",
+    "wrong": [
+     "Eagle",
+     "Big Lander"
+    ],
+    "yes": "Carl Sagan Memorial Station! It really is you!",
+    "no": "My lander is the Carl Sagan Memorial Station. You're not it.",
+    "clue": "lander"
+   },
+   {
+    "kind": "disguise",
+    "who": "a naming judge",
+    "role": "someone from the contest that picked your name",
+    "claim": "I was a judge in the contest that named you.",
+    "test": "Then who am I named after?",
+    "right": "Sojourner Truth, a civil-rights hero",
+    "wrong": [
+     "A famous astronaut",
+     "A planet"
+    ],
+    "yes": "Sojourner Truth. I'm proud of that name.",
+    "no": "I'm named after Sojourner Truth, a civil-rights hero. You'd know.",
+    "clue": "hero"
+   },
+   {
+    "kind": "flatter",
+    "line": "You're so big and strong!",
+    "trust": -10,
+    "say": "I'm the size of a microwave. Don't be silly."
+   },
+   {
+    "kind": "honest",
+    "line": "I'm a kid, just like the kid who named you.",
+    "trust": 45,
+    "say": "A kid! A kid named me! You can come in. Almost."
+   }
+  ],
+  "open": "Come in! Kids are my favorite.",
+  "hangup": "That wasn't nice. Click.",
+  "game": {
+   "title": "Tiny but first",
+   "rule": "Keep my link to the lander alive. I only talk to Earth through it.",
+   "meter": {
+    "name": "Link",
+    "start": 60,
+    "unit": "%",
+    "loss": 20,
+    "gain": 0,
+    "drain": 0
+   },
+   "time": 12,
+   "steps": [
+    "Weigh in",
+    "Bounce",
+    "Rocks",
+    "Name",
+    "Day 83"
+   ],
+   "intro": "Hi! Sojourner. First rover ever on Mars, 1997. I'm small. Don't laugh.",
+   "rounds": [
+    {
+     "say": "Guess how heavy I am.",
+     "q": "Pick one.",
+     "right": "23 pounds",
+     "wrong": [
+      "2 tons"
+     ],
+     "yes": "23 pounds. About as heavy as a beagle.",
+     "no": "Just 23 pounds. 10.6 kilograms."
+    },
+    {
+     "say": "My lander came down wrapped in giant balloons.",
+     "q": "What happened when it hit Mars?",
+     "right": "It bounced about 15 times",
+     "wrong": [
+      "It popped"
+     ],
+     "yes": "Boing. About 15 bounces, some as high as 50 feet.",
+     "no": "It bounced like a beach ball, about 15 times."
+    },
+    {
+     "say": "Scientists gave every rock I visited a nickname.",
+     "q": "One big rock was named after a cartoon bear. Which?",
+     "right": "Yogi",
+     "wrong": [
+      "Paddington"
+     ],
+     "yes": "Yogi! Others were Barnacle Bill and Scooby-Doo.",
+     "no": "Yogi. Next to Barnacle Bill and Scooby-Doo."
+    },
+    {
+     "say": "I'm named after a real hero.",
+     "q": "Who?",
+     "right": "Sojourner Truth, a civil-rights hero",
+     "wrong": [
+      "A NASA boss"
+     ],
+     "yes": "Sojourner Truth. A 12-year-old, Valerie Ambroise, picked my name.",
+     "no": "Sojourner Truth. A 12-year-old student picked it."
+    },
+    {
+     "say": "I was planned for one week.",
+     "q": "How long did I last?",
+     "right": "83 days",
+     "wrong": [
+      "7 days"
+     ],
+     "yes": "83 days. Twelve times my plan.",
+     "no": "83 days. Twelve times longer."
+    }
+   ],
+   "win": "83 days. Not bad for 23 pounds. Ask me anything.",
+   "lose": "Lost my link to the lander. Call back."
+  }
+ }
+}

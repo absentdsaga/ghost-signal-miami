@@ -46,3 +46,4 @@
 .gs-card{box-sizing:border-box;justify-self:center}
 .gs-card .gs-go{white-space:nowrap;flex:none}
 @media(max-width:380px){.gs-card form{flex-wrap:wrap}.gs-card .gs-go{flex:1 1 100%}}
+.sheet.gs-unsolved .talkdock{display:none}
