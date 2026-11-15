@@ -1,0 +1,68 @@
+/* Ghost Signal · feature scenes. Sits above the map and header (1050), under the call sheet (1100). */
+.sc{position:fixed;inset:0;z-index:1050;overflow:hidden;background:#050407;color:var(--cream,#fff4e3);font-family:var(--sans,system-ui)}
+.sc[hidden]{display:none}
+.sc-cam{position:absolute;inset:-24px;transition:transform 1.4s cubic-bezier(.15,.6,.25,1)}
+.sc-drift{position:absolute;inset:0;animation:scDrift 26s ease-in-out infinite alternate}
+@keyframes scDrift{0%{transform:scale(1.04) translate(-.8%,.4%)}100%{transform:scale(1.1) translate(.9%,-.6%)}}
+.sc-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%;opacity:0;user-select:none;-webkit-user-drag:none;
+  filter:grayscale(.85) brightness(.62) contrast(1.06);transition:filter 2.2s ease}
+.sc-img.on{opacity:1}
+.sc.restored .sc-img{filter:none}
+
+/* vignette + a floor of shadow so the type reads */
+.sc-vig{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 42%,transparent 45%,rgba(5,4,7,.78) 100%),
+             linear-gradient(180deg,rgba(5,4,7,.55) 0,transparent 18%,transparent 48%,rgba(5,4,7,.9) 100%)}
+
+.sc-ui{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:18px;
+  padding:calc(18px + env(safe-area-inset-top)) clamp(18px,4vw,56px) calc(22px + env(safe-area-inset-bottom))}
+.sc-top{position:absolute;top:calc(16px + env(safe-area-inset-top));left:clamp(18px,4vw,56px);right:clamp(18px,4vw,56px);display:flex;justify-content:space-between;gap:12px;align-items:center;pointer-events:none}
+.sc-count{font-family:var(--mono,monospace);font-size:12px;letter-spacing:.06em;color:var(--cream,#fff4e3);background:rgba(10,6,14,.7);box-shadow:inset 0 0 0 1px rgba(242,205,176,.16);border-radius:999px;padding:6px 12px}
+.sc-credit{font-size:10.5px;color:rgba(242,205,176,.7);text-align:right}
+
+.sc-info{max-width:620px}
+.sc-kicker{font-family:var(--mono,monospace);font-size:12.5px;color:var(--peach,#f2cdb0);opacity:.9}
+.sc-name{font-family:var(--display,system-ui);font-weight:700;font-size:clamp(34px,5.4vw,64px);line-height:1;letter-spacing:-.04em;margin:8px 0 10px;color:var(--cream,#fff4e3);text-shadow:0 2px 24px rgba(0,0,0,.5)}
+.sc-tag{display:inline-block;font-size:13px;font-weight:500;background:rgba(10,6,14,.72);box-shadow:inset 0 0 0 1px rgba(242,205,176,.18);border-radius:999px;padding:5px 13px}
+.sc-tag:empty{display:none}
+.sc-silent{font-family:var(--mono,monospace);font-size:12.5px;color:#d9c3b8;margin:12px 0 6px;font-variant-numeric:tabular-nums}
+.sc-silent b{color:var(--cream,#fff4e3);font-weight:500}
+.sc-silent b.on{color:var(--lime,#d8ff3e)}
+.sc-hook{font-size:clamp(16px,1.6vw,19px);line-height:1.45;margin:0;color:var(--cream,#fff4e3);max-width:52ch;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+
+.sc-ctrls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sc-ctrls button{min-height:52px;border:0;border-radius:999px;font:600 16px/1 var(--sans,system-ui);cursor:pointer;padding:0 22px;transition:transform .14s var(--pop,ease),background .2s}
+.sc-back,.sc-next{background:rgba(10,6,14,.78);color:var(--cream,#fff4e3);box-shadow:inset 0 0 0 1px rgba(242,205,176,.22)}
+.sc-back:hover,.sc-next:hover{background:rgba(40,24,44,.9)}
+.sc-play{background:var(--lime,#d8ff3e);color:var(--ink,#160511);font-size:17px!important;padding:0 30px!important;order:0;animation:scGlow 2.6s ease-in-out infinite}
+.sc-back{order:-1}
+.sc-ctrls button:hover{transform:translateY(-2px)}
+.sc-ctrls button:active{transform:translateY(2px) scale(.98)}
+.sc-ctrls button:focus-visible{outline:3px solid var(--lime,#d8ff3e);outline-offset:3px}
+@keyframes scGlow{0%,100%{box-shadow:0 0 0 0 rgba(216,255,62,.0),0 0 18px rgba(216,255,62,.25)}50%{box-shadow:0 0 0 6px rgba(216,255,62,.14),0 0 38px rgba(216,255,62,.55)}}
+.sc-next[hidden]{display:none}
+
+/* map chrome steps aside while we dive */
+body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs-today,body.sc-going .gs-guidebtn,body.sc-going .vcredit{opacity:0;pointer-events:none;transition:opacity .3s}
+.top,.delaybar,.gs-today,.gs-guidebtn,.vcredit{transition:opacity .4s}
+
+/* desktop: the call sheet slides in on the right; keep the scene's type clear of it */
+@media(min-width:900px){body:has(.sheet.open) .sc-ui{padding-right:500px}}
+
+/* phone: Play full width under the type, Back and Next share the row below, all in thumb reach */
+@media(max-width:600px){
+  .sc-ui{gap:14px}
+  .sc-ctrls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .sc-play{grid-column:1/-1;order:-2;min-height:58px!important}
+  .sc-ctrls button{padding:0 14px;font-size:15px}
+  .sc-next[hidden]+*{grid-column:auto}
+  .sc-credit{max-width:58vw}
+  .sc-img{object-position:50% 40%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .sc-drift,.sc-play{animation:none}
+  .sc-cam{transition:none}
+  .sc-img{transition:none}
+}
+#vista .vpin:focus{outline:none}
