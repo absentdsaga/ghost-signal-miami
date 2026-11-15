@@ -231,3 +231,16 @@
 .gs-reply.go{background:#e7ff3a;color:#1a0814;border-color:#e7ff3a}
 .gs-reply.miss{border-color:#ff3b3b;color:#ffb3a8}
 @media(prefers-reduced-motion:reduce){.gs-msg-b,.gs-streak,.gs-msg-b.typing i{animation:none}}
+/* case mode: the panel is the conversation */
+.sheet.gs-unsolved .stage,.sheet.gs-unsolved .kicker,.sheet.gs-unsolved .persona,.sheet.gs-unsolved .meta,.sheet.gs-unsolved .built,
+.sheet.gs-unsolved .call .signal,.sheet.gs-unsolved .meter,.sheet.gs-unsolved .askrow,.sheet.gs-unsolved .typerow,.sheet.gs-unsolved .lastday,
+.sheet.gs-unsolved .remember,.sheet.gs-unsolved .label,.sheet.gs-unsolved .gs-gutmine{display:none!important}
+.sheet.gs-unsolved .sheet-body{padding-top:56px}
+.sheet.gs-unsolved .gs-q b{font-size:22px;line-height:1.2}
+.sheet.gs-unsolved .gs-wake{min-height:64px;font-size:19px}
+.sheet.gs-unsolved .gs-chat{max-height:none;overflow:visible}
+.sheet.gs-unsolved .gs-msg-b{font-size:17.5px}
+.sheet.gs-unsolved .gs-reply{font-size:17px;min-height:54px}
+.gs-gut2 .gs-k{color:#e7ff3a}
+.sheet.gs-unsolved .gs-wake.small{min-height:0;width:auto;padding:8px 16px;font-size:14px;background:transparent;color:#e7ff3a;border:1px solid #e7ff3a66;box-shadow:none}
+.sheet.gs-unsolved #status .heard{display:none}

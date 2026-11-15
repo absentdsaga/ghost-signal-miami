@@ -212,6 +212,7 @@
     const ok = isSolved(cur.id);
     top.innerHTML = `<div class="gs-q"><span class="gs-k">${ok ? "✓ " + g("solvedK") : g("caseK")}</span><b>${esc(L(c.q))}</b></div>`;
     const b = el("button", "gs-wake"); b.textContent = ok ? g("again") : S.woke[cur.id] ? g("wakeAgain") : g("wake");
+    if (!ok && S.woke[cur.id]) b.classList.add("small");
     b.onclick = () => wake();
     top.appendChild(b);
   }
@@ -221,6 +222,7 @@
     const seen = S.woke[r.id];
     const line = isSolved(r.id) ? g("back2") : seen ? g("back1") : L(c.wake);
     S.woke[r.id] = (S.woke[r.id] || 0) + 1; save();
+    pending = true; renderCase();
     ask({ text: g("wakeHeard"), script: fill(line), kind: "wake" });
     setTimeout(renderTop, 50);
   }
@@ -235,7 +237,8 @@
       box.appendChild(el("div", "gs-restored", `<div class="gs-k">✓ ${g("solvedK")}</div><p class="gs-sent done">${esc(sentenceText(c))}</p>`));
       box.appendChild(keepsake(c));
     }
-    if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(gutCall(r, c)); return; }
+    if (!ok && !S.woke[r.id]) { renderPower(); return; }
+    if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(chatLog(r)); box.appendChild(gutCall(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
     if (ok) { box.appendChild(chatLog(r)); renderPower(); return; }
@@ -355,12 +358,12 @@
   }
 
   function gutCall(r, c) {
-    const wrap = el("div", "gs-gut", `<div class="gs-k">${g("gutK")}</div><b class="gs-gut-h">${g("gutH")}</b>`);
+    const wrap = el("div", "gs-replies gs-gut2", `<div class="gs-k">${g("gutK")}: ${g("gutH")}</div>`);
     let h = 7; for (const ch of r.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
     const order = [0, 1, 2].sort((a, b) => ((h >> (a * 3)) & 7) - ((h >> (b * 3)) & 7));
-    const row = el("div", "gs-gut-opts");
+    const row = el("div", "gs-reply-row");
     order.forEach((i) => {
-      const b = el("button", "gs-gut-opt"); b.textContent = L(c.gut.opts[i]);
+      const b = el("button", "gs-reply"); b.textContent = L(c.gut.opts[i]);
       b.onclick = () => {
         S.bets[r.id] = i; say(r.id, "you", g("gutSay")(L(c.gut.opts[i]))); say(r.id, "bot", g("gutBack")); save(); FX("place");
         b.classList.add("picked"); const [x, y] = window.GSFX?.at(b) || [0, 0]; window.GSFX?.burst(x, y, { n: 16, speed: 4, colors: ["#e7ff3a", "#fff"] });
