@@ -1,0 +1,57 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;700&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#07050c;color:#1b1620;font-family:Geist,system-ui;height:100vh;overflow:hidden;display:grid;grid-template-rows:1fr auto}
+.scene{position:relative;background:url(eagle-scene.jpg) center 38%/cover}
+.scene:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,5,12,.55),transparent 25%,transparent 80%,rgba(7,5,12,.6))}
+.back{position:absolute;top:22px;left:28px;z-index:2;font:600 17px Geist;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:12px 20px;backdrop-filter:blur(10px)}
+.bubble{position:absolute;left:58%;top:16%;z-index:2;max-width:430px;background:#fff6ea;border-radius:26px 26px 26px 6px;padding:20px 24px;font:600 23px/1.35 Geist;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.bubble b{display:block;font:700 13px "Geist Mono";color:#c2389a;letter-spacing:.06em;margin-bottom:8px}
+.bubble em{font-style:normal;background:#d7ff5a;padding:0 4px;border-radius:4px}
+.console{background:linear-gradient(180deg,#e9e2d6,#cfc6b7);border-top:2px solid #fff8;padding:22px 32px 26px;display:grid;grid-template-columns:300px 1fr 200px;gap:26px;align-items:stretch;box-shadow:0 -20px 60px rgba(0,0,0,.6)}
+.dial{background:#1d1824;border-radius:22px;padding:18px 20px;color:#fff;box-shadow:inset 0 3px 10px #000}
+.dial h2{font:700 24px Unbounded;letter-spacing:-.01em}
+.dial .sub{font:500 13px "Geist Mono";color:#7fe7d2;margin:4px 0 16px}
+.gauge{position:relative;height:70px}
+.gauge svg{width:100%;height:100%}
+.gauge .lbl{margin-top:6px;text-align:center;font:700 17px Geist;color:#ffb35c}
+.ticks{display:flex;gap:6px;margin-top:12px}.ticks i{flex:1;height:8px;border-radius:9px;background:#3a3344}.ticks i.on{background:#7fe7d2;box-shadow:0 0 10px #7fe7d2}
+.mid{display:flex;flex-direction:column;gap:12px}
+.mid .ask{font:700 14px "Geist Mono";letter-spacing:.06em;color:#5a5060;text-transform:uppercase;display:flex;justify-content:space-between}
+.mid .ask span{color:#c2389a}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1}
+.key{background:linear-gradient(180deg,#fffaf2,#ebe3d6);border-radius:18px;padding:16px 18px;border:0;text-align:left;box-shadow:0 6px 0 #a89d8c,0 10px 20px rgba(0,0,0,.25);cursor:pointer;transition:.1s}
+.key:active,.key.down{transform:translateY(5px);box-shadow:0 1px 0 #a89d8c}
+.key .n{display:flex;align-items:center;gap:8px;font:700 13px "Geist Mono";letter-spacing:.05em;text-transform:uppercase;color:#c2389a;margin-bottom:8px}
+.key .n i{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ff4fa3;box-shadow:0 0 8px #ff4fa3}
+.key:nth-child(2) .n{color:#c66a00}.key:nth-child(2) .n i{background:#ffb35c;box-shadow:0 0 8px #ffb35c}
+.key:nth-child(3) .n{color:#1a8c74}.key:nth-child(3) .n i{background:#3fd1b1;box-shadow:0 0 8px #3fd1b1}
+.key .s{font:600 19px/1.3 Geist;color:#1b1620}
+.ptt{border:0;border-radius:26px;background:#1d1824;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:0 8px 0 #000,0 14px 30px rgba(0,0,0,.4);cursor:pointer}
+.ptt .led{width:84px;height:84px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f2ff9e,#d7ff5a 50%,#8fbf10);box-shadow:0 0 40px #d7ff5a;display:grid;place-items:center}
+.ptt svg{width:38px;height:38px}
+.ptt b{font:700 18px Geist}.ptt small{font:500 13px "Geist Mono";color:#aaa}
+.label{position:absolute;top:28px;right:28px;font:500 13px "Geist Mono";color:rgba(255,255,255,.55);z-index:2}
+</style></head><body>
+<div class="scene">
+ <button class="back">&larr; Map</button>
+ <div class="bubble"><b>EAGLE &middot; APOLLO 11</b>Hold it. Nobody has called this frequency since <em>1969</em>. Who is this, and why should I open up?</div>
+ <div class="label">MOCKUP B &middot; HANDSET</div>
+</div>
+<div class="console">
+ <div class="dial"><h2>Eagle</h2><div class="sub">&#9679; SIGNAL LOCKED &middot; 1.3 SEC</div>
+  <div class="gauge"><svg viewBox="0 0 200 90"><path d="M15 85 A85 85 0 0 1 185 85" fill="none" stroke="#3a3344" stroke-width="14" stroke-linecap="round"/><path d="M15 85 A85 85 0 0 1 72 9" fill="none" stroke="url(#g)" stroke-width="14" stroke-linecap="round"/><defs><linearGradient id="g"><stop offset="0" stop-color="#ff4fa3"/><stop offset="1" stop-color="#ffb35c"/></linearGradient></defs><line x1="100" y1="85" x2="68" y2="22" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg></div><div class="gauge lbl" style="height:auto;text-align:center;font:700 17px Geist;color:#ffb35c">Hatch: suspicious</div>
+  <div class="ticks"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div>
+ </div>
+ <div class="mid">
+  <div class="ask">Talk your way in <span>0:08</span></div>
+  <div class="keys">
+   <button class="key down"><div class="n"><i></i>Be Charlie Duke</div><div class="s">"Houston here. I was the voice when you landed."</div></button>
+   <button class="key"><div class="n"><i></i>Butter it up</div><div class="s">"You were the first ship to land people on the Moon."</div></button>
+   <button class="key"><div class="n"><i></i>Tell the truth</div><div class="s">"I'm a kid on Earth. I want your side."</div></button>
+  </div>
+ </div>
+ <button class="ptt"><span class="led"><svg viewBox="0 0 24 24" fill="#111"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0" stroke="#111" stroke-width="2" fill="none"/><rect x="11" y="17" width="2" height="4"/></svg></span><b>Hold to talk</b><small>or SPACE</small></button>
+</div>
+</body></html>
