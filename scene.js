@@ -207,7 +207,7 @@
     pulses({ pts, c }) {
       const segs = pts.slice(1).map((p, i) => [pts[i], p]);
       return addFx({ over: true, draw(now, g, W, H) {
-        const t = (now - this.t0) / 1000;
+        const t = Math.max(0, (now - this.t0) / 1000); /* rAF time can be a hair before t0: a negative t indexed past the cable */
         for (let j = 0; j < 3; j++) { const k = ((t * 0.9 + j / 3) % 1), f = k * segs.length, si = Math.floor(f), [a, b] = segs[si], u = f - si;
           const [x, y] = P(a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u), r = 9 * W / 1280;
           const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, hex(c, 0.95)); gr.addColorStop(1, hex(c, 0));
