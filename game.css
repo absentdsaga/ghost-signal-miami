@@ -291,3 +291,5 @@
 .gs-hint-btn:hover{background:rgba(255,174,54,.16)}
 .gs-hint{margin:8px 0 2px;padding:10px 14px;border-radius:14px;background:rgba(255,174,54,.12);border-left:3px solid #ffae36;color:#fff3dc;font-size:15px;line-height:1.35}
 .gs-hint small{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#ffae36;margin-bottom:3px}
+.gs-hint-fig{margin:8px 0 0}.gs-hint-fig img{display:block;width:100%;max-height:180px;object-fit:cover;border-radius:10px}.gs-hint-fig figcaption{margin-top:5px;font-size:11.5px;line-height:1.3;opacity:.8}.gs-hint-fig a{color:#ffae36}
+#gsCase .gs-hint{border-radius:16px!important}

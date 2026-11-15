@@ -397,7 +397,6 @@
     (S.open ||= {})[r.id] = true; save();
     FX("solve"); window.GSFX?.flash("#e7ff3a"); window.GSFX?.confetti?.();
     toast("Hatch open!");
-    c.clues.filter((cl) => cl.how === "ask" && !found(r.id).includes(cl.id)).forEach((cl) => { say(r.id, "bot", L(cl.say), cl.source); found(r.id).push(cl.id); });
     save();
     pending = true; renderCase();
     ask({ text: "", script: dd.open, kind: "door" });
@@ -549,9 +548,9 @@
     if (rd.hint) {
       d.hints = d.hints || {};
       const cost = Math.max(1, Math.round(gm.meter.loss / 2));
-      if (d.hints[d.i]) wrap.appendChild(el("div", "gs-hint", `<small>${lang === "es" ? "Registro de la misión" : "Mission log"}</small>${esc(rd.hint)}`));
+      if (d.hints[d.i]) wrap.appendChild(el("div", "gs-hint", `<small>${lang === "es" ? "Evidencia · registro de la misión" : "Evidence · mission log"}</small>${esc(rd.hint)}${(() => { const im = media.img[r.id] || {}, ks = ["last_seen", "from_orbit", "portrait"].filter((k) => im[k]?.file), p = ks.length ? im[ks[d.i % ks.length]] : null; return p ? `<figure class="gs-hint-fig"><img src="${p.file}" alt=""><figcaption>${esc((p.caption || "").slice(0, 140))}${(p.caption || "").length > 140 ? "…" : ""} <a href="${p.src || "#"}" target="_blank" rel="noopener">${p.credit || "NASA"}</a></figcaption></figure>` : ""; })()}`));
       else {
-        const hb = el("button", "gs-hint-btn", `${lang === "es" ? "Revisar el registro" : "Check the mission log"} <em>−${cost}${esc(gm.meter.unit)} ${esc(gm.meter.name.toLowerCase())} · +6s</em>`);
+        const hb = el("button", "gs-hint-btn", `${lang === "es" ? "Ver la evidencia" : "Look at the evidence"} <em>−${cost}${esc(gm.meter.unit)} ${esc(gm.meter.name.toLowerCase())} · +6s</em>`);
         hb.onclick = () => {
           if (busy || pending) return;
           d.hints[d.i] = true; d.v -= cost; d.deadline = (d.deadline || Date.now()) + 6000; save(); FX("place");
