@@ -1,0 +1,61 @@
+/* Ghost Signal · layered, movable, alive map (branch wake-up). Loaded after skin.css and scene.css. */
+#vista{overflow:hidden;touch-action:none;scroll-snap-type:none;cursor:grab;display:block;-webkit-user-select:none;user-select:none}
+body.vista-on #vista{display:block}
+#vista.dragging{cursor:grabbing}
+.vworld{position:absolute;left:0;top:0;height:100%;display:flex;transform-origin:0 0;will-change:transform;--inv:1}
+.vworld .vpanel{height:100%;margin:0;flex:0 0 auto;scroll-snap-align:none}
+@media(max-width:600px){.vworld .vpanel{height:100%}}
+.vpanel.layered>img{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;animation:none}
+.vpanel.layered .vshade{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 85% 75% at 50% 58%,rgba(4,3,8,.05) 35%,rgba(4,3,8,.42) 100%)}
+/* the dive darkens the world as we fall into it */
+#vista::after{content:"";position:fixed;inset:0;background:#030205;opacity:0;pointer-events:none;transition:opacity .55s ease-in}
+#vista.diving::after{opacity:.7}
+#vista.returning::after{transition:none;opacity:.7}
+
+/* machines: grounded sprites you want to tap */
+.pin.vpin.spr{position:absolute;transform:none;translate:none;min-width:0;min-height:0;padding:0;border:0;background:none;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.vpin.spr .ring{display:none}
+.vpin.spr .vspr{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;transform-origin:50% 96%;
+  filter:brightness(1.12) contrast(1.14) saturate(.72);transition:transform .35s var(--pop,cubic-bezier(.3,1.5,.5,1)),filter .3s}
+.vpin.spr .vcontact{position:absolute;left:14%;right:14%;top:88%;height:12%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(3,2,5,.85),rgba(3,2,5,.4) 60%,transparent)}
+.vpin.spr .vglow{position:absolute;left:-30%;right:-30%;top:10%;bottom:-18%;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(255,206,150,.34),rgba(255,180,120,.1) 55%,transparent);opacity:.55;animation:vGlow 4.8s ease-in-out infinite;animation-delay:calc(var(--d,0) * -1s)}
+@keyframes vGlow{50%{opacity:.9}}
+.vpin.spr .vbeacon{position:absolute;width:7px;height:7px;translate:-50% -50%;border-radius:50%;background:#ff5a4a;box-shadow:0 0 8px 2px rgba(255,80,60,.7);pointer-events:none;
+  scale:var(--inv);opacity:.12;animation:vBeacon 3.2s steps(1) infinite;animation-delay:calc(var(--d,0) * -1s)}
+@keyframes vBeacon{0%,6%{opacity:1}7%,100%{opacity:.12}}
+.vpin.spr:hover .vspr,.vpin.spr:focus-visible .vspr{filter:brightness(1.38) contrast(1.12) saturate(1.05);transform:translateY(-2.5%) scale(1.07)}
+.vpin.spr:hover .vglow,.vpin.spr:focus-visible .vglow{opacity:1;animation:none;background:radial-gradient(closest-side,rgba(255,226,170,.55),rgba(255,190,120,.16) 55%,transparent)}
+.vpin.spr:active .vspr{transform:translateY(0) scale(.97)}
+/* sun glint visiting one machine at a time */
+.vpin.spr::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,240,215,.95) 50%,transparent 60%) 140% 0/260% 100% no-repeat;
+  -webkit-mask:var(--spr) center/100% 100% no-repeat;mask:var(--spr) center/100% 100% no-repeat;mix-blend-mode:screen}
+.vpin.spr.glint::before{animation:vGlint .9s ease-out}
+@keyframes vGlint{0%{opacity:0;background-position:140% 0}25%{opacity:1}100%{opacity:0;background-position:-40% 0}}
+/* brought back: stays lit on the map */
+.vpin.spr.restored .vspr{filter:brightness(1.22) contrast(1.1) saturate(1.15) drop-shadow(0 0 5px rgba(216,255,62,.55))}
+.vpin.spr.restored .vglow{background:radial-gradient(closest-side,rgba(216,255,62,.38),rgba(216,255,62,.1) 55%,transparent);opacity:.8}
+.vpin.spr.restored .vbeacon{background:#d8ff3e;box-shadow:0 0 10px 3px rgba(216,255,62,.8);animation-duration:1.6s}
+/* labels keep their size at any zoom */
+.vpin.spr .ghost-label{top:100%;left:50%;right:auto;transform:translateX(-50%) scale(var(--inv));transform-origin:50% 0;margin:2px 0 0;align-items:center;text-align:center;padding:4px 9px;transition:background .2s}
+.vpin.spr.left .ghost-label{left:50%;right:auto}
+.vpin.spr:hover .ghost-label{background:rgba(30,18,34,.95)}
+.vpin.spr.restored .ghost-label{background:var(--lime);color:var(--ink)}
+.pin.vpin.spr.today:after{top:-4px;scale:var(--inv)}
+
+/* dust drifting across Mars */
+.vdust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+
+/* zoom / recenter */
+.mapctl{position:fixed;right:14px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:470;display:none;flex-direction:column;gap:6px}
+.mapctl.on{display:flex}
+.mapctl button{width:44px;height:44px;border-radius:14px;border:0;background:rgba(10,6,14,.82);color:var(--cream,#fff4e3);font:600 22px/1 var(--sans,system-ui);cursor:pointer;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(242,205,176,.22);transition:background .2s,transform .12s}
+.mapctl button:hover{background:rgba(40,24,44,.95)}
+.mapctl button:active{transform:scale(.94)}
+.mapctl button:focus-visible{outline:3px solid var(--lime,#d8ff3e);outline-offset:2px}
+.vcredit{right:70px}
+@media(max-width:600px){.mapctl{bottom:calc(84px + env(safe-area-inset-bottom))}.mapctl button{width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.vpin.spr .vglow,.vpin.spr .vbeacon,.vpin.spr.glint::before{animation:none}.vpin.spr .vbeacon{opacity:.8}}

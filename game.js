@@ -152,6 +152,7 @@
   }
   function goTo(id) {
     const r = robots.find((x) => x.id === id); if (!r) return;
+    if (window.GS_scene && GS_scene.phase === "off" && document.querySelector("#vista .vpin.spr")) { GS_scene.enter(id); return; }
     if (r.body !== body) document.querySelector(`#bodySeg button[data-body="${r.body}"]`)?.click();
     setTimeout(() => { openRobot(r); try { map.flyTo([r.lat, r.lon], Math.max(map.getZoom(), 3), { duration: 0.8 }); } catch {} }, r.body !== body ? 350 : 0);
   }

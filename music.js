@@ -1,6 +1,7 @@
 (() => {
   const SRC = { moon: "assets/audio/music-moon.mp3", mars: "assets/audio/music-mars.mp3" };
-  const LV = { browse: 0.55, call: 0.3, voice: 0.12 };
+  const LV = { browse: 0.55, call: 0.3, voice: 0.12, wake: 0.14 };
+  let ducked = false;
   const KEY = "ghostsignal.music";
   let on = localStorage.getItem(KEY) !== "off";
   let ctx = null, started = false, curBody = null, want = LV.browse;
@@ -24,6 +25,7 @@
   function level() {
     const voice = typeof player !== "undefined" && !player.paused && !player.ended && player.src && !player.src.startsWith("data:");
     const call = document.getElementById("sheet")?.classList.contains("open");
+    if (ducked) return LV.wake;
     return voice ? LV.voice : call ? LV.call : LV.browse;
   }
   function apply(sec = 1.2) {
@@ -56,5 +58,5 @@
     btn.onclick = (e) => { e.stopPropagation(); on = !on; localStorage.setItem(KEY, on ? "on" : "off"); draw(); if (!started) start(); else apply(0.8); };
     draw(); ctrls.appendChild(btn);
   }
-  window.GS_music = { on: () => on, levels: LV, state: () => Object.fromEntries(Object.entries(tr).map(([k, t]) => [k, { level: t.v, paused: t.el.paused, t: +t.el.currentTime.toFixed(1), webaudio: !!t.g }])) };
+  window.GS_music = { duck: (d, sec = 0.25) => { ducked = !!d; apply(d ? sec : 1.6); }, on: () => on, levels: LV, state: () => Object.fromEntries(Object.entries(tr).map(([k, t]) => [k, { level: t.v, paused: t.el.paused, t: +t.el.currentTime.toFixed(1), webaudio: !!t.g }])) };
 })();

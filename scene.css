@@ -1,70 +1,107 @@
-/* Ghost Signal · feature scenes. Sits above the map and header (1050), under the call sheet (1100). */
-.sc{position:fixed;inset:0;z-index:1050;overflow:hidden;background:#050407;color:var(--cream,#fff4e3);font-family:var(--sans,system-ui)}
+/* Ghost Signal · cinematic arrival (branch wake-up). Above the map and header (1050), under the call sheet (1100);
+   the dock (Map / Next machine) sits above the sheet (1150). Only transform and opacity animate. */
+.sc{position:fixed;inset:0;z-index:1050;overflow:hidden;background:#030205;color:var(--cream,#fff4e3);font-family:var(--sans,system-ui);cursor:default}
 .sc[hidden]{display:none}
-.sc-cam{position:absolute;inset:-24px;transition:transform 1.4s cubic-bezier(.15,.6,.25,1)}
-.sc-drift{position:absolute;inset:0;animation:scDrift 26s ease-in-out infinite alternate}
-@keyframes scDrift{0%{transform:scale(1.04) translate(-.8%,.4%)}100%{transform:scale(1.1) translate(.9%,-.6%)}}
-.sc-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%;opacity:0;user-select:none;-webkit-user-drag:none;
-  filter:grayscale(.85) brightness(.62) contrast(1.06);transition:filter 2.2s ease}
-.sc-img.on{opacity:1}
-.sc.restored .sc-img{filter:none}
+.sc.seq{cursor:pointer}
+.sc-shake,.sc-cam{position:absolute;inset:0}
+.sc-shake{transition:transform 1.1s cubic-bezier(.16,.84,.3,1)}
+.sc-cam{will-change:transform}
+.sc-frame{position:absolute;will-change:transform}
+.pl,.mach{position:absolute;inset:0}
+.pl{will-change:transform}
+.pl img,.mach .m{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.mach{transform-origin:50% 88%}
+.fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
+@supports (mix-blend-mode:plus-lighter){.fx{mix-blend-mode:plus-lighter}}
 
-/* vignette + a floor of shadow so the type reads */
-.sc-vig{position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 75% 70% at 50% 42%,transparent 45%,rgba(5,4,7,.78) 100%),
-             linear-gradient(180deg,rgba(5,4,7,.55) 0,transparent 18%,transparent 48%,rgba(5,4,7,.9) 100%)}
+/* dead -> alive: a dark copy of the machine under a full-colour copy that fades in; the world under a dimmer */
+.m-dark{filter:grayscale(1) brightness(.42) contrast(1.15)}
+.m-lit{opacity:0;transition:opacity calc(1.2s * var(--ts,1)) cubic-bezier(.4,0,.2,1);will-change:opacity}
+.sc-dark{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 70%,rgba(6,4,12,.5),rgba(3,2,6,.78));opacity:.85;transition:opacity calc(1.6s * var(--ts,1)) ease;pointer-events:none}
+.sc.waking .sc-dark{opacity:1;transition:opacity calc(.25s * var(--ts,1)) ease}
+.sc.awake .m-lit,.sc.lit .m-lit{opacity:1}
+.sc.awake .sc-dark,.sc.lit .sc-dark{opacity:.08}
+.sc.scanning .m-lit{opacity:1;transition:none}
+.sc.scanning .sc-dark{transition:none}
 
-.sc-ui{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:18px;
-  padding:calc(18px + env(safe-area-inset-top)) clamp(18px,4vw,56px) calc(22px + env(safe-area-inset-bottom))}
-.sc-top{position:absolute;top:calc(16px + env(safe-area-inset-top));left:clamp(18px,4vw,56px);right:clamp(18px,4vw,56px);display:flex;justify-content:space-between;gap:12px;align-items:center;pointer-events:none}
-.sc-count{font-family:var(--mono,monospace);font-size:12px;letter-spacing:.06em;color:var(--cream,#fff4e3);background:rgba(10,6,14,.7);box-shadow:inset 0 0 0 1px rgba(242,205,176,.16);border-radius:999px;padding:6px 12px}
-.sc-credit{font-size:10.5px;color:rgba(242,205,176,.7);text-align:right}
+/* lamps: hot white core + coloured halo, additive */
+.lights{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+@supports (mix-blend-mode:plus-lighter){.lights{mix-blend-mode:plus-lighter}}
+.lamp{position:absolute;width:calc(var(--r) * 1%);aspect-ratio:1;translate:-50% -50%;border-radius:50%;opacity:0;
+  background:radial-gradient(circle,#fff 0 9%,var(--c) 20%,color-mix(in srgb,var(--c) 38%,transparent) 40%,transparent 68%);will-change:opacity,transform}
+.lamp::after{content:"";position:absolute;inset:-160%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c) 30%,transparent),transparent 62%);opacity:.9}
+.lamp.on{opacity:1}
+.lamp.heart{width:calc(var(--r) * 1.2%)}
+.lamp.heart::after{inset:-260%;opacity:1}
+.lamp.breathe{animation:lampBreathe 2.8s ease-in-out infinite}
+@keyframes lampBreathe{50%{opacity:.62;transform:scale(.9)}}
+.lamp.strobe{opacity:.18}
+.lamp.strobe.flash{opacity:1;transform:scale(1.25)}
+.lamp.flash{opacity:1;transform:scale(1.4)}
+.lamp.dim{opacity:.35}
+.lamp.k-heat{background:radial-gradient(circle,rgba(255,170,90,.55),rgba(255,110,40,.25) 40%,transparent 70%)}
+.lamp.k-heat::after{display:none}
 
-.sc-info{max-width:620px}
-.sc-kicker{font-family:var(--mono,monospace);font-size:12.5px;color:var(--peach,#f2cdb0);opacity:.9}
-.sc-name{font-family:var(--display,system-ui);font-weight:700;font-size:clamp(34px,5.4vw,64px);line-height:1;letter-spacing:-.04em;margin:8px 0 10px;color:var(--cream,#fff4e3);text-shadow:0 2px 24px rgba(0,0,0,.5)}
-.sc-tag{display:inline-block;font-size:13px;font-weight:500;background:rgba(10,6,14,.72);box-shadow:inset 0 0 0 1px rgba(242,205,176,.18);border-radius:999px;padding:5px 13px}
-.sc-tag:empty{display:none}
-.sc-silent{font-family:var(--mono,monospace);font-size:12.5px;color:#d9c3b8;margin:12px 0 6px;font-variant-numeric:tabular-nums}
-.sc-silent b{color:var(--cream,#fff4e3);font-weight:500}
-.sc-silent b.on{color:var(--lime,#d8ff3e)}
-.sc-hook{font-size:clamp(16px,1.6vw,19px);line-height:1.45;margin:0;color:var(--cream,#fff4e3);max-width:52ch;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+/* film: vignette, grain, letterbox */
+.sc-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 72% at 50% 46%,transparent 52%,rgba(3,2,5,.72) 100%)}
+.sc-grain{position:absolute;inset:-60%;pointer-events:none;opacity:.07;background-size:220px 220px;animation:grain .9s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-7%,4%)}40%{transform:translate(5%,-6%)}60%{transform:translate(-3%,8%)}80%{transform:translate(8%,2%)}100%{transform:translate(0,0)}}
+.sc-bar{position:absolute;left:0;right:0;background:#000;pointer-events:none;transform:scaleY(0);transition:transform calc(.9s * var(--ts,1)) cubic-bezier(.16,.84,.3,1)}
+.sc-bar.t{top:0;height:var(--bar-t,8vh);transform-origin:top}
+.sc-bar.b{bottom:0;height:var(--bar-b,8vh);transform-origin:bottom}
+.sc.show-hud .sc-bar{transform:none}
+.sc.phone .sc-bar{transform:none}
 
-.sc-ctrls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.sc-ctrls button{min-height:52px;border:0;border-radius:999px;font:600 16px/1 var(--sans,system-ui);cursor:pointer;padding:0 22px;transition:transform .14s var(--pop,ease),background .2s}
-.sc-back,.sc-next{background:rgba(10,6,14,.78);color:var(--cream,#fff4e3);box-shadow:inset 0 0 0 1px rgba(242,205,176,.22)}
-.sc-back:hover,.sc-next:hover{background:rgba(40,24,44,.9)}
-.sc-play{background:var(--lime,#d8ff3e);color:var(--ink,#160511);font-size:17px!important;padding:0 30px!important;order:0;animation:scGlow 2.6s ease-in-out infinite}
-.sc-back{order:-1}
-.sc-ctrls button:hover{transform:translateY(-2px)}
-.sc-ctrls button:active{transform:translateY(2px) scale(.98)}
-.sc-ctrls button:focus-visible{outline:3px solid var(--lime,#d8ff3e);outline-offset:3px}
-@keyframes scGlow{0%,100%{box-shadow:0 0 0 0 rgba(216,255,62,.0),0 0 18px rgba(216,255,62,.25)}50%{box-shadow:0 0 0 6px rgba(216,255,62,.14),0 0 38px rgba(216,255,62,.55)}}
-.sc-next[hidden]{display:none}
+/* telemetry HUD */
+.sc-hud{position:absolute;left:clamp(18px,4vw,56px);bottom:calc(var(--bar-b,8vh) + clamp(16px,3vh,34px));max-width:min(980px,86vw);pointer-events:none;opacity:0;transition:opacity .6s}
+.sc.show-hud .sc-hud{opacity:1}
+.h-k,.h-s,.h-st,.h-note{font-family:var(--mono,ui-monospace,monospace);font-variant-numeric:tabular-nums}
+.h-k{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--peach,#f2cdb0);min-height:1.3em}
+.h-n{font-family:var(--display,system-ui);font-weight:700;font-size:clamp(34px,4.8vw,68px);line-height:.98;text-wrap:balance;letter-spacing:-.04em;margin:8px 0 10px;color:var(--cream,#fff4e3);text-shadow:0 2px 30px rgba(0,0,0,.6);opacity:0}
+.h-s{font-size:14px;color:#e6d4c8;min-height:1.4em}
+.h-st{display:flex;gap:9px;align-items:center;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-top:12px;opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s,color .3s}
+.h-st.show{opacity:1;transform:none}
+.h-st i{width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor}
+.h-st.search{color:#bfaab4}.h-st.search i{animation:hBlink .5s steps(1) infinite}
+.h-st.power{color:#ffcf6b}.h-st.power i{animation:hBlink .18s steps(1) infinite}
+.h-st.ok{color:var(--lime,#d8ff3e)}
+@keyframes hBlink{50%{opacity:.15}}
+.h-note{font-size:11.5px;color:#f2cdb0;text-shadow:0 1px 8px rgba(0,0,0,.9);margin-top:8px;opacity:0;transition:opacity .6s}
+.sc.show-note .h-note{opacity:1}
 
-/* map chrome steps aside while we dive */
-body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs-today,body.sc-going .gs-guidebtn,body.sc-going .vcredit{opacity:0;pointer-events:none;transition:opacity .3s}
+/* skip + dock */
+.sc-skip{position:absolute;right:clamp(14px,3vw,40px);bottom:calc(var(--bar-b,8vh) + 16px);z-index:2;min-height:44px;padding:0 18px;border-radius:999px;border:0;
+  background:rgba(10,6,14,.55);color:var(--cream,#fff4e3);font:600 14px/1 var(--sans,system-ui);letter-spacing:.04em;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(242,205,176,.25);transition:opacity .3s,background .2s}
+.sc-skip:hover{background:rgba(40,24,44,.85)}
+.sc.done .sc-skip{opacity:0;pointer-events:none}
+.sc-dock{position:fixed;top:calc(14px + env(safe-area-inset-top));left:14px;z-index:1150;display:flex;gap:8px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .4s .3s,transform .4s .3s}
+.sc.behind .sc-dock{opacity:1;pointer-events:auto;transform:none}
+.sc-dock button{min-height:44px;padding:0 16px;border:0;border-radius:999px;font:600 14px/1 var(--sans,system-ui);cursor:pointer;color:var(--cream,#fff4e3);background:rgba(10,6,14,.82);box-shadow:inset 0 0 0 1px rgba(242,205,176,.25);transition:transform .14s,background .2s}
+.sc-dock .d-next{background:var(--lime,#d8ff3e);color:var(--ink,#160511);box-shadow:none}
+.sc-dock button:hover{transform:translateY(-1px)}
+.sc-dock button:focus-visible,.sc-skip:focus-visible{outline:3px solid var(--lime,#d8ff3e);outline-offset:3px}
+.sc-dock .d-next[hidden]{display:none}
+
+/* behind the case: the scene stays alive, dimmed; HUD steps aside */
+.sc.behind .sc-hud{opacity:0}
+.sc.behind .sc-vig{background:radial-gradient(ellipse 80% 72% at 50% 46%,rgba(3,2,5,.25) 30%,rgba(3,2,5,.85) 100%);transition:background .8s}
+.sc.behind::after{content:"";position:absolute;inset:0;background:rgba(5,3,9,.32);pointer-events:none;animation:scDimIn .8s ease both}
+@keyframes scDimIn{from{opacity:0}}
+@media(min-width:900px){.sc.behind .sc-shake{transform:translateX(-235px)}}
+
+/* map chrome steps aside while a scene is up */
+body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs-today,body.sc-going .gs-guidebtn,body.sc-going .vcredit,body.sc-going .mapctl{opacity:0;pointer-events:none;transition:opacity .3s}
 .top,.delaybar,.gs-today,.gs-guidebtn,.vcredit{transition:opacity .4s}
 
-/* desktop: the call sheet slides in on the right; keep the scene's type clear of it */
-@media(min-width:900px){body:has(.sheet.open) .sc-ui{padding-right:500px}}
-
-/* phone: Play full width under the type, Back and Next share the row below, all in thumb reach */
 @media(max-width:600px){
-  .sc-ui{gap:14px}
-  .sc-ctrls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .sc-play{grid-column:1/-1;order:-2;min-height:58px!important}
-  .sc-ctrls button{padding:0 12px;font-size:14.5px;white-space:nowrap}
-  .sc-next[hidden]+*{grid-column:auto}
-  .sc-credit{max-width:58vw}
-  .sc-img{object-position:50% 40%}
+  .sc-hud{left:18px;right:18px}
+  .sc.phone .sc-hud{bottom:calc(env(safe-area-inset-bottom) + 80px)}
+  .h-n{font-size:clamp(30px,9vw,40px)}
+  .h-s{font-size:12.5px}
+  .sc-skip{bottom:calc(env(safe-area-inset-bottom) + 18px)}
+  .sc-dock button{min-height:42px;padding:0 14px;font-size:13.5px}
 }
-
-@media(prefers-reduced-motion:reduce){
-  .sc-drift,.sc-play{animation:none}
-  .sc-cam{transition:none}
-  .sc-img{transition:none}
-}
+@media(prefers-reduced-motion:reduce){.sc-grain,.lamp.breathe{animation:none}.m-lit,.sc-dark{transition:opacity .4s}}
 #vista .vpin:focus{outline:none}
 .musicbtn{width:34px;height:34px;border-radius:999px;border:1.5px solid currentColor;background:transparent;color:inherit;font:600 16px/1 Geist,system-ui,sans-serif;cursor:pointer;display:inline-grid;place-items:center;opacity:.9}
 .musicbtn.off{opacity:.45}
