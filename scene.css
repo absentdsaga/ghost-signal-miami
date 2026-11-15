@@ -66,3 +66,6 @@ body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs
   .sc-img{transition:none}
 }
 #vista .vpin:focus{outline:none}
+.musicbtn{width:34px;height:34px;border-radius:999px;border:1.5px solid currentColor;background:transparent;color:inherit;font:600 16px/1 Geist,system-ui,sans-serif;cursor:pointer;display:inline-grid;place-items:center;opacity:.9}
+.musicbtn.off{opacity:.45}
+.musicbtn:focus-visible{outline:2px solid #d6ff3c;outline-offset:2px}
