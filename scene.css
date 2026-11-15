@@ -11,7 +11,9 @@
 .pl{will-change:transform}
 .pl img,.mach .m{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .mach{transform-origin:50% 88%}
-.fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none} /* no CSS blend modes: they halved the frame rate; the canvases add light internally ('lighter') */
+.fx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+.lights{z-index:3}.fx-over{z-index:4}
+.sc-frame .g,.m-lit{image-rendering:auto} /* no CSS blend modes: they halved the frame rate; the canvases add light internally ('lighter') */
 
 /* dead -> alive: a dark copy of the machine under a full-colour copy that fades in; the world under a dimmer */
 .m-dark{will-change:opacity}
@@ -85,12 +87,16 @@
 .sc-dock button:focus-visible,.sc-skip:focus-visible{outline:3px solid var(--lime,#d8ff3e);outline-offset:3px}
 .sc-dock .d-next[hidden]{display:none}
 
-/* behind the case: the scene stays alive, dimmed; HUD steps aside */
+/* behind the case: the scene stays alive and UNDIMMED (Dioni 11/15); HUD steps aside, the machine slides left of the panel */
 .sc.behind .sc-hud{opacity:0}
-.sc.behind .sc-vig{background:radial-gradient(ellipse 80% 72% at 50% 46%,rgba(3,2,5,.25) 30%,rgba(3,2,5,.85) 100%);transition:background .8s}
-.sc.behind::after{content:"";position:absolute;inset:0;background:rgba(5,3,9,.32);pointer-events:none;animation:scDimIn .8s ease both}
-@keyframes scDimIn{from{opacity:0}}
 @media(min-width:900px){.sc.behind .sc-shake{transform:translateX(-235px)}}
+
+/* the case panel as glass over the live painting: tinted from the scene's own palette (Moon violet-plum, Mars rust),
+   soft lit edge. Backing alpha .80 keeps cream text >= 9:1 even over the brightest ground (measured in drama-report.md). */
+body.sc-on .sheet{background:linear-gradient(180deg,rgba(38,20,46,.80),rgba(22,10,26,.86));-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px) saturate(1.25);
+  box-shadow:inset 0 0 0 1px rgba(242,205,176,.16),inset 0 1px 0 rgba(255,236,214,.22),0 30px 80px -20px rgba(0,0,0,.55)}
+body.sc-on:has(.sc[data-body=mars]) .sheet{background:linear-gradient(180deg,rgba(58,24,20,.80),rgba(30,12,14,.86))}
+body.sc-on .sheet .stage{box-shadow:0 0 0 1px rgba(255,236,214,.10)}
 
 /* map chrome steps aside while a scene is up */
 body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs-today,body.sc-going .gs-guidebtn,body.sc-going .vcredit,body.sc-going .mapctl{opacity:0;pointer-events:none;transition:opacity .3s}

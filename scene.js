@@ -37,11 +37,10 @@
   root.innerHTML = `
     <div class="sc-shake"><div class="sc-cam"><div class="sc-frame">
       <div class="pl pl-ground"><img class="g" alt="" draggable="false"></div>
-      <div class="pl pl-shadow"><img class="sh" alt="" draggable="false"></div>
       <div class="sc-dark"></div>
       <div class="pl pl-mach"><div class="mach">
         <canvas class="fx fx-under"></canvas>
-        <img class="m m-dark" alt="" draggable="false"><img class="m m-lit" alt="" draggable="false"><img class="m m-on" alt="" draggable="false">
+        <img class="m m-lit" alt="" draggable="false">
         <div class="lights"></div>
         <canvas class="fx fx-over"></canvas>
       </div></div>
@@ -74,7 +73,7 @@
   /* ---------- data ---------- */
   const robot = (id) => robots.find((r) => r.id === id);
   const rig = (id) => (window.GS_RIGS || {})[id] || { heart: { x: 50, y: 20, c: "#d8ff6a" }, foot: { x: 50, y: 88, w: 60 }, lamps: [], fx: [] };
-  const L = (id) => ({ g: `assets/layers/${id}/ground.webp?v=2`, sh: `assets/layers/${id}/shadow.webp`, m: `assets/wake/hd/${id}.webp`, on: `assets/wake/hd/${id}-on.webp`, d: `assets/wake/hd/${id}-dark.webp` }); /* Emily's hero machines (lights off / lights on) fitted onto each scene at 2x; -dark = pre-greyed (no runtime filter) */
+  const L = (id) => ({ g: `assets/wake/scene/${id}-dark.webp`, m: `assets/wake/scene/${id}.webp` }); /* the cohesive painting (same one the case panel used to show), 2x Lanczos; -dark = pre-baked grey/dim copy. One plane, no cutout edge */
   function order(b) {
     const panels = VISTA[b]; if (!panels) return robots.filter((r) => r.body === b).map((r) => r.id);
     return panels.flatMap((p) => Object.entries(p.pts).sort((a, c) => a[1][0] - c[1][0]).map(([id]) => id)).filter(robot);
@@ -322,12 +321,12 @@
   function build(id, lit) {
     clearRun(); fx = []; lights.innerHTML = "";
     const l = L(id);
-    q(".g").src = l.g; q(".sh").src = l.sh; q(".m-dark").src = l.d; q(".m-lit").src = l.m; q(".m-on").src = l.on;
+    q(".g").src = l.g; q(".m-lit").src = l.m;
     layout(id);
     root.classList.toggle("lit", lit); root.classList.remove("behind", "waking", "awake", "show-hud", "show-note", "done");
     root.dataset.body = robot(id).body;
     q(".m-lit").style.clipPath = "";
-    [".sc-dark", ".m-lit", ".sc-cam", ".pl-ground", ".pl-shadow", ".pl-mach", ".mach", ".sc-hud", ".h-n"].forEach((c) => { const e = q(c); e.getAnimations().forEach((a) => a.cancel()); e.style.opacity = ""; e.style.transform = ""; });
+    [".sc-dark", ".m-lit", ".sc-cam", ".pl-ground", ".pl-mach", ".sc-frame", ".mach", ".sc-hud", ".h-n"].forEach((c) => { const e = q(c); e.getAnimations().forEach((a) => a.cancel()); e.style.opacity = ""; e.style.transform = ""; });
   }
   function startIdle(id, R) {
     if (robot(id).body === "mars" && !reduce()) FX.motes({});
@@ -366,8 +365,6 @@
     const D = fromScene ? 1100 : 1450, DESC = "cubic-bezier(.25,.6,.35,1)";
     anim(root, [{ opacity: 0 }, { opacity: 1 }], { duration: dive ? 260 : 420, easing: "ease-out", fill: "both" });
     anim(cam, [{ transform: "translateY(-10%) scale(1.55)" }, { transform: "translateY(0) scale(1.0)" }], { duration: D, easing: DESC, fill: "both" });
-    anim(q(".pl-ground"), [{ transform: "translateY(5%)" }, { transform: "none" }], { duration: D, easing: DESC, fill: "both" });
-    anim(q(".pl-mach"), [{ transform: "translateY(12%) scale(1.06)" }, { transform: "none" }], { duration: D, easing: DESC, fill: "both" });
     if (!dive) GS_wakeAudio?.ui.descend();
     later(() => {
       if (my !== runId) return;
@@ -377,9 +374,7 @@
       /* b. establishing: slow dolly + orbit-feel parallax, runs to the end of the shot */
       const T = 7000;
       anim(cam, [{ transform: "scale(1)" }, { transform: "scale(1.075)" }], { duration: T, easing: "cubic-bezier(.25,.1,.35,1)", fill: "both" });
-      anim(q(".pl-ground"), [{ transform: "translateX(0)" }, { transform: "translateX(1.4%)" }], { duration: T, easing: "ease-in-out", fill: "both" });
-      anim(q(".pl-shadow"), [{ transform: "translateX(0)" }, { transform: "translateX(1.1%)" }], { duration: T, easing: "ease-in-out", fill: "both" });
-      anim(q(".pl-mach"), [{ transform: "translateX(0)" }, { transform: "translateX(-1.6%)" }], { duration: T, easing: "ease-in-out", fill: "both" });
+      anim(frame, [{ transform: "translateX(0)" }, { transform: "translateX(-0.9%)" }], { duration: T, easing: "ease-in-out", fill: "both" }); /* one painting, one plane: a slow truck, never a cutout sliding over its ground */
       startIdle(id, R);
     }, D - 120);
 
