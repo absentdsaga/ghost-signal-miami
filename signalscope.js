@@ -15,25 +15,40 @@
     fetch("data/robots.json").then((r) => r.json()).then((j) => (ROBOTS = j)),
   ]).catch(() => {});
 
+  /* Characters. Personality lives in HOW they talk. Facts stay in door.json and robots.json. Emily: edit tags and lines freely. */
+  const PERSONA = {
+    eagle: { tag: "proud pilot", pitch: 0.7, rate: 1.0, hi: "Eagle here. First to land people on the Moon, thank you very much. Strap in, rookie.", yay: ["Ha! Textbook.", "Now THAT is flying.", "Smooth."], oops: ["Easy, rookie.", "Not on my watch."], offer: "Want a true story from my logbook?", skip: "Fine. Eyes on the dials.", bye: "You fly all right, kid." },
+    surveyor3: { tag: "grumpy neighbor", pitch: 0.5, rate: 0.95, hi: "Ugh. A visitor. The last ones took pieces of me. Make it quick.", yay: ["Hmph. Correct.", "Fine. You got one."], oops: ["Typical.", "Wrong. Of course."], offer: "I suppose you want a story too. Do you?", skip: "Good. Less talking.", bye: "You may come back. Maybe." },
+    alsep: { tag: "sleepy night-shift scientist", pitch: 0.9, rate: 0.9, hi: "Yaaawn. Oh. Someone's on the line. I was measuring things. Quietly.", yay: ["Mm. Precisely.", "Good data.", "Noted. Correct."], oops: ["Mm, no. Check your notes.", "Not what my instruments say."], offer: "I have a true reading you'd like. Want it?", skip: "Back to measuring, then.", bye: "Good shift, partner." },
+    rover16: { tag: "speed show-off", pitch: 1.2, rate: 1.2, hi: "Vroom! Moon Buggy on the line. Fastest wheels up here. Try to keep up!", yay: ["Woo! Full throttle!", "Nailed it!", "Zoom!"], oops: ["Whoa, spun out!", "Brakes! Nope!"], offer: "Wanna hear something true and fast?", skip: "No time anyway. Go go go!", bye: "You can ride shotgun anytime!" },
+    opportunity: { tag: "sunny marathon runner", pitch: 1.3, rate: 1.05, hi: "Oh hi! It's Oppy! I was built for a short trip and I just kept going!", yay: ["Yes! Keep rolling!", "That's the spirit!", "Love it!"], oops: ["Oops! Bumpy patch.", "Aw, not quite!"], offer: "Can I tell you a true story from the road?", skip: "Okay! Onward!", bye: "Best call in years. Really." },
+    spirit: { tag: "stubborn fighter", pitch: 0.95, rate: 1.0, hi: "Spirit here. I don't quit. Ever. Let's see if you do.", yay: ["That's a fighter's answer.", "Good. Again.", "Solid."], oops: ["No. Dig deeper.", "Wrong. Shake it off."], offer: "Want to hear a true one about not giving up?", skip: "Fine. Keep pushing.", bye: "You don't quit either. I like that." },
+    sojourner: { tag: "tiny curious kid", pitch: 1.7, rate: 1.15, hi: "Hi hi hi! I'm Sojourner! I'm really small and I love rocks. Do you love rocks?", yay: ["Yay! You're smart!", "Ooh, yes!", "Right right right!"], oops: ["Uh oh, nope!", "Hee, not that one!"], offer: "Ooh ooh, wanna hear a true thing about me?", skip: "Okay! More rocks!", bye: "You're my favorite Earth person!" },
+    viking1: { tag: "dignified elder", pitch: 0.55, rate: 0.9, hi: "This is Viking 1. I have stood on Mars a very long time. Speak, young one.", yay: ["Quite right.", "Well reasoned.", "Indeed."], oops: ["I am afraid not.", "No, young one."], offer: "Would you care for a true story from long ago?", skip: "Very well. We continue.", bye: "You have done an old machine proud." },
+    phoenix: { tag: "shivering ice hunter", pitch: 1.1, rate: 1.25, hi: "B-brr! Phoenix here. It's freezing and winter's coming. T-talk fast!", yay: ["Y-yes! Warm answer!", "Got it! Quick!", "B-bingo!"], oops: ["Brr, cold answer.", "N-no! Colder!"], offer: "Q-quick true story? It's a good one.", skip: "G-good, no time!", bye: "That warmed me right up." },
+    insight: { tag: "quiet listener", pitch: 0.8, rate: 0.85, hi: "Shh. InSight here. I listen to the ground. Speak softly.", yay: ["Yes. I heard that.", "Clear as a bell.", "Mm. True."], oops: ["Listen again.", "No. That was only wind."], offer: "I heard something true once. Want to hear it?", skip: "Then we listen.", bye: "Thank you for being quiet with me." },
+    ingenuity: { tag: "daredevil overachiever", pitch: 1.5, rate: 1.2, hi: "Ingenuity! Tiny helicopter, huge plans. They said I couldn't. Watch me!", yay: ["Boom! Nailed it!", "Higher!", "Told you!"], oops: ["Whoa, rough landing!", "Nope! Blades wobbling!"], offer: "Wanna hear a true stunt of mine?", skip: "Okay, more flying!", bye: "You'd make a great co-pilot!" },
+    _: { tag: "old machine", pitch: 1, rate: 1, hi: "Signal found. Hello out there.", yay: ["Yes."], oops: ["No."], offer: "Want a true story?", skip: "On we go.", bye: "Good call." },
+  };
+  const PX = (id) => PERSONA[id] || PERSONA._;
   const root = document.createElement("div");
   root.id = "ss"; root.hidden = true;
   root.innerHTML = `
   <div class="ss-scene"></div><div class="ss-static"></div><div class="ss-vig"></div>
   <div class="ss-hud"><button class="ss-pill" data-a="map">&larr; Map</button>
     <div class="ss-id"><b></b><small></small></div>
-    <div class="ss-right"><span class="ss-streak"></span><button class="ss-pill" data-a="voice">Voice on</button><button class="ss-pill" data-a="case">Case file</button><div class="ss-pips"></div></div></div>
+    <div class="ss-right"><span class="ss-streak"></span><span class="ss-pill ss-found"></span><button class="ss-pill" data-a="voice">Voice on</button><button class="ss-pill" data-a="case">Case file</button><div class="ss-pips"></div></div></div>
   <div class="ss-tune"><div class="ss-tw">
     <button class="ss-knob" aria-label="Hold to tune"><svg viewBox="0 0 232 232"><circle cx="116" cy="116" r="108" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="8"/><circle class="ss-arc" cx="116" cy="116" r="108" fill="none" stroke="#d7ff5a" stroke-width="8" stroke-linecap="round" stroke-dasharray="679" stroke-dashoffset="679" style="filter:drop-shadow(0 0 8px #d7ff5a)"/></svg><span class="ss-core">HOLD<br>TO TUNE</span></button>
     <p class="ss-tp"></p><div class="ss-mood"></div></div></div>
-  <div class="ss-cap"><div class="ss-who"><span class="ss-wn"></span><span class="ss-wave"><i></i><i></i><i></i></span></div><p class="ss-line"></p></div>
+  <div class="ss-cap"><div class="ss-who"><span class="ss-wn"></span><span class="ss-wave"><i></i><i></i><i></i></span></div><p class="ss-line"></p><a class="ss-src" target="_blank" rel="noopener" hidden>True story. See the NASA source</a></div>
   <div class="ss-timer"><i></i></div>
   <div class="ss-packet"></div><div class="ss-delay"></div>
   <div class="ss-fact"><b>FROM NASA'S RECORDS</b><p></p><a target="_blank" rel="noopener">See the source</a><button class="ss-go">Next</button></div>
   <div class="ss-plus">+1</div>
   <div class="ss-dock"></div>
-  <div class="ss-win"><div class="ss-box"><div class="ss-patch"><span></span></div><h2>Signal locked</h2><div class="ss-score"></div>
-    <div class="ss-met"><small></small><span></span></div><div class="ss-link"></div>
-    <div class="ss-next"><button class="p" data-a="next">Next machine</button><button class="s" data-a="again">Play again</button><button class="s" data-a="case">Open case file</button></div></div></div>`;
+  <div class="ss-win"><div class="ss-box"><div class="ss-card"><div class="ss-stamp">MEMORY SAVED</div><img class="ss-bimg" alt=""><h2></h2><div class="ss-tag"></div><p class="ss-mem"></p><a class="ss-msrc" target="_blank" rel="noopener">NASA source</a><div class="ss-met"><small></small><span></span></div></div>
+    <div class="ss-count"></div><div class="ss-next"><button class="p" data-a="next">Call the next machine</button></div></div></div>`;
   document.body.appendChild(root);
   const q = (s) => root.querySelector(s), qa = (s) => [...root.querySelectorAll(s)];
 
@@ -51,7 +66,7 @@
   function speak(text) {
     if (!voice || !window.speechSynthesis) return;
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(strip(text)); u.rate = 1.05; u.pitch = R?.body === "mars" ? 1.25 : 0.8; u.lang = "en-US";
+    const u = new SpeechSynthesisUtterance(strip(text)); u.rate = PX(R?.id).rate; u.pitch = PX(R?.id).pitch; u.lang = "en-US";
     speechSynthesis.speak(u);
   }
 
@@ -59,8 +74,9 @@
     const d = DOOR?.[id] || {}, facts = (ROBOTS.find((r) => r.id === id)?.facts) || [];
     let src = (d.game?.rounds || []).map((r) => ({ q: [r.say, r.q].filter(Boolean).join(" "), right: r.right, wrong: r.wrong || [], yes: r.yes, no: r.no }));
     if (!src.length) src = (d.moves || []).filter((m) => m.kind === "disguise" && m.test).map((m) => ({ q: `Someone says they're ${m.who}. ${m.test}`, right: m.right, wrong: m.wrong || [], yes: m.yes, no: m.no }));
-    return src.slice(0, 5).map((r, k) => {
-      const opts = [r.right, ...r.wrong.slice(0, 2)].map((t, j) => ({ t, ok: j === 0 }));
+    const P = PX(id);
+    return src.slice(0, 3).map((r, k) => {
+      const opts = [r.right, ...r.wrong.slice(0, 2)].map((t, j) => ({ t, ok: j === 0, re: j === 0 ? `${P.yay[k % P.yay.length]} ${r.yes}` : `${P.oops[(j - 1) % P.oops.length]} ${r.no}` }));
       for (let a = opts.length - 1; a > 0; a--) { const b = Math.floor(Math.random() * (a + 1)); [opts[a], opts[b]] = [opts[b], opts[a]]; }
       return { ...r, opts, fact: facts.length ? facts[k % facts.length] : null };
     });
@@ -84,11 +100,11 @@
     await ready; if (!DOOR || !ROBOTS) return;
     const r = ROBOTS.find((x) => x.id === id); if (!r) return;
     clearAll(); run++; R = r; rounds = buildRounds(id); if (!rounds.length) return;
-    i = 0; score = 0; streak = 0; phase = "tune";
+    i = 0; score = 0; streak = 0; told = false; phase = "tune"; q(".ss-src").hidden = true; found();
     root.classList.remove("locked", "glitch"); q(".ss-win").classList.remove("show"); q(".ss-fact").classList.remove("show"); q(".ss-cap").classList.remove("show");
     q(".ss-dock").innerHTML = ""; q(".ss-timer").classList.remove("on"); q(".ss-streak").classList.remove("on");
     q(".ss-scene").style.backgroundImage = `url(assets/img/${id}-scene.jpg)`;
-    q(".ss-id b").textContent = plain(r).toUpperCase(); q(".ss-id small").textContent = `${r.body === "mars" ? "Mars" : "Moon"} · landed ${r.landed}`;
+    q(".ss-id b").textContent = plain(r).toUpperCase(); q(".ss-id small").textContent = `${PX(id).tag} · ${r.body === "mars" ? "Mars" : "Moon"}`;
     q(".ss-tp").innerHTML = `Something on the ${r.body === "mars" ? "Mars" : "Moon"} is still transmitting<small>hold the dial, or hold SPACE</small>`;
     q(".ss-mood").textContent = DOOR[id]?.game?.title ? `${DOOR[id].game.title.toUpperCase()} · ${rounds.length} QUESTIONS` : `${rounds.length} QUESTIONS`;
     hold = 0; q(".ss-arc").style.strokeDashoffset = 679; q(".ss-tune").classList.remove("gone");
@@ -108,8 +124,7 @@
   function lock() {
     phase = "talk"; tone(660, 0.15); later(() => tone(990, 0.3), 120);
     q(".ss-tune").classList.add("gone"); q(".ss-pips span").textContent = "WEAK SIGNAL";
-    const d = DOOR[R.id] || {}, intro = d.game?.intro || d.knock;
-    later(() => intro ? say(intro, "robot", () => later(ask, 900)) : ask(), 600);
+    later(() => say(PX(R.id).hi, "robot", () => later(ask, 500)), 400);
   }
 
   /* one question */
@@ -184,43 +199,60 @@
         root.classList.add("glitch"); noise(0.35, 0.15); later(() => root.classList.remove("glitch"), 450);
       }
       window.dispatchEvent(new CustomEvent("gs:scope-answer", { detail: { robot: R.id, ok } }));
-      say(ok ? r.yes : (k < 0 ? "Static ate your answer. " : "") + r.no, "robot", () => {
-        const f = q(".ss-fact");
-        if (!r.fact) return later(advance, 1200);
-        f.querySelector("p").textContent = r.fact.text; const a = f.querySelector("a");
-        if (r.fact.source) { a.href = r.fact.source; a.hidden = false; } else a.hidden = true;
-        f.classList.add("show"); phase = "fact";
-        later(advance, Math.min(11000, 4000 + r.fact.text.length * 45));
-      });
-    }, 1250);
+      say(k >= 0 ? r.opts[k].re : "Static ate your answer. " + r.no, "robot", () => later(advance, 700));
+    }, 750);
   }
   function advance() {
     if (phase !== "fact" && phase !== "wait") return;
     q(".ss-fact").classList.remove("show"); q(".ss-dock").innerHTML = ""; q(".ss-cap").classList.remove("show");
-    i++; if (i < rounds.length) later(ask, 300); else win();
+    i++; if (i === 2 && !told && storyFact()) return later(tangent, 200);
+    if (i < rounds.length) later(ask, 300); else win();
   }
+  /* the tangent: a true story from a cited fact card, offered in the machine's voice */
+  let told = false;
+  const storyFact = () => (R.facts || [])[0];
+  function tangent() {
+    told = true; phase = "offer";
+    say(PX(R.id).offer, "robot", () => {
+      const dk = q(".ss-dock"); dk.innerHTML = "";
+      [["Yes, tell me", true], ["Skip", false]].forEach(([t, y], k) => { const b = document.createElement("button"); b.className = `ss-opt ss-o${k + 2}`; b.innerHTML = `<span class="k">${k + 1}</span><div class="s">${t}</div>`; b.onclick = () => story(y); dk.appendChild(b); later(() => b.classList.add("in"), 80 + k * 110); });
+      root.style.setProperty("--ss-dock", dk.offsetHeight + "px");
+      later(() => { phase = "offerpick"; }, 250);
+    });
+  }
+  function story(yes) {
+    if (phase !== "offerpick") return; phase = "story"; q(".ss-dock").innerHTML = ""; tone(600, 0.08, "triangle", 0.05);
+    const done = () => { q(".ss-src").hidden = true; q(".ss-cap").classList.remove("show"); later(() => (i < rounds.length ? ask() : win()), 300); };
+    if (!yes) return say(PX(R.id).skip, "robot", () => later(done, 500));
+    const f = storyFact(), lines = f.text.split(/(?<=[.!?])\s+(?=[A-Z])/).slice(0, 3), a = q(".ss-src");
+    if (f.source) { a.href = f.source; a.hidden = false; }
+    const next = (n) => (n >= lines.length ? later(done, 900) : say(lines[n], "robot", () => later(() => next(n + 1), 1000)));
+    next(0);
+  }
+  function found() { const n = ROBOTS.filter((x) => won[x.id] != null).length; q(".ss-found").textContent = `${n} of ${ROBOTS.length} found`; return n; }
 
   function win() {
-    phase = "won"; root.classList.add("locked"); sig(Math.max(0.55, score / rounds.length));
+    phase = "won"; root.classList.add("locked"); q(".ss-streak").classList.remove("on"); sig(Math.max(0.55, score / rounds.length));
     [523, 659, 784, 1047].forEach((f, k) => later(() => tone(f, 0.4, "triangle", 0.1), k * 120));
     won[R.id] = Math.max(won[R.id] || 0, score); saveWon();
     window.GS_scenePower?.(R.id, true);
     window.dispatchEvent(new CustomEvent("gs:scope-won", { detail: { robot: R.id, score, of: rounds.length } }));
-    q(".ss-patch span").textContent = short(R);
-    q(".ss-win h2").textContent = score === rounds.length ? "Perfect signal" : score >= rounds.length / 2 ? "Signal locked" : "Weak, but it heard you";
-    q(".ss-score").textContent = `${score} of ${rounds.length} right` + (score < rounds.length ? ". Play again for a perfect signal." : "");
+    const P = PX(R.id), mf = (R.facts || [])[1 % Math.max(1, (R.facts || []).length)];
+    q(".ss-bimg").src = `assets/img/${R.id}-cut.png`; q(".ss-win h2").textContent = plain(R);
+    q(".ss-tag").textContent = `${P.tag} · ${score} of ${rounds.length} right`;
+    q(".ss-mem").textContent = mf ? mf.text : P.bye; const ms = q(".ss-msrc"); if (mf?.source) { ms.href = mf.source; ms.hidden = false; } else ms.hidden = true;
+    q(".ss-count").textContent = `${found()} of ${ROBOTS.length} machines found`;
+    later(() => { tone(90, 0.25, "square", 0.12); noise(0.08, 0.1); }, 1050);
     const land = Date.parse(R.landed) || Date.parse(/[A-Z][a-z]+ \d+, \d{4}/.exec(R.landed + " " + R.last_contact)?.[0]) || Date.UTC(+(/\d{4}/.exec(R.landed)?.[0] || 1970), 0, 1);
     q(".ss-met small").textContent = `${plain(R).toUpperCase()} HAS BEEN ON ${R.body === "mars" ? "MARS" : "THE MOON"} FOR`;
     const tk = () => { let s = Math.floor((Date.now() - land) / 1000); const y = Math.floor(s / 31557600); s -= y * 31557600; const d = Math.floor(s / 86400); s -= d * 86400; const h = Math.floor(s / 3600); s -= h * 3600; const m = Math.floor(s / 60); s -= m * 60; q(".ss-met span").textContent = `${y}y ${d}d ${h}h ${m}m ${String(s).padStart(2, "0")}s`; };
     tk(); clock = setInterval(tk, 1000);
-    const nx = nextRobot();
-    q(".ss-link").innerHTML = nx ? `Still waiting for a call: <b>${plain(nx)}</b>` : `Every machine on this world has heard from you.`;
-    q(".ss-cap").classList.remove("show");
-    later(() => q(".ss-win").classList.add("show"), 700);
+    q(".ss-next .p").textContent = nextRobot() ? "Call the next machine" : "Back to the map";
+    say(P.bye, "robot", () => later(() => { q(".ss-cap").classList.remove("show"); q(".ss-win").classList.add("show"); }, 500));
   }
   function nextRobot() {
-    const same = ROBOTS.filter((x) => x.body === R.body), k = same.findIndex((x) => x.id === R.id);
-    for (let s = 1; s < same.length; s++) { const c = same[(k + s) % same.length]; if (!won[c.id]) return c; }
+    const same = [...ROBOTS.filter((x) => x.body === R.body), ...ROBOTS.filter((x) => x.body !== R.body)], k = same.findIndex((x) => x.id === R.id);
+    for (let s = 1; s < same.length; s++) { const c = same[(k + s) % same.length]; if (won[c.id] == null) return c; }
     return null;
   }
 
@@ -235,17 +267,17 @@
     if (a === "case") close();
     if (a === "again") open(R.id);
     if (a === "map") { close(); if (window.GS_scene?.phase && window.GS_scene.phase !== "off") window.GS_scene.leave(); else document.getElementById("closeSheet")?.click(); }
-    if (a === "next") { const nx = nextRobot(); close(); if (!nx) return; if (window.GS_scene?.phase && window.GS_scene.phase !== "off") window.GS_scene.enter(nx.id); else if (typeof openRobot === "function") openRobot(nx); }
+    if (a === "next") { const nx = nextRobot(); close(); if (!nx) { if (window.GS_scene?.phase && window.GS_scene.phase !== "off") window.GS_scene.leave(); else document.getElementById("closeSheet")?.click(); return; } if (window.GS_scene?.phase && window.GS_scene.phase !== "off") window.GS_scene.enter(nx.id); else if (typeof openRobot === "function") openRobot(nx); }
   });
   document.addEventListener("keydown", (e) => {
     if (root.hidden || phase === "off") return;
     if (e.target.closest?.("input,textarea")) return;
     e.stopPropagation();
     if (e.code === "Space") { e.preventDefault(); if (phase === "tune") down(); else if (phase === "fact") advance(); }
-    else if (/^Digit[1-3]$/.test(e.code)) pick(+e.code.slice(-1) - 1);
+    else if (/^Digit[1-3]$/.test(e.code)) { const k = +e.code.slice(-1) - 1; if (phase === "offerpick") { if (k < 2) story(k === 0); } else pick(k); }
     else if (e.key === "Escape") close();
   }, true);
   document.addEventListener("keyup", (e) => { if (!root.hidden && e.code === "Space") { e.stopPropagation(); up(); } }, true);
-  addEventListener("gs:open", (e) => { const id = e.detail?.robot?.id; if (id && !won[id]) open(id); });
+  addEventListener("gs:open", (e) => { const id = e.detail?.robot?.id; if (id && won[id] == null) open(id); });
   window.GS_scope = { open, close, won };
 })();
