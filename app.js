@@ -365,7 +365,7 @@ function ensureCtx() {
 }
 function routePlayer() {
   if (routed || !actx || actx.state !== "running") return;
-  try { const src = actx.createMediaElementSource(player); analyser = actx.createAnalyser(); analyser.fftSize = 256; src.connect(analyser); analyser.connect(actx.destination); routed = true; } catch {}
+  try { const src = actx.createMediaElementSource(player); analyser = actx.createAnalyser(); analyser.fftSize = 256; (window.GS_radio?.attach(actx, src, player) || src).connect(analyser); analyser.connect(actx.destination); routed = true; } catch {}
 }
 function startPulse() {
   const st = $("stage"), ring = $("glowring"), mv = $("rModel"); st.classList.add("talking");
@@ -499,6 +499,7 @@ async function ask({ text, audio, last, script, sources: scriptSources, clue, ki
   const req = call.then((res) => {
     if (cur === r && !res.error && res.answer) {
       player.onended = null; player.onerror = null;
+      window.GS_radio?.preset(r.id, kind || (clue ? "clue" : last ? "last" : ""));
       player.src = `${API}/speak?robot=${encodeURIComponent(r.id)}&lang=${lang}&mood=${kind || (clue ? "clue" : last ? "last" : "")}&text=${encodeURIComponent(res.answer)}`;
       player.preload = "auto"; player.load(); audioEl = player;
     }
