@@ -3,7 +3,7 @@ const API = "https://dioni.zo.space/api/ghost-signal";
 const T = {
   en: {
     tag: "Call the robots we left behind", moon: "Moon", mars: "Mars", hint: "Tap a robot to call it",
-    hold: "Tap to talk", stop: "Tap to send", typeph: "…or type a question", send: "Send",
+    hold: "Tap to talk", stop: "Tap to send", warpToTalk: "Skipping ahead so you can talk…", typeph: "…or type a question", send: "Send",
     warp: "⏩ Time-warp (skip the real wait)", last: "Hear its last day", label: "Imagined voice (AI). Real NASA facts, each one linked to its source.",
     landed: "Landed", lastc: "Last contact", left: "Left on", moonW: "the Moon", marsW: "Mars",
     listening: "Listening… tap again to send", hearing: "I can hear you", noaudio: "No sound yet, speak up or check your mic", paused: "Go on, or tap to send", tapsend: "tap to send", sending: (s) => `Your voice is travelling to the robot… ${s}`,
@@ -20,7 +20,7 @@ const T = {
   },
   es: {
     tag: "Llama a los robots que dejamos atrás", moon: "Luna", mars: "Marte", hint: "Toca un robot para llamarlo",
-    hold: "Toca para hablar", stop: "Toca para enviar", typeph: "…o escribe una pregunta", send: "Enviar",
+    hold: "Toca para hablar", stop: "Toca para enviar", warpToTalk: "Adelantando para que puedas hablar…", typeph: "…o escribe una pregunta", send: "Enviar",
     warp: "⏩ Salto en el tiempo (saltar la espera real)", last: "Escucha su último día", label: "Voz imaginada (IA). Datos reales de la NASA, cada uno con su fuente.",
     landed: "Aterrizó", lastc: "Último contacto", left: "Dejado en", moonW: "la Luna", marsW: "Marte",
     listening: "Escuchando… toca otra vez para enviar", hearing: "Te escucho", noaudio: "Aún no se oye nada, habla más fuerte o revisa el micrófono", paused: "Sigue, o toca para enviar", tapsend: "toca para enviar", sending: (s) => `Tu voz viaja hacia el robot… ${s}`,
@@ -521,7 +521,10 @@ async function ask({ text, audio, last, script, sources: scriptSources, clue, ki
       if (last) { a.onended = () => signalLost(r); a.onerror = () => signalLost(r); if (media.img[r.id]?.last_seen?.file) showSlide("last"); }
       a.play().catch(() => { if (last) signalLost(r); });
     } else if (last) signalLost(r);
-  } finally { busy = false; $("blip").style.opacity = 0; }
+  } finally {
+    busy = false; $("blip").style.opacity = 0;
+    if (talkQueued) { talkQueued = false; const m = $("micBtn"); m.classList.remove("waiting", "ready"); void m.offsetWidth; m.classList.add("ready"); }
+  }
 }
 
 function signalLost(r) {
@@ -540,7 +543,11 @@ function signalLost(r) {
 }
 
 $("lastBtn").onclick = () => ask({ text: t("lastQ"), last: true });
-$("typeForm").onsubmit = (e) => { e.preventDefault(); const v = $("typeBox").value.trim(); if (v) { $("typeBox").value = ""; ask({ text: v }); } };
+$("typeForm").onsubmit = (e) => {
+  e.preventDefault(); const v = $("typeBox").value.trim(); if (!v) return;
+  if (busy) { const w = $("warpBtn"); if (w && !w.hidden && !warped) { $("status").textContent = t("warpToTalk"); w.click(); } return; }
+  $("typeBox").value = ""; ask({ text: v });
+};
 
 
 let meterCtx = null, meterRaf = 0;
@@ -575,8 +582,15 @@ function stopMeter() {
 }
 
 let rec = null, chunks = [];
+let talkQueued = false;
 $("micBtn").onclick = async () => {
-  if (busy) return;
+  if (busy) {
+    const w = $("warpBtn");
+    if (w && !w.hidden && !warped) { talkQueued = true; $("micBtn").classList.add("waiting"); $("status").textContent = t("warpToTalk"); w.click(); }
+    else if (w && !w.hidden) { w.classList.remove("nudge"); void w.offsetWidth; w.classList.add("nudge"); }
+    else { talkQueued = true; $("micBtn").classList.add("waiting"); }
+    return;
+  }
   unlock();
   if (rec && rec.state === "recording") { rec.stop(); return; }
   try {
