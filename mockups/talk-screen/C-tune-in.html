@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;700&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+:root{--lime:#d7ff5a;--pink:#ff4fa3;--amber:#ffb35c;--teal:#7fe7d2;--ink:#0b0812}
+body{background:var(--ink);color:#fff;font-family:Geist;height:100vh;overflow:hidden}
+.scene{position:fixed;inset:-2%;background:url(eagle-scene.jpg) center 34%/cover;animation:push 30s ease-out forwards}
+@keyframes push{to{transform:scale(1.06)}}
+.vig{position:fixed;inset:0;background:radial-gradient(120% 90% at 50% 35%,transparent 40%,rgba(11,8,18,.9)),linear-gradient(180deg,transparent 55%,rgba(11,8,18,.97) 88%)}
+.grain{position:fixed;inset:0;opacity:.09;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hud{position:fixed;top:26px;left:30px;right:30px;display:flex;align-items:center;gap:22px;z-index:3}
+.back{font:600 16px Geist;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:11px 18px;backdrop-filter:blur(8px)}
+.bolts{margin-left:auto;display:flex;align-items:center;gap:12px;background:rgba(11,8,18,.55);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:10px 18px;backdrop-filter:blur(10px)}
+.bolts span{font:700 13px "Geist Mono";letter-spacing:.08em;color:rgba(255,255,255,.7)}
+.bolts i{width:22px;height:22px;border-radius:50%;background:#2a2333;box-shadow:inset 0 2px 4px #000;position:relative}
+.bolts i:after{content:"";position:absolute;inset:6px 3px;border-top:2px solid #463d52;transform:rotate(45deg)}
+.bolts i.on{background:radial-gradient(circle at 35% 30%,#fff7c2,var(--lime) 55%,#7fa60e);box-shadow:0 0 14px var(--lime)}
+.bolts i.on:after{border-color:#5d7a00}
+/* speech tethered to antenna */
+.tether{position:fixed;left:50%;top:16%;width:2px;height:70px;background:linear-gradient(var(--lime),transparent);transform:translateX(-1px);z-index:2;filter:drop-shadow(0 0 6px var(--lime))}
+.speech{position:fixed;left:50%;top:5.5%;transform:translateX(-50%);z-index:3;display:flex;align-items:flex-start;gap:16px;max-width:760px;background:rgba(11,8,18,.78);backdrop-filter:blur(14px);border:1px solid rgba(215,255,90,.35);border-radius:28px;padding:18px 26px 20px 18px;box-shadow:0 0 50px rgba(215,255,90,.15)}
+.speech .av{flex:none;width:58px;height:58px;border-radius:18px;background:#1c1626 url(eagle-on.png) center/120%;border:2px solid var(--lime)}
+.speech .nm{font:700 13px "Geist Mono";letter-spacing:.08em;color:var(--lime);display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.wave{display:inline-flex;gap:3px;align-items:center;height:14px}.wave i{width:3px;background:var(--lime);border-radius:2px;animation:w .8s ease-in-out infinite}.wave i:nth-child(2){animation-delay:.12s}.wave i:nth-child(3){animation-delay:.24s}.wave i:nth-child(4){animation-delay:.36s}
+@keyframes w{0%,100%{height:3px}50%{height:14px}}
+.speech p{font:600 25px/1.32 Geist;letter-spacing:-.01em}
+.speech p span{opacity:0;animation:in .3s forwards}
+@keyframes in{to{opacity:1}}
+.speech em{font-style:normal;color:var(--amber)}
+/* tuning band */
+.band{position:fixed;left:50%;bottom:-430px;width:1160px;height:1160px;transform:translateX(-50%);z-index:2;pointer-events:none}
+.band svg{width:100%;height:100%;overflow:visible}
+.st{position:fixed;z-index:3;color:#fff;width:300px;text-align:left;border-radius:22px;padding:16px 18px 18px;background:rgba(11,8,18,.72);border:1.5px solid rgba(255,255,255,.16);backdrop-filter:blur(12px);cursor:pointer;transition:.18s}
+.st .f{display:flex;justify-content:space-between;font:700 12px "Geist Mono";letter-spacing:.08em;margin-bottom:8px}
+.st .f b{color:var(--c)}.st .f s{text-decoration:none;color:rgba(255,255,255,.45)}
+.st q{display:block;font:600 19px/1.32 Geist;quotes:none}
+.st .k{position:absolute;top:-14px;left:16px;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--c);color:#111;font:800 15px Geist}
+.st.tuned{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 22%,transparent),0 18px 50px color-mix(in srgb,var(--c) 30%,transparent);transform:translateY(-6px)}
+.s1{--c:var(--pink);left:calc(50% - 560px);bottom:150px}
+.s2{--c:var(--lime);left:calc(50% - 150px);bottom:252px}
+.s3{--c:var(--teal);left:calc(50% + 260px);bottom:150px}
+.knob{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);z-index:4;display:flex;flex-direction:column;align-items:center;gap:10px}
+.knob button{position:relative;width:150px;height:150px;border-radius:50%;border:0;cursor:pointer;background:conic-gradient(from 200deg,#3a3244,#15111b,#3a3244,#15111b,#3a3244);box-shadow:0 14px 40px #000,inset 0 2px 0 rgba(255,255,255,.18);display:grid;place-items:center}
+.knob button:before{content:"";position:absolute;inset:-12px;border-radius:50%;background:conic-gradient(var(--lime) 0 68%,rgba(255,255,255,.1) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 6px),#000 0);filter:drop-shadow(0 0 8px var(--lime))}
+.knob .core{width:92px;height:92px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6ffbf,var(--lime) 50%,#86b00c);box-shadow:0 0 40px var(--lime);display:grid;place-items:center}
+.knob svg{width:40px;height:40px}
+.knob b{font:700 17px Geist}.knob small{font:500 13px "Geist Mono";color:rgba(255,255,255,.6)}
+.tag{position:fixed;right:30px;bottom:24px;z-index:4;font:500 12px "Geist Mono";color:rgba(255,255,255,.4);text-align:right;line-height:1.6}
+</style></head><body>
+<div class="scene"></div><div class="vig"></div><div class="grain"></div>
+<div class="hud"><button class="back">&larr; Map</button>
+ <div class="bolts"><span>HATCH BOLTS</span><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+<div class="speech"><div class="av"></div><div><div class="nm">EAGLE &middot; APOLLO 11 <span class="wave"><i></i><i></i><i></i><i></i></span></div>
+<p><span style="animation-delay:.1s">Hold it.</span> <span style="animation-delay:.5s">Nobody has called this frequency since</span> <span style="animation-delay:1s"><em>1969</em>.</span> <span style="animation-delay:1.4s">Who is this, and why should I open up?</span></p></div></div>
+<div class="band"><svg viewBox="0 0 1160 1160">
+ <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ff4fa3"/><stop offset=".5" stop-color="#d7ff5a"/><stop offset="1" stop-color="#7fe7d2"/></linearGradient></defs>
+ <circle cx="580" cy="580" r="560" fill="none" stroke="url(#g)" stroke-width="2" opacity=".55"/>
+ <circle cx="580" cy="580" r="545" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="10" stroke-dasharray="2 14"/>
+</svg></div>
+<button class="st s1"><span class="k">1</span><div class="f"><b>PRETEND: CHARLIE DUKE</b><s>+ bolt?</s></div><q>"Houston here. I was the voice when you landed."</q></button>
+<button class="st s2 tuned"><span class="k">2</span><div class="f"><b>BUTTER IT UP</b><s>+ bolt?</s></div><q>"You were the first ship to land people on the Moon."</q></button>
+<button class="st s3"><span class="k">3</span><div class="f"><b>TELL THE TRUTH</b><s>+ bolt?</s></div><q>"I'm a kid on Earth. I want your side."</q></button>
+<div class="knob"><button><div class="core"><svg viewBox="0 0 24 24" fill="#111"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0" stroke="#111" stroke-width="2" fill="none"/><rect x="11" y="17" width="2" height="4"/></svg></div></button><b>Hold to say it</b><small>tap a station or press 1 2 3</small></div>
+<div class="tag">C &middot; TUNE IN<br>after Oxenfree's radio + Firewatch's walkie</div>
+</body></html>
