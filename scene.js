@@ -149,6 +149,7 @@
   }
 
   async function next(dir = 1) {
+    // UI fade uses an inline transition (not a filled animation) so it can never get stuck at 0
     if (!curId || busy || root.hidden) return;
     const list = order(robot(curId).body); if (list.length < 2) return;
     const id = list[(list.indexOf(curId) + dir + list.length) % list.length];
@@ -162,7 +163,8 @@
     } else {
       const d = 22 * dir, base = root.classList.contains("restored") ? "" : "grayscale(.85) brightness(.62) contrast(1.06) ";
       out.getAnimations().forEach((a) => a.cancel());
-      ui.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 160, fill: "forwards" });
+      ui.getAnimations().forEach((x) => x.cancel());
+      ui.style.transition = "opacity .16s"; ui.style.opacity = "0";
       out.animate([{ transform: "none", filter: base + "blur(0)", opacity: 1 }, { transform: `translateX(${-d}%) scale(1.04)`, filter: base + "blur(10px)", opacity: 0 }], { duration: 420, easing: EASE_IN, fill: "forwards" });
       inn.classList.add("on");
       const nb = isSolved(id) ? "" : "grayscale(.85) brightness(.62) contrast(1.06) ";
@@ -170,8 +172,7 @@
       setTimeout(() => fill(id), 200);
       await done(a);
       out.classList.remove("on"); out.getAnimations().forEach((x) => x.cancel());
-      ui.getAnimations().forEach((x) => x.cancel());
-      ui.animate([{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 320, easing: EASE_OUT });
+      ui.style.transition = "opacity .32s"; ui.style.opacity = "";
     }
     front = back;
     busy = false;

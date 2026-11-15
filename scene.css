@@ -54,7 +54,7 @@ body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs
   .sc-ui{gap:14px}
   .sc-ctrls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .sc-play{grid-column:1/-1;order:-2;min-height:58px!important}
-  .sc-ctrls button{padding:0 14px;font-size:15px}
+  .sc-ctrls button{padding:0 12px;font-size:14.5px;white-space:nowrap}
   .sc-next[hidden]+*{grid-column:auto}
   .sc-credit{max-width:58vw}
   .sc-img{object-position:50% 40%}
