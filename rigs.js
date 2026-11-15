@@ -19,7 +19,7 @@ window.GS_RIGS = {
   surveyor3: {
     heart: { x: 46.1, y: 10.7, c: "#d8ff6a" }, foot: { x: 50, y: 92, w: 52 }, spill: "#dfe6ff",
     lamps: [{ x: 56.3, y: 46.5, c: "#ffffff", r: 1.8, t: 0, kind: "mirror", real: true, label: "camera mirror catching the Sun" }],
-    fx: [{ type: "glint", x0: 44, x1: 66, y0: 12, y1: 22, c: "235,240,255" }],
+    fx: [], /* the old panel glint drew in empty sky above the panel: removed (every light starts on hardware) */
     note: { en: "Its camera mirror stepped by motor · glow stylized", es: "Su espejo de cámara se movía con motor · brillo estilizado" },
   },
   alsep: {
@@ -48,13 +48,13 @@ window.GS_RIGS = {
   opportunity: {
     heart: { x: 44.7, y: 12.6, c: "#d8ff6a" }, foot: { x: 50, y: 86, w: 64 }, spill: "#ffc28a",
     lamps: [{ x: 44.6, y: 14.9, c: "#bfe8ff", r: 1.2, t: 400, kind: "eye", real: false, label: "Pancam" }],
-    fx: [{ type: "panels", x0: 26, x1: 84, y0: 47, y1: 57 }, { type: "dust", x0: 28, x1: 84, y: 52 }, { type: "glint", x0: 58, x1: 74, y0: 30, y1: 42, c: "255,230,200" }, { type: "look", x: 44.6, y: 14.9, pan: 1 }],
+    fx: [{ type: "panels", x0: 26, x1: 84, y0: 47, y1: 57 }, { type: "dust", x0: 28, x1: 84, y: 52 }, { type: "glint", x0: 58, x1: 74, y0: 41, y1: 47, c: "255,230,200" }, { type: "look", x: 44.6, y: 14.9, pan: 1 }],
     note: { en: "Wind really blew dust off its panels · glow stylized", es: "El viento sí le limpió el polvo de los paneles · brillo estilizado" },
   },
   spirit: {
     heart: { x: 44.4, y: 12.2, c: "#ffc24a" }, foot: { x: 50, y: 88, w: 66 }, spill: "#ffb47a",
     lamps: [{ x: 44.4, y: 14.4, c: "#bfe8ff", r: 1.2, t: 400, kind: "eye", real: false, label: "Pancam" }],
-    fx: [{ type: "panels", x0: 22, x1: 60, y0: 46, y1: 56 }, { type: "dust", x0: 22, x1: 60, y: 51 }, { type: "glint", x0: 58, x1: 74, y0: 32, y1: 42, c: "255,230,200" }, { type: "look", x: 44.4, y: 14.4, pan: 1 }],
+    fx: [{ type: "panels", x0: 22, x1: 60, y0: 46, y1: 56 }, { type: "dust", x0: 22, x1: 60, y: 51 }, { type: "glint", x0: 58, x1: 74, y0: 41, y1: 47, c: "255,230,200" }, { type: "look", x: 44.4, y: 14.4, pan: 1 }],
     note: { en: "Stuck in soft sand, it could not tilt to the Sun · glow stylized", es: "Atascado en arena, no pudo girar hacia el Sol · brillo estilizado" },
   },
   sojourner: {
