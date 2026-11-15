@@ -20,7 +20,9 @@ body.vista-on #vista{display:block}
 .vpin.spr .vspr{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;transform-origin:50% 96%;
   filter:brightness(1.12) contrast(1.14) saturate(.72);transition:transform .35s var(--pop,cubic-bezier(.3,1.5,.5,1)),filter .3s}
 .vpin.spr .vcontact{position:absolute;left:14%;right:14%;top:88%;height:12%;border-radius:50%;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(3,2,5,.85),rgba(3,2,5,.4) 60%,transparent)}
+  background:radial-gradient(closest-side,rgba(3,2,5,.92),rgba(3,2,5,.5) 60%,transparent)}
+/* hero machines carry no painted shadow: a long soft cast shadow away from the sun keeps them standing on the ground */
+.vpin.spr .vcontact:before{content:"";position:absolute;left:-10%;width:140%;top:10%;height:90%;border-radius:50%;transform:translateX(-38%) skewX(-35deg);background:radial-gradient(closest-side,rgba(3,2,6,.55),transparent);pointer-events:none}
 .vpin.spr .vglow{position:absolute;left:-30%;right:-30%;top:32%;bottom:-18%;border-radius:50%;pointer-events:none;
   background:radial-gradient(closest-side,rgba(255,206,150,.34),rgba(255,180,120,.1) 55%,transparent);opacity:.55;will-change:opacity;animation:vGlow 4.8s ease-in-out infinite;animation-delay:calc(var(--d,0) * -1s)}
 @keyframes vGlow{50%{opacity:.9}}
@@ -45,7 +47,7 @@ body.vista-on #vista{display:block}
 .vpin.spr.left .ghost-label{left:50%;right:auto}
 .vpin.spr:hover .ghost-label{background:rgba(30,18,34,.95)}
 .vpin.spr.restored .ghost-label{background:var(--lime);color:var(--ink)}
-.pin.vpin.spr.today:after{top:24%;scale:var(--inv)}
+.pin.vpin.spr.today:after{top:var(--tip-y,24%);left:var(--tip-x,50%);margin:0;translate:-50% -50%;scale:var(--inv)}
 
 /* dust drifting across Mars */
 .vdust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}

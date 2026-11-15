@@ -21,6 +21,9 @@
 .sc.awake .m-lit,.sc.lit .m-lit{opacity:1}
 .sc.awake .sc-dark,.sc.lit .sc-dark{opacity:.08}
 .sc.scanning .m-lit{opacity:1;transition:none}
+/* Emily's lights-on render fades in over the lit machine once it is awake: her real lamps, screens and antenna tip glow */
+.m-on{opacity:0;transition:opacity calc(.9s * var(--ts,1)) calc(.35s * var(--ts,1)) cubic-bezier(.4,0,.2,1);will-change:opacity}
+.sc.awake .m-on,.sc.lit .m-on{opacity:1}
 .sc.scanning .sc-dark{transition:none}
 
 /* lamps: hot white core + coloured halo, additive */
@@ -101,7 +104,7 @@ body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs
   .sc-skip{bottom:calc(env(safe-area-inset-bottom) + 18px)}
   .sc-dock button{min-height:42px;padding:0 14px;font-size:13.5px}
 }
-@media(prefers-reduced-motion:reduce){.sc-grain,.lamp.breathe{animation:none}.m-lit,.sc-dark{transition:opacity .4s}}
+@media(prefers-reduced-motion:reduce){.sc-grain,.lamp.breathe{animation:none}.m-lit,.m-on,.sc-dark{transition:opacity .4s}}
 #vista .vpin:focus{outline:none}
 .musicbtn{width:34px;height:34px;border-radius:999px;border:1.5px solid currentColor;background:transparent;color:inherit;font:600 16px/1 Geist,system-ui,sans-serif;cursor:pointer;display:inline-grid;place-items:center;opacity:.9}
 .musicbtn.off{opacity:.45}
