@@ -486,7 +486,8 @@ async function ask({ text, audio, last, script, sources: scriptSources, clue, ki
   unlock();
   busy = true; warped = false; stopAudio();
   const r = cur;
-  const oneWay = delay ? delay[r.body].one_way_seconds : (r.body === "moon" ? 1.3 : 600);
+  const quick = script && (kind === "door" || kind === "memory");
+  const oneWay = quick ? 0.35 : delay ? delay[r.body].one_way_seconds : (r.body === "moon" ? 1.3 : 600);
   curOneWay = oneWay;
   setAwake(true); staticBurst(Math.min(2400, Math.max(1200, oneWay * 1000))); startAmbient(r); postVisit(r.id, { kind: "call" });
   $("answer").className = "answer"; $("answer").textContent = ""; $("sources").innerHTML = "";
