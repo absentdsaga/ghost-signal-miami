@@ -297,3 +297,7 @@
 #gsCase .gs-evidence p{margin:0;font-size:17px;line-height:1.4;font-weight:600}
 #gsCase .gs-evidence .gs-hint-fig img{max-height:260px}
 #gsCase .gs-evidence .gs-ev-note{display:block;margin-top:8px;font-size:12px;opacity:.7}
+.sheet.gs-unsolved .gs-chat{max-height:none;overflow:visible}
+.gs-chat-more{align-self:center;margin:0 0 4px;padding:6px 12px;border-radius:999px;border:1px solid #ffffff2e;background:#ffffff0d;color:#ffe9c9;font:600 12.5px/1 Geist,system-ui,sans-serif;cursor:pointer}
+.gs-chat-more:hover{background:#ffffff1f}
+#gsCase .gs-rule{font-size:14px;line-height:1.4;color:#f3e3d0;opacity:.9;margin:2px 0 12px}

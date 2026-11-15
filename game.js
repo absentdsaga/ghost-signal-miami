@@ -22,7 +22,7 @@
       cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
       tries: "Each question costs 1 ▮. Run out and the robot falls asleep.",
       gutK: "Gut call", gutH: "First guess, before you dig. No wrong answer yet: you'll find out if you were right.", gutYour: "Your gut said", gutFind: "Find the clues. Were you right?", gutRight: "Called it. Your gut was right.", gutWrong: "Plot twist. Your gut said something else.",
-      you: "You", gutSay: (x) => `I think: ${x}`, gutBack: "Maybe... I can't tell yet. Ask me the right things and it'll come back.", notMine: (n) => `That memory isn't mine. ${n} would know that one.`, link: (n) => `Memory link ×${n}`, missed: "Static", showMe: "Show me where you are", showMeR: "Can you see me? Look closely.", allBack: "It's all coming back. Say it with me.", memK: "Memories", pick: "Pick your next question", wrongCost: "Right question: free. Wrong one: costs 1 ▮.",
+      you: "You", gutSay: (x) => `I think: ${x}`, gutBack: "Maybe... I can't tell yet. Ask me the right things and it'll come back.", notMine: (n) => `That memory isn't mine. ${n} would know that one.`, link: (n) => `Memory link ×${n}`, missed: "Static", showMe: "Show me where you are", showMeR: "Can you see me? Look closely.", allBack: "It's all coming back. Say it with me.", memK: "Memories", pick: "Pick your next question", wrongCost: "Ask the questions only this machine can answer. Each right one brings back a memory. A wrong one is a strike and costs 1 ▮. Get every memory back, then piece together what happened.",
     },
     es: {
       welcomeK: "Turno de noche · Central Señal Fantasma", welcomeH: "11 robots quedaron en silencio. Ayúdalos a recordar.",
@@ -43,7 +43,7 @@
       cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
       tries: "Cada pregunta cuesta 1 ▮. Si se agota, el robot se duerme.",
       gutK: "Corazonada", gutH: "Primera corazonada, antes de investigar. Aún no hay respuesta incorrecta: al final sabrás si acertaste.", gutYour: "Tu corazonada", gutFind: "Encuentra las pistas. ¿Acertaste?", gutRight: "¡Le atinaste! Tu corazonada era cierta.", gutWrong: "Giro inesperado. Tu corazonada era otra.",
-      you: "Tú", gutSay: (x) => `Creo que: ${x}`, gutBack: "Quizás... todavía no lo sé. Hazme las preguntas correctas y volverá.", notMine: (n) => `Ese recuerdo no es mío. ${n} lo sabría.`, link: (n) => `Enlace de memoria ×${n}`, missed: "Estática", showMe: "Muéstrame dónde estás", showMeR: "¿Me ves? Mira bien.", allBack: "Lo recuerdo todo. Dilo conmigo.", memK: "Recuerdos", pick: "Elige tu siguiente pregunta", wrongCost: "Pregunta correcta: gratis. Incorrecta: cuesta 1 ▮.",
+      you: "Tú", gutSay: (x) => `Creo que: ${x}`, gutBack: "Quizás... todavía no lo sé. Hazme las preguntas correctas y volverá.", notMine: (n) => `Ese recuerdo no es mío. ${n} lo sabría.`, link: (n) => `Enlace de memoria ×${n}`, missed: "Estática", showMe: "Muéstrame dónde estás", showMeR: "¿Me ves? Mira bien.", allBack: "Lo recuerdo todo. Dilo conmigo.", memK: "Recuerdos", pick: "Elige tu siguiente pregunta", wrongCost: "Haz las preguntas que solo esta máquina puede responder. Cada acierto trae un recuerdo. Un error es un strike y cuesta 1 ▮. Recupera todos los recuerdos y arma lo que pasó.",
     },
   };
   const GENERIC = new Set(["how", "do", "who", "where", "cómo", "como", "quién", "quien", "dónde", "donde", "find", "see", "ver", "fly", "volar"]);
@@ -245,7 +245,7 @@
     if (!ok && !S.woke[r.id]) { renderPower(); return; }
     if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(chatLog(r)); box.appendChild(gutCall(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
-    if (!ok && DOOR[r.id] && !S.open?.[r.id]) { box.appendChild(DOOR[r.id].game ? gameView(r, c) : doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
+    if (!ok && DOOR[r.id] && !DOOR[r.id].game && !S.open?.[r.id]) { box.appendChild(DOOR[r.id].game ? gameView(r, c) : doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
     if (ok) { box.appendChild(chatLog(r)); nextBtn(box, r); renderPower(); return; }
     box.appendChild(memStrip(r, c, have));
@@ -295,9 +295,21 @@
   const Q = (cl) => { const q = QS[cl.prompt.en]; return q ? q[lang === "es" ? 1 : 0] : L(cl.prompt).replace(/^(Ask|Pregúntale)\s*/i, ""); };
   const chat = (id) => (S.chat[id] ||= []);
   function say(id, who, text, src) { const a = chat(id); a.push({ who, text, src }); if (a.length > 40) a.splice(0, a.length - 40); save(); }
+  const fullLog = {};
   function chatLog(r) {
-    const log = el("div", "gs-chat");
-    chat(r.id).forEach((m) => {
+    const log = el("div", "gs-chat"), all = chat(r.id), unsolved = !isSolved(r.id);
+    let li = all.length - 1; while (li > 0 && all[li].who !== "bot") li--;
+    const showAll = !unsolved || fullLog[r.id], from = showAll ? 0 : Math.max(0, li - 1);
+    if (!showAll && from > 0) {
+      const t = el("button", "gs-chat-more", lang === "es" ? `Ver toda la conversación (${all.length})` : `Show the whole conversation (${all.length})`);
+      t.onclick = () => { fullLog[r.id] = true; renderCase(); };
+      log.appendChild(t);
+    } else if (unsolved && fullLog[r.id] && all.length > 3) {
+      const t = el("button", "gs-chat-more", lang === "es" ? "Mostrar solo lo último" : "Show only the latest");
+      t.onclick = () => { fullLog[r.id] = false; renderCase(); };
+      log.appendChild(t);
+    }
+    all.slice(from).forEach((m) => {
       const host = m.src ? (() => { try { return new URL(m.src).hostname.replace("www.", ""); } catch { return ""; } })() : "";
       log.appendChild(el("div", `gs-msg-b ${m.who}`, `${esc(m.text)}${m.src ? `<a class="gs-src" href="${m.src}" target="_blank" rel="noopener">${g("sources")} · ${host}</a>` : ""}`));
     });
