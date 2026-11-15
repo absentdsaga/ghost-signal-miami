@@ -95,6 +95,8 @@
   setInterval(() => { if (cur && recharging(cur.id) || (cur && S.recharge[cur.id])) { const was = !!S.recharge[cur.id]; renderPower(); if (was && !S.recharge[cur.id]) renderCase(); } }, 1000);
 
   window.GS_isMystery = (id) => !!caseOf(id) && !isSolved(id);
+  window.GS_today = () => (D ? todayId() : null);
+  window.GS_player = () => ({ name: S.name, skipped: !!S.skipped, solved: solvedCount() });
 
   window.GS_beforeAsk = (r, text) => {
     const c = caseOf(r.id); if (!c || isSolved(r.id)) return null;
@@ -124,7 +126,7 @@
     const w = el("div", "gs-welcome", `<div class="gs-card"><div class="gs-k">${g("welcomeK")}</div><h1>${g("welcomeH")}</h1><p>${g("welcomeP")}</p>
       <form><input maxlength="20" autocomplete="off" placeholder="${g("namePh")}"><button type="submit" class="gs-go">${g("start")}</button></form><button class="gs-skip" type="button">${g("skip")}</button></div>`);
     w.id = "gsWelcome";
-    const done = (n) => { S.name = (n || "").replace(/[^\p{L}\p{N} '\-]/gu, "").trim().slice(0, 20); if (!S.name) S.skipped = true; save(); w.classList.add("out"); setTimeout(() => w.remove(), 400); updateChrome(); };
+    const done = (n) => { S.name = (n || "").replace(/[^\p{L}\p{N} '\-]/gu, "").trim().slice(0, 20); if (!S.name) S.skipped = true; save(); w.classList.add("out"); setTimeout(() => w.remove(), 400); updateChrome(); window.dispatchEvent(new CustomEvent("gs:named", { detail: { name: S.name } })); };
     w.querySelector("form").onsubmit = (e) => { e.preventDefault(); done(w.querySelector("input").value); };
     w.querySelector(".gs-skip").onclick = () => done("");
     document.body.appendChild(w);
