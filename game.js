@@ -243,7 +243,6 @@
       box.appendChild(keepsake(c));
     }
     if (!ok && !S.woke[r.id]) { renderPower(); return; }
-    if (!ok && DOOR[r.id] && !DOOR[r.id].game && !S.open?.[r.id]) { box.appendChild(DOOR[r.id].game ? gameView(r, c) : doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", lang === "es" ? "Cada archivo NASA tiene una palabra tachada. Haz la pregunta correcta para destaparla. Puedes resolver el caso cuando quieras." : "Each NASA file has a word blacked out. Ask the right question to uncover it. Solve the case whenever you think you know.")); }
     if (ok) { box.appendChild(chatLog(r)); nextBtn(box, r); renderPower(); return; }
     box.appendChild(memStrip(r, c, have));

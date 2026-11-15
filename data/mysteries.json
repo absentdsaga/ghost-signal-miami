@@ -1218,7 +1218,7 @@
      "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities",
      "say": {
       "en": "People on Earth supported us: they listened to our data and sent our commands. That support had to be paid for.",
-      "es": "Personas en la Tierra nos apoyaban: escuchaban nuestros datos y enviaban nuestros comandos. Ese apoyo había que pagarlo."
+      "es": "Personas en la Tierra nos apoyaban: escuchaban nuestros datos y enviaban nuestros comandos. Ese apoyo costaba dinero."
      },
      "keys": [
       "who",
@@ -1418,6 +1418,15 @@
      "say": {
       "en": "February 2022: an orbiter spotted me as a tiny dot, about 200 meters from Perseverance.",
       "es": "Febrero de 2022: un orbitador me vio como un puntito, a unos 200 metros de Perseverance."
+     },
+     "hunt": {
+      "x": 0.067,
+      "y": 0.61,
+      "r": 0.06,
+      "find": {
+       "en": "Find Ingenuity. From orbit it's a single dot in the sand ripples, about 200 meters left of Perseverance.",
+       "es": "Encuentra a Ingenuity. Desde órbita es un solo punto entre las ondas de arena, a unos 200 metros a la izquierda de Perseverance."
+      }
      }
     }
    ],
@@ -1492,7 +1501,7 @@
      "source": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-059C",
      "say": {
       "en": "Neil Armstrong and Buzz Aldrin. They lifted off on July 21, 1969.",
-      "es": "Neil Armstrong y Buzz Aldrin. Despegaron el 21 de julio de 1969."
+      "es": "Neil Armstrong y Buzz Aldrin. Con ellos a bordo, mi mitad de arriba despegó el 21 de julio de 1969."
      },
      "keys": [
       "who",
