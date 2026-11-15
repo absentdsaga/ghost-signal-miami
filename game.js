@@ -143,7 +143,7 @@
     if (!D) return;
     let gb = document.getElementById("gsGuideBtn");
     if (!gb) { gb = el("button", "gs-guidebtn"); gb.id = "gsGuideBtn"; gb.onclick = openGuide; document.querySelector(".top .brand")?.appendChild(gb); }
-    gb.innerHTML = `<span class="gs-gl">${g("guide")}</span> <b>${solvedCount()}/11</b>`;
+    gb.innerHTML = `<span class="gs-gl">${g("guide")}</span>`;
     let tl = document.getElementById("gsToday");
     if (!tl) { tl = el("button", "gs-today"); tl.id = "gsToday"; tl.onclick = () => goTo(todayId()); document.body.appendChild(tl); }
     const tr = robots.find((r) => r.id === todayId());
