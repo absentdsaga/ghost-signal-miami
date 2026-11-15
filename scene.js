@@ -98,19 +98,25 @@
   let geo = null;
   function layout(id) {
     const vw = innerWidth, vh = innerHeight, phone = vw < 760 && vh > vw * 1.1;
-    const b = BOXES[id] || [0.2, 0, 0.8, 0.9], bw = b[2] - b[0], cx = (b[0] + b[2]) / 2, cy = (b[1] + b[3]) / 2;
+    const b = BOXES[id] || [0.2, 0, 0.8, 0.9], R = rig(id), bw = b[2] - b[0];
+    const cx = R.focus ? R.focus / 100 : (b[0] + b[2]) / 2, hy = (R.heart?.y ?? 10) / 100, fy = Math.min(b[3], (R.foot?.y ?? 90) / 100 + 0.04), cy = (hy + fy) / 2;
     let sc;
     if (phone) sc = Math.min(vh / 720 * 1.1, Math.max(vw / (bw * 1280) * 1.02, vh * 0.5 / 720, vw / 1280 * 1.08));
-    else sc = Math.max(vw / 1280, vh / 720) * 1.1;
+    else sc = Math.max(vw / 1280, vh / 720) * 1.04;
     const w = 1280 * sc, h = 720 * sc;
     let left = vw / 2 - cx * w; left = w >= vw ? Math.min(0, Math.max(vw - w, left)) : (vw - w) / 2;
-    let top = phone ? vh * 0.4 - h * 0.5 : (vh - h) / 2; if (h >= vh) top = Math.min(0, Math.max(vh - h, top));
+    /* keep the machine's feet above the bottom letterbox: aim the box bottom at ~88% of the screen */
+    const barT = phone ? 0 : vh * 0.07;
+    let top = phone ? vh * 0.4 - h * 0.5 : Math.min((vh - h) / 2, vh * 0.9 - fy * h);
+    top = Math.max(top, barT + vh * 0.06 - hy * h); /* never hide the first light under the letterbox */
+    if (h >= vh) top = Math.min(0, Math.max(vh - h, top));
     Object.assign(frame.style, { left: left + "px", top: top + "px", width: w + "px", height: h + "px" });
     const ox = left + cx * w, oy = top + cy * h;
     cam.style.transformOrigin = `${ox}px ${oy}px`;
-    root.style.setProperty("--bar-t", Math.max(phone ? top + h * 0.06 : vh * 0.085, 0) + "px");
-    root.style.setProperty("--bar-b", Math.max(phone ? vh - top - h * 0.97 : vh * 0.085, 0) + "px");
+    root.style.setProperty("--bar-t", Math.max(phone ? top + h * 0.06 : vh * 0.07, 0) + "px");
+    root.style.setProperty("--bar-b", Math.max(phone ? vh - top - h * 0.97 : vh * 0.07, 0) + "px");
     root.classList.toggle("phone", phone);
+    root.classList.toggle("hud-right", R.hud === "right" && !phone);
     const dpr = Math.min(devicePixelRatio || 1, 1.5), cw = Math.min(2048, Math.round(w * dpr)), ch = Math.round(cw * 720 / 1280);
     [cUnder, cOver].forEach((c) => { if (c.width !== cw) { c.width = cw; c.height = ch; } });
     geo = { w, h, left, top, ox, oy, phone, cw, ch, k: cw / w };

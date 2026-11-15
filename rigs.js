@@ -23,6 +23,7 @@ window.GS_RIGS = {
     note: { en: "Its camera mirror stepped by motor · glow stylized", es: "Su espejo de cámara se movía con motor · brillo estilizado" },
   },
   alsep: {
+    focus: 47,
     heart: { x: 50.3, y: 10.6, c: "#d8ff6a" }, foot: { x: 52, y: 90, w: 60 }, spill: "#ffc86b",
     lamps: [
       { x: 47.2, y: 24.2, c: "#ffb340", r: 0.9, t: 0, real: false },
@@ -55,13 +56,14 @@ window.GS_RIGS = {
     note: { en: "Stuck in soft sand, it could not tilt to the Sun · glow stylized", es: "Atascado en arena, no pudo girar hacia el Sol · brillo estilizado" },
   },
   sojourner: {
+    hud: "right",
     heart: { x: 52.6, y: 16.5, c: "#d8ff6a" }, foot: { x: 50, y: 93, w: 60 }, spill: "#ffbf8a",
     lamps: [{ x: 30.6, y: 62, c: "#bfe8ff", r: 1.0, t: 300, kind: "eye", real: false, label: "front cameras" }],
-    fx: [{ type: "stripes", x0: 26, x1: 52, y0: 88, y1: 98, n: 5, c: "#ff2f2f" }],
+    fx: [{ type: "stripes", x0: 4, x1: 26, y0: 77, y1: 89, n: 5, c: "#ff2f2f" }],
     note: { en: "Real lasers. They were infrared; shown red so you can see them", es: "Láseres reales. Eran infrarrojos; aquí en rojo para que se vean" },
   },
   viking1: {
-    heart: { x: 31.9, y: 19, c: "#d8ff6a" }, foot: { x: 45, y: 90, w: 70 }, spill: "#ffc79a",
+    heart: { x: 32.4, y: 18.4, c: "#d8ff6a", r: 1.5 }, foot: { x: 45, y: 90, w: 70 }, spill: "#ffc79a",
     lamps: [{ x: 53.6, y: 14.6, c: "#d8ff6a", r: 1.0, t: 900, real: false, label: "weather boom tip" }],
     fx: [{ type: "scan", ms: 1700 }],
     note: { en: "Viking saw one line at a time, like this scan", es: "Viking veía una línea a la vez, como este escaneo" },
