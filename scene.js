@@ -19,11 +19,11 @@
   const S = {
     en: { next: "Next machine", map: "Map", skip: "Skip", silent: "Silent for", y: ["year", "years"], mo: ["month", "months"], d: ["day", "days"],
       left: "Left on", moon: "the Moon", mars: "Mars", search: "Searching for its signal", power: "Power rising", lock: "Signal acquired", back: "Brought back · already awake",
-      credit: "Painted from NASA photos · AI-assisted",
+      credit: "Painted from NASA photos · AI-assisted · AI voice",
       ping: "Earth calling · Deep Space Network", lt: "light-time", fast: "shown sped up", earth: "EARTH", listen: "Listening", carrier: "Faint carrier", hello: "…hello? … Earth?" },
     es: { next: "Siguiente máquina", map: "Mapa", skip: "Saltar", silent: "En silencio desde hace", y: ["año", "años"], mo: ["mes", "meses"], d: ["día", "días"],
       left: "Dejado en", moon: "la Luna", mars: "Marte", search: "Buscando su señal", power: "Subiendo energía", lock: "Señal captada", back: "De vuelta · ya despierto",
-      credit: "Pintado a partir de fotos de la NASA · con ayuda de IA",
+      credit: "Pintado a partir de fotos de la NASA · con ayuda de IA · voz de IA",
       ping: "La Tierra llama · Red de Espacio Profundo", lt: "a la velocidad de la luz", fast: "acelerado", earth: "TIERRA", listen: "Escuchando", carrier: "Portadora débil", hello: "…¿hola? … ¿Tierra?" },
   };
   const s = (k) => (S[lang] || S.en)[k];
@@ -52,6 +52,7 @@
       <canvas class="sc-rx"></canvas>
     </div></div></div>
     <div class="sc-vig"></div><div class="sc-grain"></div>
+    <div class="sc-credit"></div>
     <div class="sc-bar t"></div><div class="sc-bar b"></div>
     <div class="sc-hud">
       <div class="h-k"></div>
@@ -509,7 +510,7 @@
     q(".h-st").className = "h-st"; q(".h-note").textContent = ""; q(".h-voice").textContent = ""; q(".h-voice").classList.remove("show");
     root.dataset.k = `${s("left")} ${r.body === "moon" ? s("moon") : s("mars")}${yr ? " · " + yr : ""}`;
     root.dataset.s = solved ? s("back") : silentText(id);
-    q(".sc-skip .l").textContent = s("skip");
+    q(".sc-skip .l").textContent = s("skip"); q(".sc-credit").textContent = s("credit");
     q(".d-map .l").textContent = s("map"); q(".d-next .l").textContent = s("next");
     q(".d-next").hidden = order(r.body).length < 2;
     root.setAttribute("aria-label", name(r));

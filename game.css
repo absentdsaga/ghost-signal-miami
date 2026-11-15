@@ -234,7 +234,7 @@
 /* case mode: the panel is the conversation */
 .sheet.gs-unsolved .stage,.sheet.gs-unsolved .kicker,.sheet.gs-unsolved .persona,.sheet.gs-unsolved .meta,.sheet.gs-unsolved .built,
 .sheet.gs-unsolved .call .signal,.sheet.gs-unsolved .meter,.sheet.gs-unsolved .askrow,.sheet.gs-unsolved .typerow,.sheet.gs-unsolved .lastday,
-.sheet.gs-unsolved .remember,.sheet.gs-unsolved .label,.sheet.gs-unsolved .gs-gutmine{display:none!important}
+.sheet.gs-unsolved .remember,.sheet.gs-unsolved .gs-gutmine{display:none!important}
 .sheet.gs-unsolved .sheet-body{padding-top:56px}
 .sheet.gs-unsolved .gs-q b{font-size:22px;line-height:1.2}
 .sheet.gs-unsolved .gs-wake{min-height:64px;font-size:19px}
