@@ -217,7 +217,7 @@
   }
 
   function wake() {
-    const r = cur, c = caseOf(r.id); if (!c || busy) return;
+    const r = cur, c = caseOf(r.id); if (!c) return;
     const seen = S.woke[r.id];
     const line = isSolved(r.id) ? g("back2") : seen ? g("back1") : L(c.wake);
     S.woke[r.id] = (S.woke[r.id] || 0) + 1; save();
@@ -334,7 +334,7 @@
     opts.forEach((o) => {
       const b = el("button", "gs-reply", esc(Q(o.cl)));
       b.onclick = () => {
-        if (busy || recharging(r.id)) { FX("wrong"); return; }
+        if (recharging(r.id)) { FX("wrong"); return; }
         say(r.id, "you", Q(o.cl));
         if (o.right) {
           S.streak[r.id] = (S.streak[r.id] || 0) + 1; save();
@@ -431,7 +431,6 @@
   }
 
   function check(r, c) {
-    if (busy) return;
     const right = picks.map((w, i) => w === c.answer[i]);
     if (right.every(Boolean)) return solve(r, c);
     const slots = document.querySelectorAll("#gsCase .gs-blank");

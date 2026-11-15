@@ -479,13 +479,30 @@ function timeWarpFx(skipped, done) {
   requestAnimationFrame(frame);
 }
 
-async function ask({ text, audio, last, script, sources: scriptSources, clue, kind }) {
-  if (!cur || busy) return;
+let callSeq = 0, callRobot = null, callKind = "", queuedAsk = null;
+function abortCall() {
+  callSeq++; busy = false; warped = false; queuedAsk = null;
+  const w = warpNow; warpNow = null; try { w && w(); } catch {}
+  $("warpBtn").hidden = true; $("blip").style.opacity = 0; stopAudio();
+}
+window.GS_abortCall = abortCall;
+async function ask(opts) {
+  if (!cur) return;
+  if (busy) {
+    if (callRobot && callRobot !== cur) abortCall();
+    else {
+      if (!(opts.kind === "wake" && callKind === "wake")) queuedAsk = opts;
+      const w = $("warpBtn");
+      if (w && !w.hidden && !warped) { $("status").textContent = t("warpToTalk"); w.click(); }
+      return;
+    }
+  }
+  const { text, audio, last, script, sources: scriptSources, clue, kind } = opts;
   if (window.GS_spend && !window.GS_spend(cur, { kind: kind || (last ? "last" : ""), clue })) return;
   if (text && !script && !audio && window.GS_beforeAsk) { const h = window.GS_beforeAsk(cur, text); if (h) { script = h.script; scriptSources = h.sources; clue = h.clue; } }
   unlock();
   busy = true; warped = false; stopAudio();
-  const r = cur;
+  const r = cur, my = ++callSeq; callRobot = r; callKind = kind || "";
   const oneWay = delay ? delay[r.body].one_way_seconds : (r.body === "moon" ? 1.3 : 600);
   curOneWay = oneWay;
   setAwake(true); staticBurst(Math.min(2400, Math.max(1200, oneWay * 1000))); startAmbient(r); postVisit(r.id, { kind: "call" });
@@ -505,9 +522,12 @@ async function ask({ text, audio, last, script, sources: scriptSources, clue, ki
   });
   try {
     await travel(oneWay);
+    if (my !== callSeq) return;
     $("status").textContent = t("tuning");
     const res = await req;
+    if (my !== callSeq) return;
     if (!warped) await travelBack(oneWay);
+    if (my !== callSeq) return;
     $("warpBtn").hidden = true;
     if (res.error) { $("status").textContent = res.error; return; }
     $("status").innerHTML = ""; if (res.heard) { const h = document.createElement("div"); h.className = "heard"; h.textContent = (kind === "wake" || kind === "solved") ? res.heard : `${t("heard")}: “${res.heard}”`; $("status").appendChild(h); }
@@ -523,8 +543,17 @@ async function ask({ text, audio, last, script, sources: scriptSources, clue, ki
       a.play().catch(() => { if (last) signalLost(r); });
     } else if (last) signalLost(r);
   } finally {
+    if (my === callSeq) {
     busy = false; $("blip").style.opacity = 0;
+    if (queuedAsk) {
+      const q = queuedAsk; queuedAsk = null; let fired = false;
+      const go = () => { if (fired) return; fired = true; if (cur === r && !busy) ask(q); };
+      const a = audioEl;
+      if (a && !a.paused && !a.ended) { const prev = a.onended; a.onended = (e) => { prev && prev(e); setTimeout(go, 350); }; setTimeout(go, 15000); }
+      else setTimeout(go, 600);
+    }
     if (talkQueued) { talkQueued = false; const m = $("micBtn"); m.classList.remove("waiting", "ready"); void m.offsetWidth; m.classList.add("ready"); }
+    }
   }
 }
 
