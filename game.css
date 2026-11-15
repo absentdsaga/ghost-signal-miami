@@ -329,3 +329,46 @@
 #gsCase .gs-replies .gs-k{font-size:12px}
 #gsCase .gs-replies .gs-reply{font-size:15px;min-height:44px;opacity:.92}
 @media(min-width:700px){.gs-arch-card{flex-basis:70%}}
+
+/* one NASA file at a time (11/15) */
+.gs-lead{position:relative;margin:4px 0 14px;padding:16px;border-radius:18px;background:#fff3e2;color:#1a0814;box-shadow:0 6px 0 #e7ff3a;animation:gsIn .3s cubic-bezier(.2,.8,.2,1) both}
+.gs-lead .gs-k{color:#5a2a46;opacity:1}
+.gs-lead-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.gs-lead-tag{font:700 11px/1 "Geist Mono",ui-monospace,monospace;letter-spacing:.12em;padding:5px 8px;border-radius:6px;background:#1a0814;color:#ff6b6b}
+.gs-lead.open .gs-lead-tag{background:#1a0814;color:#e7ff3a}
+.gs-lead-ph{border-radius:12px;overflow:hidden;margin-bottom:10px;max-height:220px}
+.gs-lead-ph img{width:100%;height:100%;max-height:220px;object-fit:cover;display:block}
+.gs-lead-txt{font:500 17px/1.45 Geist,system-ui,sans-serif;margin:0 0 6px}
+.gs-lead .gs-src{font-size:12px;color:#7a3a5a}
+.gs-red{background:#1a0814;color:transparent;border-radius:4px;padding:0 2px;white-space:pre}
+.gs-red.open{background:#e7ff3a;color:#1a0814;font-weight:800;white-space:normal;animation:gsUnred .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes gsUnred{0%{background:#1a0814;color:transparent;box-shadow:0 0 0 0 #e7ff3a}60%{box-shadow:0 0 0 8px #e7ff3a00}100%{background:#e7ff3a;color:#1a0814}}
+.gs-lead-ask{margin:14px 0 4px}
+.gs-lead-ask b{display:block;font:700 17px/1.3 Geist,system-ui,sans-serif}
+.gs-lead-ask small{display:block;margin-top:4px;font-size:13px;color:#6a4058}
+.gs-lead .gs-replies{margin:8px 0 0}
+.gs-lead .gs-reply-row{gap:8px}
+.gs-lead .gs-reply{align-self:stretch;max-width:none;text-align:left;border-radius:14px;border:2px solid #1a081422;background:#fff;color:#1a0814;min-height:50px;font-size:16px}
+.gs-lead .gs-reply:hover{background:#fffbe0;border-color:#1a0814}
+.gs-lead .gs-reply.miss{background:#ffdcd6;border-color:#ff3b3b;color:#8a1010}
+.gs-lead .gs-lead-said{margin-top:12px;max-width:100%;font-size:15px}
+.gs-lead .gs-msg-b.bot{background:#1a0814;color:#fff3e2}
+.gs-lead .gs-msg-b.you{background:#3a1a30;color:#fff6e8;margin-left:auto}
+.gs-lead-got{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:12px 0 4px}
+.gs-lead-got span{background:#1a0814;color:#e7ff3a;border-radius:999px;padding:6px 12px;font-weight:700;animation:gsPopIn .5s .5s cubic-bezier(.2,1.6,.4,1) both}
+.gs-lead-got small{font-size:12px;color:#6a4058}
+@keyframes gsPopIn{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+.gs-lead-next{display:block;width:100%;margin-top:12px;min-height:52px;border:0;border-radius:14px;background:#1a0814;color:#e7ff3a;font:800 17px/1 Geist,system-ui,sans-serif;cursor:pointer;transition:transform .12s}
+.gs-lead-next:active{transform:scale(.97)}
+.gs-lead.done{box-shadow:0 6px 0 #ffae36}
+.gs-build-sub{display:block;margin:-2px 0 10px;font-size:12.5px;color:#5a3a4a}
+.gs-word.got{border-color:#1a0814!important;font-weight:800}
+.gs-word.got::before{content:"✦ ";color:#c08a00}
+.gs-more{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.gs-fold{border:1px solid var(--line);border-radius:12px;padding:0 12px}
+.gs-fold summary{cursor:pointer;padding:12px 0;font-size:14px;color:var(--muted);list-style:none}
+.gs-fold summary::before{content:"▸ "}.gs-fold[open] summary::before{content:"▾ "}
+.gs-fold .gs-chat{max-height:300px!important;overflow-y:auto!important}
+@media(prefers-reduced-motion:reduce){.gs-red.open,.gs-lead-got span,.gs-lead{animation:none}}
+#gsCase .gs-lead .gs-k{color:#5a2a46!important;opacity:1!important;font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.gs-lead .gs-msg-b.typing{width:auto;align-self:flex-start;display:inline-flex}.gs-lead .gs-msg-b.typing i{background:#fff3e2;opacity:.7}

@@ -107,7 +107,7 @@
 
   function unlock(id, clueId, quiet) {
     const c = caseOf(id); if (!c || found(id).includes(clueId)) return;
-    found(id).push(clueId);
+    found(id).push(clueId); opened[id] = clueId;
     const cl0 = c.clues.find((x) => x.id === clueId); if (cl0 && cl0.how !== "ask") { say(id, "bot", L(cl0.say), cl0.source); if (c.clues.every((x) => found(id).includes(x.id))) say(id, "bot", g("allBack")); }
     save();
     if (cur?.id === id) renderCase(clueId, quiet);
@@ -246,17 +246,15 @@
     if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(chatLog(r)); box.appendChild(gutCall(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
     if (!ok && DOOR[r.id] && !DOOR[r.id].game && !S.open?.[r.id]) { box.appendChild(DOOR[r.id].game ? gameView(r, c) : doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
-    if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
+    if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", lang === "es" ? "Cada archivo NASA tiene una palabra tachada. Haz la pregunta correcta para destaparla. Puedes resolver el caso cuando quieras." : "Each NASA file has a word blacked out. Ask the right question to uncover it. Solve the case whenever you think you know.")); }
     if (ok) { box.appendChild(chatLog(r)); nextBtn(box, r); renderPower(); return; }
     box.appendChild(memStrip(r, c, have));
-    box.appendChild(archive(r));
-    box.appendChild(chatLog(r));
-    box.appendChild(el("div", "gs-talkcue", lang === "es" ? `<b>Pregúntale lo que quieras.</b> Toca <span>Hablar</span> abajo o escribe. Usa el archivo: las preguntas que solo esta máquina puede responder traen recuerdos. Preguntar es gratis.` : `<b>Ask it anything.</b> Tap <span>Tap to talk</span> below or type. Use the archive: questions only this machine can answer bring back memories. Asking is free.`));
-    const lockedW = c.clues.filter((cl) => !have.includes(cl.id) && cl.words && cl.words.length).length;
-    if (lockedW || c.clues.some((cl) => !have.includes(cl.id))) box.appendChild(replies(r, c, have));
-    if (!lockedW) {
-      box.appendChild(builder(r, c));
-    }
+    box.appendChild(leadCard(r, c, have));
+    box.appendChild(builder(r, c));
+    const more = el("div", "gs-more");
+    const dA = el("details", "gs-fold", `<summary>${lang === "es" ? "Ver todo el archivo NASA" : "Browse the full NASA archive"}</summary>`); dA.appendChild(archive(r));
+    const dC = el("details", "gs-fold", `<summary>${lang === "es" ? "Toda la conversación" : "Whole conversation"} (${chat(r.id).length})</summary>`); fullLog[r.id] = true; dC.appendChild(chatLog(r)); fullLog[r.id] = false;
+    more.appendChild(dA); more.appendChild(dC); box.appendChild(more);
     renderPower();
     const log = box.querySelector(".gs-chat"); if (log) log.scrollTop = log.scrollHeight;
     if (newId && !quiet) {
@@ -266,6 +264,79 @@
     }
   }
 
+
+
+  /* ---------- one NASA file at a time: redacted fact -> ask -> word uncovered -> next ---------- */
+  const opened = {}, leadFrom = {};
+  const reEsc = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  function fileFor(r, c, cl, skip = new Set()) {
+    if (!skip.size) for (const p of c.clues) { if (p === cl) break; if (p.how === "ask") { const pf = fileFor(r, c, p, new Set([...skip, "_"])); if (pf.fact) skip.add(pf.fact); } }
+    const rb = robots.find((x) => x.id === r.id) || {}, es = lang === "es";
+    const tx = (f) => (es && f.es ? f.es : f.text) || "";
+    const ws = (cl.words || []).map((w) => W(w).toLowerCase());
+    const facts = rb.facts || [];
+    let f = ws.length && facts.find((f) => !skip.has(f) && ws.some((w) => tx(f).toLowerCase().includes(w)));
+    if (!f && !ws.length) {
+      const keys = (cl.keys || []).filter((k) => !GENERIC.has(k) && k.length > 3);
+      let best = 0; facts.forEach((x) => { if (skip.has(x)) return; const n = keys.filter((k) => tx(x).toLowerCase().includes(k)).length; if (n > best) { best = n; f = x; } });
+    }
+    return f ? { text: tx(f), source: f.source, fact: f } : { text: L(cl.say), source: cl.source };
+  }
+  function redact(text, hide, show) {
+    let h = esc(text);
+    const all = [...new Set([...hide, ...show])].filter(Boolean).sort((a, b) => b.length - a.length);
+    all.forEach((w) => {
+      const open = show.includes(w);
+      h = h.replace(new RegExp(`(?<![\\p{L}>])(${reEsc(esc(w))}(?:e?s)?)(?![\\p{L}<])`, "giu"), (m) => open ? `<mark class="gs-red open">${m}</mark>` : `<mark class="gs-red">${"\u2007".repeat(Math.max(4, m.length))}</mark>`);
+    });
+    return h;
+  }
+  function leadCard(r, c, have) {
+    const es = lang === "es", nm = name(r), total = c.clues.length;
+    const lockedWords = c.clues.filter((x) => !have.includes(x.id)).flatMap((x) => (x.words || []).map(W));
+    const shown = opened[r.id] && have.includes(opened[r.id]) ? c.clues.find((x) => x.id === opened[r.id]) : null;
+    const cl = shown || c.clues.find((x) => !have.includes(x.id));
+    const host = (u) => { try { return new URL(u).hostname.replace("www.", ""); } catch { return "NASA"; } };
+    const idx = c.clues.indexOf(cl) + 1;
+    if (!cl) {
+      const w = el("div", "gs-lead done", `<div class="gs-lead-h"><span class="gs-k">${es ? "Todos los archivos abiertos" : "Every file uncovered"}</span></div><p class="gs-lead-txt">${es ? "Ya tienes todas las palabras. Arma lo que pasó abajo." : "You have every word. Build what happened below."}</p>`);
+      setTimeout(() => document.querySelector("#gsCase .gs-build")?.classList.add("gs-attn"), 50);
+      return w;
+    }
+    const hunt = cl.how !== "ask";
+    const im = media.img[r.id] || {}, ph = hunt ? (cl.how === "last" ? im.last_seen : im.from_orbit) : null;
+    const f = hunt ? { text: L(cl.say), source: cl.source } : fileFor(r, c, cl);
+    const words = (cl.words || []).map(W);
+    const card = el("div", `gs-lead${shown ? " open" : ""}`);
+    card.appendChild(el("div", "gs-lead-h", `<span class="gs-k">${es ? "Archivo NASA" : "NASA file"} ${idx} ${es ? "de" : "of"} ${total}</span><span class="gs-lead-tag">${shown ? (es ? "DESTAPADO" : "UNCOVERED") : hunt ? (es ? "FOTO" : "PHOTO") : (es ? "CLASIFICADO" : "CLASSIFIED")}</span>`));
+    if (ph?.file) card.appendChild(el("div", "gs-lead-ph", `<img src="${ph.file}" alt="" loading="lazy">`));
+    if (!hunt || shown) card.appendChild(el("p", "gs-lead-txt", redact(f.text, lockedWords, shown ? words : [])));
+    card.appendChild(el("a", "gs-src", `${es ? "Fuente" : "Source"} · ${host(f.source)}`)).setAttribute("href", f.source);
+    card.lastChild.target = "_blank"; card.lastChild.rel = "noopener";
+    if (shown) {
+      if (!hunt && f.text !== L(cl.say)) card.appendChild(el("div", "gs-msg-b bot gs-lead-said", `<b>${esc(nm)}:</b> ${esc(L(cl.say))}`));
+      if (words.length) card.appendChild(el("div", "gs-lead-got", words.map((w) => `<span>+ ${esc(w)}</span>`).join("") + `<small>${es ? "en tus palabras" : "added to your words"}</small>`));
+      const left = c.clues.filter((x) => !have.includes(x.id)).length;
+      const nx = el("button", "gs-lead-next", left ? (es ? "Siguiente archivo →" : "Next file →") : (es ? "Resolver el caso ↓" : "Solve the case ↓"));
+      nx.onclick = () => { delete opened[r.id]; FX("place"); renderCase(); if (!left) document.querySelector("#gsCase .gs-build")?.scrollIntoView({ behavior: "smooth", block: "center" }); else document.querySelector("#gsCase .gs-lead")?.scrollIntoView({ behavior: "smooth", block: "nearest" }); };
+      card.appendChild(nx);
+      return card;
+    }
+    if (hunt) {
+      card.appendChild(el("div", "gs-lead-ask", `<b>${esc(cl.hunt ? L(cl.hunt.find) : L(cl.prompt))}</b>`));
+      const b = el("button", "gs-lead-next", ph?.file && cl.hunt ? (es ? "Buscar en la foto" : "Search the photo") : (es ? "Ver" : "Look"));
+      b.onclick = () => { if (busy || document.getElementById("gsScan")) return; FX("place"); if (cl.hunt && ph?.file) openScan(r, cl); else { showSlide(cl.how); unlock(r.id, cl.id); } };
+      card.appendChild(b);
+      return card;
+    }
+    card.appendChild(el("div", "gs-lead-ask", `<b>${es ? `¿Qué le preguntarías a ${esc(nm)} para destapar esto?` : `What would you ask ${esc(nm)} to uncover this?`}</b><small>${es ? "Habla o escribe abajo, o elige una. Una equivocada cuesta 1 ▮." : "Talk or type below, or pick one. A wrong pick costs 1 ▮."}</small>`));
+    card.appendChild(replies(r, c, have, cl));
+    const all = chat(r.id), last = all[all.length - 1];
+    if (leadFrom[r.id]?.id !== cl.id) leadFrom[r.id] = { id: cl.id, n: have.length ? all.length : 0 };
+    if (busy && pending) card.appendChild(el("div", "gs-msg-b bot typing", "<i></i><i></i><i></i>"));
+    else if (last && all.length > leadFrom[r.id].n) card.appendChild(el("div", `gs-msg-b ${last.who} gs-lead-said`, esc(last.text)));
+    return card;
+  }
 
   /* ---------- NASA archive: study the real record, then ask ---------- */
   const archTab = {}; let archAudio = null;
@@ -376,9 +447,9 @@
     let h = (found(r.id).length + 3) * 2654435761 >>> 0; for (const ch of r.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
     return [out[h % out.length], out[(h >> 7) % out.length === h % out.length ? (h % out.length + 5) % out.length : (h >> 7) % out.length]];
   }
-  function replies(r, c, have) {
-    const wrap = el("div", "gs-replies", `<div class="gs-k">${lang === "es" ? "¿Sin ideas? Elige una (una equivocada cuesta 1 ▮)" : "Need an idea? Pick one (a wrong one costs 1 ▮)"}</div>`);
-    const next = c.clues.find((cl) => cl.how === "ask" && !have.includes(cl.id));
+  function replies(r, c, have, pick) {
+    const wrap = el("div", "gs-replies");
+    const next = pick || c.clues.find((cl) => cl.how === "ask" && !have.includes(cl.id));
     const row = el("div", "gs-reply-row");
     if (!next) {
       const hunt = c.clues.find((cl) => !have.includes(cl.id));
@@ -646,7 +717,8 @@
 
   function builder(r, c) {
     const wrap = el("div", "gs-build");
-    wrap.appendChild(el("div", "gs-k", g("build")));
+    wrap.appendChild(el("div", "gs-k", lang === "es" ? "¿Ya lo sabes? Resuélvelo ahora" : "Think you know? Solve it now"));
+    wrap.appendChild(el("small", "gs-build-sub", lang === "es" ? "Las palabras con ✦ salieron de tus archivos. Una respuesta equivocada cuesta 1 ▮." : "Words marked ✦ came from files you uncovered. A wrong answer costs 1 ▮."));
     if (picks.length !== c.answer.length || picks._id !== r.id) { picks = c.answer.map(() => null); picks._id = r.id; }
     const sent = el("p", "gs-sent");
     L(c.sentence).split(/(\{\d\})/).forEach((part) => {
@@ -659,19 +731,17 @@
     });
     wrap.appendChild(sent);
     const have = found(r.id);
-    const words = [...new Set(c.clues.filter((cl) => have.includes(cl.id)).flatMap((cl) => cl.words))];
-    if (have.length) {
-      c.decoys.forEach((d) => { if (!words.includes(d)) words.push(d); });
-      const pool = Object.keys(D.words).filter((w) => !words.includes(w) && !c.answer.includes(w));
+    const got = new Set(c.clues.filter((cl) => have.includes(cl.id)).flatMap((cl) => cl.words || []));
+    const words = [...new Set([...c.clues.flatMap((cl) => cl.words || []), ...c.answer])];
+    c.decoys.forEach((d) => { if (!words.includes(d)) words.push(d); });
+    { const pool = Object.keys(D.words).filter((w) => !words.includes(w));
       let h = 0; for (const ch of r.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-      for (let k = 0; k < 2 && pool.length; k++) words.push(pool.splice((h >> (k * 5)) % pool.length, 1)[0]);
-    }
+      for (let k = 0; k < 2 && pool.length; k++) words.push(pool.splice((h >> (k * 5)) % pool.length, 1)[0]); }
     words.sort((a, b) => (a.length * 7 + a.charCodeAt(0)) % 5 - (b.length * 7 + b.charCodeAt(0)) % 5);
     const bank = el("div", "gs-bank");
-    if (!words.length && !c.clues.some((cl) => !have.includes(cl.id) && cl.words && cl.words.length)) bank.appendChild(el("span", "gs-empty", g("bankEmpty")));
     words.forEach((w) => {
       const used = picks.includes(w);
-      const b = el("button", `gs-word${used ? " used" : ""}`); b.textContent = W(w); b.dataset.word = w;
+      const b = el("button", `gs-word${used ? " used" : ""}${got.has(w) ? " got" : ""}`); b.textContent = W(w); b.dataset.word = w;
       b.onclick = () => {
         if (used) return; const i = picks.indexOf(null); if (i < 0) return;
         const from = b.getBoundingClientRect(), slot = document.querySelector(`#gsCase .gs-blank[data-slot="${i}"]`)?.getBoundingClientRect();
@@ -682,13 +752,6 @@
       };
       bank.appendChild(b);
     });
-    const locked = c.clues.filter((cl) => !have.includes(cl.id) && cl.words && cl.words.length).length;
-    for (let k = 0; k < locked; k++) {
-      const b = el("button", "gs-word locked"); b.disabled = true; b.textContent = "🔒 ? ? ?";
-      b.title = lang === "es" ? "Desbloquea un recuerdo para ganar esta palabra" : "Unlock a memory to earn this word";
-      bank.appendChild(b);
-    }
-    if (locked) bank.appendChild(el("div", "gs-lockhint", lang === "es" ? `Faltan ${locked} palabras: están en recuerdos bloqueados.` : `${locked} word${locked > 1 ? "s" : ""} still locked inside memories you haven't reached.`));
     wrap.appendChild(bank);
     const go = el("button", "gs-check"); go.textContent = g("check"); go.disabled = picks.includes(null);
     go.onclick = () => check(r, c); if (recharging(r.id)) go.disabled = true;
