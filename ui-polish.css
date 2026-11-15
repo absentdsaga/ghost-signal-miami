@@ -31,3 +31,13 @@
 .mic.ready{animation:micReady 1s var(--pop) 2}
 @keyframes micReady{40%{transform:scale(1.08)}}
 .mic.waiting{opacity:.75}
+/* talk dock: Tap to talk + type always reachable at the bottom of the case panel (was below the fold at 1440x900) */
+.talkdock{position:sticky;bottom:0;z-index:5;display:flex;align-items:center;gap:8px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,rgba(24,10,26,0),rgba(24,10,26,.82) 28%,rgba(20,8,22,.96));-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid rgba(242,205,176,.08)}
+.talkdock .typerow{flex:1;min-width:0;display:flex;gap:6px;margin:0}
+.talkdock .typerow input{flex:1;min-width:0;padding:12px 14px;font-size:16px}
+.talkdock .typerow button{padding:0 14px}
+.talkdock .mic{flex:none;margin:0;padding:12px 18px;white-space:nowrap}
+@media(max-width:420px){.talkdock{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}.talkdock .typerow button{display:none}.talkdock .mic{padding:12px 14px}}
+.gs-attn{animation:gsAttn 1.2s ease-in-out 2}
+@keyframes gsAttn{50%{box-shadow:0 0 0 3px var(--lime),0 0 34px rgba(231,255,58,.35)}}

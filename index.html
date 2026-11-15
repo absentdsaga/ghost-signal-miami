@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="skin.css?v=5">
 <link rel="stylesheet" href="scene.css?v=6">
 <link rel="stylesheet" href="map.css?v=2">
-<link rel="stylesheet" href="ui-polish.css?v=2">
+<link rel="stylesheet" href="ui-polish.css?v=3">
 <meta name="theme-color" content="#210a1b">
 </head>
 <body>
@@ -76,13 +76,6 @@
       <button class="warp" id="warpBtn" hidden><span class="streaks"></span><span class="wlabel" data-i18n="warp">Time-warp</span><span class="wsub" id="warpSub"></span></button>
       <div class="sources" id="sources"></div>
 
-      <div class="askrow">
-        <button class="mic" id="micBtn"><span class="micdot"></span><span id="micLabel" data-i18n="hold">Tap to talk</span></button>
-      </div>
-      <form class="typerow" id="typeForm">
-        <input id="typeBox" autocomplete="off" data-i18n-ph="typeph" placeholder="…or type a question">
-        <button type="submit" data-i18n="send">Send</button>
-      </form>
       <div class="chips" id="chips"></div>
       <button class="lastday" id="lastBtn" data-i18n="last">Hear its last day</button>
     </div>
@@ -96,6 +89,13 @@
     </div>
     <p class="label" data-i18n="label">Imagined voice (AI). Real NASA facts, each one linked to its source.</p>
   </div>
+  <div class="talkdock" id="talkdock">
+    <form class="typerow" id="typeForm">
+      <input id="typeBox" autocomplete="off" data-i18n-ph="typeph" placeholder="…or type a question">
+      <button type="submit" data-i18n="send">Send</button>
+    </form>
+    <button class="mic" id="micBtn"><span class="micdot"></span><span id="micLabel" data-i18n="hold">Tap to talk</span></button>
+  </div>
 </aside>
 
 <div class="warpfx" id="warpfx" hidden><canvas id="warpCanvas"></canvas><div class="warpread"><div class="wr-k" data-i18n="skipping">Skipping the real wait</div><div class="wr-n" id="warpNum"></div></div></div>
@@ -104,9 +104,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="wake-audio.js?v=1"></script>
 <script src="rigs.js?v=4"></script>
-<script src="app.js?v=16"></script>
+<script src="app.js?v=17"></script>
 <script src="fx.js?v=2"></script>
-<script src="game.js?v=6"></script>
+<script src="game.js?v=7"></script>
 <script src="mapnav.js?v=1"></script>
 <script src="labels.js?v=1"></script>
 <script src="scene.js?v=6"></script>

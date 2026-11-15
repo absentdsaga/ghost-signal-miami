@@ -221,7 +221,9 @@
     const seen = S.woke[r.id];
     const line = isSolved(r.id) ? g("back2") : seen ? g("back1") : L(c.wake);
     S.woke[r.id] = (S.woke[r.id] || 0) + 1; save();
+    pending = true;
     ask({ text: g("wakeHeard"), script: fill(line), kind: "wake" });
+    renderCase();
     setTimeout(renderTop, 50);
   }
 
@@ -235,7 +237,7 @@
       box.appendChild(el("div", "gs-restored", `<div class="gs-k">✓ ${g("solvedK")}</div><p class="gs-sent done">${esc(sentenceText(c))}</p>`));
       box.appendChild(keepsake(c));
     }
-    if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(gutCall(r, c)); return; }
+    if (!ok && c.gut && S.bets[r.id] == null) { if (chat(r.id).length || (busy && pending)) { box.appendChild(chatLog(r)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; } box.appendChild(gutCall(r, c)); return; }
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
     if (ok) { box.appendChild(chatLog(r)); renderPower(); return; }
@@ -562,6 +564,7 @@
       if (!isSolved(r.id) && clue && left === 0) say(r.id, "bot", g("allBack"));
       if (!clue && cur?.id === r.id) setTimeout(() => renderCase(), 0);
     }
+    if (kind === "wake" && cur?.id === r.id && caseOf(r.id) && !isSolved(r.id)) setTimeout(() => { const n = document.querySelector("#gsCase .gs-gut, #gsCase .gs-replies"); n?.scrollIntoView({ behavior: "smooth", block: "center" }); n?.classList.add("gs-attn"); setTimeout(() => n?.classList.remove("gs-attn"), 2400); }, 900);
     if (clue) return unlock(r.id, clue);
     if (scripted || !heard || !caseOf(r.id) || isSolved(r.id)) return;
     const h = window.GS_beforeAsk(r, heard);
