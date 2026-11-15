@@ -50,7 +50,7 @@
   "hangup": "Imposter. I'm closing the hatch. Click.",
   "game": {
    "title": "Land me",
-   "rule": "Fuel is burning every second. Answer fast or we crash.",
+   "rule": "Read the mission log, then make the call. Every wrong call burns fuel.",
    "meter": {
     "name": "Fuel",
     "start": 75,
@@ -950,7 +950,7 @@
   "hangup": "Too much noise. Click.",
   "game": {
    "title": "Listen",
-   "rule": "I don't drive. I listen. Dust is covering my panels, so be quick.",
+   "rule": "I don't drive. I listen. Read what I recorded, then tell me what it means.",
    "meter": {
     "name": "Power",
     "start": 60,
@@ -1068,7 +1068,7 @@
   "hangup": "Too cold to argue... click.",
   "game": {
    "title": "Ice hunt",
-   "rule": "Arctic summer is ending. Sunlight drains every second.",
+   "rule": "Arctic summer is ending. Read the log, then answer. Right answers buy me sunlight.",
    "meter": {
     "name": "Sunlight",
     "start": 70,

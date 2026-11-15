@@ -485,7 +485,7 @@
       if (btn && window.GSFX) { const [x, y] = window.GSFX.at(btn); window.GSFX.burst(x, y, { n: 16, speed: 4, colors: ["#e7ff3a", "#fff", "#ff4fa3"] }); window.GSFX.float(d.combo > 1 ? `x${d.combo} COMBO` : "NICE", x, y - 16, "#e7ff3a"); }
       S.streak[r.id] = (S.streak[r.id] || 0) + 1;
     } else {
-      d.v -= gm.meter.loss; d.combo = 0; S.streak[r.id] = 0;
+      d.v = Math.max(1, d.v - gm.meter.loss); d.combo = 0; S.streak[r.id] = 0;
       if (btn) btn.classList.add("miss");
       FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase")); window.GSFX?.flash("#ff3b3b");
       const n = document.querySelector("#gsCase .gs-door-m");
@@ -544,21 +544,10 @@
     }
     if (busy || pending) { if (!pending && !d.wait) { d.wait = 1; setTimeout(() => whenIdle(() => { d.wait = 0; if (cur?.id === r.id) renderCase(); }), 0); } return wrap; }
     if (d.i === 0) wrap.appendChild(el("div", "gs-mission", `<small>Your mission${lang === "en" && window.GS_persona ? " · " + esc(window.GS_persona(r.id).tag) : ""}</small><b>${esc(gm.title)}</b><span>${esc(gm.rule)}</span>`));
-    const tb = el("div", "gs-timer", "<i></i>"); wrap.appendChild(tb);
     if (rd.hint) {
-      d.hints = d.hints || {};
-      const cost = Math.max(1, Math.round(gm.meter.loss / 2));
-      if (d.hints[d.i]) wrap.appendChild(el("div", "gs-hint", `<small>${lang === "es" ? "Evidencia · registro de la misión" : "Evidence · mission log"}</small>${esc(rd.hint)}${(() => { const im = media.img[r.id] || {}, ks = ["last_seen", "from_orbit", "portrait"].filter((k) => im[k]?.file), p = ks.length ? im[ks[d.i % ks.length]] : null; return p ? `<figure class="gs-hint-fig"><img src="${p.file}" alt=""><figcaption>${esc((p.caption || "").slice(0, 140))}${(p.caption || "").length > 140 ? "…" : ""} <a href="${p.src || "#"}" target="_blank" rel="noopener">${p.credit || "NASA"}</a></figcaption></figure>` : ""; })()}`));
-      else {
-        const hb = el("button", "gs-hint-btn", `${lang === "es" ? "Ver la evidencia" : "Look at the evidence"} <em>−${cost}${esc(gm.meter.unit)} ${esc(gm.meter.name.toLowerCase())} · +6s</em>`);
-        hb.onclick = () => {
-          if (busy || pending) return;
-          d.hints[d.i] = true; d.v -= cost; d.deadline = (d.deadline || Date.now()) + 6000; save(); FX("place");
-          if (d.v <= 0) { clearInterval(gTimer); return gLose(r); }
-          renderCase();
-        };
-        wrap.appendChild(hb);
-      }
+      const im = media.img[r.id] || {}, ks = ["last_seen", "from_orbit", "portrait"].filter((k) => im[k]?.file), p = ks.length ? im[ks[d.i % ks.length]] : null;
+      const cap = p ? (p.caption || "").slice(0, 160) + ((p.caption || "").length > 160 ? "…" : "") : "";
+      wrap.appendChild(el("div", "gs-hint gs-evidence", `<small>${lang === "es" ? "Primero lee la evidencia · registro de la misión" : "Read the evidence first · mission log"}</small><p>${esc(rd.hint)}</p>${p ? `<figure class="gs-hint-fig"><img src="${p.file}" alt=""><figcaption>${esc(cap)} <a href="${p.src || "#"}" target="_blank" rel="noopener">${p.credit || "NASA"}</a></figcaption></figure>` : ""}<span class="gs-ev-note">${lang === "es" ? "Sin reloj. Tómate tu tiempo y luego decide." : "No clock. Take your time, then make the call."}</span>`));
     }
     const row = el("div", "gs-reply-row gs-two");
     const opts = [rd.right, ...rd.wrong.slice(0, 2)];
@@ -566,7 +555,8 @@
     if (h & 1) opts.reverse();
     opts.forEach((o) => { const b = el("button", "gs-reply", esc(o)); b.onclick = () => { if (busy || pending) return; gAnswer(r, c, o, b); }; row.appendChild(b); });
     wrap.appendChild(row);
-    gTick(r, c, tb.firstChild, meterEl);
+    clearInterval(gTimer);
+    setTimeout(() => wrap.querySelector(".gs-evidence")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
     return wrap;
   }
 
