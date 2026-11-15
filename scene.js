@@ -272,7 +272,7 @@
       for (let y = 0, i = 0; y < h; y++) for (let x = 0; x < w; x++, i += 4) {
         const L = (a[i] * 0.3 + a[i + 1] * 0.55 + a[i + 2] * 0.15) / 255, v = Math.pow(Math.max(0, (L - lo) / (1 - lo)), 1.3);
         const e = ((x - ex) / erx) ** 2 + ((y - ey) / ery) ** 2, m = e >= 1 ? 0 : e <= 1 - soft ? 1 : (1 - e) / soft;
-        a[i] = tint[0]; a[i + 1] = tint[1]; a[i + 2] = tint[2]; a[i + 3] = Math.min(255, v * m * 330);
+        a[i] = tint[0]; a[i + 1] = tint[1]; a[i + 2] = tint[2]; a[i + 3] = Math.min(255, v * m * 520);
       }
       g.putImageData(d, 0, 0);
     } catch { return null; }
@@ -306,7 +306,7 @@
         if (sh) throughSheen(g, sh, (c2) => paint(c2, sh.x0, sh.y0, 1), 1);
         /* a faint cool light on the ground itself, clipped to the footprint so nothing floats past the skirt/sand */
         g.save(); g.beginPath(); g.ellipse(cx / 100 * W, cy / 100 * H, rx / 100 * W, ry / 100 * H, 0, 0, 7); g.clip();
-        g.globalAlpha = sheen ? 0.10 : 0.16; g.globalCompositeOperation = "lighter";
+        g.globalAlpha = sheen ? 0.14 : 0.2; g.globalCompositeOperation = "lighter";
         const tmp = g.fillStyle; paint(g, 0, 0, 1); g.restore(); g.fillStyle = tmp;
       } });
     },
@@ -660,7 +660,7 @@
   }
 
   function skip() {
-    if (phase !== "seq" || !curId) return;
+    if (phase !== "seq" || !curId || root.hidden) return; /* nothing to skip until the picture is on screen */
     const id = curId, R = rig(id);
     clearRun(true); runId++; rxStop();
     root.classList.add("lit", "awake", "show-hud", "show-note");
