@@ -328,6 +328,12 @@
   }
   hb.addEventListener("click", finale);
   ready.then(home); addEventListener("gs:pins", () => setTimeout(home, 50)); addEventListener("gs:scope-won", home);
-  addEventListener("gs:open", (e) => { const id = e.detail?.robot?.id; if (id) open(id); });
+  /* One game: the side panel runs the call. Full-screen talk game only with ?scope=1. Emily's characters, memory count, next machine and ending feed the panel. */
+  if (/[?&]scope=1/.test(location.search)) addEventListener("gs:open", (e) => { const id = e.detail?.robot?.id; if (id) open(id); });
+  window.GS_persona = PX;
+  window.GS_nextAfter = (id) => { if (!ROBOTS) return null; const me = ROBOTS.find((x) => x.id === id) || ROBOTS[0], same = [...ROBOTS.filter((x) => x.body === me.body), ...ROBOTS.filter((x) => x.body !== me.body)], k = same.findIndex((x) => x.id === me.id); for (let s2 = 1; s2 < same.length; s2++) { const c = same[(k + s2) % same.length]; if (won[c.id] == null) return c; } return null; };
+  window.GS_allHome = () => !!ROBOTS && ROBOTS.every((x) => won[x.id] != null);
+  window.GS_finale = () => finale();
+  addEventListener("gs:solved", (e) => { const id = e.detail?.robot; if (id && won[id] == null) { won[id] = 1; saveWon(); } home(); if (window.GS_allHome()) setTimeout(finale, 2600); });
   window.GS_scope = { open, close, won, finale };
 })();

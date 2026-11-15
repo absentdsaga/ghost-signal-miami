@@ -247,7 +247,7 @@
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
     if (!ok && DOOR[r.id] && !S.open?.[r.id]) { box.appendChild(DOOR[r.id].game ? gameView(r, c) : doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
-    if (ok) { box.appendChild(chatLog(r)); renderPower(); return; }
+    if (ok) { box.appendChild(chatLog(r)); nextBtn(box, r); renderPower(); return; }
     box.appendChild(memStrip(r, c, have));
     box.appendChild(chatLog(r));
     const lockedW = c.clues.filter((cl) => !have.includes(cl.id) && cl.words && cl.words.length).length;
@@ -497,7 +497,9 @@
     const dead = d.v <= 0, done = d.i >= gm.rounds.length;
     if (dead || done) d.q = d.i;
     pending = true; renderCase();
-    ask({ text: o || "", script: right ? rd.yes : (o ? (/^(Nope|Wrong|No)\b/.test(rd.no) ? "" : "Nope. ") : "Too slow! ") + rd.no, kind: right ? "memory" : "door" });
+    const P = lang === "en" && window.GS_persona ? window.GS_persona(r.id) : null, pk = (a) => a[d.i % a.length];
+    const lead = right ? (P ? pk(P.yay) + " " : "") : !o ? "Too slow! " : /^(Nope|Wrong|No)\b/.test(rd.no) ? "" : P ? pk(P.oops) + " " : "Nope. ";
+    ask({ text: o || "", script: lead + (right ? rd.yes : rd.no), kind: right ? "memory" : "door" });
     setTimeout(() => whenIdle(() => {
       if (cur?.id !== r.id) return;
       if (dead) { if (GS[r.id] === d) gLose(r); return; }
@@ -542,7 +544,7 @@
       return wrap;
     }
     if (busy || pending) { if (!pending && !d.wait) { d.wait = 1; setTimeout(() => whenIdle(() => { d.wait = 0; if (cur?.id === r.id) renderCase(); }), 0); } return wrap; }
-    if (d.i === 0) wrap.appendChild(el("div", "gs-k gs-door-ask", esc(gm.rule)));
+    if (d.i === 0) wrap.appendChild(el("div", "gs-mission", `<small>Your mission${lang === "en" && window.GS_persona ? " · " + esc(window.GS_persona(r.id).tag) : ""}</small><b>${esc(gm.title)}</b><span>${esc(gm.rule)}</span>`));
     const tb = el("div", "gs-timer", "<i></i>"); wrap.appendChild(tb);
     const row = el("div", "gs-reply-row gs-two");
     const opts = [rd.right, ...rd.wrong.slice(0, 2)];
@@ -572,6 +574,12 @@
     return wrap;
   }
 
+  function nextBtn(box, r) {
+    const nx = window.GS_nextAfter?.(r.id);
+    const b = el("button", "gs-wake gs-next", nx ? `Call the next machine: ${esc(nx.name.replace(/\s*\(.*\)/, ""))}` : window.GS_allHome?.() ? "See all 11 home" : "Back to the map");
+    b.onclick = () => { if (nx) return goTo(nx.id); if (window.GS_allHome?.()) return window.GS_finale?.(); document.getElementById("closeSheet")?.click(); };
+    box.appendChild(b);
+  }
   function keepsake(c) {
     const host = (() => { try { return new URL(c.keepsake.source).hostname.replace("www.", ""); } catch { return ""; } })();
     return el("div", "gs-keep", `<div class="gs-k">★ ${esc(L(c.keepsake.title))}</div><p>${esc(L(c.keepsake.text))}</p><a class="gs-src" href="${c.keepsake.source}" target="_blank" rel="noopener">${g("sources")} · ${host}</a>`);
@@ -743,6 +751,7 @@
     picks = [];
     document.getElementById("stage").classList.toggle("restored", isSolved(id));
     renderTop(); renderCase();
+    if (caseOf(id) && !isSolved(id) && !S.woke[id]) setTimeout(() => { if (cur?.id === id && !S.woke[id]) whenIdle(() => { if (cur?.id === id && !S.woke[id]) wake(); }); }, 700);
     const lb = document.getElementById("lastBtn"); if (lb) lb.hidden = !!caseOf(id) && !isSolved(id);
   });
   window.addEventListener("gs:slide", (e) => {
