@@ -42,7 +42,7 @@
 
 /* film: vignette, grain, letterbox */
 .sc-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 72% at 50% 46%,transparent 52%,rgba(3,2,5,.72) 100%)}
-.sc-grain{position:absolute;inset:-12%;will-change:transform;pointer-events:none;opacity:.07;background-size:220px 220px;animation:grain .9s steps(6) infinite}
+.sc-grain{position:absolute;inset:-12%;will-change:transform;pointer-events:none;opacity:.04;background-size:220px 220px;animation:grain .9s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-7%,4%)}40%{transform:translate(5%,-6%)}60%{transform:translate(-3%,7%)}80%{transform:translate(7%,2%)}100%{transform:translate(0,0)}}
 .sc-bar{position:absolute;left:0;right:0;background:#000;pointer-events:none;transform:scaleY(0);transition:transform calc(.9s * var(--ts,1)) cubic-bezier(.16,.84,.3,1)}
 .sc-bar.t{top:0;height:var(--bar-t,8vh);transform-origin:top}
