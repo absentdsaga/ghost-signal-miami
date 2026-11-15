@@ -3,7 +3,7 @@
 .gsi{position:fixed;inset:0;z-index:4000;background:#020106;overflow:hidden;transition:opacity .65s ease;color:#fff4e3;cursor:default}
 .gsi canvas{position:absolute;inset:0;display:block}
 .gsi.out{opacity:0;pointer-events:none}
-.gsi-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 80% 70% at 50% 45%,transparent 55%,rgba(0,0,0,.65));}
+.gsi-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 130% 110% at 50% 45%,transparent 50%,rgba(0,0,0,.55));}
 .gsi-vig:after{content:"";position:absolute;inset:0;opacity:.07;background:repeating-linear-gradient(0deg,rgba(255,255,255,.5) 0 1px,transparent 1px 3px);mix-blend-mode:overlay}
 .gsi-hud{position:absolute;font:500 11px/1 "Geist Mono",ui-monospace,monospace;letter-spacing:.14em;color:#ffe6c9;opacity:0;white-space:nowrap;display:flex;align-items:center;gap:8px;text-shadow:0 0 12px rgba(0,0,0,.9);will-change:opacity}
 .gsi-hud i{width:6px;height:6px;border-radius:50%;background:#d8ff3e;box-shadow:0 0 10px #d8ff3e;animation:gsiBlink 1s steps(1) infinite}

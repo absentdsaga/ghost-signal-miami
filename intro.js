@@ -78,11 +78,11 @@
     /* city lights on the night side: Florida + the US east coast + Caribbean, clustered, Miami brightest (lat/lon -> sphere) */
     const cities = [];
     const spot = (lat, lon, n, spread, w) => { for (let i = 0; i < n; i++) cities.push({ lat: lat + (rnd() - 0.5) * spread * (0.4 + rnd()), lon: lon + (rnd() - 0.5) * spread * (0.4 + rnd()), w: w * (0.4 + rnd() * 0.8) }); };
-    spot(25.77, -80.19, 70, 0.9, 1.6); spot(26.7, -80.1, 30, 0.7, 1); spot(28.5, -81.4, 40, 1.2, 1.1); spot(27.95, -82.46, 34, 1, 1.05); spot(30.3, -81.66, 22, 0.9, 0.9);
+    spot(25.77, -80.19, 90, 0.9, 1.7); for (let i = 0; i < 60; i++) { const f = rnd(); cities.push({ lat: 25.2 + f * 5.3, lon: -80.3 - f * 1.6 + (rnd() - 0.5) * 0.9 * (1 - f * 0.4), w: 0.5 + rnd() * 0.5 }); } for (let i = 0; i < 16; i++) cities.push({ lat: 24.6 + rnd() * 0.5, lon: -81.6 + rnd() * 1.3, w: 0.4 }); spot(26.7, -80.1, 30, 0.7, 1); spot(28.5, -81.4, 40, 1.2, 1.1); spot(27.95, -82.46, 34, 1, 1.05); spot(30.3, -81.66, 22, 0.9, 0.9);
     spot(33.75, -84.39, 40, 1.4, 1.1); spot(35.2, -80.8, 26, 1.4, 0.9); spot(38.9, -77, 40, 1.4, 1.1); spot(40.7, -74, 60, 1.4, 1.4); spot(29.76, -95.37, 40, 1.4, 1.1); spot(32.8, -96.8, 34, 1.4, 1);
     spot(23.1, -82.4, 22, 1.2, 0.8); spot(18.47, -69.9, 18, 1.2, 0.7); spot(18.4, -66.06, 16, 0.8, 0.8); spot(19.4, -99.1, 46, 1.6, 1.2); spot(20.9, -89.6, 12, 1, 0.6);
-    for (let i = 0; i < 260; i++) cities.push({ lat: 18 + rnd() * 24, lon: -100 + rnd() * 30, w: 0.25 + rnd() * 0.4 });
-    const LAT0 = 27 * Math.PI / 180, LON0 = -80.19 * Math.PI / 180;
+    for (let i = 0; i < 480; i++) { const lat = 31 + (rnd() + rnd() - 1) * 13, lon = -86 + (rnd() + rnd() - 1) * 17; if (lat < 29.5 && lon > -84 && lon < -80.4 && !(lon > -82.4 && lat > 25)) continue; cities.push({ lat, lon, w: 0.2 + rnd() * 0.35 }); }
+    const LAT0 = -30 * Math.PI / 180, LON0 = -80.19 * Math.PI / 180;
     const proj = (lat, lon) => { /* orthographic, centred near Miami, tilted so Miami sits near the top limb */
       const la = lat * Math.PI / 180, lo = lon * Math.PI / 180 - LON0;
       const x = Math.cos(la) * Math.sin(lo), y = Math.cos(LAT0) * Math.sin(la) - Math.sin(LAT0) * Math.cos(la) * Math.cos(lo), z = Math.sin(LAT0) * Math.sin(la) + Math.cos(LAT0) * Math.cos(la) * Math.cos(lo);
@@ -90,7 +90,7 @@
     };
     const craters = Array.from({ length: 26 }, () => ({ a: rnd() * Math.PI * 2, r: Math.sqrt(rnd()) * 0.86, s: 0.04 + rnd() * 0.13, d: rnd() }));
     const ease = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2), cl = (v) => Math.max(0, Math.min(1, v)), seg = (t, a, b) => cl((t - a) / (b - a));
-    const t0 = performance.now(); let raf = 0, done = false;
+    const t0 = performance.now(); let raf = 0, done = false, mia = [innerWidth / 2, innerHeight * 0.8];
     const stopScore = score();
     window.GS_music?.duck(true, 0.6);
     const AT = new URLSearchParams(location.search).get("introAt");
@@ -119,8 +119,8 @@
         for (const c of cities) {
           const [x, y, z] = proj(c.lat, c.lon); if (z <= 0.02) continue;
           const sx = ex + x * R, sy = ey - y * R; const tw = 0.75 + 0.25 * Math.sin(t * 3 + c.lon * 7);
-          const r = Math.max(0.6, c.w * R / 520) * z;
-          cx.fillStyle = `rgba(255,${180 + 40 * c.w | 0},110,${0.75 * on * tw * z})`; cx.beginPath(); cx.arc(sx, sy, r, 0, Math.PI * 2); cx.fill();
+          const r = Math.max(0.8, c.w * R / 330) * Math.sqrt(z);
+          cx.fillStyle = `rgba(255,${185 + 40 * Math.min(1, c.w) | 0},115,${Math.min(1, 0.95 * on * tw * Math.sqrt(z))})`; cx.beginPath(); cx.arc(sx, sy, r, 0, Math.PI * 2); cx.fill();
         }
         const [mx, my, mz] = proj(25.77, -80.19), mxs = ex + mx * R, mys = ey - my * R;
         const glow = cx.createRadialGradient(mxs, mys, 0, mxs, mys, R * 0.06); glow.addColorStop(0, `rgba(255,214,150,${0.9 * on})`); glow.addColorStop(1, "rgba(255,180,110,0)");
@@ -134,15 +134,18 @@
           const k = seg(t, 0.95, 2.4);
           for (let i = 0; i < 3; i++) { const kk = cl(k * 1.4 - i * 0.22); if (kk <= 0 || kk >= 1) continue; cx.strokeStyle = `rgba(216,255,62,${(1 - kk) * 0.8})`; cx.lineWidth = 2; cx.beginPath(); cx.arc(mxs, mys, 6 + kk * m * 0.22, 0, Math.PI * 2); cx.stroke(); }
         }
-        root.querySelector(".gsi-hud-a").style.cssText = `left:${mxs + 18}px;top:${mys - 8}px;opacity:${cl(t / 0.8) * (1 - seg(t, 2.2, 2.8))}`;
+        mia = [mxs, mys];
+        root.querySelector(".gsi-hud-a").style.cssText = `left:${mxs + 18}px;top:${mys - 8}px;opacity:${cl(t / 0.8) * (1 - seg(t, 1.15, 1.5))}`;
       }
       /* the signal itself: a lime comet the camera follows, it stays ahead of us at ~38% height */
       if (t > 1.0) {
-        const k = seg(t, 1.0, 1.8), hx = W / 2 + Math.sin(t * 1.3) * W * 0.004, hy = H * (0.86 - 0.48 * ease(k));
-        const tail = cx.createLinearGradient(hx, hy, hx, hy + H * 0.5); tail.addColorStop(0, "rgba(216,255,62,.95)"); tail.addColorStop(1, "rgba(216,255,62,0)");
-        cx.strokeStyle = tail; cx.lineWidth = 2.2; cx.beginPath(); cx.moveTo(hx, hy); cx.lineTo(hx, hy + H * 0.5); cx.stroke();
+        const k = ease(seg(t, 1.0, 2.2)), hx = mia[0] + (W / 2 - mia[0]) * k, hy = mia[1] + (H * 0.38 - mia[1]) * k;
+        const fadeC = 1 - seg(t, 5.2, 6.0), tl = Math.max(8, Math.min(H * 0.55, mia[1] - hy));
+        cx.globalAlpha = fadeC;
+        const tail = cx.createLinearGradient(hx, hy, hx, hy + tl); tail.addColorStop(0, "rgba(216,255,62,.95)"); tail.addColorStop(1, "rgba(216,255,62,0)");
+        cx.strokeStyle = tail; cx.lineWidth = 2.2; cx.beginPath(); cx.moveTo(hx, hy); cx.lineTo(hx + (mia[0] - hx) * 0.2 * (1 - k), hy + tl); cx.stroke(); cx.globalAlpha = 1;
         const hg = cx.createRadialGradient(hx, hy, 0, hx, hy, 26); hg.addColorStop(0, "rgba(250,255,220,1)"); hg.addColorStop(0.25, "rgba(216,255,62,.7)"); hg.addColorStop(1, "rgba(216,255,62,0)");
-        cx.fillStyle = hg; cx.globalAlpha = 1 - seg(t, 5.4, 6.2); cx.beginPath(); cx.arc(hx, hy, 26, 0, Math.PI * 2); cx.fill(); cx.globalAlpha = 1;
+        cx.fillStyle = hg; cx.globalAlpha = fadeC; cx.beginPath(); cx.arc(hx, hy, 26, 0, Math.PI * 2); cx.fill(); cx.globalAlpha = 1;
         root.querySelector(".gsi-hud-b").style.cssText = `left:${hx + 22}px;top:${hy - 9}px;opacity:${seg(t, 1.3, 1.8) * (1 - seg(t, 3.6, 4.1))}`;
       }
       /* the Moon: comes in from above, swells, slides past on the right */
@@ -152,7 +155,8 @@
         const mg = cx.createRadialGradient(mcx - mr * 0.45, mcy - mr * 0.35, mr * 0.1, mcx, mcy, mr); mg.addColorStop(0, "#d9d2c8"); mg.addColorStop(0.6, "#8d867e"); mg.addColorStop(1, "#2a2724");
         cx.fillStyle = mg; cx.beginPath(); cx.arc(mcx, mcy, mr, 0, Math.PI * 2); cx.fill();
         cx.save(); cx.beginPath(); cx.arc(mcx, mcy, mr, 0, Math.PI * 2); cx.clip();
-        for (const c of craters) { const x = mcx + Math.cos(c.a) * c.r * mr, y = mcy + Math.sin(c.a) * c.r * mr; cx.fillStyle = `rgba(40,36,34,${0.18 + c.d * 0.2})`; cx.beginPath(); cx.arc(x, y, c.s * mr, 0, Math.PI * 2); cx.fill(); cx.fillStyle = "rgba(255,250,240,.10)"; cx.beginPath(); cx.arc(x - c.s * mr * 0.25, y - c.s * mr * 0.25, c.s * mr * 0.8, 0, Math.PI * 2); cx.fill(); }
+        [[-0.25, -0.2, 0.42], [0.18, 0.05, 0.3], [-0.05, 0.35, 0.26], [0.3, -0.38, 0.2]].forEach(([dx, dy, rr]) => { const g2 = cx.createRadialGradient(mcx + dx * mr, mcy + dy * mr, 0, mcx + dx * mr, mcy + dy * mr, rr * mr); g2.addColorStop(0, "rgba(60,56,54,.32)"); g2.addColorStop(1, "rgba(60,56,54,0)"); cx.fillStyle = g2; cx.fillRect(mcx - mr, mcy - mr, mr * 2, mr * 2); });
+        for (const c of craters) { const x = mcx + Math.cos(c.a) * c.r * mr, y = mcy + Math.sin(c.a) * c.r * mr, cr = c.s * mr * 0.55; cx.fillStyle = `rgba(40,36,34,${0.07 + c.d * 0.08})`; cx.beginPath(); cx.arc(x, y, cr, 0, Math.PI * 2); cx.fill(); cx.strokeStyle = "rgba(255,250,240,.07)"; cx.lineWidth = Math.max(0.5, cr * 0.12); cx.beginPath(); cx.arc(x, y, cr, Math.PI * 0.6, Math.PI * 1.6); cx.stroke(); }
         const sh = cx.createLinearGradient(mcx - mr, mcy - mr, mcx + mr, mcy + mr); sh.addColorStop(0.45, "rgba(2,1,6,0)"); sh.addColorStop(1, "rgba(2,1,6,.85)");
         cx.fillStyle = sh; cx.fillRect(mcx - mr, mcy - mr, mr * 2, mr * 2); cx.restore();
         root.querySelector(".gsi-hud-c").style.cssText = `left:${mcx - mr - 120}px;top:${mcy}px;opacity:${seg(mk, 0.15, 0.3) * (1 - seg(mk, 0.6, 0.75))}`;
