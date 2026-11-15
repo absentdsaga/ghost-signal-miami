@@ -189,6 +189,8 @@
     });
     ov.querySelector(".gs-x").onclick = () => { ov.classList.add("out"); setTimeout(() => ov.remove(), 250); };
     ov.onclick = (e) => { if (e.target === ov) ov.querySelector(".gs-x").click(); };
+    const escKey = (e) => { if (e.key === "Escape" && document.body.contains(ov)) { e.stopPropagation(); ov.querySelector(".gs-x").click(); } if (!document.body.contains(ov) || e.key === "Escape") removeEventListener("keydown", escKey, true); };
+    addEventListener("keydown", escKey, true);
     document.body.appendChild(ov);
     window.dispatchEvent(new CustomEvent("gs:guide-open"));
   }
