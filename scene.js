@@ -271,7 +271,11 @@
   };
 
   /* contact from Earth: where Earth sits in this painting's sky (the corner away from the machine) */
-  const earthAt = (R) => ({ x: (R.heart?.x ?? 50) > 50 ? 14 : 86, y: 17 }); /* below the top letterbox */
+  const earthAt = (R) => { /* below the top letterbox, inside the visible part of the frame (phones crop the 16:9 frame) */
+    const v0 = geo ? Math.max(0, -geo.left / geo.w * 100) : 0, v1 = geo ? Math.min(100, (innerWidth - geo.left) / geo.w * 100) : 100;
+    const left = (R.heart?.x ?? 50) > 50, pad = (v1 - v0) * 0.12;
+    return { x: left ? v0 + pad : v1 - pad, y: geo?.phone ? 12 : 17 };
+  };
   Object.assign(FX, {
     earth({ x, y, mars }) { /* Moon: Earth hangs in the black sky. Mars: Earth is a small blue evening star */
       return addFx({ over: true, earth: true, draw(now, g, W, H) {
