@@ -1,11 +1,14 @@
 /* Ghost Signal · cinematic arrival (branch wake-up, Nov 15 2026).
    Tap a machine on the map -> ~6 s directed sequence, then straight into its case (openRobot):
-     a. descent: the map dive carries on into the scene's ground layer, dust, a camera shake on landing
+     a. contact, not a landing: the map push-in hands off to the machine's picture being RECEIVED (static -> coarse pass ->
+        fine pass, line by line, like a Deep Space Network downlink) while the uplink carrier sweeps and locks
      b. establishing: multi-plane parallax dolly (ground / shadow / machine move at different speeds), letterbox,
         grain, vignette; the machine is dark and silent; "Silent for N years" types in like telemetry
      c. signs of life: relay click, stutter flicker of its real lights at their real positions (rigs.js),
         colour floods back, light spill on the ground, power-up sound (wake-audio.js, music ducked),
-        a small breath, and the one real thing it does (lidar, laser stripes, Viking scan, rotor, ...)
+        a small breath, and the real thing it does as a light pass on the painting + its own sound: lidar, laser
+        stripes, Viking's dish slewing, Pancams looking at you, Apollo telemetry blinks, seismometer rings, rotor;
+        then its answer leaves the antenna and crosses back to Earth
      d. handoff: openRobot(r) opens the case; the scene stays alive behind it (dimmed).
    Skip: tap anywhere, Space, Enter or Esc during the sequence. After the handoff: Esc, browser Back or
    "Map" go back to the map; "Next machine" runs the same sequence for the next machine on that body.
@@ -16,10 +19,12 @@
   const S = {
     en: { next: "Next machine", map: "Map", skip: "Skip", silent: "Silent for", y: ["year", "years"], mo: ["month", "months"], d: ["day", "days"],
       left: "Left on", moon: "the Moon", mars: "Mars", search: "Searching for its signal", power: "Power rising", lock: "Signal acquired", back: "Brought back · already awake",
-      credit: "Painted from NASA photos · AI-assisted" },
+      credit: "Painted from NASA photos · AI-assisted",
+      ping: "Earth calling · Deep Space Network", lt: "light-time", fast: "shown sped up", earth: "EARTH", listen: "Listening", carrier: "Faint carrier", hello: "…hello? … Earth?" },
     es: { next: "Siguiente máquina", map: "Mapa", skip: "Saltar", silent: "En silencio desde hace", y: ["año", "años"], mo: ["mes", "meses"], d: ["día", "días"],
       left: "Dejado en", moon: "la Luna", mars: "Marte", search: "Buscando su señal", power: "Subiendo energía", lock: "Señal captada", back: "De vuelta · ya despierto",
-      credit: "Pintado a partir de fotos de la NASA · con ayuda de IA" },
+      credit: "Pintado a partir de fotos de la NASA · con ayuda de IA",
+      ping: "La Tierra llama · Red de Espacio Profundo", lt: "a la velocidad de la luz", fast: "acelerado", earth: "TIERRA", listen: "Escuchando", carrier: "Portadora débil", hello: "…¿hola? … ¿Tierra?" },
   };
   const s = (k) => (S[lang] || S.en)[k];
   const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -44,6 +49,7 @@
         <div class="lights"></div>
         <canvas class="fx fx-over"></canvas>
       </div></div>
+      <canvas class="sc-rx"></canvas>
     </div></div></div>
     <div class="sc-vig"></div><div class="sc-grain"></div>
     <div class="sc-bar t"></div><div class="sc-bar b"></div>
@@ -52,6 +58,7 @@
       <h1 class="h-n"></h1>
       <div class="h-s"></div>
       <div class="h-st"><i></i><span></span></div>
+      <div class="h-voice" aria-live="polite"></div>
       <div class="h-note"></div>
     </div>
     <button class="sc-skip" type="button"><span class="l"></span> <span aria-hidden="true">›</span></button>
@@ -180,8 +187,8 @@
         const u = W / 1280;
         g.fillStyle = gr; g.globalAlpha = k * (on ? 0.95 : 0.45); g.fillRect(bx - 1.6 * u, by - reach, 3.2 * u, reach);
         g.globalAlpha = k * (on ? 0.3 : 0.12); g.fillRect(bx - 9 * u, by - reach, 18 * u, reach);
-        const sp = g.createRadialGradient(bx, by, 0, bx, by, 26 * u); sp.addColorStop(0, hex(c, 0.8)); sp.addColorStop(1, hex(c, 0));
-        g.globalAlpha = k; g.fillStyle = sp; g.beginPath(); g.arc(bx, by, 26 * u, 0, 7); g.fill();
+        const sp = g.createRadialGradient(bx, by, 0, bx, by, 11 * u); sp.addColorStop(0, "rgba(255,255,255,.95)"); sp.addColorStop(0.35, hex(c, 0.7)); sp.addColorStop(1, hex(c, 0));
+        g.globalAlpha = k; g.fillStyle = sp; g.beginPath(); g.arc(bx, by, 11 * u, 0, 7); g.fill(); /* emitter sits ON the turret cap, small and hot */
       } });
     },
     stripes({ x0, x1, y0, y1, n, c }) {
@@ -197,27 +204,10 @@
         }
       } });
     },
-    scan({ ms, onX }) {
-      return addFx({ over: true, draw(now, g, W, H) {
-        const k = Math.min(1, (now - this.t0) / ms), x = k * W, u = W / 1280; onX && onX(k * 100);
-        g.globalAlpha = 0.9 * (1 - k * 0.4); g.fillStyle = "#e9ffd0"; g.fillRect(x - 1.2 * u, 0, 2.4 * u, H);
-        const gr = g.createLinearGradient(x - 40 * u, 0, x, 0); gr.addColorStop(0, "rgba(233,255,208,0)"); gr.addColorStop(1, "rgba(233,255,208,.28)");
-        g.fillStyle = gr; g.fillRect(x - 40 * u, 0, 40 * u, H);
-        if (k >= 1) return false;
-      } });
-    },
-    ripples({ x, y, c }) {
-      return addFx({ draw(now, g, W, H) {
-        const [cx, cy] = P(x, y), t = now - this.t0;
-        for (let i = 0; i < 3; i++) { const k = ((t - i * 520) % 2600) / 1800; if (t - i * 520 < 0 || k > 1 || k < 0) continue;
-          g.save(); g.translate(cx, cy); g.scale(1, 0.24); g.globalAlpha = (1 - k) * 0.7; g.strokeStyle = c; g.lineWidth = 2.2 * W / 1280;
-          g.beginPath(); g.arc(0, 0, 8 + k * W * 0.3, 0, 7); g.stroke(); g.restore(); }
-      } });
-    },
     pulses({ pts, c }) {
       const segs = pts.slice(1).map((p, i) => [pts[i], p]);
       return addFx({ over: true, draw(now, g, W, H) {
-        const t = (now - this.t0) / 1000;
+        const t = Math.max(0, (now - this.t0) / 1000); /* rAF time can be a hair before t0: a negative t indexed past the cable */
         for (let j = 0; j < 3; j++) { const k = ((t * 0.9 + j / 3) % 1), f = k * segs.length, si = Math.floor(f), [a, b] = segs[si], u = f - si;
           const [x, y] = P(a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u), r = 9 * W / 1280;
           const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, hex(c, 0.95)); gr.addColorStop(1, hex(c, 0));
@@ -267,6 +257,214 @@
     },
   };
 
+  /* ---------- reactions: light passes that follow the REAL painted surface (no cutouts, no shapes pasted on top) ----------
+     sheen(): a once-per-shot map of the painting's own highlights inside an ellipse (crinkled foil, dish metal),
+     so moving light can brighten exactly the crinkles/edges the painter put there. */
+  function sheenMap(cx, cy, rx, ry, W, H, { lo = 0.42, tint = [236, 244, 255], soft = 0.18 } = {}) {
+    const img = q(".m-lit"); if (!img.naturalWidth) return null;
+    const x0 = Math.max(0, Math.floor((cx - rx) / 100 * W)), y0 = Math.max(0, Math.floor((cy - ry) / 100 * H));
+    const w = Math.min(W - x0, Math.ceil(rx * 2 / 100 * W)), h = Math.min(H - y0, Math.ceil(ry * 2 / 100 * H));
+    if (w < 4 || h < 4) return null;
+    const c = document.createElement("canvas"); c.width = w; c.height = h; const g = c.getContext("2d");
+    const sx = img.naturalWidth / W, sy = img.naturalHeight / H;
+    try { g.drawImage(img, x0 * sx, y0 * sy, w * sx, h * sy, 0, 0, w, h); const d = g.getImageData(0, 0, w, h), a = d.data;
+      const ex = cx / 100 * W - x0, ey = cy / 100 * H - y0, erx = rx / 100 * W, ery = ry / 100 * H;
+      for (let y = 0, i = 0; y < h; y++) for (let x = 0; x < w; x++, i += 4) {
+        const L = (a[i] * 0.3 + a[i + 1] * 0.55 + a[i + 2] * 0.15) / 255, v = Math.pow(Math.max(0, (L - lo) / (1 - lo)), 1.3);
+        const e = ((x - ex) / erx) ** 2 + ((y - ey) / ery) ** 2, m = e >= 1 ? 0 : e <= 1 - soft ? 1 : (1 - e) / soft;
+        a[i] = tint[0]; a[i + 1] = tint[1]; a[i + 2] = tint[2]; a[i + 3] = Math.min(255, v * m * 520);
+      }
+      g.putImageData(d, 0, 0);
+    } catch { return null; }
+    return { c, x0, y0, w, h, W };
+  }
+  const scratch = document.createElement("canvas"), sg = scratch.getContext("2d");
+  function throughSheen(g, sh, paintMask, alpha) { /* mask (drawn by paintMask into sheen-local coords) x sheen highlights -> added onto g */
+    if (scratch.width !== sh.w || scratch.height !== sh.h) { scratch.width = sh.w; scratch.height = sh.h; } else sg.clearRect(0, 0, sh.w, sh.h);
+    sg.globalCompositeOperation = "source-over"; sg.globalAlpha = 1; paintMask(sg); sg.globalCompositeOperation = "source-in"; sg.drawImage(sh.c, 0, 0);
+    g.globalAlpha = alpha; g.drawImage(scratch, sh.x0, sh.y0);
+  }
+  Object.assign(FX, {
+    /* seismometer: soft rings spreading over the ground plane from the instrument, foreshortened to the footprint,
+       lighting the foil crinkles they pass (sheen) and fading with distance. Strong on wake, then a slow heartbeat. */
+    quake({ x, y, cx, cy, rx, ry, r0 = 6, sheen = false }) {
+      let sh = null;
+      return addFx({ over: true, keep: true, draw(now, g, W, H) {
+        if (sheen && (!sh || sh.W !== W)) sh = sheenMap(cx, cy, rx, ry, W, H);
+        const t = (now - this.t0) / 1000, u = W / 1280, ox = x / 100 * W, oy = y / 100 * H, asp = (ry / 100 * H) / (rx / 100 * W);
+        const Rmax = rx / 100 * W * 1.15, R0 = r0 / 100 * W;
+        const rings = [];
+        for (let i = 0; i < 3; i++) { const k = (t - i * 0.42) / 1.9; if (k > 0 && k < 1) rings.push([k, 1 - 0.25 * i]); } /* the wake: three strong rings */
+        if (t > 2.6) { const k = ((t - 2.6) % 3.4) / 2.4; if (k < 1) rings.push([k, 0.42]); } /* then a quiet heartbeat */
+        if (!rings.length) return;
+        const paint = (c2, dx, dy, a) => { rings.forEach(([k, amp]) => {
+          const e = ease(k), R = R0 + (Rmax - R0) * e, bw = (26 + 40 * e) * u;
+          c2.save(); c2.translate(ox - dx, oy - dy); c2.scale(1, asp);
+          const gr = c2.createRadialGradient(0, 0, Math.max(0, R - bw), 0, 0, R + bw);
+          const f = amp * Math.pow(1 - k, 1.4) * a; gr.addColorStop(0, "rgba(255,255,255,0)"); gr.addColorStop(0.5, `rgba(255,255,255,${f})`); gr.addColorStop(1, "rgba(255,255,255,0)");
+          c2.fillStyle = gr; c2.beginPath(); c2.arc(0, 0, R + bw, 0, 7); c2.fill(); c2.restore(); }); };
+        if (sh) throughSheen(g, sh, (c2) => paint(c2, sh.x0, sh.y0, 1), 1);
+        /* a faint cool light on the ground itself, clipped to the footprint so nothing floats past the skirt/sand */
+        g.save(); g.beginPath(); g.ellipse(cx / 100 * W, cy / 100 * H, rx / 100 * W, ry / 100 * H, 0, 0, 7); g.clip();
+        g.globalAlpha = sheen ? 0.14 : 0.2; g.globalCompositeOperation = "lighter";
+        const tmp = g.fillStyle; paint(g, 0, 0, 1); g.restore(); g.fillStyle = tmp;
+      } });
+    },
+    /* Viking's high-gain dish slews toward Earth: its reflection sweeps across the real dish, overshoots, settles */
+    dish({ x, y, rx, ry }) {
+      let sh = null;
+      return addFx({ over: true, draw(now, g, W, H) {
+        if (!sh || sh.W !== W) sh = sheenMap(x, y, rx, ry, W, H, { lo: 0.3, tint: [255, 246, 228], soft: 0.08 });
+        const t = (now - this.t0) / 1000; if (t > 3.4) return false; if (!sh) return;
+        const pos = t < 1.5 ? ease(t / 1.5) * 1.12 : 1.12 - 0.12 * ease((t - 1.5) / 0.6); /* slew, overshoot, settle */
+        const a = Math.min(1, t / 0.25) * (t > 2.6 ? Math.max(0, 1 - (t - 2.6) / 0.8) : 1);
+        throughSheen(g, sh, (c2) => { const bx = (-0.35 + 1.5 * pos) * sh.w, bw = sh.w * 0.32;
+          c2.save(); c2.translate(bx, 0); c2.transform(1, 0, -0.5, 1, 0, 0);
+          const gr = c2.createLinearGradient(-bw, 0, bw, 0); gr.addColorStop(0, "rgba(255,255,255,0)"); gr.addColorStop(0.5, "rgba(255,255,255,1)"); gr.addColorStop(1, "rgba(255,255,255,0)");
+          c2.fillStyle = gr; c2.fillRect(-bw, 0, bw * 2 + sh.h, sh.h); c2.restore(); }, 0.85 * a);
+      } });
+    },
+    /* a camera turns to look at you: its lens catches the light (star glint), focuses twice, settles to a small idle glint */
+    look({ x, y, pan = 1, small = false }) {
+      return addFx({ over: true, keep: true, draw(now, g, W, H) {
+        const t = (now - this.t0) / 1000, u = W / 1280 * (small ? 0.7 : 1);
+        const drift = pan * 0.5 * (1 - ease(t / 0.9)), [cx, cy] = P(x + drift, y);
+        const lv = t < 0.9 ? 0.25 * ease(t / 0.9) : t < 1.6 ? 0.25 + 0.75 * Math.sin((t - 0.9) / 0.7 * Math.PI) * (t < 1.25 ? 1 : 0.8) : 0.22 + 0.06 * Math.sin(t * 2);
+        const core = g.createRadialGradient(cx, cy, 0, cx, cy, 16 * u); core.addColorStop(0, "rgba(255,255,255,1)"); core.addColorStop(0.3, "rgba(200,232,255,.55)"); core.addColorStop(1, "rgba(160,210,255,0)");
+        g.globalAlpha = lv; g.fillStyle = core; g.beginPath(); g.arc(cx, cy, 16 * u, 0, 7); g.fill();
+        [[1, 0.06], [0.06, 1]].forEach(([sx, sy]) => { g.save(); g.translate(cx, cy); g.scale(sx, sy);
+          const st = g.createRadialGradient(0, 0, 0, 0, 0, 46 * u); st.addColorStop(0, "rgba(255,255,255,.9)"); st.addColorStop(1, "rgba(200,232,255,0)");
+          g.globalAlpha = lv * 0.9; g.fillStyle = st; g.beginPath(); g.arc(0, 0, 46 * u, 0, 7); g.fill(); g.restore(); });
+        if (t > 0.9 && t < 1.7) { const k = (t - 0.9) / 0.8; g.globalAlpha = (1 - k) * 0.7; g.strokeStyle = "rgba(200,232,255,1)"; g.lineWidth = 1.4 * u; g.beginPath(); g.arc(cx, cy, (22 - 14 * ease(k)) * u, 0, 7); g.stroke(); }
+      } });
+    },
+    /* Apollo telemetry: the status light blinks out a data word as the station starts talking */
+    telemetry({ x, y, c = "#d8ff6a" }) {
+      const bits = "1101001110101100";
+      return addFx({ over: true, draw(now, g, W, H) {
+        const t = now - this.t0, i = Math.floor(t / 70); if (i >= bits.length) return false; if (bits[i] !== "1") return;
+        const [cx, cy] = P(x, y), r = 20 * W / 1280, gr = g.createRadialGradient(cx, cy, 0, cx, cy, r);
+        gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.35, hex(c, 0.7)); gr.addColorStop(1, hex(c, 0));
+        g.globalAlpha = 0.95; g.fillStyle = gr; g.beginPath(); g.arc(cx, cy, r, 0, 7); g.fill();
+      } });
+    },
+  });
+
+  /* ---------- the arrival: the picture is RECEIVED, not landed on. Static, then a coarse pass, then the fine pass
+     line by line, the way a spacecraft picture comes down a Deep Space Network dish. One 320x180 canvas, scaled up. ---------- */
+  const rx = q(".sc-rx"), rg = rx.getContext("2d"); let rxRaf = 0;
+  const RXW = 320, RXH = 180; rx.width = RXW; rx.height = RXH;
+  const noiseTile = (() => { const c = document.createElement("canvas"); c.width = RXW; c.height = RXH * 2; const g = c.getContext("2d"), d = g.createImageData(RXW, RXH * 2);
+    for (let i = 0; i < d.data.length; i += 4) { const v = Math.pow(Math.random(), 2.2) * 210, row = ((i / 4 / RXW) | 0) % 2 ? 0.78 : 1; d.data[i] = v * 0.86 * row; d.data[i + 1] = v * 0.84 * row; d.data[i + 2] = v * row + 8; d.data[i + 3] = 255; }
+    g.putImageData(d, 0, 0); return c; })();
+  function rxStop() { cancelAnimationFrame(rxRaf); rxRaf = 0; rx.style.opacity = "0"; rx.getAnimations().forEach((a) => a.cancel()); }
+  function downlink(lit, ms, done) {
+    rxStop();
+    const src = lit ? q(".m-lit") : q(".g"), lo = document.createElement("canvas"); lo.width = 48; lo.height = 27;
+    const co = document.createElement("canvas"); co.width = RXW; co.height = RXH; const cg = co.getContext("2d");
+    let coarse = false; /* the coarse pass is made from the same painting, once it has decoded */
+    const mkCoarse = () => { if (coarse || !src.complete || !src.naturalWidth) return; try { lo.getContext("2d").drawImage(src, 0, 0, 48, 27); cg.imageSmoothingEnabled = false; cg.drawImage(lo, 0, 0, RXW, RXH); coarse = true; } catch {} };
+    rx.style.opacity = "1";
+    const t0 = performance.now(); let locked = false;
+    const step = (now) => {
+      mkCoarse(); const t = (now - t0) / TS, kc = Math.min(1, t / (ms * 0.5)), kf = Math.min(1, Math.max(0, (t - ms * 0.28) / (ms * 0.72)));
+      const yc = Math.round(ease(kc) * RXH), yf = Math.round(kf * kf * (3 - 2 * kf) * RXH);
+      rg.clearRect(0, 0, RXW, RXH); rg.globalAlpha = 1;
+      if (yc < RXH) rg.drawImage(noiseTile, 0, (Math.random() * RXH) | 0, RXW, RXH - yc, 0, yc, RXW, RXH - yc);
+      if (!coarse && yc > yf) rg.drawImage(noiseTile, 0, (Math.random() * RXH) | 0, RXW, yc - yf, 0, yf, RXW, yc - yf);
+      else for (let y = yf; y < yc; y += 3) { const dx = Math.random() < 0.1 ? ((Math.random() - 0.5) * 16) | 0 : 0; rg.drawImage(co, 0, y, RXW, 3, dx, y, RXW, 3); }
+      if (yc < RXH) { rg.fillStyle = "rgba(170,215,255,.55)"; rg.fillRect(0, yc, RXW, 1); }
+      if (yf > 0 && yf < RXH) { rg.fillStyle = "rgba(230,255,205,.85)"; rg.fillRect(0, yf - 1, RXW, 1); rg.fillStyle = "rgba(216,255,62,.18)"; rg.fillRect(0, yf - 6, RXW, 5); }
+      if (kf >= 1) { if (!locked) { locked = true; rxRaf = 0; anim(rx, [{ opacity: 1 }, { opacity: 0 }], { duration: 260, easing: "ease-out", fill: "forwards" }); done && done(); } return; }
+      rxRaf = requestAnimationFrame(step);
+    };
+    rxRaf = requestAnimationFrame(step);
+  }
+
+  /* contact from Earth: where Earth sits in this painting's sky (the corner away from the machine) */
+  const earthAt = (R) => { /* below the top letterbox, inside the visible part of the frame (phones crop the 16:9 frame) */
+    const v0 = geo ? Math.max(0, -geo.left / geo.w * 100) : 0, v1 = geo ? Math.min(100, (innerWidth - geo.left) / geo.w * 100) : 100;
+    const left = (R.heart?.x ?? 50) > 50, pad = (v1 - v0) * 0.12;
+    return { x: left ? v0 + pad : v1 - pad, y: geo?.phone ? 12 : 17 };
+  };
+  Object.assign(FX, {
+    earth({ x, y, mars }) { /* Moon: Earth hangs in the black sky. Mars: Earth is a small blue evening star */
+      return addFx({ over: true, earth: true, draw(now, g, W, H) {
+        const t = (now - this.t0) / 1000, k = Math.min(1, t / 0.8), u = W / 1280, [cx, cy] = P(x, y), r = (mars ? 2.2 : 9) * u;
+        const halo = g.createRadialGradient(cx, cy, 0, cx, cy, r * (mars ? 9 : 3.2)); halo.addColorStop(0, "rgba(140,190,255,.55)"); halo.addColorStop(1, "rgba(140,190,255,0)");
+        g.globalAlpha = k * (this.fade ?? 1); g.fillStyle = halo; g.beginPath(); g.arc(cx, cy, r * (mars ? 9 : 3.2), 0, 7); g.fill();
+        const disc = g.createRadialGradient(cx - r * 0.35, cy - r * 0.35, 0, cx, cy, r); disc.addColorStop(0, "#eaf4ff"); disc.addColorStop(0.55, "#5b8fe0"); disc.addColorStop(1, "#1d3f8a");
+        g.fillStyle = disc; g.beginPath(); g.arc(cx, cy, r, 0, 7); g.fill();
+        g.globalCompositeOperation = "source-over"; g.globalAlpha = k * 0.75 * (this.fade ?? 1); g.fillStyle = "#cfe2ff";
+        g.font = `600 ${Math.round(10.5 * u)}px ui-monospace,monospace`; g.textAlign = x > 50 ? "right" : "left";
+        g.fillText(s("earth"), cx + (x > 50 ? -1 : 1) * r * (mars ? 5 : 2.2), cy + 4 * u);
+      } });
+    },
+    beam({ from, to, ms, c = "#bfe6ff", onArrive }) { /* the signal: a hot head with a fading trail along a gentle arc */
+      const [ax, ay] = [from.x, from.y], [bx, by] = [to.x, to.y], mx = (ax + bx) / 2, my = Math.min(ay, by) - 6;
+      const at = (k) => [(1 - k) * (1 - k) * ax + 2 * (1 - k) * k * mx + k * k * bx, (1 - k) * (1 - k) * ay + 2 * (1 - k) * k * my + k * k * by];
+      let fired = false;
+      return addFx({ over: true, draw(now, g, W, H) {
+        const t = now - this.t0, k = Math.min(1, t / ms), u = W / 1280;
+        if (k >= 1 && !fired) { fired = true; onArrive && onArrive(); }
+        const tail = 0.28, fadeOut = k >= 1 ? Math.max(0, 1 - (t - ms) / 350) : 1; if (!fadeOut) return false;
+        for (let i = 0; i <= 36; i++) { const kk = k - tail * i / 36; if (kk < 0) break; const [px, py] = P(...at(kk)), a = (1 - i / 36);
+          g.globalAlpha = a * a * 0.9 * fadeOut; g.fillStyle = hex(c, 1); g.beginPath(); g.arc(px, py, (1.2 + 2.2 * a) * u, 0, 7); g.fill(); }
+        const [hx, hy] = P(...at(k)), gr = g.createRadialGradient(hx, hy, 0, hx, hy, 22 * u); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.25, hex(c, 0.8)); gr.addColorStop(1, hex(c, 0));
+        g.globalAlpha = fadeOut; g.fillStyle = gr; g.beginPath(); g.arc(hx, hy, 22 * u, 0, 7); g.fill();
+      } });
+    },
+    waves({ x, y, c = "#9fe8ff", n = 3, ms = 1300, out = false }) { /* radio rings: arriving (shrinking onto the antenna) or leaving */
+      return addFx({ over: true, draw(now, g, W, H) {
+        const t = now - this.t0, u = W / 1280, [cx, cy] = P(x, y); if (t > ms + n * 220) return false;
+        for (let i = 0; i < n; i++) { const k = (t - i * 220) / ms; if (k < 0 || k > 1) continue;
+          const r = (out ? 6 + k * 120 : 120 - k * 114) * u; g.globalAlpha = (out ? 1 - k : k) * 0.85; g.strokeStyle = c; g.lineWidth = 2 * u;
+          g.beginPath(); g.arc(cx, cy, r, 0, 7); g.stroke(); }
+      } });
+    },
+    bloom({ x, y, c = "#fff3dc", ms = 700, a = 0.45 }) {
+      return addFx({ over: true, draw(now, g, W, H) {
+        const k = (now - this.t0) / ms; if (k > 1) return false; const [cx, cy] = P(x, y), r = W * 0.55;
+        const gr = g.createRadialGradient(cx, cy, 0, cx, cy, r); gr.addColorStop(0, hex(c, 1)); gr.addColorStop(0.3, hex(c, 0.35)); gr.addColorStop(1, hex(c, 0));
+        g.globalAlpha = a * (k < 0.12 ? k / 0.12 : Math.pow(1 - (k - 0.12) / 0.88, 2)); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+      } });
+    },
+    sweep({ ms = 750 }) { /* one glare band crossing the painting as the power arrives */
+      return addFx({ over: true, draw(now, g, W, H) {
+        const k = (now - this.t0) / ms; if (k > 1) return false; const x = (-0.3 + 1.6 * ease(k)) * W, bw = W * 0.12;
+        g.translate(x, 0); g.transform(1, 0, -0.35, 1, 0, 0);
+        const gr = g.createLinearGradient(-bw, 0, bw, 0); gr.addColorStop(0, "rgba(255,240,220,0)"); gr.addColorStop(0.5, "rgba(255,240,220,.22)"); gr.addColorStop(1, "rgba(255,240,220,0)");
+        g.globalAlpha = Math.sin(k * Math.PI); g.fillStyle = gr; g.fillRect(-bw, 0, bw * 2 + H * 0.4, H);
+      } });
+    },
+    flare({ x, y, c }) { /* anamorphic streak + two ghosts on the line through frame centre; settles to a low idle */
+      return addFx({ over: true, flare: true, draw(now, g, W, H) {
+        const t = (now - this.t0) / 1000, u = W / 1280, [cx, cy] = P(x, y);
+        const lv = t < 0.25 ? t / 0.25 : 0.32 + 0.68 * Math.exp(-(t - 0.25) * 2.2), br = lv * (0.92 + 0.08 * Math.sin(t * 2.4));
+        g.save(); g.translate(cx, cy); g.scale(1, 0.018);
+        const st = g.createRadialGradient(0, 0, 0, 0, 0, W * 0.32); st.addColorStop(0, "rgba(255,255,255,.9)"); st.addColorStop(0.2, hex(c, 0.5)); st.addColorStop(1, hex(c, 0));
+        g.globalAlpha = br * 0.8; g.fillStyle = st; g.beginPath(); g.arc(0, 0, W * 0.32, 0, 7); g.fill(); g.restore();
+        const core = g.createRadialGradient(cx, cy, 0, cx, cy, 30 * u); core.addColorStop(0, "rgba(255,255,255,.95)"); core.addColorStop(0.4, hex(c, 0.35)); core.addColorStop(1, hex(c, 0));
+        g.globalAlpha = br; g.fillStyle = core; g.beginPath(); g.arc(cx, cy, 30 * u, 0, 7); g.fill();
+        [[0.55, 16, 0.14], [1.35, 34, 0.08]].forEach(([d, r, a]) => { const gx = cx + (W / 2 - cx) * d * 2, gy = cy + (H / 2 - cy) * d * 2;
+          const gh = g.createRadialGradient(gx, gy, r * u * 0.6, gx, gy, r * u); gh.addColorStop(0, hex(c, a)); gh.addColorStop(1, hex(c, 0));
+          g.globalAlpha = br; g.fillStyle = gh; g.beginPath(); g.arc(gx, gy, r * u, 0, 7); g.fill(); });
+      } });
+    },
+  });
+  /* a relay kicking in shows up the way it would on a received picture: a few torn lines of signal, not a camera shake */
+  function microShake(px = 4) {
+    if (rxRaf || reduce()) return;
+    const n = Math.round(2 + px), bands = Array.from({ length: n }, () => [(Math.random() * RXH) | 0, 1 + ((Math.random() * px * 0.8) | 0)]);
+    rg.clearRect(0, 0, RXW, RXH); rg.globalAlpha = 0.55; bands.forEach(([y, h]) => rg.drawImage(noiseTile, 0, (Math.random() * RXH) | 0, RXW, h, ((Math.random() - 0.5) * 10) | 0, y, RXW, h));
+    rg.globalAlpha = 1; rx.style.opacity = "1"; later(() => { if (!rxRaf) { rg.clearRect(0, 0, RXW, RXH); rx.style.opacity = "0"; } }, 70 + px * 14);
+  }
+  function lightTime(b) {
+    const v = typeof delay !== "undefined" && delay?.[b]?.one_way_seconds;
+    if (v) return { s: v, txt: typeof fmt === "function" ? fmt(v) : v.toFixed(2) + " s" };
+    return b === "moon" ? { s: 1.28, txt: "1.28 s" } : null;
+  }
+
   /* ---------- lamps (DOM, additive) ---------- */
   const STY = { stutter: "aaamaaazamaamzzzmm", flicker: "mmnmmomzzm", fluoro: "mmamammmmammam" };
   function lamp(L, big) {
@@ -308,7 +506,7 @@
   function fillHud(id, solved) {
     const r = robot(id), yr = (r.landed || "").match(/\d{4}/)?.[0];
     q(".h-k").textContent = ""; q(".h-s").textContent = ""; q(".h-n").textContent = name(r);
-    q(".h-st").className = "h-st"; q(".h-note").textContent = "";
+    q(".h-st").className = "h-st"; q(".h-note").textContent = ""; q(".h-voice").textContent = ""; q(".h-voice").classList.remove("show");
     root.dataset.k = `${s("left")} ${r.body === "moon" ? s("moon") : s("mars")}${yr ? " · " + yr : ""}`;
     root.dataset.s = solved ? s("back") : silentText(id);
     q(".sc-skip .l").textContent = s("skip");
@@ -319,7 +517,7 @@
 
   /* ---------- building one shot ---------- */
   function build(id, lit) {
-    clearRun(); fx = []; lights.innerHTML = "";
+    clearRun(); rxStop(); fx = []; lights.innerHTML = "";
     const l = L(id);
     q(".g").src = l.g; q(".m-lit").src = l.m;
     layout(id);
@@ -335,8 +533,8 @@
     const heart = lamp(R.heart, true);
     if (instant) { heart.classList.add("on", "breathe"); R.lamps.forEach((L) => lampOn(lamp(L), L, true)); }
     FX.spill({ x: R.foot.x, y: R.foot.y, w: R.foot.w * 1.25, c: R.spill || "#ffd0a0" });
-    const keep = (R.fx || []).filter((f) => ["lidar", "stripes", "ripples", "pulses", "rotor"].includes(f.type));
-    if (instant) keep.forEach((f) => FX[f.type](f));
+    const keep = (R.fx || []).filter((f) => ["lidar", "stripes", "quake", "pulses", "rotor", "look"].includes(f.type));
+    if (instant) { keep.forEach((f) => FX[f.type](f)); FX.flare({ x: R.heart.x, y: R.heart.y, c: R.heart.c }); }
     return heart;
   }
 
@@ -361,19 +559,18 @@
       later(() => handoff(id), 1500); return;
     }
 
-    /* a. descent: camera drops from above onto the ground; planes travel at different depths */
-    const D = fromScene ? 1100 : 1450, DESC = "cubic-bezier(.25,.6,.35,1)";
-    anim(root, [{ opacity: 0 }, { opacity: 1 }], { duration: dive ? 260 : 420, easing: "ease-out", fill: "both" });
-    anim(cam, [{ transform: "translateY(-10%) scale(1.55)" }, { transform: "translateY(0) scale(1.0)" }], { duration: D, easing: DESC, fill: "both" });
+    /* a. arrival: the camera settles in out of black (no landing thud: nothing lands, Earth is calling) */
+    const D = fromScene ? 1000 : 1400, DESC = "cubic-bezier(.22,.7,.3,1)";
+    anim(root, [{ opacity: 0 }, { opacity: 1 }], { duration: dive ? 90 : 160, easing: "ease-out", fill: "both" });
+    anim(cam, [{ transform: "scale(1.06)" }, { transform: "scale(1.0)" }], { duration: D, easing: DESC, fill: "both" });
     if (!dive) GS_wakeAudio?.ui.descend();
+    /* nothing lands: the map push-in hands off to the picture being received from the machine, static -> coarse -> fine */
+    downlink(solved, fromScene ? 1150 : 1500, () => { if (my === runId) GS_wakeAudio?.ui.rx(); });
     later(() => {
       if (my !== runId) return;
-      GS_wakeAudio?.ui.land();
-      anim(shake, [{ transform: "translate(0,0)" }, { transform: "translate(-5px,7px)" }, { transform: "translate(4px,-4px)" }, { transform: "translate(-2px,2px)" }, { transform: "translate(0,0)" }], { duration: 320, easing: "linear" });
-      FX.puff({ x: R.foot.x, y: R.foot.y, w: R.foot.w, c: r.body === "mars" ? "214,150,112" : "200,190,205" });
-      /* b. establishing: slow dolly + orbit-feel parallax, runs to the end of the shot */
-      const T = 7000;
-      anim(cam, [{ transform: "scale(1)" }, { transform: "scale(1.075)" }], { duration: T, easing: "cubic-bezier(.25,.1,.35,1)", fill: "both" });
+      /* b. establishing: slow dolly over the whole painting, runs to the end of the shot */
+      const T = 9000;
+      anim(cam, [{ transform: "scale(1)" }, { transform: "scale(1.085)" }], { duration: T, easing: "cubic-bezier(.25,.1,.35,1)", fill: "both" });
       anim(frame, [{ transform: "translateX(0)" }, { transform: "translateX(-0.9%)" }], { duration: T, easing: "ease-in-out", fill: "both" }); /* one painting, one plane: a slow truck, never a cutout sliding over its ground */
       startIdle(id, R);
     }, D - 120);
@@ -391,35 +588,64 @@
       return;
     }
 
-    /* c. signs of life */
-    const W0 = fromScene ? 2300 : 2700;
-    later(() => { status("search", s("search")); }, W0 - 900);
-    later(() => { /* anticipation: the world dips darker, a relay ticks */
-      if (my !== runId) return;
-      GS_wakeAudio?.ui.dim(); root.classList.add("waking");
-      window.GS_music?.duck(true);
-    }, W0);
+    /* c. contact. Beat 1: Earth reaches out (DSN ping, real one-way light-time; Mars is shown sped up and says so) */
+    const C0 = fromScene ? 1400 : 1700, mars = r.body === "mars", E = earthAt(R), lt = lightTime(r.body);
+    const travel = mars ? 1700 : Math.round(Math.min(1.6, Math.max(1.1, lt?.s || 1.28)) * 1000);
     later(() => {
       if (my !== runId) return;
-      GS_wakeAudio?.wake(id);
+      window.GS_music?.duck(true);
+      status("search", `${s("ping")}${lt ? ` · ${lt.txt} ${s("lt")}` : ""}${mars ? ` · ${s("fast")}` : ""}`);
+      FX.earth({ x: E.x, y: E.y, mars });
+      later(() => {
+        if (my !== runId) return;
+        GS_wakeAudio?.ui.ping(travel / 1000);
+        FX.waves({ x: E.x, y: E.y, c: "#bfe6ff", n: 2, ms: 700, out: true });
+        FX.beam({ from: E, to: R.heart, ms: travel, onArrive: () => { if (my === runId) FX.waves({ x: R.heart.x, y: R.heart.y, n: 3, ms: 900 }); } });
+      }, 500);
+    }, C0);
+
+    /* Beat 2: nothing. The world dips, the music almost goes, we wait... then one faint answer */
+    const B2 = C0 + 500 + travel + 250;
+    later(() => { if (my !== runId) return; root.classList.add("waking"); status("search", s("listen")); }, B2);
+    const FL = B2 + 900;
+    later(() => {
+      if (my !== runId) return;
+      const one = lamp(R.heart, true); lightStyle(one, "aamaaaa", 70, () => one.remove());
+      GS_wakeAudio?.ui.flicker(); status("power", s("carrier"));
+    }, FL);
+
+    /* Beat 3: the wake cascade */
+    const W1 = FL + 650;
+    later(() => {
+      if (my !== runId) return;
+      const cues = GS_wakeAudio?.wake(id) || { chargeEnd: 1.0, chirp: 1.8 };
+      microShake(3);
+      later(() => microShake(5), (cues.chargeEnd || 1) * 1000);
       status("power", s("power"));
       const heart = lightUp(id, R, false);
-      lightStyle(heart, STY.stutter, 62, () => { heart.classList.add("on", "breathe"); FX.sparks({ x: R.heart.x, y: R.heart.y, c: R.heart.c }); });
-      R.lamps.forEach((L) => later(() => lampOn(lamp(L), L, false), 1150 + (L.t || 0)));
-      const flood = 1250, scan = (R.fx || []).find((f) => f.type === "scan");
-      if (scan) {
-        const lit = q(".m-lit"); lit.style.clipPath = "inset(0 100% 0 0)"; root.classList.add("scanning");
-        later(() => FX.scan({ ms: scan.ms, onX: (x) => { lit.style.clipPath = `inset(0 ${(100 - x).toFixed(2)}% 0 0)`; q(".sc-dark").style.clipPath = `inset(0 0 0 ${x.toFixed(2)}%)`; } }), 500);
-        later(() => { root.classList.add("awake"); lit.style.clipPath = ""; q(".sc-dark").style.clipPath = ""; }, 500 + scan.ms + 30);
-      } else later(() => root.classList.add("awake"), flood);
-      (R.fx || []).forEach((f) => { if (f.type !== "scan") later(() => FX[f.type](f), f.type === "glint" ? 1900 : f.type === "dust" ? 1250 : 1400); });
+      lightStyle(heart, STY.stutter, 62, () => {
+        heart.classList.add("on", "breathe"); FX.sparks({ x: R.heart.x, y: R.heart.y, c: R.heart.c });
+        FX.flare({ x: R.heart.x, y: R.heart.y, c: R.heart.c }); FX.bloom({ x: R.heart.x, y: R.heart.y, a: 0.32 });
+      });
+      R.lamps.forEach((L) => later(() => { lampOn(lamp(L), L, false); microShake(1.5); }, 1150 + (L.t || 0)));
+      later(() => { root.classList.add("awake"); FX.sweep({}); }, 1250); /* one shared flood for all 11 (Viking's one-off hard wipe is gone) */
+      /* the machine physically answers: its real motion as a light pass on the painting + its own sound (wake-audio react) */
+      const AT = { glint: 1900, dust: 1250, look: 1500, dish: 1350, telemetry: 1600 };
+      (R.fx || []).forEach((f) => { if (FX[f.type]) later(() => FX[f.type](f), AT[f.type] ?? 1400); });
+      later(() => GS_wakeAudio?.react?.(id), 1350);
       if ((R.fx || []).some((f) => f.type === "rotor")) later(() => FX.puff({ x: R.foot.x, y: R.foot.y, w: R.foot.w * 1.3, n: 50, c: "214,150,112", rise: 0.2 }), 2000);
       later(() => { /* breath: a small settle with overshoot, like a motor finding its load */
-        anim(mach, [{ transform: "scale(1)" }, { transform: "scale(1.022) translateY(-0.6%)", offset: 0.35 }, { transform: "scale(.996)", offset: 0.7 }, { transform: "scale(1)" }], { duration: 1300, easing: "ease-in-out" });
-      }, 1300);
-      later(() => { status("ok", s("lock")); GS_wakeAudio?.ui.lock(); q(".h-note").textContent = R.note?.[lang] || ""; root.classList.add("show-note"); }, 2700);
-      later(() => handoff(id), 3500);
-    }, W0 + 260);
+        anim(mach, [{ transform: "scale(1)" }, { transform: "scale(1.012)", offset: 0.35 }, { transform: "scale(.998)", offset: 0.7 }, { transform: "scale(1)" }], { duration: 1500, easing: "ease-in-out" });
+      }, 1400);
+      later(() => { const v = q(".h-voice"); v.classList.add("show"); type(v, s("hello"), 16);
+        /* its answer goes home: the reply leaves its antenna and crosses the sky back to Earth */
+        GS_wakeAudio?.answer?.(id);
+        FX.waves({ x: R.heart.x, y: R.heart.y, c: "#d8ff6a", n: 2, ms: 700, out: true });
+        FX.beam({ from: R.heart, to: E, ms: 850, c: "#d8ff6a" });
+      }, 1900);
+      later(() => { status("ok", s("lock")); GS_wakeAudio?.ui.lock(); q(".h-note").textContent = R.note?.[lang] || ""; root.classList.add("show-note"); fx.forEach((f) => { if (f.earth) f.fade = 0.35; }); }, 2800);
+      later(() => handoff(id), 3600);
+    }, W1);
   }
 
   /* d. handoff: open the case with the scene alive behind it */
@@ -434,9 +660,9 @@
   }
 
   function skip() {
-    if (phase !== "seq" || !curId) return;
+    if (phase !== "seq" || !curId || root.hidden) return; /* nothing to skip until the picture is on screen */
     const id = curId, R = rig(id);
-    clearRun(true); runId++;
+    clearRun(true); runId++; rxStop();
     root.classList.add("lit", "awake", "show-hud", "show-note");
     q(".h-k").textContent = root.dataset.k; q(".h-s").textContent = root.dataset.s; status("ok", isSolved(id) ? s("back") : s("lock"));
     q(".h-note").textContent = R.note?.[lang] || "";

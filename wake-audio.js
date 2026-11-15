@@ -161,23 +161,85 @@
     relay(c, out, chargeEnd, { vol: 0.28, pitch: (P.relay.pitch || 1) * 0.9 });
     let moveEnd = chargeEnd;
     if (P.rotor) moveEnd = rotor(c, out, chargeEnd - 0.1, { vol: 0.15, ...P.rotor });
-    if (P.servo) moveEnd = servo(c, out, chargeEnd + 0.12, { vol: 0.16, ...P.servo });
+    /* the machine's own motion sound now comes from react(id) (scene.js fires it with the matching light pass) */
     stopHum(0.3);
     liveHum = hum(c, out, chargeEnd - 0.05, { vol: 0.06, spin: 0.8, ...P.hum });
     const tChirp = Math.max(moveEnd + 0.1, chargeEnd + 0.6); cues.chirp = tChirp - t0;
-    const end = chirp(c, out, tChirp, { vol: 0.12, ...P.chirp }); cues.done = end - t0;
+    const end = tChirp + 0.4; cues.done = end - t0; /* the recognition chirp is now the machine's ANSWER (answer(id)), timed with its reply beam */
     liveHum.gain.gain.setTargetAtTime(DB(-12) * (P.hum.vol || 0.06), end + 0.4, 0.8);
     return cues;
   }
   const at = () => ctx.currentTime + 0.02;
+  function out(id) { const o = ctx.createGain(); o.gain.value = DB(TRIM[id] || 0); o.connect(bus.wake); return o; }
+  /* Bell-103-style FSK: a data word as two alternating tones (what a telemetry stream sounds like on a speaker) */
+  function fsk(c, o, t0, { bits = "1101001110101100", f0 = 1070, f1 = 1270, bit = 0.07, vol = 0.05, type = "square" } = {}) {
+    const osc = c.createOscillator(), g = c.createGain(), bp = c.createBiquadFilter(); osc.type = type; bp.type = "bandpass"; bp.frequency.value = (f0 + f1) / 2; bp.Q.value = 1.4;
+    [...bits].forEach((b, i) => osc.frequency.setValueAtTime(b === "1" ? f1 : f0, t0 + i * bit));
+    const end = t0 + bits.length * bit; g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(vol, t0 + 0.01); g.gain.setValueAtTime(vol, end - 0.02); g.gain.linearRampToValueAtTime(0, end);
+    osc.connect(bp); bp.connect(g); g.connect(o); osc.start(t0); osc.stop(end + 0.05); return end;
+  }
+  /* rover wheel / joint creak: stick-slip friction (a rough sawtooth chopped by a fast square) */
+  function creak(c, o, t0, { dur = 0.5, f = 70, vol = 0.07, hz = 22, bright = 1100 } = {}) {
+    const s1 = c.createOscillator(), ch = c.createOscillator(), chg = c.createGain(), vca = c.createGain(), bp = c.createBiquadFilter(), g = c.createGain();
+    s1.type = "sawtooth"; s1.frequency.setValueAtTime(f, t0); s1.frequency.linearRampToValueAtTime(f * 1.35, t0 + dur);
+    ch.type = "square"; ch.frequency.setValueAtTime(hz, t0); ch.frequency.linearRampToValueAtTime(hz * 0.6, t0 + dur); chg.gain.value = 0.5; vca.gain.value = 0.5; ch.connect(chg); chg.connect(vca.gain);
+    bp.type = "bandpass"; bp.frequency.value = bright; bp.Q.value = 4; env(g, t0, 0.04, vol, dur - 0.1, 0.12);
+    s1.connect(vca); vca.connect(bp); bp.connect(g); g.connect(o); s1.start(t0); ch.start(t0); s1.stop(t0 + dur + 0.2); ch.stop(t0 + dur + 0.2);
+  }
+  function thump(c, o, t0, { vol = 0.22 } = {}) { tone(c, o, t0, 46, 0.9, { vol, to: 30, a: 0.02 }); sweep(c, o, t0, { dur: 0.7, from: 400, to: 60, vol: 0.05, type: "lowpass", q: 0.7 }); }
+  /* each machine's physical response, matched to the light pass scene.js plays at the same moment (rigs.js fx) */
+  const REACT = {
+    eagle(c, o, t) { quindar(c, o, t, { vol: 0.045 }); fsk(c, o, t + 0.3, { vol: 0.04 }); },
+    alsep(c, o, t) { thump(c, o, t); quindar(c, o, t + 0.2, { vol: 0.045 }); fsk(c, o, t + 0.5, { bits: "10110011100101", vol: 0.04 }); thump(c, o, t + 0.42, { vol: 0.12 }); },
+    surveyor3(c, o, t) { [0, 0.33, 0.66].forEach((d) => relay(c, o, t + d, { vol: 0.22, pitch: 1.8 })); servo(c, o, t + 0.9, { moves: [[0, 0.3, 0.5]], base: 80, teeth: 20, vol: 0.1 }); },
+    rover16(c, o, t) { servo(c, o, t + 0.15, { moves: [[0, 0.7, 0.6]], base: 55, teeth: 30, bright: 1600, vol: 0.13 }); creak(c, o, t + 0.2, { dur: 0.6, f: 60 }); },
+    opportunity(c, o, t) { servo(c, o, t + 0.1, { moves: [[0, 0.55, 0.7], [0.65, 0.25, 0.9]], base: 95, vol: 0.13 }); relay(c, o, t + 1.15, { vol: 0.14, pitch: 2.2 }); relay(c, o, t + 1.3, { vol: 0.12, pitch: 2.4 }); creak(c, o, t + 0.05, { dur: 0.45, f: 80 }); },
+    spirit(c, o, t) { servo(c, o, t + 0.1, { moves: [[0, 0.55, 0.6], [0.65, 0.25, 0.8]], base: 90, vol: 0.13 }); relay(c, o, t + 1.15, { vol: 0.14, pitch: 2.2 }); relay(c, o, t + 1.3, { vol: 0.12, pitch: 2.4 }); creak(c, o, t + 0.05, { dur: 0.6, f: 65, hz: 16 }); },
+    sojourner(c, o, t) { servo(c, o, t + 0.05, { moves: [[0, 0.16, 1], [0.22, 0.16, 1]], base: 160, teeth: 10, bright: 3600, vol: 0.1 }); [0, 0.14, 0.28, 0.42, 0.56].forEach((d) => tone(c, o, t + 0.1 + d, 3100, 0.06, { type: "square", vol: 0.018 })); },
+    viking1(c, o, t) { servo(c, o, t, { moves: [[0, 1.5, 0.35]], base: 60, teeth: 24, bright: 1400, vol: 0.15 }); relay(c, o, t + 1.95, { vol: 0.2, pitch: 0.75 }); },
+    phoenix(c, o, t) { for (let i = 0; i < 14; i++) tone(c, o, t + i * 0.083, 2600, 0.02, { type: "square", vol: 0.012 }); servo(c, o, t + 0.15, { moves: [[0, 0.6, 0.5]], base: 100, bright: 3000, vol: 0.12 }); relay(c, o, t + 1.15, { vol: 0.13, pitch: 2.3 }); },
+    insight(c, o, t) { thump(c, o, t + 0.05); thump(c, o, t + 0.47, { vol: 0.13 }); fsk(c, o, t + 0.7, { bits: "1100101101", f0: 1300, f1: 1700, bit: 0.05, vol: 0.03, type: "sine" }); },
+    ingenuity(c, o, t) { relay(c, o, t, { vol: 0.12, pitch: 1.5 }); },
+  };
+  function react(id) { if (!ready()) return; const f = REACT[id]; if (f) f(ctx, out(id), at()); }
+  /* the machine's reply going home: its recognition chirp, then a short burst of data */
+  function answer(id) { if (!ready()) return; const P = PROFILES[id] || PROFILES.spirit, o = out(id), t = at(); const e = chirp(ctx, o, t, { vol: 0.11, ...P.chirp }); fsk(ctx, o, e + 0.05, { bits: "1011001", f0: P.chirp.root * 0.9, f1: P.chirp.root * 1.2, bit: 0.035, vol: 0.025, type: "sine" }); }
   const UI = {
-    descend() { if (!ready()) return; sweep(ctx, bus.wake, at(), { dur: 0.9, from: 2600, to: 180, vol: 0.06, q: 0.9 }); tone(ctx, bus.wake, at(), 70, 1.0, { type: "sine", vol: 0.05, to: 40 }); },
-    land() { if (!ready()) return; const t = at(); tone(ctx, bus.wake, t, 62, 0.45, { vol: 0.22, to: 34 }); sweep(ctx, bus.wake, t, { dur: 0.5, from: 900, to: 160, vol: 0.05, type: "lowpass", q: 0.7 }); },
+    /* DSN uplink: the station sweeps its carrier across the machine's receiver frequency (real practice to get a lock),
+       through hiss that narrows as the picture comes in. Was a descent whoosh + landing thud: nothing lands. */
+    descend() { if (!ready()) return; const c = ctx, t = at(), o = c.createOscillator(), g = c.createGain();
+      o.type = "sine"; o.frequency.setValueAtTime(760, t); o.frequency.linearRampToValueAtTime(980, t + 1.1); o.frequency.linearRampToValueAtTime(900, t + 1.6);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.035, t + 0.25); g.gain.setValueAtTime(0.035, t + 1.5); g.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
+      o.connect(g); g.connect(bus.wake); o.start(t); o.stop(t + 2.5);
+      sweep(c, bus.wake, t, { dur: 2.0, from: 5200, to: 900, vol: 0.05, q: 0.5 }); },
+    /* the picture's last line lands: carrier lock, two clean pips */
+    rx() { if (!ready()) return; const t = at(); tone(ctx, bus.ui, t, 1760, 0.07, { vol: 0.05 }); tone(ctx, bus.ui, t + 0.09, 2349, 0.12, { vol: 0.045 }); },
     tick() { if (!ready()) return; tone(ctx, bus.ui, at(), 1900 + Math.random() * 300, 0.025, { type: "square", vol: 0.012 }); },
     dim() { if (!ready()) return; relay(ctx, bus.wake, at(), { vol: 0.14, pitch: 0.6 }); },
     lock() { if (!ready()) return; const t = at(); tone(ctx, bus.ui, t, 1318.5, 0.18, { vol: 0.05 }); tone(ctx, bus.ui, t + 0.09, 1975.5, 0.32, { vol: 0.05 }); },
     blip() { if (!ready()) return; tone(ctx, bus.ui, at(), 1480, 0.07, { vol: 0.035, to: 1760 }); },
     hover() { if (!ready()) return; tone(ctx, bus.ui, at(), 980, 0.05, { vol: 0.02, to: 1180 }); },
+    /* Earth calls: a sonar-like DSN ping with a long echo tail, the signal hiss crossing space for `dur` s, a small pip on arrival */
+    ping(dur = 1.3) {
+      if (!ready()) return; const c = ctx, t = at();
+      const d = c.createDelay(1.5), fb = c.createGain(), lp = c.createBiquadFilter(), wet = c.createGain();
+      d.delayTime.value = 0.31; fb.gain.value = 0.48; lp.type = "lowpass"; lp.frequency.value = 2600; wet.gain.value = 0.55;
+      d.connect(lp); lp.connect(fb); fb.connect(d); lp.connect(wet); wet.connect(bus.wake);
+      const o = c.createOscillator(), g = c.createGain(); o.type = "sine"; o.frequency.setValueAtTime(1180, t); o.frequency.exponentialRampToValueAtTime(1120, t + 0.6);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.16, t + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+      o.connect(g); g.connect(bus.wake); g.connect(d); o.start(t); o.stop(t + 0.75);
+      tone(c, bus.wake, t, 2360, 0.4, { vol: 0.03 });
+      sweep(c, bus.wake, t + 0.15, { dur: Math.max(0.6, dur - 0.1), from: 260, to: 2800, vol: 0.035, q: 3 });
+      const ta = t + dur; tone(c, bus.wake, ta, 2349, 0.09, { vol: 0.06 }); tone(c, bus.wake, ta + 0.1, 1760, 0.16, { vol: 0.04 });
+      setTimeout(() => { try { fb.gain.value = 0; wet.disconnect(); } catch {} }, (dur + 4) * 1000);
+    },
+    /* one faint answer: an electrical tick and a 120 Hz buzz that dies */
+    flicker() {
+      if (!ready()) return; const t = at();
+      relay(ctx, bus.wake, t, { vol: 0.12, pitch: 1.4 });
+      tone(ctx, bus.wake, t + 0.01, 120, 0.22, { type: "sawtooth", vol: 0.035 });
+      tone(ctx, bus.wake, t + 0.14, 120, 0.12, { type: "sawtooth", vol: 0.02 });
+    },
   };
-  window.GS_wakeAudio = { init, wake, stopHum, ui: UI, profiles: PROFILES, get ctx() { return ctx; } };
+  window.GS_wakeAudio = { init, wake, react, answer, stopHum, ui: UI, profiles: PROFILES, get ctx() { return ctx; } };
 })();
