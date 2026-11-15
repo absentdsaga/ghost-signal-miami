@@ -17,10 +17,10 @@
       cleared: "All 11 brought back. Every robot remembers you.", toastBack: (n) => `Brought back! ${n} of 11`,
       back1: "Welcome back, {name}. Did you find out what happened to me?", back2: "{name}! I remember everything now, thanks to you.",
       heardClue: "You found a clue by asking", hear: "Hear its last day", sources: "NASA source",
-      power: "Signal power", hint: "Hint", hintCost: "costs 1 ▮", lockedMem: "A memory it can't reach yet", lockedSub: "Ask it the right question to unlock it",
+      power: "Signal power", hint: "Hint", hintCost: "costs 1 power bar", lockedMem: "A memory it can't reach yet", lockedSub: "Ask it the right question to unlock it",
       flat: (s) => `Battery flat. Recharging from the Sun… ${s}s`, flatToast: "Battery flat!", scan: { last: "Search its last photo", orbit: "Find it from orbit" }, scanSub: "tap to search",
       cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
-      tries: "Each question costs 1 ▮. Run out and the robot falls asleep.",
+      tries: "Each wrong pick costs 1 power bar. Run out and the robot falls asleep.",
       gutK: "Gut call", gutH: "First guess, before you dig. No wrong answer yet: you'll find out if you were right.", gutYour: "Your gut said", gutFind: "Find the clues. Were you right?", gutRight: "Called it. Your gut was right.", gutWrong: "Plot twist. Your gut said something else.",
       you: "You", gutSay: (x) => `I think: ${x}`, gutBack: "Maybe... I can't tell yet. Ask me the right things and it'll come back.", notMine: (n) => `That memory isn't mine. ${n} would know that one.`, link: (n) => `Memory link ×${n}`, missed: "Static", showMe: "Show me where you are", showMeR: "Can you see me? Look closely.", allBack: "It's all coming back. Say it with me.", memK: "Memories", pick: "Pick your next question", wrongCost: "Study the NASA archive, then ask the questions only this machine can answer. Each right one brings back a memory. Get every memory back, then piece together what happened.",
     },
@@ -38,10 +38,10 @@
       cleared: "Los 11 están de vuelta. Todos los robots te recuerdan.", toastBack: (n) => `¡De vuelta! ${n} de 11`,
       back1: "Bienvenido de nuevo, {name}. ¿Descubriste qué me pasó?", back2: "¡{name}! Ahora lo recuerdo todo, gracias a ti.",
       heardClue: "Encontraste una pista al preguntar", hear: "Escucha su último día", sources: "Fuente NASA",
-      power: "Energía", hint: "Pista", hintCost: "cuesta 1 ▮", lockedMem: "Un recuerdo que todavía no alcanza", lockedSub: "Hazle la pregunta correcta para desbloquearlo",
+      power: "Energía", hint: "Pista", hintCost: "cuesta 1 barra de energía", lockedMem: "Un recuerdo que todavía no alcanza", lockedSub: "Hazle la pregunta correcta para desbloquearlo",
       flat: (s) => `Batería agotada. Recargando con el Sol… ${s}s`, flatToast: "¡Batería agotada!", scan: { last: "Busca en su última foto", orbit: "Encuéntralo desde órbita" }, scanSub: "toca para buscar",
       cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
-      tries: "Cada pregunta cuesta 1 ▮. Si se agota, el robot se duerme.",
+      tries: "Cada opción equivocada cuesta 1 barra de energía. Si se agota, el robot se duerme.",
       gutK: "Corazonada", gutH: "Primera corazonada, antes de investigar. Aún no hay respuesta incorrecta: al final sabrás si acertaste.", gutYour: "Tu corazonada", gutFind: "Encuentra las pistas. ¿Acertaste?", gutRight: "¡Le atinaste! Tu corazonada era cierta.", gutWrong: "Giro inesperado. Tu corazonada era otra.",
       you: "Tú", gutSay: (x) => `Creo que: ${x}`, gutBack: "Quizás... todavía no lo sé. Hazme las preguntas correctas y volverá.", notMine: (n) => `Ese recuerdo no es mío. ${n} lo sabría.`, link: (n) => `Enlace de memoria ×${n}`, missed: "Estática", showMe: "Muéstrame dónde estás", showMeR: "¿Me ves? Mira bien.", allBack: "Lo recuerdo todo. Dilo conmigo.", memK: "Recuerdos", pick: "Elige tu siguiente pregunta", wrongCost: "Estudia el archivo NASA y luego haz las preguntas que solo esta máquina puede responder. Cada acierto trae un recuerdo. Recupera todos los recuerdos y arma lo que pasó.",
     },
@@ -72,7 +72,7 @@
     if (recharging(id)) return false;
     S.power[id] = Math.max(0, pw(id) - 1); save(); FX("power");
     const b = document.querySelector("#gsCase .gs-bars i:not(.off):last-of-type");
-    if (b) { const [x, y] = window.GSFX.at(b); window.GSFX.float("−1 ▮", x, y - 10, "#ffae36"); }
+    if (b) { const [x, y] = window.GSFX.at(b); window.GSFX.float("−1 POWER", x, y - 10, "#ffae36"); }
     if (S.power[id] <= 0) { S.recharge[id] = Date.now() + RECHARGE_MS; S.drained[id] = true; save(); setTimeout(() => { FX("flat"); toast(g("flatToast")); }, 300); }
     renderPower();
     return true;
@@ -107,7 +107,7 @@
 
   function unlock(id, clueId, quiet) {
     const c = caseOf(id); if (!c || found(id).includes(clueId)) return;
-    found(id).push(clueId); opened[id] = clueId;
+    found(id).push(clueId); opened[id] = clueId; stuck[id] = 0; showPicks[id] = false;
     const cl0 = c.clues.find((x) => x.id === clueId); if (cl0 && cl0.how !== "ask") { say(id, "bot", L(cl0.say), cl0.source); if (c.clues.every((x) => found(id).includes(x.id))) say(id, "bot", g("allBack")); }
     save();
     if (cur?.id === id) renderCase(clueId, quiet);
@@ -326,12 +326,22 @@
       card.appendChild(b);
       return card;
     }
-    card.appendChild(el("div", "gs-lead-ask", `<b>${es ? `¿Qué le preguntarías a ${esc(nm)} para destapar esto?` : `What would you ask ${esc(nm)} to uncover this?`}</b><small>${es ? "Habla o escribe abajo, o elige una. Una equivocada cuesta 1 ▮." : "Talk or type below, or pick one. A wrong pick costs 1 ▮."}</small>`));
-    card.appendChild(replies(r, c, have, cl));
     const all = chat(r.id), last = all[all.length - 1];
     if (leadFrom[r.id]?.id !== cl.id) leadFrom[r.id] = { id: cl.id, n: have.length ? all.length : 0 };
+    card.appendChild(el("div", "gs-lead-ask", `<b>${es ? `Pregúntale a ${esc(nm)} lo que quieras para destapar esto.` : `Ask ${esc(nm)} anything to uncover this.`}</b>`));
     if (busy && pending) card.appendChild(el("div", "gs-msg-b bot typing", "<i></i><i></i><i></i>"));
     else if (last && all.length > leadFrom[r.id].n) card.appendChild(el("div", `gs-msg-b ${last.who} gs-lead-said`, esc(last.text)));
+    const ht = HINT(cl);
+    if (ht) card.appendChild(el("div", "gs-lead-hint", `<span>${es ? "Pista" : "Hint"}</span>${esc(ht)}`));
+    card.appendChild(el("small", "gs-lead-how", es ? "Habla o escribe tu pregunta abajo, con tus propias palabras." : "Talk or type your question below, in your own words."));
+    if (showPicks[r.id] || (stuck[r.id] || 0) >= 2) {
+      card.appendChild(el("small", "gs-lead-how gs-lead-pickrule", es ? "¿Atascado? Prueba una de estas. Una equivocada cuesta 1 barra de energía." : "Stuck? Try one of these. A wrong pick costs 1 power bar."));
+      card.appendChild(replies(r, c, have, cl));
+    } else {
+      const sb = el("button", "gs-lead-stuck", es ? "¿Atascado? Ver algunas preguntas" : "Stuck? See some questions");
+      sb.onclick = () => { showPicks[r.id] = true; FX("place"); renderCase(); };
+      card.appendChild(sb);
+    }
     return card;
   }
 
@@ -403,6 +413,35 @@
     "Ask who it's named after": ["Who are you named after?", "¿En honor a quién te llamas?"],
     "Ask about its lander": ["Where's your lander?", "¿Dónde está tu módulo?"],
   };
+  const HINTS = {
+    "Ask what it ran on": ["Every machine needs energy from somewhere.", "Toda máquina saca energía de algún lado."],
+    "Ask if anyone tried to wake it": ["When it went quiet, did Earth give up right away?", "Cuando se quedó callado, ¿la Tierra se rindió enseguida?"],
+    "Ask if it got stuck": ["Something stopped it from moving.", "Algo le impidió seguir moviéndose."],
+    "Ask what it heard": ["It didn't only see Mars. It listened too.", "No solo vio Marte. También lo escuchó."],
+    "Ask what it found": ["It was a digger, and something surprising turned up.", "Excavaba, y encontró algo sorprendente."],
+    "Ask how it talked to Earth": ["Staying in touch with Earth took careful aiming.", "Hablar con la Tierra requería apuntar con cuidado."],
+    "Ask about its battery": ["Its last day began with a message from Earth about its power.", "Su último día empezó con un mensaje de la Tierra sobre su energía."],
+    "Ask what its job was": ["Besides looking for life, it had reports to send home.", "Además de buscar vida, tenía reportes que enviar."],
+    "Ask how long it was built to last": ["It worked far longer than anyone planned.", "Funcionó mucho más de lo que nadie planeó."],
+    "Ask when it stopped": ["It was still working on the day it went silent.", "Todavía funcionaba el día que se quedó en silencio."],
+    "Ask who kept it running": ["Machines on the Moon still need people on Earth.", "Las máquinas en la Luna igual necesitan gente en la Tierra."],
+    "Ask how it found its way": ["Flying means knowing where you are.", "Para volar hay que saber dónde estás."],
+    "Ask what the ground looked like": ["Think about what was under it on its last flight.", "Piensa en lo que había debajo en su último vuelo."],
+    "Ask who its crew was": ["Think about who rode inside it.", "Piensa en quién viajó adentro."],
+    "Ask what it's made of": ["Not all of it went home.", "No todo volvió a casa."],
+    "Ask about the flag": ["The crew planted something right next to it.", "La tripulación plantó algo justo a su lado."],
+    "Ask what it carried": ["It wasn't just a ride. It had gear on board.", "No solo era transporte. Llevaba equipo."],
+    "Ask if anything broke": ["The astronauts were not gentle with it.", "Los astronautas no fueron delicados con él."],
+    "Ask how fast it went": ["It was built to drive, and it did that very well.", "Lo hicieron para manejar, y lo hacía muy bien."],
+    "Ask what it did": ["It had a tool for touching the Moon.", "Tenía una herramienta para tocar la Luna."],
+    "Ask how it saw": ["How did Earth get to see what it saw?", "¿Cómo veía la Tierra lo que él veía?"],
+    "Ask how it landed": ["Its landing did not go smoothly.", "Su aterrizaje no fue nada tranquilo."],
+    "Ask who picked its name": ["Someone young chose its name.", "Alguien muy joven eligió su nombre."],
+    "Ask who it's named after": ["Its name belonged to a real person first.", "Su nombre fue primero de una persona real."],
+    "Ask about its lander": ["It didn't travel to Mars alone.", "No viajó solo a Marte."],
+  };
+  const HINT = (cl) => { const h = HINTS[cl.prompt.en]; return h ? h[lang === "es" ? 1 : 0] : ""; };
+  const stuck = {}, showPicks = {};
   const Q = (cl) => { const q = QS[cl.prompt.en]; return q ? q[lang === "es" ? 1 : 0] : L(cl.prompt).replace(/^(Ask|Pregúntale)\s*/i, ""); };
   const chat = (id) => (S.chat[id] ||= []);
   function say(id, who, text, src) { const a = chat(id); a.push({ who, text, src }); if (a.length > 40) a.splice(0, a.length - 40); save(); }
@@ -715,7 +754,7 @@
   function builder(r, c) {
     const wrap = el("div", "gs-build");
     wrap.appendChild(el("div", "gs-k", lang === "es" ? "¿Ya lo sabes? Resuélvelo ahora" : "Think you know? Solve it now"));
-    wrap.appendChild(el("small", "gs-build-sub", lang === "es" ? "Las palabras con ✦ salieron de tus archivos. Una respuesta equivocada cuesta 1 ▮." : "Words marked ✦ came from files you uncovered. A wrong answer costs 1 ▮."));
+    wrap.appendChild(el("small", "gs-build-sub", lang === "es" ? "Las palabras con ✦ salieron de tus archivos. Una respuesta equivocada cuesta 1 barra de energía." : "Words marked ✦ came from files you uncovered. A wrong answer costs 1 power bar."));
     if (picks.length !== c.answer.length || picks._id !== r.id) { picks = c.answer.map(() => null); picks._id = r.id; }
     const sent = el("p", "gs-sent");
     L(c.sentence).split(/(\{\d\})/).forEach((part) => {
@@ -895,6 +934,7 @@
     if (scripted || !heard || !caseOf(r.id) || isSolved(r.id)) return;
     const h = window.GS_beforeAsk(r, heard);
     if (h?.clue) { say(r.id, "bot", h.script, h.sources?.[0]?.source); unlock(r.id, h.clue); toast(g("heardClue")); }
+    else { stuck[r.id] = (stuck[r.id] || 0) + 1; if (stuck[r.id] === 2 && cur?.id === r.id) setTimeout(() => renderCase(), 0); }
   });
   window.addEventListener("gs:pins", markPins);
   window.addEventListener("gs:lang", () => { updateChrome(); if (cur && D) { renderTop(); renderCase(); } document.getElementById("gsWelcome") && (document.getElementById("gsWelcome").remove(), welcome()); });
