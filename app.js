@@ -83,14 +83,14 @@ const VISTA = {
   ],
 };
 /* layered maps (branch wake-up): ground + painted shadows + one sprite per machine (assets/wake/map/<id>.webp, cleaned
-   copies of Emily's per-machine sprites), placed by assets/layers/map-* /positions.json. The painted light threads are left out. */
+   copies of Emily's per-machine sprites, light-thread stems trimmed to a short antenna), placed by assets/layers/map-* /positions.json. The painted light threads are left out. */
 let VPOS = {};
 async function loadVistaPos() {
   const dirs = [...new Set(Object.values(VISTA).flat().map((p) => p.layer))];
   await Promise.all(dirs.map(async (d) => { try { VPOS[d] = (await (await fetch(`assets/layers/${d}/positions.json`)).json()).machines; } catch { VPOS[d] = null; } }));
 }
 /* where each sprite's antenna tip (beacon) and feet are, as % of the sprite (measured from the alpha of assets/wake/map/*.webp) */
-const VTIP = { eagle: [63.5, 3.4], surveyor3: [43.6, 3.2], alsep: [42, 3.2], rover16: [49.6, 1], opportunity: [59.3, 3.2], spirit: [50.6, 3.2], sojourner: [62.5, 3.7], viking1: [42.2, 3.2], phoenix: [41.6, 3.2], insight: [48.4, 3.2], ingenuity: [45.8, 3.4] };
+const VTIP = { eagle: [63.6, 40.2], surveyor3: [43.2, 36.5], alsep: [42.4, 34.9], rover16: [49.6, 37.7], opportunity: [59.3, 45], spirit: [50.6, 43.4], sojourner: [72.6, 52.2], viking1: [41.8, 44.4], phoenix: [41.6, 45.5], insight: [48.6, 40.2], ingenuity: [45.5, 50] };
 function drawVista() {
   markers.forEach((m) => map.removeLayer(m)); markers = [];
   const v = $("vista"); document.body.classList.add("vista-on");
@@ -103,7 +103,7 @@ function drawVista() {
     return `<div class="vpanel layered" data-layer="${p.layer}"><img class="vground" src="assets/layers/${p.layer}/ground.webp" alt="" draggable="false"><img class="vshadows" src="assets/layers/${p.layer}/shadows.webp" alt="" draggable="false"><div class="vshade"></div>${Object.keys(p.pts).map((id) => {
       const r = robots.find((q) => q.id === id), m = pos[id]; if (!r || !m) return "";
       const [x0, y0, x1, y1] = m.sprite_box, tip = VTIP[id] || [50, 4];
-      return `<button class="pin vpin spr" id="g-${id}" style="left:${(x0 * 100).toFixed(2)}%;top:${(y0 * 100).toFixed(2)}%;width:${((x1 - x0) * 100).toFixed(2)}%;height:${((y1 - y0) * 100).toFixed(2)}%;--spr:url('assets/wake/map/${id}.webp');--d:${(id.length * 0.73 % 3.2).toFixed(2)}" aria-label="${name(r)}"><span class="vglow"></span><span class="vcontact"></span><img class="vspr" src="assets/wake/map/${id}.webp" alt="" draggable="false"><span class="vbeacon" style="left:${tip[0]}%;top:${tip[1]}%"></span><span class="ghost-label">${name(r)}<small class="sil" data-id="${id}">${silentShort(id)}</small></span></button>`;
+      return `<button class="pin vpin spr" id="g-${id}" style="left:${(x0 * 100).toFixed(2)}%;top:${(y0 * 100).toFixed(2)}%;width:${((x1 - x0) * 100).toFixed(2)}%;height:${((y1 - y0) * 100).toFixed(2)}%;--spr:url('assets/wake/map/${id}.webp?v=2?v=2');--d:${(id.length * 0.73 % 3.2).toFixed(2)}" aria-label="${name(r)}"><span class="vglow"></span><span class="vcontact"></span><img class="vspr" src="assets/wake/map/${id}.webp?v=2?v=2" alt="" draggable="false"><span class="vbeacon" style="left:${tip[0]}%;top:${tip[1]}%"></span><span class="ghost-label">${name(r)}<small class="sil" data-id="${id}">${silentShort(id)}</small></span></button>`;
     }).join("")}</div>`;
   };
   v.innerHTML = `<div class="vworld">${VISTA[body].map(panel).join("")}</div>` + `<div class="vcredit">${lang === "es" ? "Pintado a partir de mapas y fotos de la NASA · con ayuda de IA · máquinas mucho más grandes que su escala real" : "Painted from NASA maps and photos · AI-assisted · machines shown far larger than real"}</div>`;
