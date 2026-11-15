@@ -191,7 +191,7 @@
   let coachOn = false;
   function coach() {
     if (coachOn || has(K_COACH)) return;
-    const id = window.GS_today?.(); if (!id || typeof robots === "undefined") return;
+    const id = (window.GS_scope && document.getElementById("g-eagle")) ? "eagle" : window.GS_today?.(); if (!id || typeof robots === "undefined") return;
     const r = robots.find((x) => x.id === id); if (!r) return;
     coachOn = true;
     const go = () => {

@@ -4,8 +4,8 @@
 (() => {
   const G = {
     en: {
-      welcomeK: "Night shift · Ghost Signal desk", welcomeH: "11 robots went quiet. Help them remember.",
-      welcomeP: "NASA left these machines on the Moon and Mars. Each one forgot what happened to it. Call them, find real NASA clues, and solve each case to bring it back.",
+      welcomeK: "Night shift · Ghost Signal desk", welcomeH: "11 machines went silent. You're on the radio tonight.",
+      welcomeP: "NASA left them on the Moon and Mars. Tap one and it calls you back. Get it through its hardest moment and its memory comes home. Bring all 11 home.",
       namePh: "Your name", start: "Start my shift", skip: "Skip", operator: "Operator",
       wake: "Wake it up", wakeAgain: "Call it again", again: "Say hi again", wakeHeard: "You called it", caseK: "Case file", solvedK: "Brought back",
       clues: "Clues", found: (n, m) => `${n} of ${m} found`, newClue: "New clue!", tapToAsk: "tap to ask",
@@ -776,6 +776,9 @@
     try { DOOR = await (await fetch("data/door.json", { cache: "no-store" })).json(); } catch { DOOR = {}; }
     const wait = () => (robots.length ? Promise.resolve() : new Promise((res) => setTimeout(() => wait().then(res), 150)));
     await wait();
+    const syncScope = (id, sc, of) => { if (id && !S.solved[id]) { S.solved[id] = { t: new Date().toISOString(), stars: sc >= of ? 3 : sc >= of / 2 ? 2 : 1 }; save(); } };
+    Object.entries(window.GS_scope?.won || {}).forEach(([id, sc]) => syncScope(id, sc, 4));
+    window.addEventListener("gs:scope-won", (e) => { syncScope(e.detail.robot, e.detail.score, e.detail.of); updateChrome(); });
     updateChrome(); welcome();
     if (cur) window.dispatchEvent(new CustomEvent("gs:open", { detail: { robot: cur } }));
   })();
