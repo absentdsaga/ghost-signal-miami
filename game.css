@@ -191,3 +191,16 @@
 @media(prefers-reduced-motion:reduce){.gs-clue.hunt:after,.gs-scanline,.gs-zone,.gs-power.low .gs-bars i{animation:none}}
 .gs-word.locked { opacity: .55; border-style: dashed; cursor: not-allowed; letter-spacing: .08em; }
 .gs-lockhint { width: 100%; font-size: .85em; opacity: .7; margin-top: 4px; }
+.gs-gut{padding:16px;border-radius:18px;background:#000a;border:1px solid var(--line);margin-bottom:10px}
+.gs-gut-h{display:block;font-size:18px;line-height:1.25;margin:6px 0 12px;color:#fff6e8}
+.gs-gut-opts{display:flex;flex-direction:column;gap:8px}
+.gs-gut-opt{min-height:52px;padding:12px 16px;border-radius:14px;border:1px solid #ffe9c455;background:#2a1224;color:#fff6e8;font:600 16px/1.25 Geist,system-ui,sans-serif;text-align:left;cursor:pointer;transition:transform .12s cubic-bezier(.2,.8,.2,1),background .12s}
+.gs-gut-opt:hover{background:#3a1a30}
+.gs-gut-opt:active{transform:scale(.97)}
+.gs-gut-opt.picked{background:#e7ff3a;color:#1a0814;border-color:#e7ff3a;transform:scale(1.03)}
+.gs-gutmine{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:14px;background:#e7ff3a14;border:1px solid #e7ff3a44;margin-bottom:10px}
+.gs-gutmine b{color:#fff6e8;font-size:15px}
+.gs-gutmine small{color:var(--muted);font-size:13px}
+.gs-cl-gut{margin-top:10px;font:600 16px/1.3 Geist,system-ui,sans-serif}
+.gs-cl-gut.right{color:#e7ff3a}
+.gs-cl-gut.twist{color:#ffae36}

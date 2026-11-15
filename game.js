@@ -21,6 +21,7 @@
       flat: (s) => `Battery flat. Recharging from the Sun… ${s}s`, flatToast: "Battery flat!", scan: { last: "Search its last photo", orbit: "Find it from orbit" }, scanSub: "tap to search",
       cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
       tries: "Each question costs 1 ▮. Run out and the robot falls asleep.",
+      gutK: "Gut call", gutH: "Before you dig: what do you think happened?", gutYour: "Your gut said", gutFind: "Find the clues. Were you right?", gutRight: "Called it. Your gut was right.", gutWrong: "Plot twist. Your gut said something else.",
     },
     es: {
       welcomeK: "Turno de noche · Central Señal Fantasma", welcomeH: "11 robots quedaron en silencio. Ayúdalos a recordar.",
@@ -40,12 +41,13 @@
       flat: (s) => `Batería agotada. Recargando con el Sol… ${s}s`, flatToast: "¡Batería agotada!", scan: { last: "Busca en su última foto", orbit: "Encuéntralo desde órbita" }, scanSub: "toca para buscar",
       cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
       tries: "Cada pregunta cuesta 1 ▮. Si se agota, el robot se duerme.",
+      gutK: "Corazonada", gutH: "Antes de investigar: ¿qué crees que pasó?", gutYour: "Tu corazonada", gutFind: "Encuentra las pistas. ¿Acertaste?", gutRight: "¡Le atinaste! Tu corazonada era cierta.", gutWrong: "Giro inesperado. Tu corazonada era otra.",
     },
   };
   const GENERIC = new Set(["how", "do", "who", "where", "cómo", "como", "quién", "quien", "dónde", "donde", "find", "see", "ver", "fly", "volar"]);
   const KEY = "ghostsignal.v1";
   let D = null;
-  const S = Object.assign({ name: "", solved: {}, clues: {}, woke: {}, visits: {}, power: {}, recharge: {}, drained: {}, hints: {}, wrongs: {}, stars: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })());
+  const S = Object.assign({ name: "", solved: {}, clues: {}, woke: {}, visits: {}, power: {}, recharge: {}, drained: {}, hints: {}, wrongs: {}, stars: {}, bets: {} }, (() => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } })());
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch {} };
   const g = (k) => G[lang][k];
   const L = (o) => (o && (o[lang] || o.en)) || "";
@@ -229,6 +231,8 @@
       box.appendChild(el("div", "gs-restored", `<div class="gs-k">✓ ${g("solvedK")}</div><p class="gs-sent done">${esc(sentenceText(c))}</p>`));
       box.appendChild(keepsake(c));
     }
+    if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(gutCall(r, c)); return; }
+    if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("tries"))); }
     const head = el("div", "gs-cluehead", `<span class="gs-k">${g("clues")}</span><span>${g("found")(have.length, c.clues.length)}</span>`);
     box.appendChild(head);
@@ -280,6 +284,24 @@
       n?.scrollIntoView({ behavior: "smooth", block: "nearest" });
       FX("clue");
     }
+  }
+
+  function gutCall(r, c) {
+    const wrap = el("div", "gs-gut", `<div class="gs-k">${g("gutK")}</div><b class="gs-gut-h">${g("gutH")}</b>`);
+    let h = 7; for (const ch of r.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    const order = [0, 1, 2].sort((a, b) => ((h >> (a * 3)) & 7) - ((h >> (b * 3)) & 7));
+    const row = el("div", "gs-gut-opts");
+    order.forEach((i) => {
+      const b = el("button", "gs-gut-opt"); b.textContent = L(c.gut.opts[i]);
+      b.onclick = () => {
+        S.bets[r.id] = i; save(); FX("place");
+        b.classList.add("picked"); const [x, y] = window.GSFX?.at(b) || [0, 0]; window.GSFX?.burst(x, y, { n: 16, speed: 4, colors: ["#e7ff3a", "#fff"] });
+        setTimeout(() => renderCase(), 380);
+      };
+      row.appendChild(b);
+    });
+    wrap.appendChild(row);
+    return wrap;
   }
 
   function keepsake(c) {
@@ -369,12 +391,17 @@
     if (solvedCount() === 11) setTimeout(openGuide, 6000);
   }
 
+  function gutLine(r) {
+    const c = caseOf(r.id), b = S.bets[r.id]; if (!c?.gut || b == null) return "";
+    const ok = b === c.gut.right;
+    return `<div class="gs-cl-gut ${ok ? "right" : "twist"}">${ok ? g("gutRight") : g("gutWrong")}</div>`;
+  }
   function closedCard(r, stars, perfect) {
     FX("solve"); window.GSFX?.flash("#ffae36"); window.GSFX?.confetti();
     const st = document.getElementById("stage"); if (st) { const [x, y] = window.GSFX.at(st); window.GSFX.burst(x, y, { n: 60, speed: 10, shape: "star", size: 5, colors: ["#ffae36", "#fff6d8", "#fff0cf"] }); }
     const d = el("div", "gs-closed", `<div class="gs-cl-in"><div class="gs-stamp">${g("closed")}</div><div class="gs-cl-name">${esc(name(r))}</div>
       <div class="gs-cl-stars">${[0, 1, 2].map((i) => `<i class="${i < stars ? "on" : ""}">★</i>`).join("")}</div>
-      <div class="gs-cl-rank">${g("stars")[stars - 1]}${perfect ? " · " + g("perfect") : ""}</div><div class="gs-cl-count">${g("toastBack")(solvedCount())}</div></div>`);
+      <div class="gs-cl-rank">${g("stars")[stars - 1]}${perfect ? " · " + g("perfect") : ""}</div><div class="gs-cl-count">${g("toastBack")(solvedCount())}</div>${gutLine(r)}</div>`);
     document.body.appendChild(d);
     d.querySelectorAll(".gs-cl-stars i").forEach((s, i) => setTimeout(() => { s.classList.add("in"); if (i < stars) { FX("star", { n: i }); const [x, y] = window.GSFX.at(s); window.GSFX.burst(x, y, { n: 18, shape: "star", colors: ["#ffae36", "#fff"], speed: 5 }); } }, 700 + i * 380));
     const bye = () => { d.classList.add("out"); setTimeout(() => d.remove(), 400); };

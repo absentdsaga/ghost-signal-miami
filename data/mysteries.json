@@ -307,6 +307,23 @@
      "es": "Opportunity y su gemelo Spirit confirmaron que hubo agua en la superficie de Marte durante mucho tiempo en la antigüedad."
     },
     "source": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "A giant dust storm blocked the Sun",
+      "es": "Una tormenta de polvo gigante tapó el Sol"
+     },
+     {
+      "en": "A meteor hit it",
+      "es": "Lo golpeó un meteorito"
+     },
+     {
+      "en": "It drove off a cliff",
+      "es": "Se cayó por un barranco"
+     }
+    ],
+    "right": 0
    }
   },
   "spirit": {
@@ -463,6 +480,23 @@
      "es": "Spirit y Opportunity fueron nombrados por Sofi Collis, de 9 años, que vivió en un orfanato. Su ensayo ganó entre casi 10.000: 'Gracias por el Espíritu y la Oportunidad.'"
     },
     "source": "https://www.jpl.nasa.gov/news/girl-with-dreams-names-mars-rovers-spirit-and-opportunity"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "It got stuck in soft sand before winter",
+      "es": "Se atascó en arena blanda antes del invierno"
+     },
+     {
+      "en": "It ran out of gas",
+      "es": "Se quedó sin gasolina"
+     },
+     {
+      "en": "A meteor hit it",
+      "es": "Lo golpeó un meteorito"
+     }
+    ],
+    "right": 0
    }
   },
   "insight": {
@@ -615,6 +649,23 @@
      "es": "InSight fue el primero en detectar sismos en Marte, 1.319, y mostró la corteza, el manto y el núcleo del planeta. Los científicos siguen descubriendo cosas con sus datos."
     },
     "source": "https://www.nasa.gov/missions/insight/nasa-mars-orbiter-spots-retired-insight-lander-to-study-dust-movement"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "Dust covered its solar panels",
+      "es": "El polvo cubrió sus paneles solares"
+     },
+     {
+      "en": "A marsquake knocked it over",
+      "es": "Un sismo marciano lo tumbó"
+     },
+     {
+      "en": "It froze solid",
+      "es": "Se congeló"
+     }
+    ],
+    "right": 0
    }
   },
   "phoenix": {
@@ -768,6 +819,23 @@
      "es": "El 31 de julio de 2008, la NASA anunció oficialmente que hay agua en Marte, gracias a una muestra que Phoenix recogió y calentó en sus pequeños hornos."
     },
     "source": "https://science.nasa.gov/mission/phoenix/"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "Arctic winter took away its sunlight",
+      "es": "El invierno ártico le quitó la luz del sol"
+     },
+     {
+      "en": "It fell into its own trench",
+      "es": "Se cayó en su propia zanja"
+     },
+     {
+      "en": "A dust devil carried it off",
+      "es": "Un remolino de polvo se lo llevó"
+     }
+    ],
+    "right": 0
    }
   },
   "viking1": {
@@ -929,6 +997,23 @@
      "es": "Viking 1 fue renombrado Estación Memorial Thomas Mutch, por el líder de su equipo de cámaras."
     },
     "source": "https://science.nasa.gov/mission/viking-1/"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "An update from Earth made it lose Earth",
+      "es": "Una actualización desde la Tierra le hizo perder la Tierra"
+     },
+     {
+      "en": "Its nuclear battery ran out",
+      "es": "Se agotó su batería nuclear"
+     },
+     {
+      "en": "A dust storm buried it",
+      "es": "Una tormenta de polvo lo enterró"
+     }
+    ],
+    "right": 0
    }
   },
   "alsep": {
@@ -1087,6 +1172,23 @@
      "es": "Aun con los experimentos apagados, las radios siguieron enviando una señal simple. JPL y otros la usaron para estudiar la posición de la Luna y guiar naves."
     },
     "source": "https://www.nasa.gov/history/50-years-ago-apollo-17-post-mission-activities"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "NASA stopped paying to listen",
+      "es": "La NASA dejó de pagar para escuchar"
+     },
+     {
+      "en": "Moonquakes smashed them",
+      "es": "Los sismos lunares las rompieron"
+     },
+     {
+      "en": "Astronauts came back and unplugged them",
+      "es": "Los astronautas volvieron y las desconectaron"
+     }
+    ],
+    "right": 0
    }
   },
   "ingenuity": {
@@ -1234,6 +1336,23 @@
      "es": "Ingenuity hizo el primer vuelo propulsado y controlado en otro planeta, y lleva un trozo de tela del Wright Flyer de los hermanos Wright."
     },
     "source": "https://www.nasa.gov/news-release/after-three-years-on-mars-nasas-ingenuity-helicopter-mission-ends"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "Smooth sand confused its camera",
+      "es": "La arena lisa confundió a su cámara"
+     },
+     {
+      "en": "Its battery died in the air",
+      "es": "Su batería murió en el aire"
+     },
+     {
+      "en": "A dust storm blew it away",
+      "es": "Una tormenta de polvo se lo llevó"
+     }
+    ],
+    "right": 0
    }
   },
   "eagle": {
@@ -1374,6 +1493,23 @@
      "es": "Junto a Eagle la tripulación dejó un panel de 100 espejitos. Todavía rebotan láseres en ellos, y así sabemos que la Luna se aleja unos 3,8 cm al año."
     },
     "source": "https://www.nasa.gov/missions/laser-beams-reflected-between-earth-and-moon-boost-science"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "Its bottom half became the launch pad",
+      "es": "Su mitad de abajo fue la plataforma de despegue"
+     },
+     {
+      "en": "It crashed on landing",
+      "es": "Se estrelló al aterrizar"
+     },
+     {
+      "en": "The astronauts forgot it",
+      "es": "Los astronautas lo olvidaron"
+     }
+    ],
+    "right": 0
    }
   },
   "rover16": {
@@ -1518,6 +1654,23 @@
      "es": "Antes de irse, el astronauta Charlie Duke dejó una foto de su familia en la Luna. Sigue ahí."
     },
     "source": "https://www.nasa.gov/history/apollo-16-on-the-moon-at-descartes"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "Parked so its TV camera could film liftoff",
+      "es": "Lo estacionaron para filmar el despegue"
+     },
+     {
+      "en": "It crashed into a crater",
+      "es": "Se estrelló en un cráter"
+     },
+     {
+      "en": "The astronauts lost the keys",
+      "es": "Los astronautas perdieron las llaves"
+     }
+    ],
+    "right": 0
    }
   },
   "surveyor3": {
@@ -1665,6 +1818,23 @@
      "es": "La tierra que cavó Surveyor 3 mostró que la Luna era como arena húmeda, firme para sostener un módulo lunar. El Apolo 12 aterrizó a unos 180 metros."
     },
     "source": "https://science.nasa.gov/mission/surveyor-3/"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "Apollo 12 astronauts, who took its camera",
+      "es": "Astronautas del Apolo 12, que se llevaron su cámara"
+     },
+     {
+      "en": "A Soviet rover, which took its battery",
+      "es": "Un rover soviético, que se llevó su batería"
+     },
+     {
+      "en": "Nobody. No one has ever visited it",
+      "es": "Nadie. Nunca lo ha visitado nadie"
+     }
+    ],
+    "right": 0
    }
   },
   "sojourner": {
@@ -1810,6 +1980,23 @@
      "es": "Sojourner estaba planeado para una semana y duró 83 días, 12 veces más."
     },
     "source": "https://www.nasa.gov/history/25-years-ago-mars-pathfinder-launches-to-mars-to-deploy-sojourner-the-first-planetary-rover"
+   },
+   "gut": {
+    "opts": [
+     {
+      "en": "A 12-year-old who won a naming contest",
+      "es": "Una niña de 12 años que ganó un concurso"
+     },
+     {
+      "en": "The astronaut who drove it",
+      "es": "El astronauta que lo manejaba"
+     },
+     {
+      "en": "A famous scientist",
+      "es": "Un científico famoso"
+     }
+    ],
+    "right": 0
    }
   }
  }
