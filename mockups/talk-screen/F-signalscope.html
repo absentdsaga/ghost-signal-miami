@@ -1,0 +1,178 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ghost Signal · Eagle</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;700&family=Unbounded:wght@600;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+:root{--lime:#d7ff5a;--pink:#ff4fa3;--amber:#ffb35c;--teal:#7fe7d2;--ink:#0b0812;--sig:0}
+html,body{height:100%}
+body{background:var(--ink);color:#fff;font-family:Geist;overflow:hidden;user-select:none}
+.scene{position:fixed;inset:-3%;background:url(eagle-scene.jpg) center 36%/cover;
+ filter:grayscale(calc(1 - var(--sig))) brightness(calc(.42 + var(--sig)*.6)) saturate(calc(.6 + var(--sig)*.6)) blur(calc((1 - var(--sig))*2.5px));
+ transition:filter 1.2s cubic-bezier(.2,.8,.2,1),transform 8s ease-out;transform:scale(1.04)}
+body.locked .scene{transform:scale(1.1)}
+.vig{position:fixed;inset:0;pointer-events:none;background:radial-gradient(110% 85% at 50% 40%,transparent 45%,rgba(11,8,18,.85)),linear-gradient(180deg,rgba(11,8,18,.6),transparent 16%,transparent 58%,rgba(11,8,18,.92) 90%)}
+.static{position:fixed;inset:0;pointer-events:none;opacity:calc(.35 - var(--sig)*.33);mix-blend-mode:screen;transition:opacity 1s;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:st .18s steps(3) infinite}
+@keyframes st{33%{background-position:60px 30px}66%{background-position:-40px 80px}}
+body.glitch .scene{animation:shake .4s}
+body.glitch .static{opacity:.6!important}
+@keyframes shake{20%{transform:scale(1.04) translate(-12px,4px)}40%{transform:scale(1.04) translate(10px,-6px)}60%{transform:scale(1.04) translate(-6px,2px)}}
+/* HUD: only two things */
+.hud{position:fixed;top:22px;left:26px;right:26px;display:flex;align-items:center;gap:16px;z-index:5}
+.back{font:600 15px Geist;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:99px;padding:10px 16px;cursor:pointer}
+.id b{display:block;font:800 22px Unbounded;letter-spacing:-.01em}
+.id small{font:600 13px "Geist Mono";color:rgba(255,255,255,.6);letter-spacing:.04em}
+.pips{margin-left:auto;display:flex;align-items:flex-end;gap:6px;padding:10px 16px;border-radius:99px;background:rgba(11,8,18,.55);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px)}
+.pips i{width:12px;border-radius:3px;background:#2d2537;transition:.4s cubic-bezier(.3,1.6,.5,1)}
+.pips i:nth-child(1){height:10px}.pips i:nth-child(2){height:17px}.pips i:nth-child(3){height:24px}
+.pips i.on{background:var(--lime);box-shadow:0 0 12px var(--lime);transform:scaleY(1.15)}
+.pips span{font:700 12px "Geist Mono";letter-spacing:.08em;color:rgba(255,255,255,.7);margin-left:8px;align-self:center}
+/* tune */
+.tune{position:fixed;inset:0;z-index:6;display:grid;place-items:center;transition:opacity .6s}
+.tune.gone{opacity:0;pointer-events:none}
+.knob{position:relative;width:200px;height:200px;border-radius:50%;border:0;cursor:pointer;background:radial-gradient(circle at 35% 30%,#3c3448,#120e18);box-shadow:0 20px 60px #000,inset 0 2px 0 rgba(255,255,255,.15);display:grid;place-items:center;touch-action:none}
+.knob svg.ring{position:absolute;inset:-16px;width:232px;height:232px;transform:rotate(-90deg)}
+.knob .core{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6ffbf,var(--lime) 50%,#86b00c);box-shadow:0 0 50px var(--lime);display:grid;place-items:center;font:800 15px Unbounded;color:#111;text-align:center;line-height:1.15}
+.tune p{margin-top:26px;font:600 20px Geist;text-align:center;color:rgba(255,255,255,.85)}
+.tune p small{display:block;font:500 14px "Geist Mono";color:rgba(255,255,255,.5);margin-top:6px}
+.tunewrap{display:flex;flex-direction:column;align-items:center}
+/* caption */
+.cap{position:fixed;left:50%;bottom:calc(var(--dock,230px) + 18px);transform:translate(-50%,10px);width:min(920px,92vw);text-align:center;z-index:4;opacity:0;transition:.4s}
+.cap.show{opacity:1;transform:translate(-50%,0)}
+.who{display:inline-flex;align-items:center;gap:8px;font:700 13px "Geist Mono";letter-spacing:.08em;color:var(--lime);background:rgba(11,8,18,.6);padding:6px 12px;border-radius:99px;margin-bottom:12px}
+.who.you{color:var(--teal)}
+.wave{display:inline-flex;gap:3px;align-items:center;height:12px}.wave i{width:3px;background:currentColor;border-radius:2px;animation:w .8s infinite}.wave i:nth-child(2){animation-delay:.12s}.wave i:nth-child(3){animation-delay:.24s}
+@keyframes w{0%,100%{height:3px}50%{height:12px}}
+.cap p{font:600 clamp(24px,2.7vw,38px)/1.28 Geist;letter-spacing:-.015em;text-shadow:0 2px 24px rgba(0,0,0,.9)}
+.cap p .w{opacity:0;display:inline-block;transform:translateY(6px);animation:wi .25s forwards}
+@keyframes wi{to{opacity:1;transform:none}}
+.cap em{font-style:normal;color:var(--amber)}
+/* dock */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:5;padding:0 26px 26px;display:flex;gap:14px;justify-content:center;align-items:stretch}
+.opt{flex:1;max-width:330px;border:0;text-align:left;cursor:pointer;border-radius:22px;padding:18px 20px;color:#fff;background:rgba(20,14,30,.78);backdrop-filter:blur(14px);border:2px solid color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 8px 0 rgba(0,0,0,.6);opacity:0;transform:translateY(40px);transition:transform .35s cubic-bezier(.3,1.5,.5,1),opacity .25s,background .15s}
+.opt.in{opacity:1;transform:none}
+.opt:hover{background:color-mix(in srgb,var(--c) 22%,rgba(20,14,30,.85));transform:translateY(-6px)}
+.opt:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.6)}
+.opt .k{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--c);color:#111;font:800 16px Geist;margin-bottom:10px}
+.opt .s{font:700 21px/1.25 Geist}
+.opt.right{background:var(--lime);color:#111;border-color:var(--lime)}
+.opt.wrong{background:#3a1a2c;border-color:var(--pink);animation:no .35s}
+@keyframes no{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.o1{--c:var(--pink)}.o2{--c:var(--amber)}.o3{--c:var(--teal)}
+.mic{flex:none;width:150px;border-radius:22px;border:2px solid rgba(255,255,255,.18);background:rgba(20,14,30,.78);color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;opacity:0;transform:translateY(40px);transition:.35s cubic-bezier(.3,1.5,.5,1)}
+.mic.in{opacity:1;transform:none}
+.mic .dot{width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--amber) 45%,#c96d14);box-shadow:0 0 26px var(--amber);display:grid;place-items:center}
+.mic.on .dot{animation:pulse .8s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 14px rgba(255,179,92,.25),0 0 40px var(--amber)}}
+.mic svg{width:26px;height:26px}.mic b{font:700 15px Geist}.mic small{font:600 11px "Geist Mono";color:rgba(255,255,255,.55)}
+/* packet */
+.packet{position:fixed;left:50%;bottom:120px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--teal);box-shadow:0 0 22px var(--teal),0 0 60px var(--teal);z-index:6;opacity:0}
+.packet.fly{animation:fly 1.3s cubic-bezier(.5,0,.5,1) forwards}
+@keyframes fly{0%{opacity:1;transform:none}90%{opacity:1}100%{opacity:0;transform:translateY(-48vh) scale(.4)}}
+.delay{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);font:700 13px "Geist Mono";letter-spacing:.08em;color:var(--teal);z-index:6;opacity:0;transition:.3s}
+.delay.show{opacity:1}
+/* fact pop */
+.fact{position:fixed;left:50%;top:22%;transform:translate(-50%,-10px) scale(.9);z-index:7;background:#fff7ea;color:#16101c;border-radius:20px;padding:16px 22px;max-width:520px;box-shadow:0 30px 80px rgba(0,0,0,.6);opacity:0;transition:.35s cubic-bezier(.3,1.5,.5,1)}
+.fact.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.fact b{display:block;font:800 13px "Geist Mono";letter-spacing:.08em;color:#c2389a;margin-bottom:6px}
+.fact p{font:600 19px/1.35 Geist}
+.plus{position:fixed;z-index:8;font:900 64px Unbounded;color:var(--lime);text-shadow:0 0 30px var(--lime);pointer-events:none;opacity:0}
+.plus.go{animation:plus 1s ease-out forwards}
+@keyframes plus{0%{opacity:0;transform:scale(.4)}20%{opacity:1;transform:scale(1.15)}100%{opacity:0;transform:translateY(-80px) scale(1)}}
+/* win */
+.win{position:fixed;inset:0;z-index:9;background:radial-gradient(60% 70% at 50% 50%,rgba(11,8,18,.88),rgba(11,8,18,.4));display:grid;place-items:center;pointer-events:none;opacity:0;transition:.6s}
+.win.show{opacity:1;pointer-events:auto}
+.win .box{text-align:center;display:flex;flex-direction:column;align-items:center}
+.patch{width:190px;height:190px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fff5,transparent 55%),conic-gradient(from 30deg,var(--amber),var(--pink),#7a5cff,var(--teal),var(--lime),var(--amber));border:6px solid #fff;box-shadow:0 0 80px rgba(255,179,92,.6);transform:scale(3) rotate(-30deg);opacity:0}
+.win.show .patch{animation:stamp .7s .2s cubic-bezier(.3,1.6,.4,1) forwards}
+@keyframes stamp{to{transform:none;opacity:1}}
+.patch span{font:900 22px/1 Unbounded;color:#111;background:#fff;padding:8px 10px;border-radius:8px}
+.win h2{margin-top:26px;font:900 clamp(34px,4vw,56px) Unbounded;letter-spacing:-.02em;color:var(--lime)}
+.win .met{margin-top:10px;font:700 18px "Geist Mono";color:var(--amber)}
+.win .met small{display:block;font:600 13px "Geist Mono";color:rgba(255,255,255,.6);letter-spacing:.08em;margin-bottom:4px}
+.win .next{margin-top:24px;display:flex;gap:12px}
+.win .next button{font:700 17px Geist;border-radius:99px;padding:14px 22px;border:0;cursor:pointer}
+.win .next .p{background:var(--lime);color:#111}.win .next .s{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25)}
+.link{margin-top:14px;font:600 15px Geist;color:rgba(255,255,255,.75)}.link b{color:var(--teal)}
+@media (max-width:760px){.dock{flex-wrap:wrap;padding:0 14px 16px}.opt{max-width:none;flex:1 1 100%;padding:12px 16px}.opt .k{margin:0 10px 0 0;vertical-align:middle}.opt .s{font-size:18px;display:inline}.mic{width:100%;flex-direction:row;padding:10px}.id b{font-size:18px}}
+</style></head><body>
+<div class="scene"></div><div class="static"></div><div class="vig"></div>
+<div class="hud"><button class="back">&larr; Map</button><div class="id"><b>EAGLE</b><small>Apollo 11 &middot; Sea of Tranquility</small></div>
+ <div class="pips"><i></i><i></i><i></i><span id="pipt">NO SIGNAL</span></div></div>
+
+<div class="tune" id="tune"><div class="tunewrap">
+ <button class="knob" id="knob"><svg class="ring" viewBox="0 0 232 232"><circle cx="116" cy="116" r="108" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="8"/><circle id="arc" cx="116" cy="116" r="108" fill="none" stroke="#d7ff5a" stroke-width="8" stroke-linecap="round" stroke-dasharray="679" stroke-dashoffset="679" style="filter:drop-shadow(0 0 8px #d7ff5a)"/></svg><span class="core">HOLD<br>TO TUNE</span></button>
+ <p>Something is still transmitting<small>hold the dial or press SPACE</small></p></div></div>
+
+<div class="cap" id="cap"><div class="who" id="who">EAGLE <span class="wave"><i></i><i></i><i></i></span></div><p id="line"></p></div>
+<div class="packet" id="packet"></div><div class="delay" id="delay">YOUR WORDS ARE CROSSING TO THE MOON &middot; 1.3 SEC</div>
+<div class="fact" id="fact"><b>TRUE STORY</b><p id="factp"></p></div>
+<div class="plus" id="plus">+1</div>
+<div class="dock" id="dock"></div>
+
+<div class="win" id="win"><div class="box">
+ <div class="patch"><span>APOLLO 11</span></div>
+ <h2>Signal locked</h2>
+ <div class="met"><small>EAGLE HAS WAITED ON THE MOON FOR</small><span id="met"></span></div>
+ <div class="link">New link on the map: <b>Surveyor 3</b> &middot; Apollo 12 visited it in 1969</div>
+ <div class="next"><button class="p" onclick="location.reload()">Next machine</button><button class="s" onclick="location.reload()">Play again</button></div>
+</div></div>
+
+<script>
+const R=[
+ {q:"Hold it. Nobody has called this frequency since <em>1969</em>. If you're really Houston, what did Neil say the second I touched down?",
+  o:["Tranquility Base here. The Eagle has landed.","One small step for man.","We have liftoff."],a:0,
+  yes:"That's it. Those were the first words ever said from the Moon.",
+  no:"Close. Neil said that later, stepping off my ladder. The first words were: Tranquility Base here. The Eagle has landed.",
+  fact:"Eagle touched down on July 20, 1969. Neil Armstrong's first words were \"Houston, Tranquility Base here. The Eagle has landed.\""},
+ {q:"OK, you know me. On the way down my computer kept flashing an alarm. What number was it?",
+  o:["1202","404","007"],a:0,
+  yes:"1202. My computer had too much to do. Houston said GO anyway, and we landed.",
+  no:"It was 1202. My computer was overloaded. Houston checked it in seconds and said GO.",
+  fact:"The 1202 alarm meant the guidance computer was overloaded. Mission Control decided it was safe, and the landing kept going."},
+ {q:"Last one. Two people rode me down, then they left. Why did they <em>leave</em> me here?",
+  o:["My bottom half was the launch pad for their ride home.","I ran out of fuel.","I broke a leg landing."],a:0,
+  yes:"Yes. My top half flew them up. My bottom half stayed behind as the pad. I'm still standing on it.",
+  no:"No. My top half lifted off to carry them home, and my bottom half was the launch pad. It had to stay.",
+  fact:"The lunar module came in two parts. The ascent stage flew the crew back up. The descent stage stayed on the Moon, where it still is."}
+];
+let i=0,score=0,busy=false,ac;
+const $=s=>document.getElementById(s),root=document.documentElement;
+function audio(){if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();return ac}
+function tone(f,d,type='sine',v=.12){const a=audio(),o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+d);o.connect(g).connect(a.destination);o.start();o.stop(a.currentTime+d)}
+function noise(d,v=.08){const a=audio(),b=a.createBuffer(1,a.sampleRate*d,a.sampleRate),c=b.getChannelData(0);for(let k=0;k<c.length;k++)c[k]=(Math.random()*2-1);const s=a.createBufferSource(),g=a.createGain();s.buffer=b;g.gain.value=v;s.connect(g).connect(a.destination);s.start();}
+function setSig(n){root.style.setProperty('--sig',n)}
+setSig(0);
+// tune
+let hold=0,t=null;const arc=$('arc');
+function down(){if(t)return;audio();t=setInterval(()=>{hold=Math.min(1,hold+.025);arc.style.strokeDashoffset=679*(1-hold);setSig(hold*.25);if(Math.random()<.5)noise(.05,.03*(1-hold));if(hold>=1){clearInterval(t);t=null;lock()}},30)}
+function up(){if(!t)return;clearInterval(t);t=null;const d=setInterval(()=>{hold=Math.max(0,hold-.04);arc.style.strokeDashoffset=679*(1-hold);setSig(hold*.25);if(hold<=0)clearInterval(d)},30)}
+$('knob').addEventListener('pointerdown',down);addEventListener('pointerup',up);
+addEventListener('keydown',e=>{if(e.code==='Space'&&!$('tune').classList.contains('gone')){e.preventDefault();down()}else if(['Digit1','Digit2','Digit3'].includes(e.code))pick(+e.code.slice(-1)-1)});
+addEventListener('keyup',e=>{if(e.code==='Space')up()});
+function lock(){tone(660,.15);setTimeout(()=>tone(990,.3),120);$('tune').classList.add('gone');$('pipt').textContent='WEAK SIGNAL';setTimeout(()=>ask(),700)}
+function say(html,who,cb){const c=$('cap');$('who').className='who'+(who==='you'?' you':'');$('who').firstChild.textContent=who==='you'?'YOU ':'EAGLE ';
+ const words=html.split(/(\s+)/);let out='',d=0;words.forEach(w=>{if(/^\s+$/.test(w)){out+=w}else{out+=`<span class="w" style="animation-delay:${d}s">${w}</span>`;d+=.06}});
+ $('line').innerHTML=out;c.classList.add('show');setTimeout(cb||(()=>{}),d*1000+250)}
+function ask(){const r=R[i];busy=false;if(!r.s){const ord=[0,1,2].sort(()=>Math.random()-.5);r.o=ord.map(j=>r.o[j]);r.a=ord.indexOf(r.a);r.s=1}say(r.q,'eagle',()=>{const dk=$('dock');dk.innerHTML='';r.o.forEach((o,k)=>{const b=document.createElement('button');b.className='opt o'+(k+1);b.innerHTML=`<span class="k">${k+1}</span><div class="s">${o}</div>`;b.onclick=()=>pick(k);dk.appendChild(b);setTimeout(()=>{b.classList.add('in');tone(400+k*120,.06,'triangle',.05)},80+k*110)});
+ const m=document.createElement('button');m.className='mic';m.innerHTML='<span class="dot"><svg viewBox="0 0 24 24" fill="#111"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M6 11a6 6 0 0 0 12 0" stroke="#111" stroke-width="2" fill="none"/><rect x="11" y="17" width="2" height="4"/></svg></span><b>Say it</b><small>hold to talk</small>';m.onpointerdown=()=>listen(m);dk.appendChild(m);setTimeout(()=>m.classList.add('in'),420);
+ document.documentElement.style.setProperty('--dock',dk.offsetHeight+'px')})}
+function listen(m){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){m.querySelector('small').textContent='tap an answer';return}
+ const rec=new SR();rec.lang='en-US';m.classList.add('on');m.querySelector('small').textContent='listening...';
+ rec.onresult=e=>{const said=e.results[0][0].transcript.toLowerCase();let best=0,bi=0;R[i].o.forEach((o,k)=>{const ws=o.toLowerCase().replace(/[^a-z0-9 ]/g,'').split(' ').filter(w=>w.length>2);const hit=ws.filter(w=>said.includes(w)).length/ws.length;if(hit>best){best=hit;bi=k}});m.classList.remove('on');pick(bi)};
+ rec.onend=()=>m.classList.remove('on');rec.start()}
+function pick(k){if(busy||$('tune').classList.contains('gone')===false)return;const r=R[i],opts=[...document.querySelectorAll('.opt.in')];if(opts.length<3)return;busy=true;
+ opts.forEach((b,j)=>{if(j!==k)b.style.opacity=.25});
+ say(r.o[k],'you');$('packet').classList.remove('fly');void $('packet').offsetWidth;$('packet').classList.add('fly');$('delay').classList.add('show');tone(520,.1,'square',.04);
+ setTimeout(()=>{$('delay').classList.remove('show');const ok=k===r.a;
+  if(ok){opts[k].classList.add('right');score++;document.querySelectorAll('.pips i')[score-1].classList.add('on');setSig(.25+score*.25);$('pipt').textContent=score===3?'LOCKED':score===2?'STRONG':'CLEARER';
+   const p=$('plus'),bb=opts[k].getBoundingClientRect();p.style.left=bb.left+bb.width/2-40+'px';p.style.top=bb.top-60+'px';p.classList.remove('go');void p.offsetWidth;p.classList.add('go');tone(784,.12);setTimeout(()=>tone(1175,.25),110)}
+  else{opts[k].classList.add('wrong');document.body.classList.add('glitch');noise(.35,.15);setTimeout(()=>document.body.classList.remove('glitch'),450)}
+  say(ok?r.yes:r.no,'eagle',()=>{$('factp').textContent=r.fact;$('fact').classList.add('show');
+   setTimeout(()=>{$('fact').classList.remove('show');i++;$('dock').innerHTML='';if(i<R.length)ask();else win()},3200)})
+ },1300)}
+function win(){$('cap').classList.remove('show');setSig(1);document.body.classList.add('locked');[523,659,784,1047].forEach((f,k)=>setTimeout(()=>tone(f,.4,'triangle',.1),k*120));
+ const t0=Date.UTC(1969,6,20,20,17,40);const tick=()=>{let s=Math.floor((Date.now()-t0)/1000);const y=Math.floor(s/31557600);s-=y*31557600;const d=Math.floor(s/86400);s-=d*86400;const h=Math.floor(s/3600);s-=h*3600;const m=Math.floor(s/60);s-=m*60;$('met').textContent=`${y}y ${d}d ${h}h ${m}m ${String(s).padStart(2,'0')}s`};tick();setInterval(tick,1000);
+ setTimeout(()=>$('win').classList.add('show'),700)}
+</script>
+</body></html>
