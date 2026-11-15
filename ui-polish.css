@@ -41,3 +41,8 @@
 @media(max-width:420px){.talkdock{padding:10px 12px calc(10px + env(safe-area-inset-bottom))}.talkdock .typerow button{display:none}.talkdock .mic{padding:12px 14px}}
 .gs-attn{animation:gsAttn 1.2s ease-in-out 2}
 @keyframes gsAttn{50%{box-shadow:0 0 0 3px var(--lime),0 0 34px rgba(231,255,58,.35)}}
+/* welcome card ran 4px+ off the right edge at 390px: width:100% + padding without border-box */
+.gs-welcome{grid-template-columns:minmax(0,1fr)}
+.gs-card{box-sizing:border-box;justify-self:center}
+.gs-card .gs-go{white-space:nowrap;flex:none}
+@media(max-width:380px){.gs-card form{flex-wrap:wrap}.gs-card .gs-go{flex:1 1 100%}}

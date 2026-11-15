@@ -135,7 +135,7 @@
           for (let i = 0; i < 3; i++) { const kk = cl(k * 1.4 - i * 0.22); if (kk <= 0 || kk >= 1) continue; cx.strokeStyle = `rgba(216,255,62,${(1 - kk) * 0.8})`; cx.lineWidth = 2; cx.beginPath(); cx.arc(mxs, mys, 6 + kk * m * 0.22, 0, Math.PI * 2); cx.stroke(); }
         }
         mia = [mxs, mys];
-        root.querySelector(".gsi-hud-a").style.cssText = `left:${mxs + 18}px;top:${mys - 8}px;opacity:${cl(t / 0.8) * (1 - seg(t, 1.15, 1.5))}`;
+        const ha = root.querySelector(".gsi-hud-a"), haw = ha.offsetWidth || 240; ha.style.cssText = `left:${Math.max(8, Math.min(W - haw - 8, mxs + 18))}px;top:${mys - 8}px;opacity:${cl(t / 0.8) * (1 - seg(t, 1.15, 1.5))}`;
       }
       /* the signal itself: a lime comet the camera follows, it stays ahead of us at ~38% height */
       if (t > 1.0) {
@@ -146,7 +146,7 @@
         cx.strokeStyle = tail; cx.lineWidth = 2.2; cx.beginPath(); cx.moveTo(hx, hy); cx.lineTo(hx + (mia[0] - hx) * 0.2 * (1 - k), hy + tl); cx.stroke(); cx.globalAlpha = 1;
         const hg = cx.createRadialGradient(hx, hy, 0, hx, hy, 26); hg.addColorStop(0, "rgba(250,255,220,1)"); hg.addColorStop(0.25, "rgba(216,255,62,.7)"); hg.addColorStop(1, "rgba(216,255,62,0)");
         cx.fillStyle = hg; cx.globalAlpha = fadeC; cx.beginPath(); cx.arc(hx, hy, 26, 0, Math.PI * 2); cx.fill(); cx.globalAlpha = 1;
-        root.querySelector(".gsi-hud-b").style.cssText = `left:${hx + 22}px;top:${hy - 9}px;opacity:${seg(t, 1.3, 1.8) * (1 - seg(t, 3.6, 4.1))}`;
+        const hb = root.querySelector(".gsi-hud-b"), hbw = hb.offsetWidth || 220, hbx = hx + 22 + hbw > W - 8 ? hx - 22 - hbw : hx + 22; hb.style.cssText = `left:${Math.max(8, hbx)}px;top:${hy - 9}px;opacity:${seg(t, 1.3, 1.8) * (1 - seg(t, 3.6, 4.1))}`;
       }
       /* the Moon: comes in from above, swells, slides past on the right */
       const mk = reduce() ? 0.62 : seg(t, 2.6, 5.4);
@@ -224,9 +224,10 @@
         const b = pin.querySelector(".vbeacon") || pin, br = b.getBoundingClientRect(), pr = (pin.querySelector(".vhit") || pin).getBoundingClientRect();
         const cxp = br.left + br.width / 2, cyp = br.top + br.height / 2;
         dim.style.setProperty("--cx", cxp + "px"); dim.style.setProperty("--cy", ((cyp + pr.top + pr.height / 2) / 2) + "px"); dim.style.setProperty("--bx", cxp + "px"); dim.style.setProperty("--by", cyp + "px");
-        const tw = tip.offsetWidth, th = tip.offsetHeight, above = cyp - th - 70 > 110;
+        const lr = pin.querySelector(".ghost-label")?.getBoundingClientRect(), top = Math.min(cyp, lr && lr.height ? lr.top : cyp), bot = Math.max(pr.bottom, lr && lr.height ? lr.bottom : 0);
+        const tw = tip.offsetWidth, th = tip.offsetHeight, above = top - th - 50 > 110;
         tip.classList.toggle("below", !above);
-        const tx = Math.max(10, Math.min(innerWidth - tw - 10, cxp - tw / 2)), ty = above ? cyp - th - 64 : pr.bottom + 40;
+        const tx = Math.max(10, Math.min(innerWidth - tw - 10, cxp - tw / 2)), ty = above ? top - th - 46 : bot + 44;
         tip.style.transform = `translate(${tx}px,${ty}px)`; tip.style.setProperty("--ax", (cxp - tx) + "px");
         raf = requestAnimationFrame(track);
       };
