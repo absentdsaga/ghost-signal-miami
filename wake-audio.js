@@ -178,6 +178,27 @@
     lock() { if (!ready()) return; const t = at(); tone(ctx, bus.ui, t, 1318.5, 0.18, { vol: 0.05 }); tone(ctx, bus.ui, t + 0.09, 1975.5, 0.32, { vol: 0.05 }); },
     blip() { if (!ready()) return; tone(ctx, bus.ui, at(), 1480, 0.07, { vol: 0.035, to: 1760 }); },
     hover() { if (!ready()) return; tone(ctx, bus.ui, at(), 980, 0.05, { vol: 0.02, to: 1180 }); },
+    /* Earth calls: a sonar-like DSN ping with a long echo tail, the signal hiss crossing space for `dur` s, a small pip on arrival */
+    ping(dur = 1.3) {
+      if (!ready()) return; const c = ctx, t = at();
+      const d = c.createDelay(1.5), fb = c.createGain(), lp = c.createBiquadFilter(), wet = c.createGain();
+      d.delayTime.value = 0.31; fb.gain.value = 0.48; lp.type = "lowpass"; lp.frequency.value = 2600; wet.gain.value = 0.55;
+      d.connect(lp); lp.connect(fb); fb.connect(d); lp.connect(wet); wet.connect(bus.wake);
+      const o = c.createOscillator(), g = c.createGain(); o.type = "sine"; o.frequency.setValueAtTime(1180, t); o.frequency.exponentialRampToValueAtTime(1120, t + 0.6);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.16, t + 0.006); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+      o.connect(g); g.connect(bus.wake); g.connect(d); o.start(t); o.stop(t + 0.75);
+      tone(c, bus.wake, t, 2360, 0.4, { vol: 0.03 });
+      sweep(c, bus.wake, t + 0.15, { dur: Math.max(0.6, dur - 0.1), from: 260, to: 2800, vol: 0.035, q: 3 });
+      const ta = t + dur; tone(c, bus.wake, ta, 2349, 0.09, { vol: 0.06 }); tone(c, bus.wake, ta + 0.1, 1760, 0.16, { vol: 0.04 });
+      setTimeout(() => { try { fb.gain.value = 0; wet.disconnect(); } catch {} }, (dur + 4) * 1000);
+    },
+    /* one faint answer: an electrical tick and a 120 Hz buzz that dies */
+    flicker() {
+      if (!ready()) return; const t = at();
+      relay(ctx, bus.wake, t, { vol: 0.12, pitch: 1.4 });
+      tone(ctx, bus.wake, t + 0.01, 120, 0.22, { type: "sawtooth", vol: 0.035 });
+      tone(ctx, bus.wake, t + 0.14, 120, 0.12, { type: "sawtooth", vol: 0.02 });
+    },
   };
   window.GS_wakeAudio = { init, wake, stopHum, ui: UI, profiles: PROFILES, get ctx() { return ctx; } };
 })();
