@@ -198,7 +198,13 @@
       "energía",
       "solares",
       "batería",
-      "panel"
+      "panel",
+      "dust",
+      "dirty",
+      "fuel",
+      "kept you going",
+      "keep you going",
+      "alive"
      ]
     },
     {
@@ -278,7 +284,16 @@
       "despert",
       "ayud",
       "rescat",
-      "comando"
+      "comando",
+      "call you",
+      "contact",
+      "message",
+      "signal",
+      "listen",
+      "reach",
+      "last message",
+      "goodbye",
+      "answer"
      ]
     }
    ],
@@ -371,7 +386,15 @@
       "arena",
       "suelo",
       "dónde",
-      "donde"
+      "donde",
+      "trapped",
+      "dig",
+      "wheels",
+      "broken wheel",
+      "drag",
+      "escape",
+      "get out",
+      "free"
      ]
     },
     {
@@ -403,7 +426,12 @@
       "energía",
       "solares",
       "batería",
-      "panel"
+      "panel",
+      "dust",
+      "winter",
+      "cold",
+      "fuel",
+      "alive"
      ]
     },
     {
@@ -542,7 +570,11 @@
       "energía",
       "solares",
       "batería",
-      "panel"
+      "panel",
+      "dust",
+      "dirty",
+      "fuel",
+      "alive"
      ]
     },
     {
@@ -620,7 +652,13 @@
       "oíste",
       "escuch",
       "sonido",
-      "viento"
+      "viento",
+      "quake",
+      "marsquake",
+      "seismo",
+      "shake",
+      "noise",
+      "feel"
      ]
     }
    ],
@@ -711,7 +749,13 @@
       "energía",
       "solares",
       "batería",
-      "panel"
+      "panel",
+      "winter",
+      "cold",
+      "frost",
+      "dark",
+      "fuel",
+      "alive"
      ]
     },
     {
@@ -790,7 +834,12 @@
       "descubr",
       "cav",
       "agua",
-      "hielo"
+      "hielo",
+      "scoop",
+      "arm",
+      "frozen",
+      "under",
+      "beneath"
      ]
     }
    ],
@@ -881,7 +930,14 @@
       "contacto",
       "señal",
       "antena",
-      "llamar"
+      "llamar",
+      "communicat",
+      "message",
+      "dish",
+      "send",
+      "reach",
+      "lost contact",
+      "connection"
      ]
     },
     {
@@ -916,7 +972,15 @@
       "panel",
       "1982",
       "november",
-      "noviembre"
+      "noviembre",
+      "software",
+      "update",
+      "mistake",
+      "error",
+      "command",
+      "what happened",
+      "went wrong",
+      "charg"
      ]
     },
     {
@@ -945,7 +1009,13 @@
       "hacías",
       "vida",
       "clima",
-      "tierra"
+      "tierra",
+      "purpose",
+      "mission",
+      "study",
+      "measure",
+      "meant to",
+      "task"
      ]
     },
     {
@@ -1059,7 +1129,13 @@
       "energía",
       "solares",
       "batería",
-      "panel"
+      "panel",
+      "nuclear",
+      "plutonium",
+      "fuel",
+      "generator",
+      "rtg",
+      "heat"
      ]
     },
     {
@@ -1086,7 +1162,12 @@
       "durar",
       "años",
       "cuánto",
-      "cuanto"
+      "cuanto",
+      "supposed",
+      "expected",
+      "design",
+      "plan",
+      "long"
      ]
     },
     {
@@ -1114,7 +1195,14 @@
       "cuándo",
       "cuando",
       "fecha",
-      "apag"
+      "apag",
+      "shut",
+      "switch",
+      "quiet",
+      "silent",
+      "turn",
+      "money",
+      "budget"
      ]
     },
     {
@@ -1143,7 +1231,14 @@
       "quien",
       "gente",
       "equipo",
-      "científic"
+      "científic",
+      "kept",
+      "listening",
+      "scientists",
+      "engineer",
+      "fund",
+      "nasa",
+      "operat"
      ]
     }
    ],
@@ -1236,7 +1331,14 @@
       "ojos",
       "volar",
       "cómo",
-      "como"
+      "como",
+      "navig",
+      "guide",
+      "steer",
+      "tell where",
+      "know where",
+      "sensor",
+      "track"
      ]
     },
     {
@@ -1265,7 +1367,15 @@
       "abajo",
       "arena",
       "dónde",
-      "donde"
+      "donde",
+      "surface",
+      "flat",
+      "featureless",
+      "smooth",
+      "dune",
+      "below you",
+      "under you",
+      "texture"
      ]
     },
     {
@@ -1394,7 +1504,18 @@
       "quién",
       "quien",
       "tripulación",
-      "astronauta"
+      "astronauta",
+      "flew with",
+      "with you",
+      "inside",
+      "aboard",
+      "pilot",
+      "armstrong",
+      "aldrin",
+      "collins",
+      "passeng",
+      "man",
+      "astronauts"
      ]
     },
     {
@@ -1421,7 +1542,17 @@
       "bottom",
       "hecho",
       "mitad",
-      "parte"
+      "parte",
+      "pieces",
+      "stage",
+      "left behind",
+      "still there",
+      "what is left",
+      "what's left",
+      "remain",
+      "launch pad",
+      "split",
+      "separate"
      ]
     },
     {
@@ -1441,7 +1572,14 @@
      },
      "keys": [
       "flag",
-      "bandera"
+      "bandera",
+      "banner",
+      "planted",
+      "left on",
+      "blown",
+      "knocked",
+      "fell",
+      "fall"
      ]
     },
     {
@@ -1550,7 +1688,14 @@
       "watch",
       "llevar",
       "cámara",
-      "ver"
+      "ver",
+      "television",
+      "broadcast",
+      "film",
+      "record",
+      "bring",
+      "equipment",
+      "load"
      ]
     },
     {
@@ -1601,7 +1746,15 @@
       "fender",
       "romp",
       "rompi",
-      "daño"
+      "daño",
+      "repair",
+      "fix",
+      "tape",
+      "dust",
+      "map",
+      "problem",
+      "wrong",
+      "damag"
      ]
     },
     {
@@ -1625,7 +1778,14 @@
       "record",
       "rápido",
       "rapido",
-      "velocidad"
+      "velocidad",
+      "quick",
+      "mph",
+      "miles",
+      "km",
+      "how far",
+      "drive",
+      "drove"
      ]
     }
    ],
@@ -1713,7 +1873,14 @@
       "hacías",
       "trabajo",
       "cav",
-      "tierra"
+      "tierra",
+      "scoop",
+      "claw",
+      "scratch",
+      "purpose",
+      "mission",
+      "task",
+      "arm"
      ]
     },
     {
@@ -1765,7 +1932,13 @@
       "veías",
       "foto",
       "cámara",
-      "ojos"
+      "ojos",
+      "images",
+      "pictures",
+      "tv",
+      "view",
+      "look",
+      "watched"
      ]
     },
     {
@@ -1789,7 +1962,13 @@
       "arriv",
       "aterriz",
       "rebot",
-      "lleg"
+      "lleg",
+      "touchdown",
+      "touch down",
+      "engine",
+      "arrive",
+      "hop",
+      "came down"
      ]
     }
    ],
@@ -1877,7 +2056,15 @@
       "quien",
       "nombre",
       "eligió",
-      "estudiante"
+      "estudiante",
+      "named",
+      "your name",
+      "who chose",
+      "who named",
+      "girl",
+      "contest",
+      "essay",
+      "school"
      ]
     },
     {
@@ -1904,7 +2091,12 @@
       "honor",
       "héroe",
       "heroína",
-      "significa"
+      "significa",
+      "who is",
+      "named for",
+      "why that name",
+      "sojourner truth",
+      "person"
      ]
     },
     {
@@ -1928,7 +2120,13 @@
       "home",
       "base",
       "módulo",
-      "estación"
+      "estación",
+      "pathfinder",
+      "mothership",
+      "partner",
+      "carried you",
+      "relay",
+      "talk to earth"
      ]
     },
     {

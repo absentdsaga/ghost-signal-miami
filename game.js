@@ -22,7 +22,7 @@
       cold: "Cold", warm: "Warmer", hot: "Hot!", gotIt: "Found it!", closed: "Case closed", perfect: "Perfect deduction!", stars: ["Solved", "Sharp detective", "Perfect signal"],
       tries: "Each question costs 1 ▮. Run out and the robot falls asleep.",
       gutK: "Gut call", gutH: "First guess, before you dig. No wrong answer yet: you'll find out if you were right.", gutYour: "Your gut said", gutFind: "Find the clues. Were you right?", gutRight: "Called it. Your gut was right.", gutWrong: "Plot twist. Your gut said something else.",
-      you: "You", gutSay: (x) => `I think: ${x}`, gutBack: "Maybe... I can't tell yet. Ask me the right things and it'll come back.", notMine: (n) => `That memory isn't mine. ${n} would know that one.`, link: (n) => `Memory link ×${n}`, missed: "Static", showMe: "Show me where you are", showMeR: "Can you see me? Look closely.", allBack: "It's all coming back. Say it with me.", memK: "Memories", pick: "Pick your next question", wrongCost: "Ask the questions only this machine can answer. Each right one brings back a memory. A wrong one is a strike and costs 1 ▮. Get every memory back, then piece together what happened.",
+      you: "You", gutSay: (x) => `I think: ${x}`, gutBack: "Maybe... I can't tell yet. Ask me the right things and it'll come back.", notMine: (n) => `That memory isn't mine. ${n} would know that one.`, link: (n) => `Memory link ×${n}`, missed: "Static", showMe: "Show me where you are", showMeR: "Can you see me? Look closely.", allBack: "It's all coming back. Say it with me.", memK: "Memories", pick: "Pick your next question", wrongCost: "Study the NASA archive, then ask the questions only this machine can answer. Each right one brings back a memory. Get every memory back, then piece together what happened.",
     },
     es: {
       welcomeK: "Turno de noche · Central Señal Fantasma", welcomeH: "11 robots quedaron en silencio. Ayúdalos a recordar.",
@@ -43,7 +43,7 @@
       cold: "Frío", warm: "Tibio", hot: "¡Caliente!", gotIt: "¡Lo encontraste!", closed: "Caso cerrado", perfect: "¡Deducción perfecta!", stars: ["Resuelto", "Gran detective", "Señal perfecta"],
       tries: "Cada pregunta cuesta 1 ▮. Si se agota, el robot se duerme.",
       gutK: "Corazonada", gutH: "Primera corazonada, antes de investigar. Aún no hay respuesta incorrecta: al final sabrás si acertaste.", gutYour: "Tu corazonada", gutFind: "Encuentra las pistas. ¿Acertaste?", gutRight: "¡Le atinaste! Tu corazonada era cierta.", gutWrong: "Giro inesperado. Tu corazonada era otra.",
-      you: "Tú", gutSay: (x) => `Creo que: ${x}`, gutBack: "Quizás... todavía no lo sé. Hazme las preguntas correctas y volverá.", notMine: (n) => `Ese recuerdo no es mío. ${n} lo sabría.`, link: (n) => `Enlace de memoria ×${n}`, missed: "Estática", showMe: "Muéstrame dónde estás", showMeR: "¿Me ves? Mira bien.", allBack: "Lo recuerdo todo. Dilo conmigo.", memK: "Recuerdos", pick: "Elige tu siguiente pregunta", wrongCost: "Haz las preguntas que solo esta máquina puede responder. Cada acierto trae un recuerdo. Un error es un strike y cuesta 1 ▮. Recupera todos los recuerdos y arma lo que pasó.",
+      you: "Tú", gutSay: (x) => `Creo que: ${x}`, gutBack: "Quizás... todavía no lo sé. Hazme las preguntas correctas y volverá.", notMine: (n) => `Ese recuerdo no es mío. ${n} lo sabría.`, link: (n) => `Enlace de memoria ×${n}`, missed: "Estática", showMe: "Muéstrame dónde estás", showMeR: "¿Me ves? Mira bien.", allBack: "Lo recuerdo todo. Dilo conmigo.", memK: "Recuerdos", pick: "Elige tu siguiente pregunta", wrongCost: "Estudia el archivo NASA y luego haz las preguntas que solo esta máquina puede responder. Cada acierto trae un recuerdo. Recupera todos los recuerdos y arma lo que pasó.",
     },
   };
   const GENERIC = new Set(["how", "do", "who", "where", "cómo", "como", "quién", "quien", "dónde", "donde", "find", "see", "ver", "fly", "volar"]);
@@ -79,7 +79,7 @@
   }
   window.GS_spend = (r, o = {}) => {
     const c = caseOf(r.id); if (!c || isSolved(r.id)) return true;
-    if (o.kind === "wake" || o.kind === "solved" || o.kind === "last" || o.kind === "memory" || o.kind === "door") return true;
+    if (o.kind !== "miss") return true;
     if (!spend(r.id)) { FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase .gs-power")); return false; }
     return true;
   };
@@ -101,7 +101,7 @@
   window.GS_beforeAsk = (r, text) => {
     const c = caseOf(r.id); if (!c || isSolved(r.id)) return null;
     const q = " " + text.toLowerCase() + " ";
-    const hit = c.clues.find((cl) => cl.how === "ask" && !found(r.id).includes(cl.id) && (cl.keys || []).some((k) => !GENERIC.has(k) && q.includes(k)));
+    const hit = c.clues.find((cl) => cl.how === "ask" && !found(r.id).includes(cl.id) && (cl.keys || []).some((k) => !GENERIC.has(k) && (k.length <= 4 ? q.replace(/[^\p{L}\p{N} ]/gu, " ").includes(" " + k) : q.includes(k))));
     return hit ? { script: L(hit.say), sources: [{ source: hit.source, text: L(hit.say) }], clue: hit.id } : null;
   };
 
@@ -249,7 +249,9 @@
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
     if (ok) { box.appendChild(chatLog(r)); nextBtn(box, r); renderPower(); return; }
     box.appendChild(memStrip(r, c, have));
+    box.appendChild(archive(r));
     box.appendChild(chatLog(r));
+    box.appendChild(el("div", "gs-talkcue", lang === "es" ? `<b>Pregúntale lo que quieras.</b> Toca <span>Hablar</span> abajo o escribe. Usa el archivo: las preguntas que solo esta máquina puede responder traen recuerdos. Preguntar es gratis.` : `<b>Ask it anything.</b> Tap <span>Tap to talk</span> below or type. Use the archive: questions only this machine can answer bring back memories. Asking is free.`));
     const lockedW = c.clues.filter((cl) => !have.includes(cl.id) && cl.words && cl.words.length).length;
     if (lockedW || c.clues.some((cl) => !have.includes(cl.id))) box.appendChild(replies(r, c, have));
     if (!lockedW) {
@@ -262,6 +264,47 @@
       n?.scrollIntoView({ behavior: "smooth", block: "nearest" });
       FX("clue");
     }
+  }
+
+
+  /* ---------- NASA archive: study the real record, then ask ---------- */
+  const archTab = {}; let archAudio = null;
+  function archive(r) {
+    const im = media.img[r.id] || {}, au = media.audio?.[r.id], rb = robots.find((x) => x.id === r.id) || {};
+    const es = lang === "es";
+    const tabs = [];
+    const photos = [["last_seen", es ? "Su última foto" : "Its last photo"], ["from_orbit", es ? "Desde órbita hoy" : "From orbit today"], ["portrait", es ? "La máquina" : "The machine"]].filter(([k]) => im[k]?.file);
+    if (photos.length) tabs.push(["photos", es ? "Fotos" : "Photos"]);
+    if ((rb.facts || []).length) tabs.push(["facts", es ? "Expediente NASA" : "NASA file"]);
+    const log = (DOOR[r.id]?.game?.rounds || []).filter((x) => x.hint);
+    if (log.length) tabs.push(["log", es ? "Registro de misión" : "Mission log"]);
+    if (au?.file) tabs.push(["sound", es ? "Sonido real" : "Real sound"]);
+    const wrap = el("div", "gs-archive");
+    if (!tabs.length) return wrap;
+    const t = tabs.some(([k]) => k === archTab[r.id]) ? archTab[r.id] : tabs[0][0];
+    wrap.appendChild(el("div", "gs-arch-h", `<span class="gs-k">${es ? "Archivo NASA" : "NASA archive"}</span><small>${es ? "Estudia esto para resolver el caso" : "Study this to crack the case"}</small>`));
+    const bar = el("div", "gs-arch-tabs");
+    tabs.forEach(([k, lab]) => { const b = el("button", k === t ? "on" : "", lab); b.onclick = () => { archTab[r.id] = k; FX("place"); const n = archive(r); wrap.replaceWith(n); }; bar.appendChild(b); });
+    wrap.appendChild(bar);
+    const host = (u) => { try { return new URL(u).hostname.replace("www.", ""); } catch { return "NASA"; } };
+    const body = el("div", "gs-arch-body");
+    if (t === "photos") photos.forEach(([k, lab]) => {
+      const p = im[k];
+      body.appendChild(el("figure", "gs-arch-card gs-arch-ph", `<img src="${p.file}" alt="" loading="lazy"><figcaption><b>${lab}${p.date ? " · " + esc(p.date) : ""}</b>${esc(p.caption || "")} <a href="${p.src || "#"}" target="_blank" rel="noopener">${esc(p.credit || "NASA")}</a></figcaption></figure>`));
+    });
+    if (t === "facts") (rb.facts || []).forEach((f) => body.appendChild(el("div", "gs-arch-card gs-arch-fact", `<p>${esc(es && f.es ? f.es : f.text)}</p><a href="${f.source}" target="_blank" rel="noopener">${/nasa|lroc|alsj|apollojournals|jpl|arizona/.test(host(f.source)) ? "NASA source" : "Source"} · ${host(f.source)}</a>`)));
+    if (t === "log") log.forEach((x, i) => body.appendChild(el("div", "gs-arch-card gs-arch-fact", `<small>${es ? "Entrada" : "Entry"} ${i + 1}</small><p>${esc(x.hint)}</p>`)));
+    if (t === "sound") {
+      const c = el("div", "gs-arch-card gs-arch-snd", `<button class="gs-arch-play">${archAudio && !archAudio.paused ? "❚❚" : "▶"}</button><div><b>${esc(au.title || "")}</b><small>${esc(au.credit || "NASA")} · <a href="${au.src || "#"}" target="_blank" rel="noopener">${host(au.src || "")}</a></small></div>`);
+      c.querySelector("button").onclick = (e) => {
+        if (archAudio && !archAudio.paused) { archAudio.pause(); e.target.textContent = "▶"; return; }
+        archAudio = new Audio(au.file); archAudio.volume = 0.8; archAudio.play().catch(() => {}); e.target.textContent = "❚❚";
+        archAudio.onended = () => { e.target.textContent = "▶"; };
+      };
+      body.appendChild(c);
+    }
+    wrap.appendChild(body);
+    return wrap;
   }
 
   /* ---------- the conversation: the case is played by talking ---------- */
@@ -334,7 +377,7 @@
     return [out[h % out.length], out[(h >> 7) % out.length === h % out.length ? (h % out.length + 5) % out.length : (h >> 7) % out.length]];
   }
   function replies(r, c, have) {
-    const wrap = el("div", "gs-replies", `<div class="gs-k">${g("pick")}</div>`);
+    const wrap = el("div", "gs-replies", `<div class="gs-k">${lang === "es" ? "¿Sin ideas? Elige una (una equivocada cuesta 1 ▮)" : "Need an idea? Pick one (a wrong one costs 1 ▮)"}</div>`);
     const next = c.clues.find((cl) => cl.how === "ask" && !have.includes(cl.id));
     const row = el("div", "gs-reply-row");
     if (!next) {
@@ -791,7 +834,7 @@
     if (clue) return unlock(r.id, clue);
     if (scripted || !heard || !caseOf(r.id) || isSolved(r.id)) return;
     const h = window.GS_beforeAsk(r, heard);
-    if (h?.clue) { unlock(r.id, h.clue); toast(g("heardClue")); }
+    if (h?.clue) { say(r.id, "bot", h.script, h.sources?.[0]?.source); unlock(r.id, h.clue); toast(g("heardClue")); }
   });
   window.addEventListener("gs:pins", markPins);
   window.addEventListener("gs:lang", () => { updateChrome(); if (cur && D) { renderTop(); renderCase(); } document.getElementById("gsWelcome") && (document.getElementById("gsWelcome").remove(), welcome()); });

@@ -497,7 +497,7 @@ async function ask(opts) {
       return;
     }
   }
-  const { text, audio, last, script, sources: scriptSources, clue, kind } = opts;
+  let { text, audio, last, script, sources: scriptSources, clue, kind } = opts;
   if (window.GS_spend && !window.GS_spend(cur, { kind: kind || (last ? "last" : ""), clue })) return;
   if (text && !script && !audio && window.GS_beforeAsk) { const h = window.GS_beforeAsk(cur, text); if (h) { script = h.script; scriptSources = h.sources; clue = h.clue; } }
   unlock();
