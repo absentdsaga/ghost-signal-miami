@@ -90,6 +90,8 @@ async function loadVistaPos() {
   await Promise.all(dirs.map(async (d) => { try { VPOS[d] = (await (await fetch(`assets/layers/${d}/positions.json`)).json()).machines; } catch { VPOS[d] = null; } }));
 }
 /* where each sprite's antenna tip (beacon) and feet are, as % of the sprite (measured from the alpha of assets/wake/map/*.webp) */
+/* tap area per machine = its body (alpha bounds below the antenna stub, % of the sprite), so overlapping sprite boxes (Viking 1 / Sojourner) never steal each other's taps */
+const VHIT = { alsep: [12.2, 39.7, 88.5, 96.8], eagle: [38.4, 44.7, 87.6, 97.2], ingenuity: [14.7, 54.6, 84.6, 96.6], insight: [8.8, 45.5, 92.4, 96.8], opportunity: [33, 49.7, 89.1, 96.8], phoenix: [9.3, 50.3, 90.7, 96.8], rover16: [5.6, 42.3, 57.6, 96.6], sojourner: [57.5, 57.1, 93.9, 96.9], spirit: [11.6, 48.1, 87.3, 96.8], surveyor3: [13.6, 41.3, 86.4, 96.8], viking1: [15, 49.2, 76.9, 99.5] };
 const VTIP = { eagle: [63.6, 40.2], surveyor3: [43.2, 36.5], alsep: [42.4, 34.9], rover16: [49.6, 37.7], opportunity: [59.3, 45], spirit: [50.6, 43.4], sojourner: [72.6, 52.2], viking1: [41.8, 44.4], phoenix: [41.6, 45.5], insight: [48.6, 40.2], ingenuity: [45.5, 50] };
 function drawVista() {
   markers.forEach((m) => map.removeLayer(m)); markers = [];
@@ -102,8 +104,8 @@ function drawVista() {
     }).join("")}</div>`;
     return `<div class="vpanel layered" data-layer="${p.layer}"><img class="vground" src="assets/layers/${p.layer}/ground.webp" alt="" draggable="false"><img class="vshadows" src="assets/layers/${p.layer}/shadows.webp" alt="" draggable="false"><div class="vshade"></div>${Object.keys(p.pts).map((id) => {
       const r = robots.find((q) => q.id === id), m = pos[id]; if (!r || !m) return "";
-      const [x0, y0, x1, y1] = m.sprite_box, tip = VTIP[id] || [50, 4];
-      return `<button class="pin vpin spr" id="g-${id}" style="left:${(x0 * 100).toFixed(2)}%;top:${(y0 * 100).toFixed(2)}%;width:${((x1 - x0) * 100).toFixed(2)}%;height:${((y1 - y0) * 100).toFixed(2)}%;--spr:url('assets/wake/map/${id}.webp?v=2?v=2');--d:${(id.length * 0.73 % 3.2).toFixed(2)}" aria-label="${name(r)}"><span class="vglow"></span><span class="vcontact"></span><img class="vspr" src="assets/wake/map/${id}.webp?v=2?v=2" alt="" draggable="false"><span class="vbeacon" style="left:${tip[0]}%;top:${tip[1]}%"></span><span class="ghost-label">${name(r)}<small class="sil" data-id="${id}">${silentShort(id)}</small></span></button>`;
+      const [x0, y0, x1, y1] = m.sprite_box, tip = VTIP[id] || [50, 4], hb = VHIT[id] || [10, 30, 90, 98];
+      return `<button class="pin vpin spr" id="g-${id}" style="left:${(x0 * 100).toFixed(2)}%;top:${(y0 * 100).toFixed(2)}%;width:${((x1 - x0) * 100).toFixed(2)}%;height:${((y1 - y0) * 100).toFixed(2)}%;--spr:url('assets/wake/map/${id}.webp?v=2?v=2');--d:${(id.length * 0.73 % 3.2).toFixed(2)}" aria-label="${name(r)}"><span class="vhit" style="left:${hb[0]}%;top:${hb[1] - 8}%;right:${100 - hb[2]}%;bottom:${100 - hb[3]}%"></span><span class="vglow"></span><span class="vcontact"></span><img class="vspr" src="assets/wake/map/${id}.webp?v=2?v=2" alt="" draggable="false"><span class="vbeacon" style="left:${tip[0]}%;top:${tip[1]}%"></span><span class="ghost-label">${name(r)}<small class="sil" data-id="${id}">${silentShort(id)}</small></span></button>`;
     }).join("")}</div>`;
   };
   v.innerHTML = `<div class="vworld">${VISTA[body].map(panel).join("")}</div>` + `<div class="vcredit">${lang === "es" ? "Pintado a partir de mapas y fotos de la NASA · con ayuda de IA · máquinas mucho más grandes que su escala real" : "Painted from NASA maps and photos · AI-assisted · machines shown far larger than real"}</div>`;

@@ -14,8 +14,9 @@ body.vista-on #vista{display:block}
 #vista.returning::after{transition:none;opacity:.7}
 
 /* machines: grounded sprites you want to tap */
-.pin.vpin.spr{position:absolute;transform:none;translate:none;min-width:0;min-height:0;padding:0;border:0;background:none;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.pin.vpin.spr{pointer-events:none;position:absolute;transform:none;translate:none;min-width:0;min-height:0;padding:0;border:0;background:none;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
 .vpin.spr .ring{display:none}
+.vpin.spr .vhit{position:absolute;pointer-events:auto;border-radius:30%;min-width:44px;min-height:44px}
 .vpin.spr .vspr{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;transform-origin:50% 96%;
   filter:brightness(1.12) contrast(1.14) saturate(.72);transition:transform .35s var(--pop,cubic-bezier(.3,1.5,.5,1)),filter .3s}
 .vpin.spr .vcontact{position:absolute;left:14%;right:14%;top:88%;height:12%;border-radius:50%;pointer-events:none;
