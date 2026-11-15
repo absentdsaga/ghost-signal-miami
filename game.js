@@ -95,6 +95,8 @@
   setInterval(() => { if (cur && recharging(cur.id) || (cur && S.recharge[cur.id])) { const was = !!S.recharge[cur.id]; renderPower(); if (was && !S.recharge[cur.id]) renderCase(); } }, 1000);
 
   window.GS_isMystery = (id) => !!caseOf(id) && !isSolved(id);
+  window.GS_today = () => (D ? todayId() : null);
+  window.GS_player = () => ({ name: S.name, skipped: !!S.skipped, solved: solvedCount() });
 
   window.GS_beforeAsk = (r, text) => {
     const c = caseOf(r.id); if (!c || isSolved(r.id)) return null;
@@ -124,7 +126,7 @@
     const w = el("div", "gs-welcome", `<div class="gs-card"><div class="gs-k">${g("welcomeK")}</div><h1>${g("welcomeH")}</h1><p>${g("welcomeP")}</p>
       <form><input maxlength="20" autocomplete="off" placeholder="${g("namePh")}"><button type="submit" class="gs-go">${g("start")}</button></form><button class="gs-skip" type="button">${g("skip")}</button></div>`);
     w.id = "gsWelcome";
-    const done = (n) => { S.name = (n || "").replace(/[^\p{L}\p{N} '\-]/gu, "").trim().slice(0, 20); if (!S.name) S.skipped = true; save(); w.classList.add("out"); setTimeout(() => w.remove(), 400); updateChrome(); };
+    const done = (n) => { S.name = (n || "").replace(/[^\p{L}\p{N} '\-]/gu, "").trim().slice(0, 20); if (!S.name) S.skipped = true; save(); w.classList.add("out"); setTimeout(() => w.remove(), 400); updateChrome(); window.dispatchEvent(new CustomEvent("gs:named", { detail: { name: S.name } })); };
     w.querySelector("form").onsubmit = (e) => { e.preventDefault(); done(w.querySelector("input").value); };
     w.querySelector(".gs-skip").onclick = () => done("");
     document.body.appendChild(w);
@@ -187,6 +189,8 @@
     });
     ov.querySelector(".gs-x").onclick = () => { ov.classList.add("out"); setTimeout(() => ov.remove(), 250); };
     ov.onclick = (e) => { if (e.target === ov) ov.querySelector(".gs-x").click(); };
+    const escKey = (e) => { if (e.key === "Escape" && document.body.contains(ov)) { e.stopPropagation(); ov.querySelector(".gs-x").click(); } if (!document.body.contains(ov) || e.key === "Escape") removeEventListener("keydown", escKey, true); };
+    addEventListener("keydown", escKey, true);
     document.body.appendChild(ov);
     window.dispatchEvent(new CustomEvent("gs:guide-open"));
   }
@@ -218,12 +222,13 @@
   }
 
   function wake() {
-    const r = cur, c = caseOf(r.id); if (!c || busy) return;
+    const r = cur, c = caseOf(r.id); if (!c) return;
     const seen = S.woke[r.id];
     const line = isSolved(r.id) ? g("back2") : seen ? g("back1") : L(c.wake);
     S.woke[r.id] = (S.woke[r.id] || 0) + 1; save();
-    pending = true; renderCase();
+    pending = true;
     ask({ text: g("wakeHeard"), script: fill(line), kind: "wake" });
+    renderCase();
     setTimeout(renderTop, 50);
   }
 
@@ -338,7 +343,7 @@
     opts.forEach((o) => {
       const b = el("button", "gs-reply", esc(Q(o.cl)));
       b.onclick = () => {
-        if (busy || recharging(r.id)) { FX("wrong"); return; }
+        if (recharging(r.id)) { FX("wrong"); return; }
         say(r.id, "you", Q(o.cl));
         if (o.right) {
           S.streak[r.id] = (S.streak[r.id] || 0) + 1; save();
@@ -626,7 +631,6 @@
   }
 
   function check(r, c) {
-    if (busy) return;
     const right = picks.map((w, i) => w === c.answer[i]);
     if (right.every(Boolean)) return solve(r, c);
     const slots = document.querySelectorAll("#gsCase .gs-blank");
@@ -758,6 +762,7 @@
       if (!isSolved(r.id) && clue && left === 0) say(r.id, "bot", g("allBack"));
       if (!clue && cur?.id === r.id) setTimeout(() => renderCase(), 0);
     }
+    if (kind === "wake" && cur?.id === r.id && caseOf(r.id) && !isSolved(r.id)) setTimeout(() => { const n = document.querySelector("#gsCase .gs-gut, #gsCase .gs-replies"); n?.scrollIntoView({ behavior: "smooth", block: "center" }); n?.classList.add("gs-attn"); setTimeout(() => n?.classList.remove("gs-attn"), 2400); }, 900);
     if (clue) return unlock(r.id, clue);
     if (scripted || !heard || !caseOf(r.id) || isSolved(r.id)) return;
     const h = window.GS_beforeAsk(r, heard);
