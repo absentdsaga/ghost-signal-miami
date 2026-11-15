@@ -316,3 +316,34 @@ body:has([data-body=mars].on) main:after{background:radial-gradient(ellipse 80% 
 .gs-pimg{background-color:var(--world)}
 .gs-scan-wrap{box-shadow:0 0 0 6px var(--night2)}
 @media(max-width:600px){.hint{white-space:normal;max-width:calc(100vw - 120px);line-height:1.25;text-align:center}}
+
+/* ---------- the painted orbital map (Nov 15 2026) ----------
+   One painted frame per view. The miniatures are painted in; the buttons sit on them.
+   Panels keep the painting's 16:9 so the tap targets never drift; wider than the screen, you drag. */
+#vista{position:fixed;inset:0;z-index:450;display:none;overflow-x:auto;overflow-y:hidden;background:#050407;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#vista::-webkit-scrollbar{display:none}
+body.vista-on #vista{display:flex}
+body.vista-on #map{visibility:hidden}
+body.vista-on main:before{display:none}
+.vpanel{position:relative;flex:0 0 auto;height:100%;aspect-ratio:1672/941;scroll-snap-align:center;margin:0 auto}
+.vpanel img{position:absolute;inset:0;width:100%;height:100%;display:block;user-select:none;-webkit-user-drag:none;animation:vbreathe 40s ease-in-out infinite alternate}
+@keyframes vbreathe{from{transform:scale(1)}to{transform:scale(1.035)}}
+.pin.vpin{position:absolute;width:11vh;height:11vh;min-width:56px;min-height:56px;transform:translate(-50%,-50%);border:0;padding:0;background:none;cursor:pointer;animation:none;z-index:2}
+.pin.vpin:before{display:none}
+.vpin .ring{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 1.5px rgba(216,255,62,0),0 0 0 0 rgba(216,255,62,0);transition:box-shadow .35s var(--pop),transform .35s var(--pop)}
+.vpin:hover .ring,.vpin:focus-visible .ring{box-shadow:inset 0 0 0 1.5px rgba(216,255,62,.9),0 0 24px rgba(216,255,62,.35);transform:scale(1.06)}
+.vpin.sel .ring,.vpin.live .ring{box-shadow:inset 0 0 0 2px var(--lime),0 0 34px rgba(216,255,62,.5)}
+.vpin.live .ring{animation:vlive 1.6s ease-in-out infinite}
+@keyframes vlive{50%{box-shadow:inset 0 0 0 2px var(--lime),0 0 54px rgba(216,255,62,.75)}}
+.vpin .ghost-label{position:absolute;top:50%;left:100%;transform:translateY(-50%);margin-left:2px;white-space:nowrap;text-align:left;display:flex;flex-direction:column;gap:1px;pointer-events:none}
+.vpin.left .ghost-label{left:auto;right:100%;margin:0 2px 0 0}
+.vpin.restored .ghost-label{background:var(--lime);color:var(--ink);box-shadow:none}
+.vpin.restored .ghost-label small{color:rgba(22,5,17,.65)}
+.vpin.lost .ring{box-shadow:inset 0 0 0 1px rgba(242,205,176,.3)}
+.pin.vpin.today:after{top:-4px}
+.vcredit{position:fixed;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:460;font-size:10px;color:rgba(242,205,176,.55);max-width:46vw;text-align:right;pointer-events:none}
+@media(max-width:600px){.vcredit{bottom:auto;top:calc(118px + env(safe-area-inset-top));left:12px;right:auto;max-width:70vw;text-align:left}.pin.vpin{width:9vh;height:9vh}}
+@media(prefers-reduced-motion:reduce){.vpanel img{animation:none}}
+.vpin .ghost-label,.vpin.left .ghost-label{top:100%;left:50%;right:auto;transform:translateX(-50%);margin:-4px 0 0;align-items:center;text-align:center;padding:4px 9px}
+#vista{align-items:center}
+@media(max-width:600px){.vpanel{height:64vh;margin:0}.vcredit{top:auto;bottom:calc(74px + env(safe-area-inset-bottom));left:12px;right:auto;max-width:80vw;text-align:left}}

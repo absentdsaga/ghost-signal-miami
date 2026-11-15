@@ -73,7 +73,31 @@ function coverZoom() {
 }
 map.on("resize", () => { if (innerWidth > 600) { const cz = coverZoom(); map.setMinZoom(cz); if (map.getZoom() < cz) map.setZoom(cz); } });
 
+/* painted orbital maps: one painted frame per view, machines as miniatures at their real sites.
+   pts are [x, y] as fractions of the painting, measured from where each miniature was painted. */
+const VISTA = {
+  moon: [{ img: "assets/img/map-moon.webp", pts: { surveyor3: [0.1453, 0.535], alsep: [0.2339, 0.5], rover16: [0.7626, 0.565], eagle: [0.8289, 0.5] } }],
+  mars: [
+    { img: "assets/img/map-mars-west.webp", pts: { phoenix: [0.4276, 0.19], viking1: [0.5598, 0.47], sojourner: [0.6214, 0.548], opportunity: [0.7016, 0.6] } },
+    { img: "assets/img/map-mars-east.webp", pts: { ingenuity: [0.3056, 0.405], insight: [0.5221, 0.478], spirit: [0.68, 0.575] } },
+  ],
+};
+function drawVista() {
+  markers.forEach((m) => map.removeLayer(m)); markers = [];
+  const v = $("vista"); document.body.classList.add("vista-on");
+  v.innerHTML = VISTA[body].map((p) => `<div class="vpanel"><img src="${p.img}" alt="" draggable="false">${Object.entries(p.pts).map(([id, [x, y]]) => {
+    const r = robots.find((q) => q.id === id); if (!r) return "";
+    return `<button class="pin vpin${x > 0.62 ? " left" : ""}" id="g-${id}" style="left:${(x * 100).toFixed(2)}%;top:${(y * 100).toFixed(2)}%" aria-label="${name(r)}"><span class="ring"></span><span class="ghost-label">${name(r)}<small class="sil" data-id="${id}">${silentShort(id)}</small></span></button>`;
+  }).join("")}</div>`).join("") + `<div class="vcredit">${lang === "es" ? "Pintado a partir de mapas y fotos de la NASA · con ayuda de IA · máquinas mucho más grandes que su escala real" : "Painted from NASA maps and photos · AI-assisted · machines shown far larger than real"}</div>`;
+  v.querySelectorAll(".vpin").forEach((b) => (b.onclick = () => openRobot(robots.find((r) => r.id === b.id.slice(2)))));
+  const st = body === "moon" ? (innerWidth <= 600 ? 0.79 : 0.5) : (innerWidth <= 600 ? 0.29 : 0.25);
+  requestAnimationFrame(() => { v.scrollLeft = Math.max(0, v.scrollWidth * st - v.clientWidth / 2); });
+  window.dispatchEvent(new CustomEvent("gs:pins"));
+}
+
 function drawPins() {
+  if (VISTA[body]) { drawVista(); return; }
+  document.body.classList.remove("vista-on");
   markers.forEach((m) => map.removeLayer(m));
   markers = [];
   const list = robots.filter((r) => r.body === body);
@@ -263,7 +287,7 @@ function openRobot(r) {
   cur = r; curSlide = "robot";
   $("stage").classList.remove("awake", "lost", "noise", "talking"); $("rSilent").classList.remove("awake");
   document.querySelectorAll(".pin").forEach((g) => g.classList.remove("sel", "live"));
-  $("g-" + r.id)?.classList.add("sel");
+  $("g-" + r.id)?.classList.add("sel"); $("g-" + r.id)?.classList.contains("vpin") && $("g-" + r.id).scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   $("answer").textContent = ""; $("answer").className = "answer"; $("sources").innerHTML = ""; $("status").textContent = "";
   fillSheet(r);
   if (!busy) stopAudio();
