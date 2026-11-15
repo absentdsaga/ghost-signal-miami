@@ -211,12 +211,14 @@
       tip.onclick = () => pin.click();
       document.body.append(dim, tip);
       /* the others wake up one by one */
-      const others = [...document.querySelectorAll("#vista .vpin")].filter((p) => p !== pin);
+      let others = [...document.querySelectorAll("#vista .vpin")].filter((p) => p !== pin);
       others.forEach((p) => p.classList.add("coach-sleep"));
       const wakeT = others.map((p, i) => setTimeout(() => { p.classList.remove("coach-sleep"); p.classList.add("coach-wake", "glint"); ping(0.012, 880 + i * 110); setTimeout(() => p.classList.remove("glint"), 1000); }, 1300 + i * 520));
       /* bottom button = tap the robot */
       const hint = document.getElementById("hint"), oldHint = hint?.textContent;
       if (hint) { hint.classList.add("coach-cta"); hint.setAttribute("role", "button"); hint.tabIndex = 0; hint.innerHTML = `<i class="cc-dot"></i>${T("cta")(nmR)} <span>→</span>`; hint.onclick = () => pin.click(); hint.onkeydown = (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pin.click(); } }; }
+      const relang = () => { if (hint && hint.classList.contains("coach-cta")) hint.innerHTML = `<i class="cc-dot"></i>${T("cta")(typeof name === "function" ? name(r) : r.name)} <span>→</span>`; const b2 = tip.querySelector("b"), t2 = tip.querySelector(".ct-tap"); if (b2) b2.textContent = T("listen"); if (t2) t2.textContent = T("tap"); };
+      addEventListener("gs:lang", relang);
       const pingT = setInterval(() => { if (document.hidden || !onMap()) return; ping(0.04, 1320); setTimeout(() => ping(0.02, 1320), 260); }, 2600);
       setTimeout(() => onMap() && ping(0.045, 1320), 500);
       let raf = 0;
@@ -235,13 +237,13 @@
       const finish = () => {
         if (!coachOn) return; coachOn = false; mark(K_COACH); localStorage.setItem(K_GUIDE + ".armed", "1");
         cancelAnimationFrame(raf); clearInterval(pingT); wakeT.forEach(clearTimeout);
-        others.forEach((p) => p.classList.remove("coach-sleep", "coach-wake"));
-        pin.classList.remove("coach-target"); document.body.classList.remove("coach-on");
+        document.querySelectorAll("#vista .vpin").forEach((p) => p.classList.remove("coach-sleep", "coach-wake"));
+        document.querySelectorAll(".coach-target").forEach((p) => p.classList.remove("coach-target")); document.body.classList.remove("coach-on");
         dim.classList.add("out"); tip.classList.add("out"); setTimeout(() => { dim.remove(); tip.remove(); }, 400);
-        if (hint) { hint.classList.remove("coach-cta"); hint.removeAttribute("role"); hint.removeAttribute("tabindex"); hint.onclick = hint.onkeydown = null; hint.textContent = oldHint; }
-        removeEventListener("gs:open", finish); removeEventListener("gs:pins", lost);
+        if (hint) { hint.classList.remove("coach-cta"); hint.removeAttribute("role"); hint.removeAttribute("tabindex"); hint.onclick = hint.onkeydown = null; hint.textContent = (typeof t === "function" ? t("hint") + (typeof visits !== "undefined" && visits?.today_total ? t("tally")(visits.today_total) : "") : oldHint); }
+        removeEventListener("gs:open", finish); removeEventListener("gs:pins", lost); removeEventListener("gs:lang", relang);
       };
-      const lost = () => { if (!document.body.contains(pin)) { finish(); } };
+      const lost = () => { if (document.body.contains(pin)) return; const np = document.getElementById("g-" + id); if (!np) return finish(); pin = np; pin.classList.add("coach-target"); tip.onclick = () => pin.click(); if (hint) hint.onclick = () => pin.click(); };
       addEventListener("gs:open", finish);
       addEventListener("gs:pins", lost);
       document.addEventListener("click", (e) => { if (e.target.closest?.("#vista .vpin")) finish(); }, { capture: true, once: false });

@@ -238,7 +238,7 @@ const fmt = (s) => {
 
 function applyLang() {
   document.documentElement.lang = lang;
-  document.querySelectorAll("[data-i18n]").forEach((el) => { const v = t(el.dataset.i18n); if (typeof v === "string") el.textContent = v; });
+  document.querySelectorAll("[data-i18n]").forEach((el) => { const v = t(el.dataset.i18n); if (typeof v === "string" && !el.classList.contains("coach-cta")) el.textContent = v; });
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => (el.placeholder = t(el.dataset.i18nPh)));
   showDelay();
   drawPins();
@@ -656,7 +656,7 @@ async function postVisit(id, body) {
 }
 function renderVisits() {
   if (visits) $("hint").dataset.tally = ""; 
-  const hint = $("hint"); if (visits && hint) hint.textContent = t("hint") + (visits.today_total ? t("tally")(visits.today_total) : "");
+  const hint = $("hint"); if (visits && hint && !hint.classList.contains("coach-cta")) hint.textContent = t("hint") + (visits.today_total ? t("tally")(visits.today_total) : "");
   if (!cur || !visits) { $("rCalls").innerHTML = ""; $("rMsgs").innerHTML = ""; return; }
   const v = visits.robots[cur.id] || { today: 0, total: 0, messages: [] };
   $("rCalls").innerHTML = t("calls")(v.today, v.total);
