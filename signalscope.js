@@ -261,7 +261,7 @@
     q(".ss-met small").textContent = `${plain(R).toUpperCase()} HAS BEEN ON ${R.body === "mars" ? "MARS" : "THE MOON"} FOR`;
     const tk = () => { let s = Math.floor((Date.now() - land) / 1000); const y = Math.floor(s / 31557600); s -= y * 31557600; const d = Math.floor(s / 86400); s -= d * 86400; const h = Math.floor(s / 3600); s -= h * 3600; const m = Math.floor(s / 60); s -= m * 60; q(".ss-met span").textContent = `${y}y ${d}d ${h}h ${m}m ${String(s).padStart(2, "0")}s`; };
     tk(); clock = setInterval(tk, 1000);
-    q(".ss-next .p").textContent = nextRobot() ? "Call the next machine" : "Back to the map";
+    q(".ss-next .p").textContent = nextRobot() ? "Call the next machine" : allHome() ? "See all 11 together" : "Back to the map";
     say(P.bye, "robot", () => later(() => { q(".ss-cap").classList.remove("show"); q(".ss-win").classList.add("show"); }, 500));
   }
   function nextRobot() {
@@ -281,7 +281,7 @@
     if (a === "case") close();
     if (a === "again") open(R.id);
     if (a === "map") toMap();
-    if (a === "next") { const nx = nextRobot(); if (!nx) return toMap(); const sc = window.GS_scene; if (sc?.phase && sc.phase !== "off") { sc.leave(); const t0 = Date.now(); (function w() { if (sc.phase === "off") { close(); sc.enter(nx.id); } else if (Date.now() - t0 < 4000) setTimeout(w, 100); else close(); })(); } else { close(); if (typeof openRobot === "function") openRobot(nx); } }
+    if (a === "next") { const nx = nextRobot(); if (!nx) { toMap(); if (allHome()) setTimeout(finale, 700); return; } const sc = window.GS_scene; if (sc?.phase && sc.phase !== "off") { sc.leave(); const t0 = Date.now(); (function w() { if (sc.phase === "off") { close(); sc.enter(nx.id); } else if (Date.now() - t0 < 4000) setTimeout(w, 100); else close(); })(); } else { close(); if (typeof openRobot === "function") openRobot(nx); } }
   });
   document.addEventListener("keydown", (e) => {
     if (root.hidden || phase === "off") return;
@@ -293,16 +293,41 @@
   }, true);
   document.addEventListener("keyup", (e) => { if (!root.hidden && e.code === "Space") { e.stopPropagation(); up(); } }, true);
   function toMap() { const sc = window.GS_scene; if (sc?.phase && sc.phase !== "off") sc.leave(); else document.getElementById("closeSheet")?.click(); setTimeout(close, 200); home(); }
+  /* the ending: all 11 memories together */
+  const allHome = () => !!ROBOTS && ROBOTS.every((x) => won[x.id] != null);
+  const fin = document.createElement("div"); fin.id = "ssFin"; fin.hidden = true; document.body.appendChild(fin);
+  function finale() {
+    if (!allHome()) return;
+    let name = ""; try { name = (JSON.parse(localStorage.getItem("ghostsignal.v1")) || {}).name || ""; } catch {}
+    const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    let got = 0, of = 0;
+    const cards = ROBOTS.map((r, k) => { const n = buildRounds(r.id).length, sc = Math.min(won[r.id] || 0, n); got += sc; of += n;
+      return `<figure style="--d:${k * 90}ms"><img src="assets/img/${r.id}-cut.png" alt=""><figcaption><b>${esc(plain(r))}</b><span>${sc} of ${n}</span></figcaption></figure>`; }).join("");
+    fin.innerHTML = `<div class="sf-in"><div class="sf-k">SHIFT COMPLETE${name ? " · " + esc(name).toUpperCase() : ""}</div>
+      <h1>All 11 answered.</h1><div class="sf-grid">${cards}</div>
+      <div class="sf-score"><b>${got}</b> of ${of} right</div>
+      <p>Every one of them is still up there, on the Moon and on Mars. Now you know what each one did.</p>
+      <div class="sf-btns"><button class="p" data-f="map">Back to the map</button><button class="s" data-f="reset">Start a new shift</button></div></div>`;
+    fin.hidden = false; requestAnimationFrame(() => fin.classList.add("on"));
+    [392, 523, 659, 784, 1047, 1319].forEach((f, k) => setTimeout(() => { try { tone(f, 0.5, "triangle", 0.09); } catch {} }, 300 + k * 140));
+  }
+  fin.addEventListener("click", (e) => {
+    const f = e.target.closest("[data-f]")?.dataset.f; if (!f) return;
+    if (f === "reset") { if (!confirm("Start over? This clears all 11 memories.")) return; Object.keys(won).forEach((k) => delete won[k]); saveWon(); try { const g = JSON.parse(localStorage.getItem("ghostsignal.v1")) || {}; g.solved = {}; localStorage.setItem("ghostsignal.v1", JSON.stringify(g)); } catch {} return location.reload(); }
+    fin.classList.remove("on"); setTimeout(() => { fin.hidden = true; home(); }, 350);
+  });
   /* home screen: the goal and where to start */
   const hb = document.createElement("div"); hb.id = "ssHome"; document.body.appendChild(hb);
   function home() {
     const n = ROBOTS ? ROBOTS.filter((x) => won[x.id] != null).length : 0, of = ROBOTS?.length || 11;
-    hb.innerHTML = `<b>${n} of ${of}</b> memories home`;
+    hb.innerHTML = n >= of ? `<b>${n} of ${of}</b> home · see them together` : `<b>${n} of ${of}</b> memories home`;
+    hb.classList.toggle("done", n >= of);
     document.querySelectorAll(".ss-start").forEach((x) => x.remove());
     const pin = n === 0 && document.getElementById("g-eagle");
     if (pin) { const t = document.createElement("span"); t.className = "ss-start"; t.textContent = "START HERE"; pin.appendChild(t); }
   }
+  hb.addEventListener("click", finale);
   ready.then(home); addEventListener("gs:pins", () => setTimeout(home, 50)); addEventListener("gs:scope-won", home);
   addEventListener("gs:open", (e) => { const id = e.detail?.robot?.id; if (id) open(id); });
-  window.GS_scope = { open, close, won };
+  window.GS_scope = { open, close, won, finale };
 })();
