@@ -16,10 +16,12 @@
   const S = {
     en: { next: "Next machine", map: "Map", skip: "Skip", silent: "Silent for", y: ["year", "years"], mo: ["month", "months"], d: ["day", "days"],
       left: "Left on", moon: "the Moon", mars: "Mars", search: "Searching for its signal", power: "Power rising", lock: "Signal acquired", back: "Brought back · already awake",
-      credit: "Painted from NASA photos · AI-assisted" },
+      credit: "Painted from NASA photos · AI-assisted",
+      ping: "Earth calling · Deep Space Network", lt: "light-time", fast: "shown sped up", earth: "EARTH", listen: "Listening", carrier: "Faint carrier", hello: "…hello? … Earth?" },
     es: { next: "Siguiente máquina", map: "Mapa", skip: "Saltar", silent: "En silencio desde hace", y: ["año", "años"], mo: ["mes", "meses"], d: ["día", "días"],
       left: "Dejado en", moon: "la Luna", mars: "Marte", search: "Buscando su señal", power: "Subiendo energía", lock: "Señal captada", back: "De vuelta · ya despierto",
-      credit: "Pintado a partir de fotos de la NASA · con ayuda de IA" },
+      credit: "Pintado a partir de fotos de la NASA · con ayuda de IA",
+      ping: "La Tierra llama · Red de Espacio Profundo", lt: "a la velocidad de la luz", fast: "acelerado", earth: "TIERRA", listen: "Escuchando", carrier: "Portadora débil", hello: "…¿hola? … ¿Tierra?" },
   };
   const s = (k) => (S[lang] || S.en)[k];
   const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -52,6 +54,7 @@
       <h1 class="h-n"></h1>
       <div class="h-s"></div>
       <div class="h-st"><i></i><span></span></div>
+      <div class="h-voice" aria-live="polite"></div>
       <div class="h-note"></div>
     </div>
     <button class="sc-skip" type="button"><span class="l"></span> <span aria-hidden="true">›</span></button>
@@ -267,6 +270,80 @@
     },
   };
 
+  /* contact from Earth: where Earth sits in this painting's sky (the corner away from the machine) */
+  const earthAt = (R) => ({ x: (R.heart?.x ?? 50) > 50 ? 14 : 86, y: 17 }); /* below the top letterbox */
+  Object.assign(FX, {
+    earth({ x, y, mars }) { /* Moon: Earth hangs in the black sky. Mars: Earth is a small blue evening star */
+      return addFx({ over: true, earth: true, draw(now, g, W, H) {
+        const t = (now - this.t0) / 1000, k = Math.min(1, t / 0.8), u = W / 1280, [cx, cy] = P(x, y), r = (mars ? 2.2 : 9) * u;
+        const halo = g.createRadialGradient(cx, cy, 0, cx, cy, r * (mars ? 9 : 3.2)); halo.addColorStop(0, "rgba(140,190,255,.55)"); halo.addColorStop(1, "rgba(140,190,255,0)");
+        g.globalAlpha = k * (this.fade ?? 1); g.fillStyle = halo; g.beginPath(); g.arc(cx, cy, r * (mars ? 9 : 3.2), 0, 7); g.fill();
+        const disc = g.createRadialGradient(cx - r * 0.35, cy - r * 0.35, 0, cx, cy, r); disc.addColorStop(0, "#eaf4ff"); disc.addColorStop(0.55, "#5b8fe0"); disc.addColorStop(1, "#1d3f8a");
+        g.fillStyle = disc; g.beginPath(); g.arc(cx, cy, r, 0, 7); g.fill();
+        g.globalCompositeOperation = "source-over"; g.globalAlpha = k * 0.75 * (this.fade ?? 1); g.fillStyle = "#cfe2ff";
+        g.font = `600 ${Math.round(10.5 * u)}px ui-monospace,monospace`; g.textAlign = x > 50 ? "right" : "left";
+        g.fillText(s("earth"), cx + (x > 50 ? -1 : 1) * r * (mars ? 5 : 2.2), cy + 4 * u);
+      } });
+    },
+    beam({ from, to, ms, c = "#bfe6ff", onArrive }) { /* the signal: a hot head with a fading trail along a gentle arc */
+      const [ax, ay] = [from.x, from.y], [bx, by] = [to.x, to.y], mx = (ax + bx) / 2, my = Math.min(ay, by) - 6;
+      const at = (k) => [(1 - k) * (1 - k) * ax + 2 * (1 - k) * k * mx + k * k * bx, (1 - k) * (1 - k) * ay + 2 * (1 - k) * k * my + k * k * by];
+      let fired = false;
+      return addFx({ over: true, draw(now, g, W, H) {
+        const t = now - this.t0, k = Math.min(1, t / ms), u = W / 1280;
+        if (k >= 1 && !fired) { fired = true; onArrive && onArrive(); }
+        const tail = 0.28, fadeOut = k >= 1 ? Math.max(0, 1 - (t - ms) / 350) : 1; if (!fadeOut) return false;
+        for (let i = 0; i <= 36; i++) { const kk = k - tail * i / 36; if (kk < 0) break; const [px, py] = P(...at(kk)), a = (1 - i / 36);
+          g.globalAlpha = a * a * 0.9 * fadeOut; g.fillStyle = hex(c, 1); g.beginPath(); g.arc(px, py, (1.2 + 2.2 * a) * u, 0, 7); g.fill(); }
+        const [hx, hy] = P(...at(k)), gr = g.createRadialGradient(hx, hy, 0, hx, hy, 22 * u); gr.addColorStop(0, "rgba(255,255,255,1)"); gr.addColorStop(0.25, hex(c, 0.8)); gr.addColorStop(1, hex(c, 0));
+        g.globalAlpha = fadeOut; g.fillStyle = gr; g.beginPath(); g.arc(hx, hy, 22 * u, 0, 7); g.fill();
+      } });
+    },
+    waves({ x, y, c = "#9fe8ff", n = 3, ms = 1300, out = false }) { /* radio rings: arriving (shrinking onto the antenna) or leaving */
+      return addFx({ over: true, draw(now, g, W, H) {
+        const t = now - this.t0, u = W / 1280, [cx, cy] = P(x, y); if (t > ms + n * 220) return false;
+        for (let i = 0; i < n; i++) { const k = (t - i * 220) / ms; if (k < 0 || k > 1) continue;
+          const r = (out ? 6 + k * 120 : 120 - k * 114) * u; g.globalAlpha = (out ? 1 - k : k) * 0.85; g.strokeStyle = c; g.lineWidth = 2 * u;
+          g.beginPath(); g.arc(cx, cy, r, 0, 7); g.stroke(); }
+      } });
+    },
+    bloom({ x, y, c = "#fff3dc", ms = 700, a = 0.45 }) {
+      return addFx({ over: true, draw(now, g, W, H) {
+        const k = (now - this.t0) / ms; if (k > 1) return false; const [cx, cy] = P(x, y), r = W * 0.55;
+        const gr = g.createRadialGradient(cx, cy, 0, cx, cy, r); gr.addColorStop(0, hex(c, 1)); gr.addColorStop(0.3, hex(c, 0.35)); gr.addColorStop(1, hex(c, 0));
+        g.globalAlpha = a * (k < 0.12 ? k / 0.12 : Math.pow(1 - (k - 0.12) / 0.88, 2)); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+      } });
+    },
+    sweep({ ms = 750 }) { /* one glare band crossing the painting as the power arrives */
+      return addFx({ over: true, draw(now, g, W, H) {
+        const k = (now - this.t0) / ms; if (k > 1) return false; const x = (-0.3 + 1.6 * ease(k)) * W, bw = W * 0.12;
+        g.translate(x, 0); g.transform(1, 0, -0.35, 1, 0, 0);
+        const gr = g.createLinearGradient(-bw, 0, bw, 0); gr.addColorStop(0, "rgba(255,240,220,0)"); gr.addColorStop(0.5, "rgba(255,240,220,.22)"); gr.addColorStop(1, "rgba(255,240,220,0)");
+        g.globalAlpha = Math.sin(k * Math.PI); g.fillStyle = gr; g.fillRect(-bw, 0, bw * 2 + H * 0.4, H);
+      } });
+    },
+    flare({ x, y, c }) { /* anamorphic streak + two ghosts on the line through frame centre; settles to a low idle */
+      return addFx({ over: true, flare: true, draw(now, g, W, H) {
+        const t = (now - this.t0) / 1000, u = W / 1280, [cx, cy] = P(x, y);
+        const lv = t < 0.25 ? t / 0.25 : 0.32 + 0.68 * Math.exp(-(t - 0.25) * 2.2), br = lv * (0.92 + 0.08 * Math.sin(t * 2.4));
+        g.save(); g.translate(cx, cy); g.scale(1, 0.018);
+        const st = g.createRadialGradient(0, 0, 0, 0, 0, W * 0.32); st.addColorStop(0, "rgba(255,255,255,.9)"); st.addColorStop(0.2, hex(c, 0.5)); st.addColorStop(1, hex(c, 0));
+        g.globalAlpha = br * 0.8; g.fillStyle = st; g.beginPath(); g.arc(0, 0, W * 0.32, 0, 7); g.fill(); g.restore();
+        const core = g.createRadialGradient(cx, cy, 0, cx, cy, 30 * u); core.addColorStop(0, "rgba(255,255,255,.95)"); core.addColorStop(0.4, hex(c, 0.35)); core.addColorStop(1, hex(c, 0));
+        g.globalAlpha = br; g.fillStyle = core; g.beginPath(); g.arc(cx, cy, 30 * u, 0, 7); g.fill();
+        [[0.55, 16, 0.14], [1.35, 34, 0.08]].forEach(([d, r, a]) => { const gx = cx + (W / 2 - cx) * d * 2, gy = cy + (H / 2 - cy) * d * 2;
+          const gh = g.createRadialGradient(gx, gy, r * u * 0.6, gx, gy, r * u); gh.addColorStop(0, hex(c, a)); gh.addColorStop(1, hex(c, 0));
+          g.globalAlpha = br; g.fillStyle = gh; g.beginPath(); g.arc(gx, gy, r * u, 0, 7); g.fill(); });
+      } });
+    },
+  });
+  function microShake(px = 4) { anim(shake, [{ transform: "translate(0,0)" }, { transform: `translate(${-px}px,${px * 0.8}px)` }, { transform: `translate(${px * 0.7}px,${-px * 0.5}px)` }, { transform: "translate(0,0)" }], { duration: 190, easing: "linear" }); }
+  function lightTime(b) {
+    const v = typeof delay !== "undefined" && delay?.[b]?.one_way_seconds;
+    if (v) return { s: v, txt: typeof fmt === "function" ? fmt(v) : v.toFixed(2) + " s" };
+    return b === "moon" ? { s: 1.28, txt: "1.28 s" } : null;
+  }
+
   /* ---------- lamps (DOM, additive) ---------- */
   const STY = { stutter: "aaamaaazamaamzzzmm", flicker: "mmnmmomzzm", fluoro: "mmamammmmammam" };
   function lamp(L, big) {
@@ -308,7 +385,7 @@
   function fillHud(id, solved) {
     const r = robot(id), yr = (r.landed || "").match(/\d{4}/)?.[0];
     q(".h-k").textContent = ""; q(".h-s").textContent = ""; q(".h-n").textContent = name(r);
-    q(".h-st").className = "h-st"; q(".h-note").textContent = "";
+    q(".h-st").className = "h-st"; q(".h-note").textContent = ""; q(".h-voice").textContent = ""; q(".h-voice").classList.remove("show");
     root.dataset.k = `${s("left")} ${r.body === "moon" ? s("moon") : s("mars")}${yr ? " · " + yr : ""}`;
     root.dataset.s = solved ? s("back") : silentText(id);
     q(".sc-skip .l").textContent = s("skip");
@@ -336,7 +413,7 @@
     if (instant) { heart.classList.add("on", "breathe"); R.lamps.forEach((L) => lampOn(lamp(L), L, true)); }
     FX.spill({ x: R.foot.x, y: R.foot.y, w: R.foot.w * 1.25, c: R.spill || "#ffd0a0" });
     const keep = (R.fx || []).filter((f) => ["lidar", "stripes", "ripples", "pulses", "rotor"].includes(f.type));
-    if (instant) keep.forEach((f) => FX[f.type](f));
+    if (instant) { keep.forEach((f) => FX[f.type](f)); FX.flare({ x: R.heart.x, y: R.heart.y, c: R.heart.c }); }
     return heart;
   }
 
@@ -361,19 +438,16 @@
       later(() => handoff(id), 1500); return;
     }
 
-    /* a. descent: camera drops from above onto the ground; planes travel at different depths */
-    const D = fromScene ? 1100 : 1450, DESC = "cubic-bezier(.25,.6,.35,1)";
-    anim(root, [{ opacity: 0 }, { opacity: 1 }], { duration: dive ? 260 : 420, easing: "ease-out", fill: "both" });
-    anim(cam, [{ transform: "translateY(-10%) scale(1.55)" }, { transform: "translateY(0) scale(1.0)" }], { duration: D, easing: DESC, fill: "both" });
+    /* a. arrival: the camera settles in out of black (no landing thud: nothing lands, Earth is calling) */
+    const D = fromScene ? 1000 : 1400, DESC = "cubic-bezier(.22,.7,.3,1)";
+    anim(root, [{ opacity: 0 }, { opacity: 1 }], { duration: dive ? 300 : 500, easing: "ease-out", fill: "both" });
+    anim(cam, [{ transform: "translateY(-3%) scale(1.16)" }, { transform: "translateY(0) scale(1.0)" }], { duration: D, easing: DESC, fill: "both" });
     if (!dive) GS_wakeAudio?.ui.descend();
     later(() => {
       if (my !== runId) return;
-      GS_wakeAudio?.ui.land();
-      anim(shake, [{ transform: "translate(0,0)" }, { transform: "translate(-5px,7px)" }, { transform: "translate(4px,-4px)" }, { transform: "translate(-2px,2px)" }, { transform: "translate(0,0)" }], { duration: 320, easing: "linear" });
-      FX.puff({ x: R.foot.x, y: R.foot.y, w: R.foot.w, c: r.body === "mars" ? "214,150,112" : "200,190,205" });
-      /* b. establishing: slow dolly + orbit-feel parallax, runs to the end of the shot */
-      const T = 7000;
-      anim(cam, [{ transform: "scale(1)" }, { transform: "scale(1.075)" }], { duration: T, easing: "cubic-bezier(.25,.1,.35,1)", fill: "both" });
+      /* b. establishing: slow dolly over the whole painting, runs to the end of the shot */
+      const T = 9000;
+      anim(cam, [{ transform: "scale(1)" }, { transform: "scale(1.085)" }], { duration: T, easing: "cubic-bezier(.25,.1,.35,1)", fill: "both" });
       anim(frame, [{ transform: "translateX(0)" }, { transform: "translateX(-0.9%)" }], { duration: T, easing: "ease-in-out", fill: "both" }); /* one painting, one plane: a slow truck, never a cutout sliding over its ground */
       startIdle(id, R);
     }, D - 120);
@@ -391,35 +465,62 @@
       return;
     }
 
-    /* c. signs of life */
-    const W0 = fromScene ? 2300 : 2700;
-    later(() => { status("search", s("search")); }, W0 - 900);
-    later(() => { /* anticipation: the world dips darker, a relay ticks */
-      if (my !== runId) return;
-      GS_wakeAudio?.ui.dim(); root.classList.add("waking");
-      window.GS_music?.duck(true);
-    }, W0);
+    /* c. contact. Beat 1: Earth reaches out (DSN ping, real one-way light-time; Mars is shown sped up and says so) */
+    const C0 = fromScene ? 1400 : 1700, mars = r.body === "mars", E = earthAt(R), lt = lightTime(r.body);
+    const travel = mars ? 1700 : Math.round(Math.min(1.6, Math.max(1.1, lt?.s || 1.28)) * 1000);
     later(() => {
       if (my !== runId) return;
-      GS_wakeAudio?.wake(id);
+      window.GS_music?.duck(true);
+      status("search", `${s("ping")}${lt ? ` · ${lt.txt} ${s("lt")}` : ""}${mars ? ` · ${s("fast")}` : ""}`);
+      FX.earth({ x: E.x, y: E.y, mars });
+      later(() => {
+        if (my !== runId) return;
+        GS_wakeAudio?.ui.ping(travel / 1000);
+        FX.waves({ x: E.x, y: E.y, c: "#bfe6ff", n: 2, ms: 700, out: true });
+        FX.beam({ from: E, to: R.heart, ms: travel, onArrive: () => { if (my === runId) FX.waves({ x: R.heart.x, y: R.heart.y, n: 3, ms: 900 }); } });
+      }, 500);
+    }, C0);
+
+    /* Beat 2: nothing. The world dips, the music almost goes, we wait... then one faint answer */
+    const B2 = C0 + 500 + travel + 250;
+    later(() => { if (my !== runId) return; root.classList.add("waking"); status("search", s("listen")); }, B2);
+    const FL = B2 + 900;
+    later(() => {
+      if (my !== runId) return;
+      const one = lamp(R.heart, true); lightStyle(one, "aamaaaa", 70, () => one.remove());
+      GS_wakeAudio?.ui.flicker(); status("power", s("carrier"));
+    }, FL);
+
+    /* Beat 3: the wake cascade */
+    const W1 = FL + 650;
+    later(() => {
+      if (my !== runId) return;
+      const cues = GS_wakeAudio?.wake(id) || { chargeEnd: 1.0, chirp: 1.8 };
+      microShake(3);
+      later(() => microShake(5), (cues.chargeEnd || 1) * 1000);
       status("power", s("power"));
       const heart = lightUp(id, R, false);
-      lightStyle(heart, STY.stutter, 62, () => { heart.classList.add("on", "breathe"); FX.sparks({ x: R.heart.x, y: R.heart.y, c: R.heart.c }); });
-      R.lamps.forEach((L) => later(() => lampOn(lamp(L), L, false), 1150 + (L.t || 0)));
+      lightStyle(heart, STY.stutter, 62, () => {
+        heart.classList.add("on", "breathe"); FX.sparks({ x: R.heart.x, y: R.heart.y, c: R.heart.c });
+        FX.flare({ x: R.heart.x, y: R.heart.y, c: R.heart.c }); FX.bloom({ x: R.heart.x, y: R.heart.y, a: 0.32 });
+      });
+      R.lamps.forEach((L) => later(() => { lampOn(lamp(L), L, false); microShake(1.5); }, 1150 + (L.t || 0)));
       const flood = 1250, scan = (R.fx || []).find((f) => f.type === "scan");
       if (scan) {
         const lit = q(".m-lit"); lit.style.clipPath = "inset(0 100% 0 0)"; root.classList.add("scanning");
         later(() => FX.scan({ ms: scan.ms, onX: (x) => { lit.style.clipPath = `inset(0 ${(100 - x).toFixed(2)}% 0 0)`; q(".sc-dark").style.clipPath = `inset(0 0 0 ${x.toFixed(2)}%)`; } }), 500);
         later(() => { root.classList.add("awake"); lit.style.clipPath = ""; q(".sc-dark").style.clipPath = ""; }, 500 + scan.ms + 30);
-      } else later(() => root.classList.add("awake"), flood);
+      } else { later(() => { root.classList.add("awake"); FX.sweep({}); }, flood); }
+      later(() => FX.puff({ x: R.foot.x, y: R.foot.y, w: R.foot.w * 1.1, n: 46, c: mars ? "214,150,112" : "200,190,205", rise: 0.25 }), (cues.chargeEnd || 1) * 1000 + 40); /* dust shaken off by the relay */
       (R.fx || []).forEach((f) => { if (f.type !== "scan") later(() => FX[f.type](f), f.type === "glint" ? 1900 : f.type === "dust" ? 1250 : 1400); });
       if ((R.fx || []).some((f) => f.type === "rotor")) later(() => FX.puff({ x: R.foot.x, y: R.foot.y, w: R.foot.w * 1.3, n: 50, c: "214,150,112", rise: 0.2 }), 2000);
       later(() => { /* breath: a small settle with overshoot, like a motor finding its load */
-        anim(mach, [{ transform: "scale(1)" }, { transform: "scale(1.022) translateY(-0.6%)", offset: 0.35 }, { transform: "scale(.996)", offset: 0.7 }, { transform: "scale(1)" }], { duration: 1300, easing: "ease-in-out" });
-      }, 1300);
-      later(() => { status("ok", s("lock")); GS_wakeAudio?.ui.lock(); q(".h-note").textContent = R.note?.[lang] || ""; root.classList.add("show-note"); }, 2700);
-      later(() => handoff(id), 3500);
-    }, W0 + 260);
+        anim(mach, [{ transform: "scale(1)" }, { transform: "scale(1.012)", offset: 0.35 }, { transform: "scale(.998)", offset: 0.7 }, { transform: "scale(1)" }], { duration: 1500, easing: "ease-in-out" });
+      }, 1400);
+      later(() => { const v = q(".h-voice"); v.classList.add("show"); type(v, s("hello"), 16); }, 1900);
+      later(() => { status("ok", s("lock")); GS_wakeAudio?.ui.lock(); q(".h-note").textContent = R.note?.[lang] || ""; root.classList.add("show-note"); fx.forEach((f) => { if (f.earth) f.fade = 0.35; }); }, 2800);
+      later(() => handoff(id), 3600);
+    }, W1);
   }
 
   /* d. handoff: open the case with the scene alive behind it */

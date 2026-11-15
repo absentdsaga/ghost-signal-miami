@@ -18,8 +18,8 @@
 /* dead -> alive: a dark copy of the machine under a full-colour copy that fades in; the world under a dimmer */
 .m-dark{will-change:opacity}
 .m-lit{opacity:0;transition:opacity calc(1.2s * var(--ts,1)) cubic-bezier(.4,0,.2,1);will-change:opacity}
-.sc-dark{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 70%,rgba(6,4,12,.5),rgba(3,2,6,.78));opacity:.85;transition:opacity calc(1.6s * var(--ts,1)) ease;pointer-events:none}
-.sc.waking .sc-dark{opacity:1;transition:opacity calc(.25s * var(--ts,1)) ease}
+.sc-dark{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 70%,rgba(6,4,12,.5),rgba(3,2,6,.78));opacity:.45;transition:opacity calc(1.6s * var(--ts,1)) ease;pointer-events:none}
+.sc.waking .sc-dark{opacity:.8;transition:opacity calc(.25s * var(--ts,1)) ease}
 .sc.awake .m-lit,.sc.lit .m-lit{opacity:1}
 .sc.awake .sc-dark,.sc.lit .sc-dark{opacity:.08}
 .sc.scanning .m-lit{opacity:1;transition:none}
@@ -115,3 +115,8 @@ body.sc-going .top,body.sc-going .delaybar,body.sc-going .hint,body.sc-going .gs
 .musicbtn{width:34px;height:34px;border-radius:999px;border:1.5px solid currentColor;background:transparent;color:inherit;font:600 16px/1 Geist,system-ui,sans-serif;cursor:pointer;display:inline-grid;place-items:center;opacity:.9}
 .musicbtn.off{opacity:.45}
 .musicbtn:focus-visible{outline:2px solid #d6ff3c;outline-offset:2px}
+
+/* contact from Earth: the machine's first words come in as a received telemetry line */
+.h-voice{font-family:var(--mono,ui-monospace,monospace);font-size:15px;color:var(--lime,#d8ff3e);text-shadow:0 0 14px rgba(216,255,62,.45),0 1px 8px rgba(0,0,0,.9);margin-top:10px;min-height:1.3em;opacity:0;transition:opacity .4s}
+.h-voice.show{opacity:1}
+.h-voice.show::before{content:"RX  ";color:#ff6a5a;letter-spacing:.12em;font-size:11px}
