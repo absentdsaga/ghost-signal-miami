@@ -261,3 +261,13 @@
 .gs-move.flatter small{color:#ff8fc8}.gs-move.honest small{color:#8fe3ff}
 .gs-move.disguise{border-color:#e7ff3a99}
 @keyframes gsPulse{50%{opacity:.45}}
+.gs-steps{display:flex;gap:6px;flex-wrap:wrap}
+.gs-steps span{flex:1;min-width:0;text-align:center;padding:6px 4px;border-radius:99px;font:600 12px/1 Geist,system-ui,sans-serif;color:#fff6e880;background:#ffffff10;border:1px solid #ffffff1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gs-steps span.done{color:#1a0814;background:#e7ff3a;border-color:#e7ff3a}
+.gs-steps span.now{color:#fff6e8;border-color:#ff4fa3;box-shadow:0 0 14px #ff4fa366}
+.gs-timer{height:8px;border-radius:99px;background:#ffffff14;overflow:hidden}
+.gs-timer i{display:block;height:100%;width:100%;background:#e7ff3a;border-radius:99px}
+.gs-timer.hurry i{background:#ff3b3b;animation:gsPulse .5s infinite}
+.gs-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gs-two .gs-reply{min-height:64px;font-size:17px;font-weight:700}
+.gs-retry{width:100%;min-height:56px;font-weight:700}

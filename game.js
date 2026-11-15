@@ -240,7 +240,7 @@
     if (!ok && !S.woke[r.id]) { renderPower(); return; }
     if (!ok && c.gut && S.bets[r.id] == null) { box.appendChild(chatLog(r)); box.appendChild(gutCall(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok && c.gut) box.appendChild(el("div", "gs-gutmine", `<span class="gs-k">${g("gutYour")}</span><b>${esc(L(c.gut.opts[S.bets[r.id]]))}</b><small>${g("gutFind")}</small>`));
-    if (!ok && DOOR[r.id] && !S.open?.[r.id]) { box.appendChild(doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
+    if (!ok && DOOR[r.id] && !S.open?.[r.id]) { box.appendChild(DOOR[r.id].game ? gameView(r, c) : doorView(r, c)); const lg = box.querySelector(".gs-chat"); if (lg) lg.scrollTop = lg.scrollHeight; return; }
     if (!ok) { const pwr = el("div", "gs-power"); box.appendChild(pwr); box.appendChild(el("div", "gs-rule", g("wrongCost"))); }
     if (ok) { box.appendChild(chatLog(r)); renderPower(); return; }
     box.appendChild(memStrip(r, c, have));
@@ -448,6 +448,104 @@
       row.appendChild(b);
     });
     wrap.appendChild(row);
+    return wrap;
+  }
+
+
+  /* ---------- mission rounds: each machine's own game, built from its real history ---------- */
+  const GS = {};
+  let gTimer = null;
+  const gstate = (id) => (GS[id] ||= { v: DOOR[id].game.meter.start, i: 0, said: -1, combo: 0, best: 0, deadline: 0, tries: (GS[id]?.tries || 0) });
+  function gMeterHTML(gm, v) {
+    const m = gm.meter, pct = Math.max(0, Math.min(100, (v / Math.max(m.start, 1)) * 100));
+    return `<div class="gs-door-top"><span class="gs-k">${esc(m.name)}</span><b>${esc(gm.title)}</b><span class="gs-door-n">${Math.max(0, Math.round(v))}${esc(m.unit)}</span></div><div class="gs-door-bar"><i style="width:${pct}%"></i></div>`;
+  }
+  function gSteps(gm, i) {
+    return `<div class="gs-steps">${gm.steps.map((s, k) => `<span class="${k < i ? "done" : k === i ? "now" : ""}">${esc(s)}</span>`).join("")}</div>`;
+  }
+  function gLose(r) {
+    const gm = DOOR[r.id].game; clearInterval(gTimer);
+    say(r.id, "bot", gm.lose); say(r.id, "you", "(call dropped. tap to try again)");
+    FX("flat"); window.GSFX?.flash("#ff3b3b"); toast("Call dropped. Try again.");
+    const t = (GS[r.id]?.tries || 0) + 1; delete GS[r.id]; gstate(r.id).tries = t; GS[r.id].said = -2; GS[r.id].q = -2;
+    renderCase();
+  }
+  function gAnswer(r, c, o, btn) {
+    const gm = DOOR[r.id].game, d = gstate(r.id), rd = gm.rounds[d.i];
+    clearInterval(gTimer); d.deadline = 0;
+    const right = o === rd.right;
+    if (o) say(r.id, "you", o); else say(r.id, "you", "(too slow)");
+    if (right) {
+      d.v = Math.min(gm.meter.start, d.v + (gm.meter.gain || 0)); d.combo++; d.best = Math.max(d.best, d.combo);
+      FX("place");
+      if (btn && window.GSFX) { const [x, y] = window.GSFX.at(btn); window.GSFX.burst(x, y, { n: 16, speed: 4, colors: ["#e7ff3a", "#fff", "#ff4fa3"] }); window.GSFX.float(d.combo > 1 ? `x${d.combo} COMBO` : "NICE", x, y - 16, "#e7ff3a"); }
+      S.streak[r.id] = (S.streak[r.id] || 0) + 1;
+    } else {
+      d.v -= gm.meter.loss; d.combo = 0; S.streak[r.id] = 0;
+      if (btn) btn.classList.add("miss");
+      FX("wrong"); window.GSFX?.shake(document.querySelector("#gsCase")); window.GSFX?.flash("#ff3b3b");
+      const n = document.querySelector("#gsCase .gs-door-m");
+      if (n && window.GSFX) { const [x, y] = window.GSFX.at(n); window.GSFX.float(`-${gm.meter.loss}${gm.meter.unit} ${gm.meter.name.toUpperCase()}`, x, y - 16, "#ff5a5a"); }
+    }
+    save();
+    d.i++;
+    const dead = d.v <= 0, done = d.i >= gm.rounds.length;
+    if (dead || done) d.q = d.i;
+    pending = true; renderCase();
+    ask({ text: o || "", script: right ? rd.yes : (o ? (/^(Nope|Wrong|No)\b/.test(rd.no) ? "" : "Nope. ") : "Too slow! ") + rd.no, kind: right ? "memory" : "door" });
+    setTimeout(() => whenIdle(() => {
+      if (cur?.id !== r.id) return;
+      if (dead) { if (GS[r.id] === d) gLose(r); return; }
+      if (done) { const dd = DOOR[r.id]; const keep = dd.open; dd.open = gm.win + (d.best > 2 ? ` Best combo: x${d.best}.` : ""); openHatch(r); dd.open = keep; return; }
+      renderCase();
+    }), 0);
+  }
+  function gTick(r, c, bar, meterEl) {
+    clearInterval(gTimer);
+    const gm = DOOR[r.id].game, d = gstate(r.id), T = (gm.time || 12) * 1000;
+    if (!d.deadline) d.deadline = Date.now() + T;
+    let last = Date.now();
+    gTimer = setInterval(() => {
+      if (cur?.id !== r.id || !document.body.contains(bar)) return clearInterval(gTimer);
+      if (busy || pending || document.hidden) { d.deadline += Date.now() - last; last = Date.now(); return; }
+      const now = Date.now(), dt = (now - last) / 1000; last = now;
+      if (gm.meter.drain) { d.v -= gm.meter.drain * dt; meterEl.innerHTML = gMeterHTML(gm, d.v); meterEl.classList.toggle("cold", d.v < gm.meter.start * 0.35); if (d.v <= 0) { clearInterval(gTimer); d.q = d.i + 99; return gLose(r); } }
+      const left = Math.max(0, d.deadline - now);
+      bar.style.width = (left / T) * 100 + "%"; bar.parentNode.classList.toggle("hurry", left < 3500);
+      if (left <= 0) gAnswer(r, c, "", null);
+    }, 100);
+  }
+  function gameView(r, c) {
+    const gm = DOOR[r.id].game, d = gstate(r.id), wrap = el("div", "gs-door gs-game");
+    const meterEl = el("div", `gs-door-m${d.v < gm.meter.start * 0.35 ? " cold" : ""}`, gMeterHTML(gm, d.v));
+    wrap.appendChild(meterEl);
+    wrap.appendChild(el("div", "", gSteps(gm, d.i)));
+    wrap.appendChild(chatLog(r));
+    if (d.said === -2) {
+      const b = el("button", "gs-reply gs-retry", "Call back");
+      b.onclick = () => { d.said = -1; d.q = -1; FX("place"); renderCase(); };
+      wrap.appendChild(b); return wrap;
+    }
+    const rd = gm.rounds[d.i];
+    if (!rd) return wrap;
+    if (d.said !== d.i) {
+      if (d.q !== d.i) {
+        d.q = d.i; clearInterval(gTimer); const at = d.i;
+        const line = (at === 0 ? gm.intro + " " : "") + rd.say + " " + rd.q;
+        setTimeout(() => whenIdle(() => { if (cur?.id !== r.id || GS[r.id] !== d || d.i !== at) return; d.said = at; pending = true; renderCase(); ask({ text: "", script: line, kind: "door" }); }), 0);
+      }
+      return wrap;
+    }
+    if (busy || pending) { if (!pending && !d.wait) { d.wait = 1; setTimeout(() => whenIdle(() => { d.wait = 0; if (cur?.id === r.id) renderCase(); }), 0); } return wrap; }
+    if (d.i === 0) wrap.appendChild(el("div", "gs-k gs-door-ask", esc(gm.rule)));
+    const tb = el("div", "gs-timer", "<i></i>"); wrap.appendChild(tb);
+    const row = el("div", "gs-reply-row gs-two");
+    const opts = [rd.right, ...rd.wrong.slice(0, 2)];
+    let h = (d.tries || 0) + 3; for (const ch of r.id + d.i) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+    if (h & 1) opts.reverse();
+    opts.forEach((o) => { const b = el("button", "gs-reply", esc(o)); b.onclick = () => { if (busy || pending) return; gAnswer(r, c, o, b); }; row.appendChild(b); });
+    wrap.appendChild(row);
+    gTick(r, c, tb.firstChild, meterEl);
     return wrap;
   }
 
