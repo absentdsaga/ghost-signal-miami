@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Ghost Signal · Call</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500;600;700&family=Unbounded:wght@700;800&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="call.css?v=3">
+</head><body class="pre">
+<div id="app">
+  <div class="scene"><img id="ground" alt=""><img id="shadow" alt=""><img id="mach" alt=""></div>
+  <div class="flash"></div><div class="flash good"></div>
+  <header class="hud">
+    <div class="who"><h1 id="name"></h1><p id="where"></p></div>
+    <div class="meter"><span class="lb" id="mlabel"></span><div class="segs" id="segs"><i class="seg"></i><i class="seg"></i><i class="seg"></i></div><div class="pips" id="pips"></div></div>
+  </header>
+  <div class="real" id="real"><span id="realTag"></span><div class="wave"><i></i><i style="animation-delay:.1s"></i><i style="animation-delay:.25s"></i><i style="animation-delay:.05s"></i><i style="animation-delay:.3s"></i><i style="animation-delay:.15s"></i><i style="animation-delay:.2s"></i></div></div>
+  <div class="lamp" id="lamp"></div>
+  <div class="stamp" id="stamp"><b id="stB"></b><small id="stS"></small></div>
+  <section class="line" id="line"><div class="tag"><i></i><span id="who"></span></div><div class="say" id="say"></div><div class="fact" id="fact"></div></section>
+  <footer class="dock" id="dock">
+    <div class="keys off" id="keys">
+      <button class="key" id="kA"><b></b></button>
+      <button class="mic" id="mic" aria-label="Hold to say your call"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V22h2v-3.1a7 7 0 0 0 6-6.9h-2z"/></svg></button>
+      <button class="key" id="kB"><b></b></button>
+    </div>
+    <div class="chips" id="chips" hidden></div>
+    <div class="hint" id="hint"></div>
+  </footer>
+
+  <section class="screen on" id="incoming"><div class="in">
+    <div class="ring"><img id="ringImg" alt=""></div>
+    <span class="k" id="ringK">INCOMING SIGNAL</span>
+    <h2 id="ringName"></h2>
+    <p id="ringRules"></p>
+    <button class="big" id="answer">ANSWER</button>
+    <span class="fine" id="found"></span>
+  </div></section>
+
+  <section class="screen" id="lost"><canvas id="static" width="160" height="90"></canvas><div class="in">
+    <span class="k" style="color:var(--pink)">NO FUEL</span><h2>SIGNAL LOST</h2><p id="lostLine"></p>
+    <button class="big" id="again">FLY ME AGAIN</button>
+  </div></section>
+
+  <section class="screen" id="keep"><div class="in" style="width:100%">
+    <span class="k" id="keepK">MEMORY RECOVERED</span>
+    <div class="card"><div class="ph"><img id="kImg" alt=""><span class="st" id="kSt"></span></div>
+      <h3 id="kTitle"></h3><p class="cp" id="kCap"></p>
+      <div class="row"><div class="sq" id="kRow"></div><div><div class="grade" id="kGrade"></div><div class="rank" id="kRank"></div></div></div>
+    </div>
+    <div class="btns">
+      <button class="big" id="kToday">SEE ME TODAY</button>
+      <button class="big" id="kNext" hidden>CALL THE NEXT MACHINE</button>
+      <button class="ghost" id="kTalk" hidden>STAY ON THE LINE</button>
+      <button class="ghost" id="kAgain" hidden>FLY AGAIN</button>
+    </div>
+  </div></section>
+
+  <section class="screen" id="promo"><div class="in"><span class="k">PROMOTED</span><h2 id="promoT"></h2></div></section>
+</div>
+<script id="data"></script>
+<script>
+const M=(new URLSearchParams(location.search).get("m")||"eagle").replace(/[^a-z0-9]/g,"");
+const s=document.createElement("script");s.src=M+".js?v=3";s.onload=()=>{const e=document.createElement("script");e.src="engine.js?v=3";document.body.appendChild(e)};document.body.appendChild(s);
+</script>
+</body></html>
