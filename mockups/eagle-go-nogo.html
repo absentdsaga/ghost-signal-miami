@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Eagle: Go / No Go (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#12070b;--plum:#210a1b;--plum2:#33102a;--plum3:#4a1a3e;--mauve:#6e4a62;
+  --cream:#fff4e3;--peach:#f2cdb0;--lime:#d8ff3e;--pink:#ff4fa0;--tang:#ff7a2f;--muted:#c9a9bb;
+  --display:"Unbounded",system-ui,sans-serif;--sans:"Geist",system-ui,sans-serif;--mono:"Geist Mono",ui-monospace,monospace;
+  --pop:cubic-bezier(.3,1.6,.5,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--night);color:var(--cream);font-family:var(--sans);overflow:hidden}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.app{position:relative;height:100%;max-width:1100px;margin:0 auto;display:grid;grid-template-rows:auto 1fr auto}
+
+/* HUD */
+.hud{display:flex;align-items:center;gap:14px;padding:max(12px,env(safe-area-inset-top)) 16px 10px;z-index:5}
+.act{font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--muted);white-space:nowrap}
+.act b{color:var(--cream);font-weight:500}
+.meter{flex:1;display:grid;gap:6px}
+.meter-top{display:flex;justify-content:space-between;align-items:baseline;font:500 12px/1 var(--mono);color:var(--muted)}
+.meter-top .val{font:700 22px/1 var(--display);color:var(--cream);font-variant-numeric:tabular-nums}
+.bar{height:14px;border-radius:99px;background:#ffffff14;overflow:hidden;position:relative}
+.bar i{position:absolute;inset:0 auto 0 0;width:100%;background:var(--lime);border-radius:99px;transition:width .35s ease,background .3s}
+.bar .limit{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--cream);border-radius:2px;display:none}
+.bar.low i{background:var(--tang)}.bar.dead i{background:var(--pink)}
+.heart{display:grid;justify-items:center;gap:2px;min-width:64px}
+.heart .bpm{font:700 22px/1 var(--display);font-variant-numeric:tabular-nums}
+.heart small{font:500 10px/1 var(--mono);color:var(--muted);letter-spacing:.06em}
+.heart svg{width:18px;height:18px;fill:var(--pink);animation:beat var(--beat,0.8s) infinite}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.35)}24%{transform:scale(1)}}
+
+/* SCENE */
+.stage{position:relative;overflow:hidden;min-height:0}
+.scene{position:absolute;inset:0}
+.scene img{position:absolute;left:50%;top:50%;height:100%;width:auto;min-width:100%;object-fit:cover;transform:translate(-50%,-50%);user-select:none;pointer-events:none}
+.scene .mach{transition:transform 1.1s cubic-bezier(.2,.8,.2,1),filter .6s}
+.scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--night) 0%,transparent 22%,transparent 58%,var(--night) 100%);pointer-events:none}
+.dust{position:absolute;inset:auto 0 0 0;height:45%;background:radial-gradient(ellipse at 50% 100%,#f2cdb0aa,transparent 70%);opacity:0;transition:opacity .8s;pointer-events:none;mix-blend-mode:screen}
+.dust.on{opacity:1;animation:drift 2.4s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(3%) scaleY(1.08)}}
+.flash{position:absolute;inset:0;pointer-events:none;opacity:0}
+.flash.bad{animation:bad .5s}.flash.good{animation:good .5s}
+@keyframes bad{0%{opacity:.55;background:var(--pink)}100%{opacity:0;background:var(--pink)}}
+@keyframes good{0%{opacity:.35;background:var(--lime)}100%{opacity:0;background:var(--lime)}}
+.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translate(-8px,3px)}40%{transform:translate(7px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(4px,-1px)}}
+
+/* radio line over scene */
+.radio{position:absolute;left:12px;right:12px;bottom:12px;z-index:3;display:grid;gap:6px;justify-items:start}
+.line{background:#12070bcc;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:10px 14px;border-radius:16px}
+.who{display:inline-flex;align-items:center;gap:8px;font:500 12px/1 var(--mono);letter-spacing:.06em;color:var(--lime)}
+.who::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.25}}
+.line{font:600 clamp(19px,2.6vw,26px)/1.25 var(--sans);text-shadow:0 2px 18px #000c;max-width:34ch}
+.line .c{opacity:0;transition:opacity .05s}.line .c.on{opacity:1}
+
+/* LAG pulse */
+.lag{position:absolute;left:16px;right:16px;top:12px;z-index:4;display:none;gap:6px}
+.lag.on{display:grid}
+.lag .track{height:2px;background:#ffffff26;position:relative}
+.lag .dot{position:absolute;top:-4px;left:0;width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px var(--lime)}
+.lag span{font:500 11px/1 var(--mono);color:var(--muted);display:flex;justify-content:space-between}
+
+/* STAMP */
+.stamp{position:absolute;left:50%;top:42%;z-index:6;font:800 clamp(44px,9vw,92px)/1 var(--display);padding:.12em .3em;border:.08em solid currentColor;border-radius:.12em;transform:translate(-50%,-50%) rotate(-9deg) scale(2.4);opacity:0;pointer-events:none;letter-spacing:-.02em;white-space:nowrap}
+.stamp.go{color:var(--lime)}.stamp.no{color:var(--pink)}
+.stamp.on{animation:slam .5s var(--pop) forwards}
+@keyframes slam{0%{opacity:0;transform:translate(-50%,-50%) rotate(-9deg) scale(2.4)}60%{opacity:1}100%{opacity:1;transform:translate(-50%,-50%) rotate(-9deg) scale(1)}}
+
+/* DECK */
+.deck{padding:14px 16px max(16px,env(safe-area-inset-bottom));display:grid;gap:14px;z-index:5;background:var(--night)}
+.q{font:700 clamp(22px,3.2vw,30px)/1.15 var(--display);letter-spacing:-.01em;text-align:center}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ch{min-height:84px;border-radius:22px;display:grid;place-items:center;gap:4px;padding:10px;background:var(--plum2);border:2px solid #ffffff1f;font:800 clamp(20px,2.6vw,26px)/1 var(--display);letter-spacing:-.01em;transition:transform .15s var(--pop),background .2s,border-color .2s;touch-action:manipulation}
+.ch small{font:500 11px/1 var(--mono);color:var(--muted);letter-spacing:.06em}
+.ch svg{width:26px;height:26px}
+.ch:active{transform:scale(.94)}
+@media (hover:hover){.ch:hover{border-color:var(--cream);transform:translateY(-2px)}}
+.ch.a svg{fill:var(--lime)}.ch.b svg{fill:var(--pink)}
+.deck.locked .ch{pointer-events:none;opacity:.35}
+
+/* TRUE STORY sheet */
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:8;background:var(--cream);color:var(--ink,#160511);border-radius:26px 26px 0 0;padding:20px 20px max(20px,env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .38s var(--pop);display:grid;gap:10px;max-width:1100px;margin:0 auto}
+.sheet.on{transform:none}
+.sheet.ok{box-shadow:0 -6px 0 var(--lime) inset}
+.sheet.miss{box-shadow:0 -6px 0 var(--pink) inset}
+.sheet .verdict{font:800 22px/1 var(--display);color:#160511}
+.sheet .react{font:600 18px/1.3 var(--sans)}
+.tag{justify-self:start;font:600 11px/1 var(--mono);letter-spacing:.08em;background:#160511;color:var(--lime);padding:6px 9px;border-radius:99px}
+.sheet .fact{font:500 16px/1.4 var(--sans);color:#3a1d2e}
+.sheet a{font:500 12px/1 var(--mono);color:#6e4a62}
+.next{margin-top:4px;min-height:60px;border-radius:18px;background:#160511;color:var(--cream);font:700 18px/1 var(--display)}
+
+/* OVERLAYS */
+.over{position:absolute;inset:0;z-index:20;display:none;place-items:center;text-align:center;padding:24px;background:radial-gradient(ellipse at 50% 40%,var(--plum3),var(--night) 70%)}
+.over.on{display:grid}
+.title{display:grid;gap:14px;justify-items:center}
+.title .k{font:500 13px/1 var(--mono);letter-spacing:.1em;color:var(--muted)}
+.title h1{font:800 clamp(44px,10vw,96px)/.95 var(--display);letter-spacing:-.03em;color:var(--lime);animation:zoomin .6s var(--pop)}
+.title p{font:500 18px/1.35 var(--sans);max-width:30ch;color:var(--peach)}
+@keyframes zoomin{from{transform:scale(2.2);opacity:0}}
+.big{min-height:64px;padding:0 34px;border-radius:20px;background:var(--lime);color:#160511;font:800 20px/1 var(--display)}
+.ghostbtn{min-height:56px;padding:0 24px;border-radius:18px;border:2px solid #ffffff33;font:700 16px/1 var(--display)}
+.rules{display:grid;gap:8px;text-align:left;font:600 18px/1.3 var(--sans);margin:4px 0 6px}
+.rules div{display:flex;gap:12px;align-items:center}
+.rules i{font:800 16px/1 var(--display);font-style:normal;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--plum3);color:var(--lime);flex:none}
+
+/* RESULT CARD */
+.card{width:min(420px,100%);background:var(--cream);color:#160511;border-radius:28px;padding:18px;display:grid;gap:12px;transform:rotate(-2deg);animation:deal .7s var(--pop);text-align:left;max-height:92vh;overflow:auto}
+@keyframes deal{from{transform:translateY(60px) rotate(8deg) scale(.8);opacity:0}}
+.card .ph{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/9;background:#160511}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .ph .st{position:absolute;right:10px;top:10px;font:800 14px/1 var(--display);color:var(--lime);border:3px solid var(--lime);border-radius:8px;padding:6px 8px;transform:rotate(8deg);background:#160511cc}
+.card h2{font:800 26px/1 var(--display);letter-spacing:-.02em}
+.row{display:flex;gap:5px;flex-wrap:wrap}
+.row b{width:22px;height:22px;border-radius:6px;background:var(--lime);display:block}
+.row b.x{background:var(--pink)}
+.vs{display:grid;grid-template-columns:1fr auto auto;gap:6px 12px;font:500 14px/1.2 var(--sans);align-items:baseline}
+.vs .h{font:600 11px/1 var(--mono);letter-spacing:.06em;color:#6e4a62}
+.vs .n{font:700 18px/1 var(--display);text-align:right}
+.orbit{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;font:500 14px/1.35 var(--sans)}
+.orbit img{width:96px;height:96px;object-fit:cover;border-radius:12px}
+.card .btns{display:grid;gap:8px}
+.card .btns .big{width:100%}
+.card .btns .ghostbtn{border-color:#16051133;color:#160511}
+
+@media (min-width:860px){
+  .app{grid-template-rows:auto 1fr auto}
+  .deck{padding:18px 24px 26px}
+  .choices{max-width:640px;margin:0 auto;width:100%}
+  .radio{left:28px;bottom:22px}
+}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="hud">
+    <div class="act" id="act">ACT <b>1</b>/3</div>
+    <div class="meter">
+      <div class="meter-top"><span id="mlabel">FUEL</span><span class="val" id="mval">45s</span></div>
+      <div class="bar" id="bar"><i id="fill"></i><span class="limit" id="limit"></span></div>
+    </div>
+    <div class="heart" title="Your heart rate. Neil's hit 150 at landing.">
+      <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.6 4.5c2.1 0 3.6 1.2 4.4 2.6.8-1.4 2.3-2.6 4.4-2.6 3.6 0 5.7 3.8 4.2 7.2C19.5 16.4 12 21 12 21z"/></svg>
+      <span class="bpm" id="bpm">77</span><small>BPM</small>
+    </div>
+  </header>
+
+  <section class="stage" id="stage">
+    <div class="scene" id="scene">
+      <img src="../assets/layers/eagle/ground.webp" alt="">
+      <img src="../assets/layers/eagle/shadow.webp" alt="" id="shadow">
+      <img src="../assets/layers/eagle/machine.webp" alt="Eagle, the Apollo 11 lunar module" class="mach" id="mach">
+    </div>
+    <div class="dust" id="dust"></div>
+    <div class="flash" id="flash"></div>
+    <div class="lag" id="lag"><div class="track"><div class="dot" id="lagdot"></div></div><span><em>HOUSTON</em><em id="lagtxt">1.28 s to the Moon, live from NASA JPL</em><em>EAGLE</em></span></div>
+    <div class="radio" aria-live="polite">
+      <div class="who" id="who">EAGLE</div>
+      <div class="line" id="line"></div>
+    </div>
+    <div class="stamp" id="stamp">GO</div>
+  </section>
+
+  <footer class="deck" id="deck">
+    <div class="q" id="q"></div>
+    <div class="choices">
+      <button class="ch a" id="btnA"></button>
+      <button class="ch b" id="btnB"></button>
+    </div>
+  </footer>
+
+  <div class="sheet" id="sheet" role="dialog" aria-live="assertive">
+    <div class="verdict" id="verdict"></div>
+    <div class="react" id="react"></div>
+    <span class="tag">WHAT REALLY HAPPENED</span>
+    <div class="fact" id="fact"></div>
+    <a id="src" target="_blank" rel="noopener">NASA source</a>
+    <button class="next" id="next">Next call</button>
+  </div>
+
+  <div class="over on" id="intro">
+    <div class="title">
+      <span class="k">JULY 20, 1969 · 13 MINUTES TO THE SURFACE</span>
+      <h1>GO / NO GO</h1>
+      <p>Eagle is falling toward the Moon. You're in Mission Control. Every call is yours.</p>
+      <div class="rules">
+        <div><i>1</i>Eagle asks. You pick one of two.</div>
+        <div><i>2</i>Wrong calls burn fuel.</div>
+        <div><i>3</i>Land it. Then get them home.</div>
+      </div>
+      <button class="big" id="start">Take the call</button>
+    </div>
+  </div>
+
+  <div class="over" id="actcard"><div class="title"><span class="k" id="actk"></span><h1 id="acth"></h1><p id="actp"></p></div></div>
+
+  <div class="over" id="abort">
+    <div class="title">
+      <span class="k">FUEL: 0</span>
+      <h1 style="color:var(--pink)">ABORT</h1>
+      <p>Eagle fires the top engine and climbs back to orbit. In 1969 it didn't come to this. Try the landing again.</p>
+      <button class="big" id="retry">Fly it again</button>
+    </div>
+  </div>
+
+  <div class="over" id="result"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const ICON={
+  go:'<svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/></svg>',
+  no:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>',
+  up:'<svg viewBox="0 0 24 24"><path d="M12 4l8 10h-5v6H9v-6H4z"/></svg>',
+  down:'<svg viewBox="0 0 24 24"><path d="M12 20l-8-10h5V4h6v6h5z"/></svg>',
+  keep:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg>',
+  toss:'<svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19" stroke="#ff4fa0" stroke-width="4" stroke-linecap="round"/></svg>'
+};
+/* Every "fact" line traces to the source printed under it. Eagle's reactions are written in character and never add a new fact. */
+const ACTS=[
+ {k:"ACT 1 · 102 HOURS IN",h:"DESCENT",p:"The computer starts throwing alarms nobody trained for. Go, or abort?",meter:"FUEL",cards:[
+  {who:"EAGLE",say:"Program alarm. It's a 1202. I've never seen this one.",q:"Keep landing?",a:["GO","go","keep going"],b:["NO GO","no","abort"],right:"a",lag:true,
+   yes:"Roger. Go. Thank the kid in the back room.",no:"Abort? We flew 240,000 miles. A 24-year-old in Houston says it's fine. You want to tell him?",
+   fact:"Jack Garman, 24, checked his handwritten list of alarms. 1202 meant the computer was busy, not broken. Guidance officer Steve Bales, 26, called GO.",src:"https://www.collectspace.com/news/news-092016b-obituary-jack-garman-apollo11.html"},
+  {who:"EAGLE",say:"3,000 feet. Another one. 1201.",q:"Same kind of alarm. Call it.",a:["GO","go","same type"],b:["NO GO","no","abort"],right:"a",lag:true,
+   yes:"Same family. Copy. Still flying.",no:"Negative. Houston already knows this family. Fuel's burning while you think.",
+   fact:"Capcom Charlie Duke radioed: “1201 alarm. We're go. Same type. We're go.”",src:"https://www.nasa.gov/history/50-years-ago-one-small-step-one-giant-leap"}
+ ]},
+ {k:"ACT 2 · FUEL IS LIVE",h:"LAND ME",p:"The fuel clock is running. Pick high or low. Wrong calls cost 8 seconds.",meter:"FUEL",live:true,cards:[
+  {who:"EAGLE",say:"The computer's aiming me at a crater full of boulders the size of cars.",q:"Stay high or go down?",a:["STAY HIGH","up","fly past it"],b:["GO DOWN","down","land here"],right:"a",alt:.62,
+   yes:"Flying long. That crater's wider than a football field.",no:"Into the boulders? I have four legs, not forty.",
+   fact:"Neil took manual control and flew Eagle past West crater, the boulder field the computer was aiming at.",src:"https://www.nasa.gov/history/50-years-ago-one-small-step-one-giant-leap"},
+  {who:"EAGLE",say:"Clear patch ahead. Wait. There's a crater in that one too.",q:"Stay high or go down?",a:["STAY HIGH","up","keep looking"],b:["GO DOWN","down","take it"],right:"a",alt:.45,
+   yes:"Good eyes. Keep looking.",no:"Negative. That's a hole, pilot.",
+   fact:"At about 250 feet, Neil's new spot had a crater in it too. He cleared it and kept looking.",src:"https://www.nasa.gov/history/alsj/a11/a11.landing.html"},
+  {who:"EAGLE",say:"Smooth ground. 100 feet. Fuel's getting low.",q:"Stay high or go down?",a:["STAY HIGH","up","keep looking"],b:["GO DOWN","down","land here"],right:"b",alt:.25,
+   yes:"Coming down. Easy.",no:"Still shopping? We're out of time to be picky.",
+   fact:"Neil picked his spot about 60 meters east of a small crater later named Little West.",src:"https://www.nasa.gov/history/50-years-ago-one-small-step-one-giant-leap"},
+  {who:"EAGLE",say:"Dust everywhere. I can't see the ground. Only my shadow.",q:"Trust the shadow?",a:["GO DOWN","down","follow the shadow"],b:["STAY HIGH","up","wait for the dust"],right:"a",alt:.1,dust:true,
+   yes:"Following the shadow. Almost.",no:"Wait for dust on the Moon? It doesn't settle while my engine's on.",
+   fact:"Buzz called out Eagle's shadow on the surface. In the dust, the shadow and a few rocks were nearly all they could see.",src:"https://www.space.com/26593-apollo-11-moon-landing-scariest-moments.html"},
+  {who:"BUZZ",say:"Contact light.",q:"The blue light is on. The engine?",a:["CUT IT","no","shut it off"],b:["KEEP BURNING","go","just in case"],right:"a",alt:0,
+   yes:"Engine stop. Houston, Tranquility Base here. The Eagle has landed.",no:"We're on the ground, pilot. Burning now just digs a hole.",
+   fact:"After touchdown Duke answered: “You got a bunch of guys about to turn blue. We're breathing again.”",src:"https://www.businessinsider.com/nasa-video-simulation-neil-armstrong-view-of-moon-2019-7"}
+ ]},
+ {k:"ACT 3 · 21 HOURS LATER",h:"GO HOME",p:"Too heavy and the top engine can't lift off. You pick what stays on the Moon forever.",meter:"WEIGHT",cards:[
+  {who:"EAGLE",say:"Twenty-one kilos of Moon rocks. The first ever.",q:"Keep or toss?",a:["KEEP","keep","bring home"],b:["TOSS","toss","leave"],right:"a",w:+28,
+   yes:"Keeping them. Now I'm too heavy. Something else has to go.",no:"You just threw out the first Moon rocks ever. Houston is very quiet.",
+   fact:"Apollo 11 brought home about 21.5 kg of rocks and soil. Scientists still study them.",src:"https://www.lpi.usra.edu/lunar/missions/apollo/apollo_11"},
+  {who:"EAGLE",say:"Neil's boots. The ones that made the footprints.",q:"Keep or toss?",a:["KEEP","keep","bring home"],b:["TOSS","toss","leave"],right:"b",w:-12,
+   yes:"Boots stay. The prints stay too. There's no wind to erase them.",no:"Boots or rocks. We can't fly both. Rocks win.",
+   fact:"The astronauts left their lunar overshoes on the Moon to save weight for the trip home.",src:"https://www.history.com/articles/things-moon-astronauts-apollo"},
+  {who:"EAGLE",say:"Two backpacks. They kept the crew alive out there.",q:"Keep or toss?",a:["TOSS","toss","leave"],b:["KEEP","keep","bring home"],right:"a",w:-18,
+   yes:"Out the hatch. They land right by my ladder.",no:"Heroes, sure. Heavy heroes. Out they go.",
+   fact:"Both life-support backpacks were tossed out next to Eagle's ladder before liftoff.",src:"https://spaceartefacts.com/apollo-11-objects-on-the-moon"},
+  {who:"EAGLE",say:"The mirror panel. A hundred little mirrors.",q:"Bring it or leave it?",a:["BRING IT","keep","souvenir"],b:["LEAVE IT","toss","on purpose"],right:"b",w:0,
+   yes:"Leave it. It's not trash. It's still working.",no:"That one stays on purpose. Earth needs something to aim at.",
+   fact:"Scientists still bounce lasers off the Apollo mirrors. That's how we know the Moon drifts away about 3.8 cm a year.",src:"https://www.nasa.gov/missions/laser-beams-reflected-between-earth-and-moon-boost-science"},
+  {who:"BUZZ",say:"Problem. The engine-arm switch snapped off. No switch, no liftoff.",q:"Push it back in with...",a:["YOUR FINGER","no","fast"],b:["A FELT-TIP PEN","go","weird"],right:"b",w:0,
+   yes:"Click. Armed. Who packs a pen for the Moon? Buzz does.",no:"There's live electricity in there. Buzz said no, and Buzz was right.",
+   fact:"Buzz pushed a felt-tip marker into the hole and the breaker clicked on. He didn't want to touch live electricity with a finger.",src:"https://www.smithsonianmag.com/smart-news/buzz-aldrin-used-this-humble-felt-tip-pen-to-save-the-apollo-ii-astronauts-it-just-sold-for-more-than-850000-180989142"}
+ ]}
+];
+
+let S, timer=null, typing=null, actx=null;
+function reset(){S={act:0,card:0,fuel:45,bpm:77,weight:62,marks:[],left:0,busy:false,actFuel:45}}
+reset();
+
+/* sound */
+function ac(){if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}return actx}
+function tone(f,d,type="sine",g=.15,when=0){const a=ac();if(!a)return;const o=a.createOscillator(),v=a.createGain();o.type=type;o.frequency.value=f;const t=a.currentTime+when;v.gain.setValueAtTime(g,t);v.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(v).connect(a.destination);o.start(t);o.stop(t+d)}
+function thunk(){tone(90,.25,"square",.2);tone(60,.3,"sine",.25)}
+function good(){tone(660,.12,"triangle",.14);tone(990,.18,"triangle",.12,.08)}
+function badS(){tone(160,.35,"sawtooth",.14);tone(110,.4,"sawtooth",.12,.06)}
+function crackle(ms=220){const a=ac();if(!a)return;const n=a.sampleRate*ms/1000,b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*.18*(Math.random()<.3);const s=a.createBufferSource();s.buffer=b;s.connect(a.destination);s.start()}
+
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.pitch=.7;u.rate=1.02;speechSynthesis.speak(u)}catch(e){}}
+function typeLine(who,txt,cb){
+  clearInterval(typing);$("#who").textContent=who;const el=$("#line");
+  el.innerHTML=[...txt].map(c=>`<span class="c">${c}</span>`).join("");const cs=el.querySelectorAll(".c");let i=0;crackle();
+  typing=setInterval(()=>{if(i<cs.length){cs[i++].classList.add("on")}else{clearInterval(typing);cb&&cb()}},18);
+}
+
+function setAlt(f){$("#mach").style.transform=`translate(-50%,calc(-50% - ${f*26}%)) scale(${1-f*.22})`;$("#shadow").style.opacity=String(1-f*.85)}
+function hud(){
+  const A=ACTS[S.act];$("#act").innerHTML=`ACT <b>${S.act+1}</b>/3`;$("#mlabel").textContent=A.meter;
+  const bar=$("#bar");bar.classList.remove("low","dead");
+  if(A.meter==="FUEL"){
+    $("#limit").style.display="none";$("#mval").textContent=Math.max(0,Math.ceil(S.fuel))+"s";
+    $("#fill").style.width=Math.max(0,S.fuel/45*100)+"%";
+    if(S.fuel<=30)bar.classList.add("low");if(S.fuel<=10)bar.classList.add("dead");
+  }else{
+    $("#limit").style.display="block";$("#limit").style.left="70%";
+    $("#fill").style.width=Math.min(100,S.weight)+"%";
+    const over=S.weight>70;$("#mval").textContent=over?"TOO HEAVY":"CAN LIFT";
+    if(over)bar.classList.add("dead");
+  }
+  $("#bpm").textContent=Math.round(S.bpm);document.documentElement.style.setProperty("--beat",(60/S.bpm).toFixed(2)+"s");
+}
+
+function showAct(i,cb){
+  const A=ACTS[i];$("#actk").textContent=A.k;$("#acth").textContent=A.h;$("#actp").textContent=A.p;
+  const o=$("#actcard");o.classList.add("on");thunk();
+  setTimeout(()=>{o.classList.remove("on");cb()},2300);
+}
+
+function deal(){
+  const A=ACTS[S.act],C=A.cards[S.card];S.busy=false;hud();
+  $("#deck").classList.add("locked");$("#q").textContent="";
+  if(C.dust)$("#dust").classList.add("on");
+  typeLine(C.who,C.say,()=>{
+    $("#q").textContent=C.q;
+    const set=(el,o)=>{el.innerHTML=`${ICON[o[1]]}<span>${o[0]}</span><small>${o[2].toUpperCase()}</small>`};
+    set($("#btnA"),C.a);set($("#btnB"),C.b);$("#deck").classList.remove("locked");
+    if(A.live)startClock();
+  });
+  speak(C.say);
+}
+
+function startClock(){
+  stopClock();let last=performance.now();let warned30=S.fuel<=30;
+  timer=setInterval(()=>{const now=performance.now();S.fuel-=(now-last)/1000;last=now;
+    if(!warned30&&S.fuel<=30){warned30=true;radio("DUKE","30 seconds.")}
+    S.bpm=Math.min(170,S.bpm+.05);hud();if(S.fuel<=0){stopClock();abort()}},100);
+}
+function stopClock(){clearInterval(timer);timer=null}
+function radio(who,t){const w=$("#who"),l=$("#line"),pw=w.textContent,pl=l.innerHTML;w.textContent=who;l.textContent=t;crackle(300);tone(1200,.08,"square",.05);speak(t);setTimeout(()=>{w.textContent=pw;l.innerHTML=pl},1600)}
+
+function pick(side){
+  if(S.busy)return;const A=ACTS[S.act],C=A.cards[S.card];S.busy=true;stopClock();
+  ac();$("#deck").classList.add("locked");
+  const ok=side===C.right,label=(side==="a"?C.a:C.b)[0];
+  const go=()=>verdict(ok,label,C);
+  if(C.lag){
+    const lag=$("#lag"),dot=$("#lagdot");lag.classList.add("on");dot.style.transition="none";dot.style.left="0";
+    tone(880,.06,"square",.06);
+    requestAnimationFrame(()=>{dot.style.transition="left 1.28s linear";dot.style.left="calc(100% - 10px)"});
+    setTimeout(()=>{lag.classList.remove("on");go()},1350);
+  }else go();
+}
+
+function verdict(ok,label,C){
+  const st=$("#stamp");st.textContent=label;st.className="stamp "+(ok?"go":"no");void st.offsetWidth;st.classList.add("on");
+  thunk();setTimeout(()=>ok?good():badS(),120);
+  const fl=$("#flash");fl.className="flash";void fl.offsetWidth;fl.classList.add(ok?"good":"bad");
+  if(!ok){$("#stage").classList.remove("shake");void $("#stage").offsetWidth;$("#stage").classList.add("shake")}
+  S.marks.push(ok);
+  if(ACTS[S.act].meter==="FUEL"){if(!ok)S.fuel-=8;S.bpm+=ok?4:16}
+  else{
+    const chosenKeep=(label==="KEEP"||label==="BRING IT");
+    if(C.w>0&&chosenKeep)S.weight+=C.w;
+    if(C.w<0&&!chosenKeep)S.weight+=C.w;
+    if(!chosenKeep&&C.w===0&&label==="LEAVE IT")S.left++;
+    if(C.w<0&&!chosenKeep)S.left++;
+    S.bpm+=ok?1:6;
+  }
+  if(C.alt!=null&&ok)setAlt(C.alt);if(C.lag&&ok)setAlt(S.card===0?.88:.76);
+  hud();
+  setTimeout(()=>{
+    $("#verdict").textContent=ok?"Good call.":"Not what happened.";
+    $("#react").textContent=ok?C.yes:C.no;$("#fact").textContent=C.fact;$("#src").href=C.src;
+    $("#src").textContent="Source: "+new URL(C.src).hostname.replace("www.","");
+    const sh=$("#sheet");sh.className="sheet on "+(ok?"ok":"miss");
+    speak(ok?C.yes:C.no);
+    if(S.act===1&&S.fuel<=0){sh.classList.remove("on");abort();return}
+  },650);
+}
+
+function next(){
+  $("#sheet").classList.remove("on");$("#stamp").classList.remove("on");
+  const A=ACTS[S.act];S.card++;
+  if(S.card>=A.cards.length){
+    $("#dust").classList.remove("on");
+    if(S.act===2){return liftoff()}
+    if(S.act===1){S.landFuel=S.fuel}
+    S.act++;S.card=0;S.actFuel=S.fuel;
+    showAct(S.act,deal);return;
+  }
+  deal();
+}
+
+function abort(){speechSynthesis.cancel();badS();$("#abort").classList.add("on")}
+function retry(){
+  $("#abort").classList.remove("on");S.fuel=Math.max(S.actFuel,30);S.card=0;S.bpm=Math.min(S.bpm,120);
+  S.marks=S.marks.slice(0,ACTS[0].cards.length);setAlt(.76);
+  showAct(1,deal);
+}
+
+function liftoff(){
+  typeLine("EAGLE","Liftoff. My top half takes them home. My bottom half stays right here.",()=>{});
+  speak("Liftoff. My top half takes them home. My bottom half stays right here.");
+  tone(70,2.2,"sawtooth",.12);$("#stage").classList.add("shake");
+  $("#mach").style.transition="transform 2.4s cubic-bezier(.6,0,.9,.4),filter 2s";$("#mach").style.transform="translate(-50%,-160%)";
+  setTimeout(result,3200);
+}
+
+function result(){
+  const right=S.marks.filter(Boolean).length,total=S.marks.length,fuelLeft=Math.max(0,Math.round(S.landFuel??S.fuel));
+  const r=$("#result");
+  r.innerHTML=`<div class="card">
+    <div class="ph"><img src="../assets/img/eagle-portrait.jpg" alt="Eagle"><span class="st">THE WAY HOME</span></div>
+    <span class="tag">MEMORY 1 OF 11 · EAGLE</span>
+    <h2>${right===total?"Perfect flight":right>=total-3?"Clean flight":"Rough flight. You made it."}</h2>
+    <div class="row">${S.marks.map(m=>`<b class="${m?"":"x"}"></b>`).join("")}</div>
+    <div class="vs"><span class="h"></span><span class="h">YOU</span><span class="h">1969</span>
+      <span>Fuel when you landed</span><span class="n">${fuelLeft}s</span><span class="n">17s</span>
+      <span>Heart rate</span><span class="n">${Math.round(S.bpm)}</span><span class="n">150</span>
+      <span>Calls right</span><span class="n">${right}/${total}</span><span class="n">all</span></div>
+    <div style="font:500 13px/1.35 var(--sans);color:#6e4a62">Houston's gauge read about 17 seconds at touchdown. Later they found the fuel had sloshed: Eagle really had about 45. Neil's heart hit 150 (LPI, BBC).</div>
+    <div class="orbit"><img src="../assets/img/eagle-orbit.jpg" alt="Apollo 11 site from orbit"><span>What you left is still there. NASA's Lunar Reconnaissance Orbiter photographed Eagle's bottom half, the mirror and the gear next to it.</span></div>
+    <div class="btns"><button class="big" onclick="alert('In the game this opens the live voice call with Eagle.')">Talk to Eagle</button><button class="ghostbtn" onclick="location.reload()">Fly it again</button></div>
+  </div>`;
+  r.classList.add("on");good();setTimeout(good,180);
+}
+
+setAlt(1);
+$("#start").onclick=()=>{ac();$("#intro").classList.remove("on");showAct(0,deal)};
+$("#btnA").onclick=()=>pick("a");$("#btnB").onclick=()=>pick("b");
+$("#next").onclick=next;$("#retry").onclick=retry;
+addEventListener("keydown",e=>{if(e.key==="ArrowLeft")pick("a");if(e.key==="ArrowRight")pick("b");if((e.key==="Enter"||e.key===" ")&&$("#sheet").classList.contains("on"))next()});
+let sx=null;$("#stage").addEventListener("touchstart",e=>sx=e.touches[0].clientX,{passive:true});
+$("#stage").addEventListener("touchend",e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>60&&!$("#deck").classList.contains("locked"))pick(dx<0?"a":"b")});
+hud();
+</script>
+</body>
+</html>
