@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ghost Signal · Eagle · desktop mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Unbounded:wght@500;600;700&display=swap">
+<style>
+:root{--plum:#210a1b;--plum2:#33102a;--plum3:#4a1a3e;--pink:#ff4fa0;--tang:#ff7a2f;--lime:#d8ff3e;--cream:#fff4e3;--ink:#160511;--muted:#c9a9bb;
+--display:"Unbounded",system-ui,sans-serif;--sans:"Geist",system-ui,sans-serif;--mono:"Geist Mono",ui-monospace,monospace;--pop:cubic-bezier(.3,1.6,.5,1)}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:var(--plum);color:var(--cream);font-family:var(--sans);overflow:hidden}
+.stage{position:fixed;inset:0}
+.scene{position:absolute;inset:0;background:url(../assets/img/eagle-scene.jpg) 38% 60%/cover;transform:scale(1.04);animation:drift 30s ease-in-out infinite alternate}
+@keyframes drift{to{transform:scale(1.09) translate(-1%,-.5%)}}
+.vign{position:absolute;inset:0;background:
+ radial-gradient(60% 70% at 36% 52%,transparent 40%,rgba(33,10,27,.55) 75%,rgba(33,10,27,.92)),
+ linear-gradient(90deg,transparent 52%,rgba(33,10,27,.85) 70%,var(--plum) 100%),
+ linear-gradient(0deg,rgba(33,10,27,.95),transparent 34%)}
+.grain{position:absolute;inset:-50%;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");animation:g 1s steps(4) infinite}
+@keyframes g{50%{transform:translate(3%,-2%)}}
+
+/* top bar */
+.top{position:absolute;left:32px;right:32px;top:24px;display:flex;align-items:center;gap:18px;z-index:5}
+.back{font:500 13px var(--mono);color:var(--cream);background:rgba(33,10,27,.6);backdrop-filter:blur(10px);padding:9px 14px;border-radius:999px;text-decoration:none}
+.who{display:flex;align-items:center;gap:10px}
+.who img{width:38px;height:38px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--lime)}
+.who b{font:700 15px var(--display);letter-spacing:-.02em}
+.who small{display:block;font:400 11px var(--mono);color:var(--muted)}
+.live{font:500 11px var(--mono);color:var(--lime);display:flex;align-items:center;gap:6px}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 10px var(--lime);animation:bl 1.4s infinite}
+@keyframes bl{50%{opacity:.25}}
+.sp{flex:1}
+.power{display:flex;align-items:center;gap:10px;background:rgba(33,10,27,.6);backdrop-filter:blur(10px);padding:8px 14px;border-radius:999px;font:500 12px var(--mono)}
+.power .bars{display:flex;gap:4px}
+.power .bars i{width:16px;height:10px;border-radius:3px;background:var(--lime);box-shadow:0 0 8px rgba(216,255,62,.6);transition:.3s}
+.power .bars i.off{background:rgba(255,244,227,.15);box-shadow:none}
+.power.hit{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+/* the mystery headline */
+.mystery{position:absolute;left:48px;top:96px;z-index:4;max-width:560px}
+.mystery small{font:500 12px var(--mono);color:var(--pink)}
+.mystery h1{font:700 44px/1.02 var(--display);letter-spacing:-.045em;margin-top:8px;text-shadow:0 4px 30px rgba(33,10,27,.8)}
+
+/* conversation thread */
+.thread{position:absolute;left:48px;bottom:178px;width:min(560px,44vw);max-height:40vh;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;z-index:4;
+ mask-image:linear-gradient(transparent,#000 22%)}
+.msg{max-width:88%;padding:13px 17px;border-radius:22px;font:500 17px/1.38 var(--sans);animation:in .35s var(--pop) both}
+@keyframes in{from{opacity:0;transform:translateY(12px) scale(.96)}}
+.msg.m{background:rgba(255,244,227,.94);color:var(--ink);border-bottom-left-radius:6px;align-self:flex-start;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.msg.m .nm{display:block;font:600 11px var(--mono);color:#8a2e62;margin-bottom:3px}
+.msg.k{background:var(--pink);color:var(--ink);border-bottom-right-radius:6px;align-self:flex-end;font-weight:600}
+.msg mark{background:var(--lime);color:var(--ink);padding:0 5px;border-radius:6px;font-weight:700;box-shadow:0 0 0 0 var(--lime);animation:glow 1.2s ease-out}
+@keyframes glow{from{box-shadow:0 0 0 8px rgba(216,255,62,.0),0 0 24px var(--lime)}}
+.typing{align-self:flex-start;background:rgba(255,244,227,.94);border-radius:22px;padding:14px 18px;display:flex;gap:5px}
+.typing i{width:7px;height:7px;border-radius:50%;background:#8a2e62;animation:dot 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{50%{transform:translateY(-4px);opacity:.4}}
+
+/* talk dock */
+.dock{position:absolute;left:48px;bottom:36px;width:min(560px,44vw);z-index:5}
+.hint{font:500 13px var(--mono);color:var(--muted);margin:0 0 10px 4px}
+.hint b{color:var(--lime);font-weight:500}
+.bar{display:flex;align-items:center;gap:10px;background:rgba(33,10,27,.72);backdrop-filter:blur(16px);border-radius:999px;padding:8px;box-shadow:inset 0 0 0 1px rgba(255,244,227,.12),0 20px 50px rgba(0,0,0,.4)}
+.mic{width:62px;height:62px;border-radius:50%;border:0;cursor:pointer;flex-shrink:0;background:radial-gradient(circle at 35% 30%,#ff8cc2,var(--pink) 55%,#b71f68);box-shadow:0 0 0 0 rgba(255,79,160,.6),0 6px 20px rgba(255,79,160,.5);animation:ring 2.2s infinite;display:grid;place-items:center}
+.mic svg{width:24px;height:24px;fill:var(--ink)}
+.mic.on{background:radial-gradient(circle at 35% 30%,#efffa0,var(--lime) 55%,#93b400);animation:ring2 .9s infinite}
+@keyframes ring{70%{box-shadow:0 0 0 18px rgba(255,79,160,0),0 6px 20px rgba(255,79,160,.5)}}
+@keyframes ring2{70%{box-shadow:0 0 0 18px rgba(216,255,62,0),0 6px 20px rgba(216,255,62,.5)}}
+.bar input{flex:1;background:transparent;border:0;outline:0;color:var(--cream);font:500 18px var(--sans);padding:0 8px}
+.bar input::placeholder{color:rgba(255,244,227,.5)}
+.stuck{border:0;cursor:pointer;background:rgba(255,244,227,.1);color:var(--cream);font:500 13px var(--mono);padding:12px 16px;border-radius:999px;margin-right:4px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.chip{border:0;cursor:pointer;background:rgba(255,244,227,.12);backdrop-filter:blur(10px);color:var(--cream);font:500 14px var(--sans);padding:9px 14px;border-radius:999px;animation:in .3s var(--pop) both}
+.chip:hover{background:var(--cream);color:var(--ink)}
+
+/* case instrument (right) */
+.case{position:absolute;right:32px;top:88px;bottom:36px;width:min(440px,33vw);z-index:5;display:flex;flex-direction:column;gap:14px;
+ background:linear-gradient(160deg,#efe2d0,#d9c8b3 60%,#c7b29b);border-radius:30px;padding:16px;color:var(--ink);
+ box-shadow:inset 0 2px 0 rgba(255,255,255,.7),inset 0 -6px 14px rgba(80,40,30,.25),0 30px 80px rgba(0,0,0,.55)}
+.case .hd{display:flex;align-items:center;justify-content:space-between;padding:4px 8px 0}
+.case .hd b{font:700 15px var(--display);letter-spacing:-.02em}
+.case .hd span{font:500 11px var(--mono);color:#6d4a5a}
+.screen{border-radius:20px;padding:22px 22px 20px;background:radial-gradient(120% 90% at 30% 0%,#3d1534,#1a0614 70%);color:var(--cream);
+ box-shadow:inset 0 6px 18px rgba(0,0,0,.7),inset 0 0 0 2px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.6);position:relative;overflow:hidden}
+.screen:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.09),transparent 35%);pointer-events:none}
+.screen small{font:500 11px var(--mono);color:var(--tang)}
+.sent{font:600 24px/1.5 var(--display);letter-spacing:-.03em;margin-top:10px}
+.blank{display:inline-block;min-width:150px;border-radius:10px;padding:0 10px;text-align:center;vertical-align:baseline;
+ background:rgba(255,244,227,.07);box-shadow:inset 0 0 0 2px rgba(255,79,160,.55);color:rgba(255,244,227,.35);cursor:pointer;transition:.25s}
+.blank.sel{box-shadow:inset 0 0 0 2px var(--lime),0 0 18px rgba(216,255,62,.4)}
+.blank.full{background:var(--lime);color:var(--ink);box-shadow:none;animation:stamp .4s var(--pop)}
+@keyframes stamp{from{transform:scale(1.4) rotate(-4deg)}}
+.blank.bad{animation:shake .35s;background:var(--tang)}
+.prog{display:flex;gap:6px;margin-top:16px}
+.prog i{flex:1;height:5px;border-radius:9px;background:rgba(255,244,227,.14)}
+.prog i.on{background:var(--lime);box-shadow:0 0 8px var(--lime)}
+.lbl{font:600 12px var(--mono);color:#6d4a5a;padding:0 8px}
+.words{display:flex;gap:8px;flex-wrap:wrap;min-height:46px;padding:0 6px}
+.word{border:0;cursor:pointer;font:700 16px var(--display);letter-spacing:-.02em;padding:10px 16px;border-radius:14px;color:var(--ink);
+ background:linear-gradient(180deg,#f9ffd0,var(--lime));box-shadow:0 4px 0 #8ea400,0 8px 16px rgba(60,80,0,.25);transform:rotate(var(--r,-2deg));animation:fly .6s var(--pop) both}
+.word.used{opacity:.3;pointer-events:none}
+.word.ghost{background:rgba(22,5,17,.08);box-shadow:inset 0 0 0 2px rgba(22,5,17,.18);color:rgba(22,5,17,.35);transform:none;font-weight:600;cursor:default;animation:none}
+@keyframes fly{from{transform:translate(-300px,120px) scale(.4) rotate(-30deg);opacity:0}}
+.files{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 6px}
+.file{aspect-ratio:3/4;border-radius:12px;background:#1a0614;position:relative;overflow:hidden;box-shadow:inset 0 3px 10px rgba(0,0,0,.6)}
+.file img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.35) blur(2px);transition:.6s}
+.file span{position:absolute;left:6px;bottom:6px;font:500 9.5px var(--mono);color:var(--cream)}
+.file.open img{filter:none}
+.file.open{box-shadow:0 0 0 2px var(--lime)}
+.solve{margin-top:auto;border:0;border-radius:20px;padding:20px;font:700 19px var(--display);letter-spacing:-.02em;cursor:pointer;
+ background:#bfae98;color:rgba(22,5,17,.4);box-shadow:inset 0 3px 8px rgba(0,0,0,.2);transition:.3s}
+.solve.ready{background:radial-gradient(circle at 30% 20%,#ff9bcb,var(--pink) 60%,#c8266f);color:var(--ink);box-shadow:0 6px 0 #8e164c,0 14px 30px rgba(255,79,160,.5);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{transform:translateY(-2px)}}
+
+/* win */
+.win{position:fixed;inset:0;z-index:20;display:none;place-items:center;background:rgba(33,10,27,.7);backdrop-filter:blur(10px)}
+.win.show{display:grid;animation:in .4s both}
+.card{width:420px;border-radius:30px;overflow:hidden;background:var(--cream);color:var(--ink);transform:rotate(-2deg);box-shadow:0 40px 100px rgba(0,0,0,.6);animation:drop .7s var(--pop) both}
+@keyframes drop{from{transform:translateY(-80px) rotate(8deg) scale(.8);opacity:0}}
+.card img{width:100%;height:240px;object-fit:cover;display:block}
+.card .b{padding:22px 24px 24px}
+.card small{font:600 11px var(--mono);color:#8a2e62}
+.card h2{font:700 28px/1.05 var(--display);letter-spacing:-.04em;margin:8px 0 10px}
+.card p{font:500 15px/1.45 var(--sans)}
+.card .row{display:flex;gap:10px;margin-top:18px}
+.card .row button{flex:1;border:0;border-radius:16px;padding:14px;font:700 14px var(--display);cursor:pointer}
+.card .row .n{background:var(--ink);color:var(--lime)}
+.card .row .s{background:rgba(22,5,17,.08);color:var(--ink)}
+.tag{position:absolute;right:28px;bottom:10px;font:500 10px var(--mono);color:rgba(255,244,227,.35);z-index:6}
+</style></head><body>
+<div class="stage">
+  <div class="scene"></div><div class="vign"></div><div class="grain"></div>
+
+  <div class="top">
+    <a class="back" href="#">← Moon map</a>
+    <div class="who"><img src="../assets/img/eagle-portrait.jpg" alt=""><div><b>Eagle</b><small>Apollo 11 · Sea of Tranquility</small></div></div>
+    <div class="live"><i></i>on the line · 1.28 s delay</div>
+    <div class="sp"></div>
+    <div class="power" id="power">signal <span class="bars"><i></i><i></i><i></i></span></div>
+  </div>
+
+  <div class="mystery"><small>Eagle's mystery</small><h1>Why was Eagle left on the Moon?</h1></div>
+
+  <div class="thread" id="thread"></div>
+
+  <div class="dock">
+    <div class="hint" id="hint">Talk about anything. True things Eagle says <b>light up</b> and fill your case.</div>
+    <div class="bar">
+      <button class="mic" id="mic" aria-label="Hold to talk"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-2.1A7 7 0 0 0 19 12h-2Z"/></svg></button>
+      <input id="ask" placeholder="Say or type anything to Eagle…" autocomplete="off">
+      <button class="stuck" id="stuck">Stuck?</button>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <aside class="case">
+    <div class="hd"><b>Case file</b><span id="count">0 of 2 words</span></div>
+    <div class="screen">
+      <small>Solve it: finish Eagle's sentence</small>
+      <div class="sent">My bottom half was the <span class="blank" data-i="0">?</span> the crew <span class="blank" data-i="1">?</span> from.</div>
+      <div class="prog"><i></i><i></i></div>
+    </div>
+    <div class="lbl">Words you've found · tap one, then a blank</div>
+    <div class="words" id="words"><span class="word ghost">talk to find words</span></div>
+    <div class="lbl">NASA files · they open as you talk</div>
+    <div class="files" id="files">
+      <div class="file" data-f="crew"><img src="../assets/eagle-call/S69-39334.jpg" alt=""><span>the crew</span></div>
+      <div class="file" data-f="halves"><img src="../assets/eagle-call/as11-40-5899.jpg" alt=""><span>two halves</span></div>
+      <div class="file" data-f="flag"><img src="../assets/eagle-call/S69-38749.jpg" alt=""><span>the flag</span></div>
+      <div class="file" data-f="orbit"><img src="../assets/img/eagle-orbit.jpg" alt=""><span>from orbit</span></div>
+    </div>
+    <button class="solve" id="solve" disabled>Fill both blanks to solve</button>
+  </aside>
+  <div class="tag">desktop mockup · eagle-go-nogo · not the submitted build</div>
+</div>
+
+<div class="win" id="win"><div class="card">
+  <img src="../assets/img/eagle-orbit.jpg" alt="Tranquility Base from orbit">
+  <div class="b"><small>Case solved · keepsake 1 of 11</small>
+  <h2>"I wasn't forgotten. I was the way home."</h2>
+  <p>Next to Eagle the crew left a panel of 100 small mirrors. Scientists still bounce lasers off them, and that's how we know the Moon drifts away about 3.8 cm a year.</p>
+  <div class="row"><button class="n">Call the next machine</button><button class="s" onclick="location.reload()">Play again</button></div></div>
+</div></div>
+
+<script>
+const NAME="Miami";
+const CLUES=[
+ {id:"crew",word:"lifted off",keys:["who","crew","astronaut","neil","buzz","people","flew with","with you","inside","aboard","pilot","armstrong","aldrin","collins","man","alone","friend","drove","ride","rode"],
+  say:"Neil Armstrong and Buzz Aldrin. They [lifted off] on July 21, 1969. Roger that.",chip:"Who flew with you?"},
+ {id:"halves",word:"launch pad",keys:["made","half","halves","part","top","bottom","pieces","stage","left behind","still there","what's left","remain","launch","split","separate","body","legs","look like"],
+  say:"I came in two halves. Top half flew the crew back up. My bottom half stayed and worked as a [launch pad].",chip:"What are you made of?"},
+ {id:"flag",word:"flag",keys:["flag","usa","america","plant"],
+  say:"Buzz reported the [flag] got blown over by my engine blast when they took off.",chip:"Where's your flag?"},
+ {id:"orbit",word:null,keys:["see","photo","picture","look","orbit","space","now","today","still"],
+  say:"An orbiter photographed my site decades later. Just like they left it. File's open on your panel.",chip:"Can anyone still see you?"}
+];
+const SMALL=[
+ "Roger, "+NAME+". Loud and clear. Ask me about my crew, my body, anything.",
+ "Copy. One day on the job, the most important day. Ask me who I flew with.",
+ "Ha. Didn't train for that one. Try asking what I'm made of."
+];
+const ANSWER=["launch pad","lifted off"];
+const $=s=>document.querySelector(s), thread=$("#thread");
+let power=3, found={}, sel=null, small=0, misses=0;
+function say(html,who="m"){const d=document.createElement("div");d.className="msg "+who;d.innerHTML=(who=="m"?'<span class="nm">EAGLE</span>':"")+html;thread.appendChild(d);while(thread.children.length>8)thread.firstChild.remove();}
+function eagle(text,cb){const t=document.createElement("div");t.className="typing";t.innerHTML="<i></i><i></i><i></i>";thread.appendChild(t);
+ setTimeout(()=>{t.remove();say(text.replace(/\[(.+?)\]/g,"<mark>$1</mark>"));cb&&cb();},900);}
+function setPower(){document.querySelectorAll(".power i").forEach((b,i)=>b.classList.toggle("off",i>=power));}
+function addWord(w){if(!w||found[w])return;found[w]=1;const box=$("#words");box.querySelector(".ghost")?.remove();
+ const b=document.createElement("button");b.className="word";b.textContent=w;b.style.setProperty("--r",(Math.random()*6-3)+"deg");
+ b.onclick=()=>{document.querySelectorAll(".word").forEach(x=>x.style.outline="");sel=b;b.style.outline="3px solid var(--ink)";
+  const empty=[...document.querySelectorAll(".blank")].find(x=>!x.classList.contains("full"));empty&&empty.classList.add("sel");};
+ box.appendChild(b);}
+function openFile(id){document.querySelector(`.file[data-f="${id}"]`)?.classList.add("open");}
+function ask(q){q=q.trim();if(!q)return;say(q,"k");$("#ask").value="";const ql=q.toLowerCase();
+ const c=CLUES.find(c=>c.keys.some(k=>ql.includes(k)));
+ if(c){eagle(c.say,()=>{addWord(c.word);openFile(c.id);});}
+ else eagle(SMALL[small++%SMALL.length]);
+ $("#chips").innerHTML="";}
+document.querySelectorAll(".blank").forEach(bl=>bl.onclick=()=>{
+ if(!sel||bl.classList.contains("full"))return;const w=sel.textContent,i=+bl.dataset.i;
+ document.querySelectorAll(".blank").forEach(x=>x.classList.remove("sel"));
+ if(ANSWER[i]===w){bl.textContent=w;bl.classList.add("full");sel.classList.add("used");sel=null;
+  document.querySelectorAll(".prog i")[i].classList.add("on");
+  const n=document.querySelectorAll(".blank.full").length;$("#count").textContent=n+" of 2 words";
+  if(n==2){const s=$("#solve");s.disabled=false;s.classList.add("ready");s.textContent="Send it to Eagle";}
+ }else{bl.classList.add("bad");setTimeout(()=>bl.classList.remove("bad"),400);power=Math.max(0,power-1);setPower();
+  $("#power").classList.add("hit");setTimeout(()=>$("#power").classList.remove("hit"),400);
+  const lines=["Negative. That's not where that goes.","Still no. Signal's slipping, "+NAME+".","You're breaking up on me. Ask me again."];
+  eagle(lines[Math.min(misses++,2)]);sel.style.outline="";sel=null;}
+});
+$("#solve").onclick=()=>{eagle("Roger, "+NAME+". My bottom half was the [launch pad] the crew [lifted off] from.",()=>setTimeout(()=>$("#win").classList.add("show"),1200));};
+$("#ask").onkeydown=e=>{if(e.key==="Enter")ask(e.target.value)};
+$("#stuck").onclick=()=>{$("#chips").innerHTML="";CLUES.filter(c=>!found[c.word]||!c.word).slice(0,3).forEach((c,i)=>{const b=document.createElement("button");b.className="chip";b.style.animationDelay=i*60+"ms";b.textContent=c.chip;b.onclick=()=>ask(c.chip);$("#chips").appendChild(b);});};
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+$("#mic").onclick=()=>{if(!SR){$("#ask").focus();$("#ask").placeholder="Mic not supported here. Type it.";return;}
+ const r=new SR();r.lang="en-US";$("#mic").classList.add("on");r.onresult=e=>ask(e.results[0][0].transcript);r.onend=()=>$("#mic").classList.remove("on");r.start();};
+setPower();
+setTimeout(()=>eagle("Eagle here. "+NAME+", is that you? Two people rode me down in 1969. Then they were gone and I stayed."),500);
+setTimeout(()=>eagle("Why did they leave me?"),2300);
+</script></body></html>
