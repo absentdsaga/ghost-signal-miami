@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ghost Signal · Eagle call (layout mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--night:#140b18;--plum:#2a1630;--lime:#e2f45c;--cream:#f6eedf;--muted:#a597a8;--red:#ff5a4e}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#000;color:var(--cream);font-family:Geist,system-ui,sans-serif;overflow:hidden}
+.app{position:relative;max-width:480px;height:100dvh;margin:0 auto;background:var(--night);display:flex;flex-direction:column;overflow:hidden}
+
+/* ZONE 1: the machine */
+.scene{position:relative;flex:0 0 47%;overflow:hidden;background:radial-gradient(120% 70% at 70% 0%,#3a1d40 0%,#1c0f22 45%,#0b060e 100%)}
+.scene .layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 100%;transition:filter 1.2s ease}
+.scene .machine{object-fit:contain;object-position:50% 70%;transform:scale(.92) translateY(4%)}
+.scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#140b1899 0%,transparent 28%,transparent 55%,var(--night) 100%);pointer-events:none}
+.static{position:absolute;inset:0;z-index:3;opacity:0;pointer-events:none;mix-blend-mode:screen;
+ background:repeating-linear-gradient(0deg,#fff3 0 1px,transparent 1px 3px),radial-gradient(#ff5a4e55,transparent 70%)}
+.static.on{animation:stat .9s steps(6)}
+@keyframes stat{0%,100%{opacity:0}10%,60%{opacity:1;transform:translateY(-2px)}30%{opacity:.4;transform:translateY(3px)}}
+.top{position:absolute;z-index:4;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:14px 16px}
+.back{font:500 13px Geist;color:var(--cream);background:#0006;border:1px solid #fff2;border-radius:99px;padding:7px 12px;backdrop-filter:blur(6px)}
+.link{text-align:right;font:500 10.5px 'Geist Mono';color:var(--muted);line-height:1.5}
+.bars{display:inline-flex;gap:3px;align-items:flex-end;margin-left:6px;vertical-align:-2px}
+.bars i{display:block;width:5px;background:var(--lime);border-radius:1px;transition:background .3s,opacity .3s}
+.bars i:nth-child(1){height:7px}.bars i:nth-child(2){height:11px}.bars i:nth-child(3){height:15px}
+.bars i.off{background:#fff;opacity:.15}
+.name{position:absolute;z-index:4;left:16px;bottom:62px;font:700 22px Unbounded;letter-spacing:-.01em}
+.name small{display:block;font:500 11px 'Geist Mono';color:var(--muted);margin-top:4px;letter-spacing:0}
+.sub{position:absolute;z-index:5;left:14px;right:14px;bottom:8px;font:600 17px/1.3 Geist;color:#fff;text-shadow:0 2px 12px #000c;min-height:44px}
+.sub b{color:var(--lime);font-weight:600}
+
+/* ZONE 2: the case */
+.case{flex:0 0 auto;padding:12px 16px 10px;border-top:1px solid #ffffff14}
+.q{font:600 11px 'Geist Mono';color:var(--lime);letter-spacing:.02em}
+.sentence{font:600 21px/1.45 Geist;margin-top:6px}
+.slot{display:inline-block;min-width:96px;height:30px;vertical-align:-6px;border-radius:4px;background:#000;position:relative;
+ box-shadow:inset 0 0 0 1px #ffffff10;text-align:center;font:700 17px/30px Geist;color:var(--night);transition:background .5s}
+.slot.got{background:var(--lime);min-width:0;padding:0 10px;color:var(--night)}
+.slot.pop{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.6)}100%{transform:scale(1)}}
+.files{display:flex;gap:6px;margin-top:10px}
+.file{flex:1;font:500 10px 'Geist Mono';color:var(--muted);border:1px solid #ffffff1c;border-radius:6px;padding:6px 7px;position:relative;overflow:hidden}
+.file b{display:block;color:var(--cream);font:600 11px Geist;margin-top:2px}
+.file.open{border-color:var(--lime);color:var(--lime)}
+.file .stamp{position:absolute;right:4px;top:3px;font:700 8px 'Geist Mono';color:var(--lime);transform:rotate(-8deg);opacity:0}
+.file.open .stamp{opacity:1;animation:stampin .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes stampin{0%{transform:rotate(-8deg) scale(2.2);opacity:0}100%{transform:rotate(-8deg) scale(1);opacity:1}}
+
+/* word bank (appears after 2 words) */
+.bank{display:none;margin-top:10px}
+.bank.show{display:block;animation:up .4s ease}
+@keyframes up{from{transform:translateY(12px);opacity:0}}
+.bank .lbl{font:500 10.5px 'Geist Mono';color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font:600 14px Geist;background:#ffffff12;color:var(--cream);border:1px solid #ffffff22;border-radius:99px;padding:8px 13px}
+.chip.sel{background:var(--cream);color:var(--night)}
+.solve{margin-top:8px;width:100%;font:700 14px Unbounded;letter-spacing:.04em;background:var(--lime);color:var(--night);border:0;border-radius:12px;padding:12px}
+
+/* ZONE 3: your voice */
+.voice{margin-top:auto;padding:8px 16px calc(14px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center;gap:10px}
+.sparks{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.spark{font:500 14px Geist;color:var(--cream);background:var(--plum);border:1px solid #ffffff1f;border-radius:99px;padding:9px 14px}
+.spark.used{opacity:.35}
+.talk{position:relative;width:76px;height:76px;border-radius:50%;border:0;background:var(--lime);color:var(--night);font:700 11px Unbounded;letter-spacing:.03em}
+.talk::before{content:"";position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--lime);opacity:.5;animation:ring 1.8s ease-out infinite}
+@keyframes ring{from{transform:scale(.9);opacity:.6}to{transform:scale(1.25);opacity:0}}
+.type{font:500 12px Geist;color:var(--muted);background:none;border:0;text-decoration:underline;text-underline-offset:3px}
+
+/* reward */
+.reward{position:absolute;inset:0;z-index:20;background:var(--night);display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .8s}
+.reward.show{opacity:1;pointer-events:auto}
+.reward img{width:100%;flex:0 0 52%;object-fit:cover;filter:sepia(.25) hue-rotate(-12deg) contrast(1.05)}
+.reward .body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.reward .k{font:600 11px 'Geist Mono';color:var(--lime)}
+.reward h2{font:700 24px/1.15 Unbounded}
+.reward p{font:500 15px/1.4 Geist;color:var(--cream)}
+.reward .grade{font:600 12px 'Geist Mono';color:var(--muted)}
+.reward .row{display:flex;gap:8px}
+.reward .ghost{flex:1;font:600 13px Geist;color:var(--cream);background:#ffffff10;border:1px solid #ffffff22;border-radius:12px;padding:11px}
+.reward .next{margin-top:auto;font:700 14px Unbounded;background:var(--lime);color:var(--night);border:0;border-radius:14px;padding:15px}
+.note{position:absolute;z-index:30;left:50%;bottom:4px;transform:translateX(-50%);font:500 10px 'Geist Mono';color:#fff8;background:#0008;padding:3px 8px;border-radius:99px;white-space:nowrap}
+</style></head>
+<body>
+<div class="app" id="app">
+  <section class="scene" id="scene">
+    <img class="layer" id="g" src="../assets/layers/eagle/ground.webp" alt="">
+    <img class="layer" id="sh" src="../assets/layers/eagle/shadow.webp" alt="">
+    <img class="layer machine" id="m" src="../assets/layers/eagle/machine.webp" alt="Eagle, the Apollo 11 lander">
+    <div class="static" id="static"></div>
+    <div class="top">
+      <button class="back">← Map</button>
+      <div class="link">EARTH → MOON 1.34 s<span class="bars" id="bars"><i></i><i></i><i></i></span><br>silent 57 years</div>
+    </div>
+    <div class="name">Eagle<small>Apollo 11 · Sea of Tranquility</small></div>
+    <div class="sub" id="sub">Operator? Two people rode me down. Then they left. Why?</div>
+  </section>
+
+  <section class="case">
+    <div class="q">CASE · WHY WAS EAGLE LEFT ON THE MOON?</div>
+    <div class="sentence">My bottom half was the <span class="slot" id="s1"></span> the crew <span class="slot" id="s2"></span> from.</div>
+    <div class="files">
+      <div class="file" id="f1">FILE 1<b>Bottom half</b><span class="stamp">FOUND</span></div>
+      <div class="file" id="f2">FILE 2<b>The crew</b><span class="stamp">FOUND</span></div>
+    </div>
+    <div class="bank" id="bank">
+      <div class="lbl">Got it? Put the words in.</div>
+      <div class="chips" id="chips"></div>
+      <button class="solve" id="solve">SOLVE THE CASE</button>
+    </div>
+  </section>
+
+  <section class="voice">
+    <div class="sparks" id="sparks">
+      <button class="spark" data-k="crew">Who flew with you?</button>
+      <button class="spark" data-k="half">What happened to your bottom half?</button>
+      <button class="spark" data-k="lonely">Are you lonely?</button>
+    </div>
+    <button class="talk" id="talk">TALK</button>
+    <button class="type">or type a question</button>
+  </section>
+
+  <section class="reward" id="reward">
+    <img src="../assets/img/eagle-orbit.jpg" alt="Tranquility Base photographed from orbit by NASA's LRO">
+    <div class="body">
+      <div class="k">CASE CLOSED · NASA LRO, FROM ORBIT</div>
+      <h2>This is me. Right now.</h2>
+      <p>I wasn't forgotten. I was the way home.</p>
+      <div class="grade" id="grade">Signal left: 3 of 3 · Perfect call</div>
+      <div class="row"><button class="ghost">Hear its last day</button><button class="ghost">Leave it a message</button></div>
+      <button class="next">Call the next machine →</button>
+    </div>
+  </section>
+
+</div>
+<script>
+const $=id=>document.getElementById(id);
+let found=0,power=3,picked=[];
+const lines={
+  crew:{t:'Neil Armstrong and Buzz Aldrin. On July 21, 1969, they <b>lifted off</b>.',w:'lifted off',slot:'s2',file:'f2'},
+  half:{t:'My bottom half stayed. It was their <b>launch pad</b>.',w:'launch pad',slot:'s1',file:'f1'},
+  lonely:{t:'Next door there\'s a panel of 100 mirrors. Scientists still bounce lasers off them.'}
+};
+function color(){const g=Math.max(0,1-found*0.5);['g','sh','m'].forEach(i=>$(i).style.filter=`grayscale(${g}) brightness(${0.7+found*0.15})`)}
+color();
+function say(t){$('sub').innerHTML=t}
+function ask(k,btn){
+  const L=lines[k]; if(!L) return; btn&&btn.classList.add('used');
+  say('<span style="opacity:.5">· · ·</span>');
+  setTimeout(()=>{say(L.t);
+    if(L.w&&!$(L.slot).classList.contains('got')){
+      setTimeout(()=>{const s=$(L.slot);s.textContent=L.w;s.classList.add('got','pop');$(L.file).classList.add('open');found++;color();
+        if(found===2)openBank();},700)}
+  },650)
+}
+function openBank(){
+  const words=['flag','launch pad','the Sun','lifted off','dust'];
+  $('chips').innerHTML=words.map(w=>`<button class="chip">${w}</button>`).join('');
+  [...$('chips').children].forEach(c=>c.onclick=()=>{c.classList.toggle('sel');picked=[...$('chips').querySelectorAll('.sel')].map(x=>x.textContent)});
+  ['s1','s2'].forEach(s=>{$(s).textContent='';$(s).classList.remove('got');$(s).style.minWidth='96px'});
+  $('bank').classList.add('show');$('sparks').style.display='none';
+  say('You heard it all. Now say it back to me.');
+}
+$('solve').onclick=()=>{
+  if(picked.length===2&&picked.includes('launch pad')&&picked.includes('lifted off')){
+    $('s1').textContent='launch pad';$('s2').textContent='lifted off';['s1','s2'].forEach(s=>$(s).classList.add('got','pop'));
+    $('grade').textContent=`Signal left: ${power} of 3 · `+(power===3?'Perfect call':power===2?'Clean call':'Close call');
+    say('That\'s it. That\'s why.');setTimeout(()=>$('reward').classList.add('show'),1300);
+  }else{
+    power=Math.max(0,power-1);[...$('bars').children].forEach((b,i)=>b.classList.toggle('off',i>=power));
+    $('static').classList.remove('on');void $('static').offsetWidth;$('static').classList.add('on');
+    say(power?['Static. That\'s not it, Operator.','Losing you. Try again.'][2-power]||'Losing you.':'Signal lost. Call me back.');
+  }
+};
+document.querySelectorAll('.spark').forEach(b=>b.onclick=()=>ask(b.dataset.k,b));
+$('talk').onclick=()=>{const n=document.querySelector('.spark:not(.used)');if(n)ask(n.dataset.k,n)};
+</script>
+</body></html>
